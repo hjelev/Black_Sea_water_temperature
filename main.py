@@ -5,12 +5,14 @@ import pandas as pd
 import csv
 
 baseurl = "http://192.168.0.106:8000/site/sea_water_"
+# baseurl = "https://www.stringmeteo.com/synop/sea_water.php?year="
 
 def get_data(from_date, to_date, raw1, raw2):
 	result = {"date":"temp"}
 	for year in range(from_date, to_date):
 		print(year)
 		url = baseurl + str(year) + ".html"
+#		url = baseurl + str(year) # Use this to parse stringmeteo.com site
 		tables = pd.read_html(url, encoding="utf8") # Returns list of all tables on page
 		for i, table in enumerate(tables):
 			data = table.drop(labels=[0,1], axis=0)
@@ -18,8 +20,8 @@ def get_data(from_date, to_date, raw1, raw2):
 			first = data[[0,3]]
 			second = data[[raw1,raw2]]
 			# combine the 2 columns 
-			fdata = dict(zip(str(year) +"-"+ str(i + 1).zfill(2) + "-" + first.loc[:,0], first.loc[:,3])) | \
-			dict(zip(str(year) +"-"+ str(i + 1).zfill(2) + "-" + second.loc[:,raw1], second.loc[:,raw2])) 
+			fdata = dict(zip(str(year) +"-"+ str(i + 1).zfill(2) + "-" + first.loc[:,0]+" 00:00:00", first.loc[:,3])) | \
+			dict(zip(str(year) +"-"+ str(i + 1).zfill(2) + "-" + second.loc[:,raw1]+" 00:00:00", second.loc[:,raw2])) 
 			result = result | fdata
 		# delete empty data	
 		for k in list(result.keys()):
