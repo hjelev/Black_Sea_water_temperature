@@ -19,9 +19,9 @@ def get_data():
 	data = tables[len(tables)-1]
 	# TBD: need to take care for Feb as its shorter
 	if date.today().day < 17: 
-		data = data[[0,1,2]]
+		data = data[[0,1,3]]
 	else:
-		data = data[[4,5,7]]
+		data = data[[5,6,8]]
 	
 	# 4,5,7
 	row_to_extract = date.today().day * 3 - 1
@@ -31,7 +31,7 @@ def get_data():
 		last_line = file_object.readlines()[-1].split(",")[0].strip()
 		last_record_date = datetime.strptime(last_line, '%Y-%m-%d %H:%M:%S')
 	for index, row in data.iterrows():
-		if isinstance(row[2], float):
+		if isinstance(row[3], float):
 			pass
 		else:
 			timestamp = "{}-{}-{} {}:00:00".format(date.today().year, date.today().month, row[0], row[1].zfill(2))
