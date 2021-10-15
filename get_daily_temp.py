@@ -38,7 +38,7 @@ def get_data():
 			record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
 			if record_date > last_record_date:
 				with open(csv_file, "a") as file_object:
-					new_line = "{},{}\n".format(timestamp,  row[2])
+					new_line = "{},{}\n".format(timestamp,  row[3])
 					#print(new_line)
 					file_object.write(new_line)
 			#else:
