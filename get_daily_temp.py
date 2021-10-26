@@ -31,12 +31,16 @@ def get_data():
 		last_record_date = datetime.strptime(last_line, '%Y-%m-%d %H:%M:%S')
 	# Check and save daily temp. records
 	for x, row in data.iterrows():
-		timestamp = "{}-{}-{} {}:00:00".format(date.today().year, date.today().month, row[index[0]], row[index[1]].zfill(2))
-		record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
-		if record_date > last_record_date:
-			with open(csv_file, "a") as file_object:
-				new_line = "{},{}\n".format(timestamp,  row[index[2]])
-				file_object.write(new_line)
+		if "nan" in str(row[index[2]]):
+			print(row[index[2]])
+			pass
+		else:
+			timestamp = "{}-{}-{} {}:00:00".format(date.today().year, date.today().month, row[index[0]], row[index[1]].zfill(2))
+			record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
+			if record_date > last_record_date:
+				with open(csv_file, "a") as file_object:
+					new_line = "{},{}\n".format(timestamp,  row[index[2]])
+					file_object.write(new_line)
 	
 	return 	
 		
