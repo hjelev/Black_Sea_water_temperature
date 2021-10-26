@@ -13,15 +13,19 @@ def get_data():
 	url = baseurl + str(date.today().year) # Use this to parse stringmeteo.com site
 	tables = pd.read_html(url, encoding="utf8") # Returns list of all tables on page
 	data = tables[len(tables)-1] # Get the last table
-	# TBD: need to take care for Feb as its shorter
-	if date.today().day < 17: 
+	# take care for Feb as its shorter
+	if date.today().month == 2:
+		month_middle = 16
+	else:
+		month_middle = 17
+	if date.today().day < month_middle: 
 		data = data[[0,1,3]]
 		index = [0,1,3]
 		row_to_extract = date.today().day * 3 - 1
 	else:
 		data = data[[5,6,8]]
 		index = [5,6,8]
-		row_to_extract = date.today().day * 3 - 1 - (16*3)
+		row_to_extract = date.today().day * 3 - 1 - ((month_middle -1) * 3)
 
 	data = data.iloc[ row_to_extract : row_to_extract + 3 ]
 
@@ -31,8 +35,8 @@ def get_data():
 		last_record_date = datetime.strptime(last_line, '%Y-%m-%d %H:%M:%S')
 	# Check and save daily temp. records
 	for x, row in data.iterrows():
-		if "nan" in str(row[index[2]]):
-			print(row[index[2]])
+		# skip empty records
+		if "nan" in str(row[index[2]]): 
 			pass
 		else:
 			timestamp = "{}-{}-{} {}:00:00".format(date.today().year, date.today().month, row[index[0]], row[index[1]].zfill(2))
