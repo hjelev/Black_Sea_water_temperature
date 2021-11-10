@@ -1,6 +1,5 @@
 # Parse water temperature data from www.stringmeteo.com 
-# and save it as csv file so grafana can visualize it
-# Python 3.7
+# and save it as csv file. Python 3.7 is needed
 import csv
 import pandas as pd
 from datetime import date
