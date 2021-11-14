@@ -11,7 +11,7 @@ csv_file = "sea_water_temp.csv"
 def get_data_for_current_month(baseurl):
 	url = baseurl + str(date.today().year) # Use this to parse stringmeteo.com site
 	tables = pd.read_html(url, encoding="utf8") # Returns list of all tables on page
-	data = tables[len(tables)-1] # Get the last table
+	data = tables[date.today().month -1]
 	return data	
 
 def extract_today_data(data):
