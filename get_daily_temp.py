@@ -1,6 +1,5 @@
 # Parse water temperature data from www.stringmeteo.com 
 # and save it as csv file. Python 3.7 is needed
-import csv
 import pandas as pd
 from datetime import date
 from datetime import datetime
@@ -9,8 +8,8 @@ baseurl = "https://www.stringmeteo.com/synop/sea_water.php?year="
 csv_file = "sea_water_temp.csv"
 
 
-def get_data_for_current_month(baseurl):
-    url = baseurl + str(date.today().year)  # Use this to parse stringmeteo.com site
+def get_data_for_current_month(base_url):
+    url = base_url + str(date.today().year)  # Use this to parse stringmeteo.com site
     tables = pd.read_html(url, encoding="utf8")  # Returns list of all tables on page
     data = tables[date.today().month - 1]
     return data
@@ -35,9 +34,9 @@ def extract_today_data(data):
     return data, index
 
 
-def get_last_record_date(csv_file):
+def get_last_record_date(csv_file_name):
     # get the date of the last record in the csv
-    with open(csv_file, "r") as file_object:
+    with open(csv_file_name, "r") as file_object:
         last_line = file_object.readlines()[-1].split(",")[0].strip()
         last_record_date = datetime.strptime(last_line, '%Y-%m-%d %H:%M:%S')
     return last_record_date
