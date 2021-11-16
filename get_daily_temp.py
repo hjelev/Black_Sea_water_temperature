@@ -15,7 +15,7 @@ def get_data_for_current_month(base_url):
     return data
 
 
-def extract_today_data(data):
+def extract_today_temperatures(data):
     # take care for Feb as its shorter
     if date.today().month == 2:
         month_middle = 16
@@ -42,7 +42,7 @@ def get_last_record_date(csv_file_name):
     return last_record_date
 
 
-def save_new_data(data, index, last_record_date):
+def save_new_data(data, index, last_record_date, csv_file_name):
     for x, row in data.iterrows():
         # skip empty records
         if "nan" not in str(row[index[2]]):
@@ -50,16 +50,16 @@ def save_new_data(data, index, last_record_date):
                                                    date.today().month, row[index[0]], row[index[1]].zfill(2))
             record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
             if record_date > last_record_date:
-                with open(csv_file, "a") as file_object:
+                with open(csv_file_name, "a") as file_object:
                     new_line = "{},{}\n".format(timestamp, row[index[2]])
                     file_object.write(new_line)
 
 
 def get_data():
     data = get_data_for_current_month(baseurl)
-    data, index = extract_today_data(data)
+    data, index = extract_today_temperatures(data)
     last_record_date = get_last_record_date(csv_file)
-    save_new_data(data, index, last_record_date)
+    save_new_data(data, index, last_record_date, csv_file)
 
 
 if __name__ == '__main__':
