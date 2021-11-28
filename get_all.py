@@ -22,11 +22,11 @@ def get_data(from_date, to_date, raw1, raw2):
             first = data[[0, 3]]
             second = data[[raw1, raw2]]
             # combine the 2 columns
-            fdata = dict(
+            formatted_data = dict(
                 zip(str(year) + "-" + str(i + 1).zfill(2) + "-" + first.loc[:, 0] + " 00:00:00", first.loc[:, 3])) | \
-                    dict(zip(str(year) + "-" + str(i + 1).zfill(2) + "-" + second.loc[:, raw1] + " 00:00:00",
-                             second.loc[:, raw2]))
-            result = result | fdata
+                             dict(zip(str(year) + "-" + str(i + 1).zfill(2) + "-" + second.loc[:, raw1] + " 00:00:00",
+                                      second.loc[:, raw2]))
+            result = result | formatted_data
         # delete empty data
         for k in list(result.keys()):
             if "." not in str(result[k]):
@@ -36,7 +36,7 @@ def get_data(from_date, to_date, raw1, raw2):
 
 def combine_data():
     results = {"date": "temp"}
-    # parse the data in 3 runs as diferent periods have different data
+    # parse the data in 3 runs as different periods have different data
     results = results | get_data(2000, 2011, 6, 9)
     results = results | get_data(2011, 2014, 7, 10)
     results = results | get_data(2014, 2022, 5, 8)
