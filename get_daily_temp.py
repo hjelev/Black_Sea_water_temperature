@@ -3,10 +3,22 @@
 import pandas as pd
 from datetime import date
 from datetime import datetime
+from bs4 import BeautifulSoup
+import urllib
 
+baseUrlAir = "https://www.sinoptik.bg/burgas-bulgaria-100732770"
 baseurl = "https://www.stringmeteo.com/synop/sea_water.php?year="
 csv_file = "sea_water_temp.csv"
 
+
+def get_air_temp(url):
+    html = urllib.request.urlopen(url )
+    soup = BeautifulSoup(html, 'html.parser')
+    div = soup.findAll('span', attrs={'class': 'wfCurrentTemp'})
+    temp = div[0].text.split("°")[0]
+    timestamp = "{}-{}-{} {}:00:00".format(datetime.today().year,
+                                           datetime.today().month, datetime.today().day, datetime.today().hour)
+    return temp
 
 def get_data_for_current_month(base_url):
     url = base_url + str(date.today().year)  # Use this to parse stringmeteo.com site
@@ -42,16 +54,17 @@ def get_last_record_date(csv_file_name):
     return last_record_date
 
 
-def save_new_data(data, index, last_record_date, csv_file_name):
+def save_new_data(data, index, last_record_date, csv_file_name, temp):
     for x, row in data.iterrows():
+        water_temp = str(row[index[2]])
         # skip empty records
-        if "nan" not in str(row[index[2]]):
+        if ("nan" not in water_temp) and ("-" not in water_temp):
             timestamp = "{}-{}-{} {}:00:00".format(date.today().year,
                                                    date.today().month, row[index[0]], row[index[1]].zfill(2))
             record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
             if record_date > last_record_date:
                 with open(csv_file_name, "a") as file_object:
-                    new_line = "{},{}\n".format(timestamp, row[index[2]])
+                    new_line = "{},{},{}\n".format(timestamp, water_temp, temp)
                     file_object.write(new_line)
 
 
@@ -59,7 +72,7 @@ def get_data():
     data = get_data_for_current_month(baseurl)
     data, index = extract_today_temperatures(data)
     last_record_date = get_last_record_date(csv_file)
-    save_new_data(data, index, last_record_date, csv_file)
+    save_new_data(data, index, last_record_date, csv_file, get_air_temp(baseUrlAir))
 
 
 if __name__ == '__main__':
