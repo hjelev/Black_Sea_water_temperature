@@ -60,7 +60,9 @@ def save_new_data(data, index, last_record_date, csv_file_name, temp):
         # skip empty records
         if ("nan" not in water_temp) and ("-" not in water_temp):
             timestamp = "{}-{}-{} {}:00:00".format(date.today().year,
-                                                   date.today().month, row[index[0]], row[index[1]].zfill(2))
+                                                   date.today().month,
+                                                   row[index[0]],
+                                                   row[index[1]].zfill(2))
             record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
             if record_date > last_record_date:
                 with open(csv_file_name, "a") as file_object:
