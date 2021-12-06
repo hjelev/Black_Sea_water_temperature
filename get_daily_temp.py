@@ -54,7 +54,7 @@ def get_last_record_date(csv_file_name):
     return last_record_date
 
 
-def save_new_data(data, index, last_record_date, csv_file_name, temp):
+def save_new_data(data, index, last_record_date, csv_file_name):
     for x, row in data.iterrows():
         water_temp = str(row[index[2]])
         # skip empty records
@@ -66,7 +66,7 @@ def save_new_data(data, index, last_record_date, csv_file_name, temp):
             record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
             if record_date > last_record_date:
                 with open(csv_file_name, "a") as file_object:
-                    new_line = "{},{},{}\n".format(timestamp, water_temp, temp)
+                    new_line = "{},{}\n".format(timestamp, water_temp)
                     file_object.write(new_line)
 
 
@@ -74,7 +74,7 @@ def get_data():
     data = get_data_for_current_month(baseurl)
     data, index = extract_today_temperatures(data)
     last_record_date = get_last_record_date(csv_file)
-    save_new_data(data, index, last_record_date, csv_file, get_air_temp(baseUrlAir))
+    save_new_data(data, index, last_record_date, csv_file)
 
 
 if __name__ == '__main__':
