@@ -3,125 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Sea (Burgas) Water Temperature Analysis</title>
+    <title>Black Sea Temperature Analysis</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
-        /* CSS Variables for Auto Theme Switching */
-        :root {
-            --bg-color: #f4f4f9;
-            --container-bg: #ffffff;
-            --text-color: #333333;
-            --header-color: #333333;
-        }
-
+        :root { --bg-color: #f4f4f9; --container-bg: #ffffff; --text-color: #333333; }
         @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #121212;
-                --container-bg: #1e1e1e;
-                --text-color: #e0e0e0;
-                --header-color: #ffffff;
-            }
+            :root { --bg-color: #121212; --container-bg: #1e1e1e; --text-color: #e0e0e0; }
         }
-
-        body { 
-            font-family: sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-color);
-            padding: 20px; 
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .container { 
-            max-width: 1000px; 
-            margin: auto; 
-            background: var(--container-bg); 
-            padding: 20px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-        }
-        h1 { color: var(--header-color); }
+        body { font-family: sans-serif; background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: var(--container-bg); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .chart { width: 100%; height: 500px; margin-top: 20px; }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Black Sea Water Temperature</h1>
-    <div id="status">Processing data...</div>
+    <p><i>Tip: Zoom/select a time range on the bottom chart to update the comparison above.</i></p>
+    <div id="status">Loading...</div>
     <div id="comparison-chart" class="chart"></div>
     <div id="main-chart" class="chart"></div>
 </div>
 
 <script>
     const csvUrl = 'https://raw.githubusercontent.com/hjelev/Black_Sea_water_temperature/refs/heads/main/sea_water_temp.csv';
+    let allRecords = [];
 
     fetch(csvUrl)
         .then(response => response.text())
         .then(text => {
             const lines = text.split('\n');
-            let dates = [];
-            let temps = [];
-            let parsedRecords = [];
-
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (!line) continue;
-                
                 const [date, temp] = line.split(',');
                 const tempVal = parseFloat(temp);
-                
                 if (date && !isNaN(tempVal)) {
-                    const year = parseInt(date.substring(0, 4));
-                    const month = parseInt(date.substring(5, 7));
-                    const day = parseInt(date.substring(8, 10));
-
-                    dates.push(date);
-                    temps.push(tempVal);
-                    parsedRecords.push({ year, month, day, temp: tempVal });
+                    allRecords.push({ 
+                        year: parseInt(date.substring(0, 4)), 
+                        month: parseInt(date.substring(5, 7)), 
+                        day: parseInt(date.substring(8, 10)), 
+                        dateStr: date,
+                        temp: tempVal 
+                    });
                 }
             }
-
-            document.getElementById('status').innerText = `Loaded ${parsedRecords.length} records.`;
-
-            const maxYear = Math.max(...parsedRecords.map(r => r.year));
-            const years = [maxYear, maxYear - 1, maxYear - 2];
-
-            const compareTraces = years.map(y => {
-                const data = parsedRecords.filter(r => r.year === y);
-                return {
-                    x: data.map(r => `2024-${String(r.month).padStart(2,'0')}-${String(r.day).padStart(2,'0')}`),
-                    y: data.map(r => r.temp),
-                    name: y.toString(),
-                    type: 'scatter', 
-                    mode: 'lines',
-                    hovertemplate: '<b>%{data.name}</b> (%{x|%b %d}): %{y:.1f}°C<extra></extra>'
-                };
-            });
-
-            Plotly.newPlot('comparison-chart', compareTraces, { 
-                title: `Year-over-Year Comparison (${years.reverse().join(', ')})`,
-                xaxis: { title: 'Date of Measurement', tickformat: '%b %d' },
-                hovermode: 'x unified',
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                font: { color: getComputedStyle(document.body).getPropertyValue('--text-color') }
-            });
-
-            Plotly.newPlot('main-chart', [{ 
-                x: dates, 
-                y: temps, 
-                type: 'scatter', 
-                mode: 'lines',
-                hovertemplate: '%{x}: %{y:.1f}°C<extra></extra>'
-            }], { 
-                title: 'Complete History',
-                xaxis: { title: 'Date' },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                font: { color: getComputedStyle(document.body).getPropertyValue('--text-color') }
-            });
-        })
-        .catch(err => {
-            document.getElementById('status').innerText = "Error: " + err.message;
+            document.getElementById('status').style.display = 'none';
+            initCharts();
         });
+
+    function initCharts() {
+        const maxYear = Math.max(...allRecords.map(r => r.year));
+        updateTopChart([maxYear - 2, maxYear]); // Default to last 3 years
+        
+        const mainPlot = document.getElementById('main-chart');
+        Plotly.newPlot(mainPlot, [{ 
+            x: allRecords.map(r => r.dateStr), 
+            y: allRecords.map(r => r.temp), 
+            type: 'scatter', mode: 'lines' 
+        }], { 
+            title: 'Complete History (Zoom here to update top chart)',
+            paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: getComputedStyle(document.body).getPropertyValue('--text-color') }
+        });
+
+        // Listen for Zoom/Pan events
+        mainPlot.on('plotly_relayout', function(eventData) {
+            if (eventData['xaxis.range[0]']) {
+                const startYear = new Date(eventData['xaxis.range[0]']).getFullYear();
+                const endYear = new Date(eventData['xaxis.range[1]']).getFullYear();
+                updateTopChart([startYear, endYear]);
+            }
+        });
+    }
+
+    function updateTopChart(yearRange) {
+        const [start, end] = yearRange;
+        const yearsToDisplay = [];
+        for (let y = start; y <= end; y++) yearsToDisplay.push(y);
+
+        const compareTraces = yearsToDisplay.map(y => {
+            const data = allRecords.filter(r => r.year === y);
+            return {
+                x: data.map(r => `2024-${String(r.month).padStart(2,'0')}-${String(r.day).padStart(2,'0')}`),
+                y: data.map(r => r.temp),
+                name: y.toString(),
+                type: 'scatter', mode: 'lines',
+                hovertemplate: '<b>%{data.name}</b> (%{x|%b %d}): %{y:.1f}°C<extra></extra>'
+            };
+        });
+
+        Plotly.react('comparison-chart', compareTraces, { 
+            title: `Comparison: ${start} to ${end}`,
+            xaxis: { title: 'Date of Measurement', tickformat: '%b %d' },
+            hovermode: 'x unified',
+            paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: getComputedStyle(document.body).getPropertyValue('--text-color') }
+        });
+    }
 </script>
 </body>
 </html>
