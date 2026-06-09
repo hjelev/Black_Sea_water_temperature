@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Sea Water Temperature Analysis</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    
+    <style>
+        /* Define color variables for Light Mode (Default) */
+        :root {
+            --bg-color: #f8f9fa;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --stat-bg: #e9ecef;
+            --stat-text: #495057;
+            --accent-color: #007bff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Auto-switch to Dark Mode if system prefers it */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --container-bg: #1e1e1e;
+                --text-color: #f1f1f1;
+                --stat-bg: #2d2d2d;
+                --stat-text: #cccccc;
+                --accent-color: #4da3ff;
+                --shadow: rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: auto; 
+            background: var(--container-bg); 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px var(--shadow); 
+            transition: background-color 0.3s;
+        }
+        h1 { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center; 
+            color: var(--text-color); 
+            margin-bottom: 30px;
+        }
+        .logo-icon {
+            color: var(--accent-color);
+            width: 36px;
+            height: 36px;
+        }
+        .chart-container { 
+            width: 100%; 
+            height: 500px; 
+            margin-top: 30px;
+        }
+        .stats { 
+            display: flex; 
+            justify-content: space-around; 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: var(--stat-bg); 
+            border-radius: 5px; 
+            flex-wrap: wrap;
+        }
+        .stat-box { 
+            text-align: center; 
+            font-size: 1.1em; 
+            color: var(--stat-text); 
+            margin: 10px;
+        }
+        .stat-value { 
+            font-weight: bold; 
+            font-size: 1.6em; 
+            color: var(--accent-color); 
+            display: block; 
+            margin-top: 5px; 
+        }
+        #loading { 
+            text-align: center; 
+            font-size: 1.2em; 
+            color: var(--stat-text); 
+            padding: 50px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.4em;
+            margin-top: 40px;
+            margin-bottom: 0;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"></path>
+            <path d="M12 9v4"></path>
+            <path d="M2 20h20"></path>
+        </svg>
+        Black Sea Water Temperature
+    </h1>
+    
+    <div id="loading">Downloading and parsing data... Please wait.</div>
+    
+    <div class="stats" id="stats" style="display: none;">
+        <div class="stat-box">Average Temp <span class="stat-value" id="avgTemp">-</span></div>
+        <div class="stat-box">Max Temp <span class="stat-value" id="maxTemp">-</span></div>
+        <div class="stat-box">Min Temp <span class="stat-value" id="minTemp">-</span></div>
+        <div class="stat-box">Data Points <span class="stat-value" id="totalRecords">-</span></div>
+    </div>
+
+    <div id="comparisonChartTitle" style="display: none;"><h2>Year-over-Year Comparison (Last 3 Years)</h2></div>
+    <div id="comparison-chart" class="chart-container"></div>
+
+    <hr style="border: 0; border-top: 1px solid var(--stat-bg); margin: 40px 0;">
+
+    <div id="mainChartTitle" style="display: none;"><h2>Complete 25-Year History</h2></div>
+    <div id="chart" class="chart-container" style="height: 600px;"></div>
+</div>
+
+<script>
+    const csvUrl = 'https://raw.githubusercontent.com/hjelev/Black_Sea_water_temperature/refs/heads/main/sea_water_temp.csv';
+
+    // Detect system dark mode to style the Plotly charts appropriately
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const chartBgColor = isDarkMode ? '#1e1e1e' : '#ffffff';
+    const chartFontColor = isDarkMode ? '#f1f1f1' : '#333333';
+    const gridColor = isDarkMode ? '#333333' : '#eeeeee';
+    const accentColor = isDarkMode ? '#4da3ff' : '#007bff';
+
+    Papa.parse(csvUrl, {
+        download: true,
+        header: true, 
+        skipEmptyLines: true,
+        complete: function(results) {
+            const data = results.data;
+            
+            if (data.length === 0) {
+                document.getElementById('loading').innerText = "No data found in the CSV.";
+                return;
+            }
+
+            const columns = Object.keys(data[0]);
+            const dateCol = columns[0];
+            const tempCol = columns[1];
+
+            let dates = [];
+            let temps = [];
+            let parsedRecords = []; // Store rich objects for the comparison logic
+            
+            let sum = 0, max = -Infinity, min = Infinity;
+            let validCount = 0;
+
+            // 1. Process Data
+            data.forEach(row => {
+                const dateStr = row[dateCol];
+                const tempVal = parseFloat(row[tempCol]);
+
+                if (dateStr && !isNaN(tempVal)) {
+                    dates.push(dateStr);
+                    temps.push(tempVal);
+                    
+                    const dateObj = new Date(dateStr);
+                    parsedRecords.push({
+                        originalDate: dateStr,
+                        year: dateObj.getFullYear(),
+                        month: dateObj.getMonth() + 1,
+                        day: dateObj.getDate(),
+                        temp: tempVal
+                    });
+
+                    sum += tempVal;
+                    if (tempVal > max) max = tempVal;
+                    if (tempVal < min) min = tempVal;
+                    validCount++;
+                }
+            });
+
+            document.getElementById('loading').style.display = 'none';
+
+            // Show titles and stats
+            if (validCount > 0) {
+                document.getElementById('stats').style.display = 'flex';
+                document.getElementById('comparisonChartTitle').style.display = 'block';
+                document.getElementById('mainChartTitle').style.display = 'block';
+                
+                document.getElementById('avgTemp').innerText = (sum / validCount).toFixed(2) + ' °C';
+                document.getElementById('maxTemp').innerText = max.toFixed(2) + ' °C';
+                document.getElementById('minTemp').innerText = min.toFixed(2) + ' °C';
+                document.getElementById('totalRecords').innerText = validCount.toLocaleString();
+            }
+
+            // ---------------------------------------------------------
+            // BUILD COMPARISON CHART (Last 3 Years)
+            // ---------------------------------------------------------
+            
+            // Extract distinct years, sort descending, grab the top 3
+            const allYears = [...new Set(parsedRecords.map(r => r.year))].sort((a, b) => b - a);
+            const top3Years = allYears.slice(0, 3);
+            
+            // Vibrant colors for the 3 comparison lines
+            const compareColors = ['#ff4d4d', '#feca57', '#00d2d3']; 
+            
+            const comparisonTraces = top3Years.map((year, index) => {
+                const yearData = parsedRecords.filter(r => r.year === year);
+                
+                // Map all X coordinates to a single leap year (2024) so they overlap correctly on the graph
+                const overlayDates = yearData.map(r => 
+                    `2024-${String(r.month).padStart(2, '0')}-${String(r.day).padStart(2, '0')}`
+                );
+                
+                return {
+                    x: overlayDates,
+                    y: yearData.map(r => r.temp),
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: year.toString(),
+                    line: {
+                        color: compareColors[index],
+                        width: 2
+                    },
+                    hovertemplate: '%{y}°C<br>%{x|%b %d}<extra>' + year + '</extra>'
+                };
+            });
+
+            const comparisonLayout = {
+                hovermode: 'x unified',
+                paper_bgcolor: chartBgColor,
+                plot_bgcolor: chartBgColor,
+                font: { color: chartFontColor },
+                xaxis: {
+                    title: 'Month',
+                    gridcolor: gridColor,
+                    tickformat: '%b', // Only show the month name on the bottom axis
+                    type: 'date'
+                },
+                yaxis: {
+                    title: 'Temperature (°C)',
+                    gridcolor: gridColor
+                },
+                margin: { l: 50, r: 20, t: 30, b: 50 },
+                legend: { orientation: 'h', y: 1.1 } // Horizontal legend at the top
+            };
+
+            Plotly.newPlot('comparison-chart', comparisonTraces, comparisonLayout, {responsive: true, displayModeBar: false});
+
+
+            // ---------------------------------------------------------
+            // BUILD MAIN CHART (25-Year History)
+            // ---------------------------------------------------------
+            const mainTrace = {
+                x: dates,
+                y: temps,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Temperature',
+                line: {
+                    color: accentColor,
+                    width: 1.5
+                }
+            };
+
+            const mainLayout = {
+                hovermode: 'closest',
+                paper_bgcolor: chartBgColor,
+                plot_bgcolor: chartBgColor,
+                font: { color: chartFontColor },
+                xaxis: {
+                    title: 'Date',
+                    gridcolor: gridColor,
+                    rangeselector: {
+                        bgcolor: chartBgColor,
+                        font: { color: chartFontColor },
+                        buttons: [
+                            {count: 1, label: '1y', step: 'year', stepmode: 'backward'},
+                            {count: 5, label: '5y', step: 'year', stepmode: 'backward'},
+                            {count: 10, label: '10y', step: 'year', stepmode: 'backward'},
+                            {step: 'all', label: 'All Time'}
+                        ]
+                    },
+                    rangeslider: {visible: true, bgcolor: gridColor}, 
+                    type: 'date'
+                },
+                yaxis: {
+                    title: 'Temperature (°C)',
+                    gridcolor: gridColor,
+                    fixedrange: false
+                },
+                margin: { l: 50, r: 20, t: 30, b: 50 }
+            };
+
+            Plotly.newPlot('chart', [mainTrace], mainLayout, {responsive: true, displayModeBar: true});
+        },
+        error: function(err) {
+            document.getElementById('loading').innerText = "Error loading data: " + err.message;
+        }
+    });
+</script>
+</body>
+</html>
