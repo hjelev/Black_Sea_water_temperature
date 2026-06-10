@@ -3,138 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1Black Sea Water Temperature Analysis</title>
+    <title>Black Sea Water Temperature</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-    <style>
-        :root { --bg-color: #f4f4f9; --container-bg: #ffffff; --text-color: #333333; }
-        @media (prefers-color-scheme: dark) {
-            :root { --bg-color: #121212; --container-bg: #1e1e1e; --text-color: #e0e0e0; }
-        }
-        body { font-family: sans-serif; background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: var(--container-bg); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: rgba(0,123,255,0.1); padding: 15px; border-radius: 8px; text-align: center; }
-        .stat-value { font-size: 1.2em; font-weight: bold; color: #007bff; display: block; }
-        .chart { width: 100%; height: 500px; margin-top: 20px; }
-    </style>
+    <link rel="icon" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-    <h1>Black Sea Water Temperature</h1>
-    
-    <div id="date-stats-container">
-        <h3 id="stats-title">Temperature on Last Date (Loading...)</h3>
-        <div id="date-stats" class="stats-grid"></div>
-    </div>
 
-    <p><i>Tip: Zoom/select a time range on the bottom chart to update the comparison above.</i></p>
-    <div id="comparison-chart" class="chart"></div>
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="index.html">🌊 Black Sea Temp</a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Dashboard</a></li>
+            <li><a href="compare.html">Compare Years</a></li>
+            <li><a href="heatmap.html">Heatmap</a></li>
+            <li><a href="stats.html">Statistics</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Dashboard</h1>
+    <p class="subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
+
+    <h3 id="stats-title">Temperature on this date (loading…)</h3>
+    <div id="date-stats" class="stats-grid"></div>
+
+    <h2>Last 30 Days</h2>
+    <div id="recent-chart" class="chart"></div>
+
+    <h2>Full History</h2>
+    <p class="tip">Zoom or select a range below to explore historical data.</p>
     <div id="main-chart" class="chart"></div>
 </div>
 
+<script src="data.js"></script>
 <script>
-    const csvUrl = 'https://raw.githubusercontent.com/hjelev/Black_Sea_water_temperature/refs/heads/main/sea_water_temp.csv';
-    let allRecords = [];
+loadData().then(records => {
+    const last = records[records.length - 1];
+    const maxYear = last.year;
+    const month = last.month;
+    const day = last.day;
 
-    fetch(csvUrl)
-        .then(response => response.text())
-        .then(text => {
-            const lines = text.split('\n');
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-                const [date, temp] = line.split(',');
-                const tempVal = parseFloat(temp);
-                if (date && !isNaN(tempVal)) {
-                    allRecords.push({ 
-                        year: parseInt(date.substring(0, 4)), 
-                        month: parseInt(date.substring(5, 7)), 
-                        day: parseInt(date.substring(8, 10)), 
-                        dateStr: date,
-                        temp: tempVal 
-                    });
-                }
-            }
-            
-            // 1. Identify last date in DB
-            const lastRecord = allRecords[allRecords.length - 1];
-            displayLastDateStats(lastRecord.month, lastRecord.day);
-            
-            // 2. Initialize Charts
-            initCharts();
-        });
-
-    function displayLastDateStats(month, day) {
-        const container = document.getElementById('date-stats');
-        document.getElementById('stats-title').innerText = `Temperature on ${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')} (Last 5 Years)`;
-        
-        const maxYear = allRecords[allRecords.length - 1].year;
-        
-        for (let i = 0; i < 5; i++) {
-            const year = maxYear - i;
-            const dayRecords = allRecords.filter(r => r.year === year && r.month === month && r.day === day);
-            
-            const avg = dayRecords.length > 0 
-                ? (dayRecords.reduce((sum, r) => sum + r.temp, 0) / dayRecords.length).toFixed(1) + '°C'
-                : 'N/A';
-
-            container.innerHTML += `
-                <div class="stat-card">
-                    <span style="font-size:0.8em">${year}</span>
-                    <span class="stat-value">${avg}</span>
-                </div>
-            `;
-        }
+    // Stats cards
+    const statsEl = document.getElementById('date-stats');
+    document.getElementById('stats-title').textContent =
+        `Temperature on ${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')} — last 5 years`;
+    for (let i = 0; i < 5; i++) {
+        const year = maxYear - i;
+        const dayRecs = records.filter(r => r.year === year && r.month === month && r.day === day);
+        const avg = dayRecs.length > 0
+            ? (dayRecs.reduce((s, r) => s + r.temp, 0) / dayRecs.length).toFixed(1) + '°C'
+            : 'N/A';
+        statsEl.innerHTML += `<div class="stat-card">
+            <span class="year">${year}</span>
+            <span class="value">${avg}</span>
+        </div>`;
     }
 
-    function initCharts() {
-        const maxYear = allRecords[allRecords.length - 1].year;
-        updateTopChart([maxYear - 2, maxYear]); 
-        
-        const mainPlot = document.getElementById('main-chart');
-        Plotly.newPlot(mainPlot, [{ 
-            x: allRecords.map(r => r.dateStr), 
-            y: allRecords.map(r => r.temp), 
-            type: 'scatter', mode: 'lines' 
-        }], { 
-            title: 'Complete History (Zoom to update top chart)',
-            paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
-            font: { color: getComputedStyle(document.body).getPropertyValue('--text-color') }
-        });
+    const theme = plotlyTheme();
 
-        mainPlot.on('plotly_relayout', function(eventData) {
-            if (eventData['xaxis.range[0]']) {
-                const startYear = new Date(eventData['xaxis.range[0]']).getFullYear();
-                const endYear = new Date(eventData['xaxis.range[1]']).getFullYear();
-                updateTopChart([startYear, endYear]);
-            }
-        });
-    }
+    // Recent 30 days chart
+    const cutoff = new Date(last.dateStr);
+    cutoff.setDate(cutoff.getDate() - 30);
+    const recent = records.filter(r => new Date(r.dateStr) >= cutoff);
+    Plotly.newPlot('recent-chart', [{
+        x: recent.map(r => r.dateStr),
+        y: recent.map(r => r.temp),
+        type: 'scatter', mode: 'lines+markers',
+        line: { color: '#007bff', width: 2 },
+        marker: { size: 4 },
+        hovertemplate: '%{x|%b %d}: <b>%{y:.1f}°C</b><extra></extra>'
+    }], {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '°C' }
+    }, { responsive: true, displayModeBar: false });
 
-    function updateTopChart(yearRange) {
-        const [start, end] = yearRange;
-        const yearsToDisplay = [];
-        for (let y = start; y <= end; y++) yearsToDisplay.push(y);
-
-        const compareTraces = yearsToDisplay.map(y => {
-            const data = allRecords.filter(r => r.year === y);
-            return {
-                x: data.map(r => `2024-${String(r.month).padStart(2,'0')}-${String(r.day).padStart(2,'0')}`),
-                y: data.map(r => r.temp),
-                name: y.toString(),
-                type: 'scatter', mode: 'lines',
-                hovertemplate: '<b>%{data.name}</b> (%{x|%b %d}): %{y:.1f}°C<extra></extra>'
-            };
-        });
-
-        Plotly.react('comparison-chart', compareTraces, { 
-            title: `Comparison: ${start} to ${end}`,
-            xaxis: { title: 'Date of Measurement', tickformat: '%b %d' },
-            hovermode: 'x unified',
-            paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
-            font: { color: getComputedStyle(document.body).getPropertyValue('--text-color') }
-        });
-    }
+    // Full history chart
+    Plotly.newPlot('main-chart', [{
+        x: records.map(r => r.dateStr),
+        y: records.map(r => r.temp),
+        type: 'scatter', mode: 'lines',
+        line: { color: '#007bff', width: 1 },
+        hovertemplate: '%{x|%Y-%m-%d}: <b>%{y:.1f}°C</b><extra></extra>'
+    }], {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '°C' }
+    }, { responsive: true, displayModeBar: false });
+});
 </script>
 </body>
 </html>
