@@ -262,6 +262,23 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
     text-align: center;
 }
 
+/* Footer */
+.footer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    border-top: 1px solid var(--nav-border);
+    margin-top: 2rem;
+}
+
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--accent); }
+
 @media (max-width: 480px) {
     .container { padding: 1rem 0.75rem; }
     h1 { font-size: 1.25rem; }
