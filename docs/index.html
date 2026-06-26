@@ -3,43 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Sea Water Temperature</title>
+    <title data-i18n-title="title_dashboard">Black Sea Water Temperature</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
+    <script src="i18n.js"></script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
 <body>
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="index.html">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="index.html" data-i18n="nav_brand">🌊 Black Sea Temp</a>
         <ul class="nav-links">
-            <li><a href="index.html" class="active">Dashboard</a></li>
-            <li><a href="compare.html">Compare Years</a></li>
-            <li><a href="heatmap.html">Heatmap</a></li>
-            <li><a href="stats.html">Statistics</a></li>
+            <li><a href="index.html" class="active" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
+            <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
+            <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
         </ul>
+        <div class="lang-switch"></div>
     </div>
 </nav>
 
 <div class="container">
-    <h1>Dashboard</h1>
-    <p class="subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
+    <h1 data-i18n="dash_h1">Dashboard</h1>
+    <p class="subtitle" data-i18n="dash_subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
 
-    <h3 id="stats-title">Temperature on this date (loading…)</h3>
+    <h3 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h3>
     <div id="date-stats" class="stats-grid"></div>
 
-    <h2>Last 30 Days</h2>
+    <h2 data-i18n="dash_last30">Last 30 Days</h2>
     <div id="recent-chart" class="chart"></div>
 
-    <h2>Full History</h2>
-    <p class="tip">Zoom or select a range below to explore historical data.</p>
+    <h2 data-i18n="dash_full">Full History</h2>
+    <p class="tip" data-i18n="dash_full_tip">Zoom or select a range below to explore historical data.</p>
     <div id="main-chart" class="chart"></div>
 </div>
 
 <footer class="footer">
-    <span>Black Sea Water Temperature</span>
+    <span data-i18n="footer_title">Black Sea Water Temperature</span>
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
@@ -54,7 +56,8 @@ loadData().then(records => {
     // Stats cards
     const statsEl = document.getElementById('date-stats');
     document.getElementById('stats-title').textContent =
-        `Temperature on ${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')} — last 5 years`;
+        t('dash_stats_title').replace('{date}',
+            `${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')}`);
     for (let i = 0; i < 5; i++) {
         const year = maxYear - i;
         const dayRecs = records.filter(r => r.year === year && r.month === month && r.day === day);

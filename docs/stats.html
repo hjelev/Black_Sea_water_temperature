@@ -3,43 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics — Black Sea Water Temperature</title>
+    <title data-i18n-title="title_stats">Statistics — Black Sea Water Temperature</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
+    <script src="i18n.js"></script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
 <body>
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="index.html">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="index.html" data-i18n="nav_brand">🌊 Black Sea Temp</a>
         <ul class="nav-links">
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="compare.html">Compare Years</a></li>
-            <li><a href="heatmap.html">Heatmap</a></li>
-            <li><a href="stats.html" class="active">Statistics</a></li>
+            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
+            <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
+            <li><a href="stats.html" class="active" data-i18n="nav_stats">Statistics</a></li>
         </ul>
+        <div class="lang-switch"></div>
     </div>
 </nav>
 
 <div class="container">
-    <h1>Statistics &amp; Records</h1>
-    <p class="subtitle">All-time records and annual statistics since 2000</p>
+    <h1 data-i18n-html="st_h1">Statistics &amp; Records</h1>
+    <p class="subtitle" data-i18n="st_subtitle">All-time records and annual statistics since 2000</p>
 
-    <h2>All-time Records</h2>
+    <h2 data-i18n="st_records">All-time Records</h2>
     <div id="records-grid" class="records-grid"></div>
 
-    <h2>Annual Min / Avg / Max</h2>
+    <h2 data-i18n="st_annual">Annual Min / Avg / Max</h2>
     <div id="annual-chart" class="chart"></div>
 
-    <h2>Long-term Trend</h2>
-    <p class="tip">Yearly average with a 5-year moving average trend line.</p>
+    <h2 data-i18n="st_trend">Long-term Trend</h2>
+    <p class="tip" data-i18n="st_trend_tip">Yearly average with a 5-year moving average trend line.</p>
     <div id="trend-chart" class="chart"></div>
 </div>
 
 <footer class="footer">
-    <span>Black Sea Water Temperature</span>
+    <span data-i18n="footer_title">Black Sea Water Temperature</span>
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
@@ -53,7 +55,7 @@ function movingAvg(arr, n) {
     });
 }
 
-const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTH_NAMES = t('months');
 function fmt(date) {
     return `${MONTH_NAMES[date.month - 1]} ${date.day}, ${date.year}`;
 }
@@ -93,22 +95,22 @@ loadData().then(records => {
     const grid = document.getElementById('records-grid');
     grid.innerHTML = `
         <div class="record-card hot">
-            <span class="label">Hottest reading</span>
+            <span class="label">${t('st_hottest')}</span>
             <span class="record-value">${hotRecord.temp}°C</span>
             <span class="record-date">${fmt(hotRecord)}</span>
         </div>
         <div class="record-card cold">
-            <span class="label">Coldest reading</span>
+            <span class="label">${t('st_coldest')}</span>
             <span class="record-value">${coldRecord.temp}°C</span>
             <span class="record-date">${fmt(coldRecord)}</span>
         </div>
         <div class="record-card hot">
-            <span class="label">Warmest year (avg)</span>
+            <span class="label">${t('st_warmest_yr')}</span>
             <span class="record-value">${warmestAvg}°C</span>
             <span class="record-date">${warmestYear}</span>
         </div>
         <div class="record-card cold">
-            <span class="label">Coldest year (avg)</span>
+            <span class="label">${t('st_coldest_yr')}</span>
             <span class="record-value">${coldestAvg}°C</span>
             <span class="record-date">${coldestYear}</span>
         </div>
@@ -120,22 +122,22 @@ loadData().then(records => {
     // Annual min/avg/max chart
     Plotly.newPlot('annual-chart', [
         {
-            x: yrStr, y: yMax, name: 'Max',
+            x: yrStr, y: yMax, name: t('st_max'),
             type: 'scatter', mode: 'lines+markers',
             line: { color: '#e05030' }, marker: { size: 5 },
-            hovertemplate: 'Max %{x}: <b>%{y:.1f}°C</b><extra></extra>'
+            hovertemplate: `${t('st_max')} %{x}: <b>%{y:.1f}°C</b><extra></extra>`
         },
         {
-            x: yrStr, y: yAvg, name: 'Avg',
+            x: yrStr, y: yAvg, name: t('st_avg'),
             type: 'scatter', mode: 'lines+markers',
             line: { color: '#007bff' }, marker: { size: 5 },
-            hovertemplate: 'Avg %{x}: <b>%{y:.1f}°C</b><extra></extra>'
+            hovertemplate: `${t('st_avg')} %{x}: <b>%{y:.1f}°C</b><extra></extra>`
         },
         {
-            x: yrStr, y: yMin, name: 'Min',
+            x: yrStr, y: yMin, name: t('st_min'),
             type: 'scatter', mode: 'lines+markers',
             line: { color: '#4da6ff' }, marker: { size: 5 },
-            hovertemplate: 'Min %{x}: <b>%{y:.1f}°C</b><extra></extra>'
+            hovertemplate: `${t('st_min')} %{x}: <b>%{y:.1f}°C</b><extra></extra>`
         }
     ], {
         ...theme,
@@ -150,16 +152,16 @@ loadData().then(records => {
     const trend = movingAvg(yAvg, 5);
     Plotly.newPlot('trend-chart', [
         {
-            x: yrStr, y: yAvg, name: 'Yearly avg',
+            x: yrStr, y: yAvg, name: t('st_yearly_avg'),
             type: 'scatter', mode: 'lines+markers',
             line: { color: '#007bff', width: 1 }, marker: { size: 4 }, opacity: 0.6,
             hovertemplate: '%{x}: <b>%{y:.2f}°C</b><extra></extra>'
         },
         {
-            x: yrStr, y: trend, name: '5-yr trend',
+            x: yrStr, y: trend, name: t('st_trend_5yr'),
             type: 'scatter', mode: 'lines',
             line: { color: '#e05030', width: 2.5 },
-            hovertemplate: '5-yr avg %{x}: <b>%{y:.2f}°C</b><extra></extra>'
+            hovertemplate: `${t('st_trend_5yr')} %{x}: <b>%{y:.2f}°C</b><extra></extra>`
         }
     ], {
         ...theme,

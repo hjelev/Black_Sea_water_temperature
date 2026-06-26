@@ -3,47 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compare Years — Black Sea Water Temperature</title>
+    <title data-i18n-title="title_compare">Compare Years — Black Sea Water Temperature</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
+    <script src="i18n.js"></script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
 <body>
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="index.html">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="index.html" data-i18n="nav_brand">🌊 Black Sea Temp</a>
         <ul class="nav-links">
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="compare.html" class="active">Compare Years</a></li>
-            <li><a href="heatmap.html">Heatmap</a></li>
-            <li><a href="stats.html">Statistics</a></li>
+            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="compare.html" class="active" data-i18n="nav_compare">Compare Years</a></li>
+            <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
+            <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
         </ul>
+        <div class="lang-switch"></div>
     </div>
 </nav>
 
 <div class="container">
-    <h1>Compare Years</h1>
-    <p class="subtitle">Overlay selected years on a Jan–Dec axis to spot seasonal patterns</p>
+    <h1 data-i18n="cmp_h1">Compare Years</h1>
+    <p class="subtitle" data-i18n="cmp_subtitle">Overlay selected years on a Jan–Dec axis to spot seasonal patterns</p>
 
     <div class="controls">
-        <label>From <select id="sel-start"></select></label>
-        <label>To <select id="sel-end"></select></label>
-        <label style="margin-left:auto"><input type="checkbox" id="chk-smooth"> Smooth (7-day avg)</label>
+        <label><span data-i18n="cmp_from">From</span> <select id="sel-start"></select></label>
+        <label><span data-i18n="cmp_to">To</span> <select id="sel-end"></select></label>
+        <label style="margin-left:auto"><input type="checkbox" id="chk-smooth"> <span data-i18n="cmp_smooth">Smooth (7-day avg)</span></label>
     </div>
 
     <div id="year-checkboxes" class="year-checkboxes"></div>
 
     <div id="comparison-chart" class="chart"></div>
 
-    <h2>Timeline selector</h2>
-    <p class="tip">Drag to select a date range — updates the year checkboxes above.</p>
+    <h2 data-i18n="cmp_timeline">Timeline selector</h2>
+    <p class="tip" data-i18n="cmp_tip">Drag to select a date range — updates the year checkboxes above.</p>
     <div id="main-chart" class="chart"></div>
 </div>
 
 <footer class="footer">
-    <span>Black Sea Water Temperature</span>
+    <span data-i18n="footer_title">Black Sea Water Temperature</span>
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
