@@ -1,31 +1,39 @@
-# Parse water temperature data from www.stringmeteo.com 
-# and save it as csv file. Python 3.7 is needed
-import io
+# Fetch Black Sea (Burgas Bay) water surface temperature from the
+# Open-Meteo Marine API and append new readings to a csv file.
+#
+# Previous source (www.stringmeteo.com) was put behind a "SuperJS"
+# JavaScript anti-bot wall that blocks cloud/CI IPs, so it can no longer
+# be scraped from GitHub Actions. Open-Meteo is a free, key-less JSON API.
+#
+# Python 3.7+ , standard library only.
+import json
 import time
-import pandas as pd
-from datetime import date
-from datetime import datetime
-from bs4 import BeautifulSoup
 import urllib.request
+from datetime import datetime, timezone
 
-baseUrlAir = "https://www.sinoptik.bg/burgas-bulgaria-100732770"
-baseurl = "https://www.stringmeteo.com/synop/sea_water.php?year="
 csv_file = "sea_water_temp.csv"
 
-# The server serves a stub page (no tables) to the default urllib User-Agent
-# from cloud/CI IPs, so fetch with a browser User-Agent and retry.
-USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-              "AppleWebKit/537.36 (KHTML, like Gecko) "
-              "Chrome/124.0.0.0 Safari/537.36")
+# Burgas Bay, Black Sea (a point over water near Burgas).
+LATITUDE = 42.47
+LONGITUDE = 27.55
+
+API_URL = (
+    "https://marine-api.open-meteo.com/v1/marine"
+    "?latitude={lat}&longitude={lon}"
+    "&hourly=sea_surface_temperature"
+    "&timezone=UTC&past_days=3&forecast_days=1"
+).format(lat=LATITUDE, lon=LONGITUDE)
+
+# Keep the same daily cadence as the historical series.
+RECORD_HOURS = (6, 12, 18)
 
 
-def fetch_html(url, retries=3, delay=5):
+def fetch_json(url, retries=3, delay=5):
     last_error = None
     for attempt in range(retries):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                return resp.read().decode("utf-8", errors="replace")
+            with urllib.request.urlopen(url, timeout=30) as resp:
+                return json.loads(resp.read().decode("utf-8"))
         except Exception as error:  # noqa: BLE001 - retry on any network error
             last_error = error
             if attempt < retries - 1:
@@ -34,65 +42,51 @@ def fetch_html(url, retries=3, delay=5):
         url, retries, last_error))
 
 
-def get_data_for_current_month(base_url):
-    url = base_url + str(date.today().year)  # Use this to parse stringmeteo.com site
-    html = fetch_html(url)
-    tables = pd.read_html(io.StringIO(html))  # Returns list of all tables on page
-    if date.today().month - 1 >= len(tables):
-        raise RuntimeError(
-            "Expected at least {} tables for month {}, found {}".format(
-                date.today().month, date.today().month, len(tables)))
-    data = tables[date.today().month - 1]
-    return data
+def get_readings():
+    data = fetch_json(API_URL)
+    hourly = data.get("hourly", {})
+    times = hourly.get("time", [])
+    temps = hourly.get("sea_surface_temperature", [])
+    if not times or not temps:
+        raise RuntimeError("Open-Meteo returned no hourly data: {}".format(data))
 
-
-def extract_today_temperatures(data):
-    # take care for Feb as its shorter
-    if date.today().month == 2:
-        month_middle = 16
-    else:
-        month_middle = 17
-
-    if date.today().day < month_middle:
-        data = data[[0, 1, 3]]
-        index = [0, 1, 3]
-        row_to_extract = date.today().day * 3 - 1
-    else:
-        data = data[[5, 6, 8]]
-        index = [5, 6, 8]
-        row_to_extract = date.today().day * 3 - 1 - ((month_middle - 1) * 3)
-    data = data.iloc[row_to_extract: row_to_extract + 3]
-    return data, index
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    readings = []
+    for iso_time, temp in zip(times, temps):
+        # API time format is e.g. "2026-06-28T12:00"
+        moment = datetime.strptime(iso_time, "%Y-%m-%dT%H:%M")
+        if moment.hour not in RECORD_HOURS:
+            continue
+        if moment > now:  # skip future/forecast hours
+            continue
+        if temp is None:
+            continue
+        readings.append((moment, round(float(temp), 1)))
+    return readings
 
 
 def get_last_record_date(csv_file_name):
     # get the date of the last record in the csv
     with open(csv_file_name, "r") as file_object:
         last_line = file_object.readlines()[-1].split(",")[0].strip()
-        last_record_date = datetime.strptime(last_line, '%Y-%m-%d %H:%M:%S')
-    return last_record_date
+        return datetime.strptime(last_line, "%Y-%m-%d %H:%M:%S")
 
 
-def save_new_data(data, index, last_record_date, csv_file_name):
-    for x, row in data.iterrows():
-        water_temp = str(row[index[2]])
-        # skip empty records
-        if ("nan" not in water_temp) and ("-" not in water_temp):
-            timestamp = "{}-{:02d}-{} {}:00:00".format(date.today().year,
-                                                   date.today().month,
-                                                   row[index[0]],
-                                                   row[index[1]].zfill(2))
-            record_date = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
-            if record_date > last_record_date:
-                with open(csv_file_name, "a") as file_object:
-                    new_line = "{},{}\n".format(timestamp, water_temp)
-                    file_object.write(new_line)
+def save_new_data(readings, last_record_date, csv_file_name):
+    new_rows = [(m, t) for m, t in readings if m > last_record_date]
+    new_rows.sort(key=lambda item: item[0])
+    with open(csv_file_name, "a") as file_object:
+        for moment, temp in new_rows:
+            timestamp = moment.strftime("%Y-%m-%d %H:%M:%S")
+            file_object.write("{},{}\n".format(timestamp, temp))
+    return len(new_rows)
+
 
 def get_data():
-    data = get_data_for_current_month(baseurl)
-    data, index = extract_today_temperatures(data)
+    readings = get_readings()
     last_record_date = get_last_record_date(csv_file)
-    save_new_data(data, index, last_record_date, csv_file)
+    added = save_new_data(readings, last_record_date, csv_file)
+    print("Added {} new record(s).".format(added))
 
 
 if __name__ == '__main__':

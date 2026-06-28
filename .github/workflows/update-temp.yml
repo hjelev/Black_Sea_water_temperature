@@ -20,9 +20,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install pandas beautifulsoup4 lxml html5lib
-
       - name: Collect temperature data
         run: python3 get_daily_temp.py
 
