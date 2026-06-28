@@ -245,11 +245,50 @@ def write_compare_locations():
     print("wrote docs/compare-locations.html")
 
 
+def write_sitemap():
+    """Generate docs/sitemap.xml from LOCATIONS so it stays in sync with the
+    actual pages. URLs are produced by canonical_for(), the same helper used for
+    each page's <link rel="canonical">, so the sitemap can never drift from the
+    pages it lists."""
+    urls = [(BASE_URL + "/", "1.0")]
+    for loc in LOCATIONS:
+        slug = loc["slug"]
+        for page_file in PAGES:
+            priority = "0.8" if page_file == "index.html" else "0.6"
+            urls.append((canonical_for(slug, page_file), priority))
+    urls.append((BASE_URL + "/compare-locations.html", "0.7"))
+
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for url, priority in urls:
+        lines.append("  <url>")
+        lines.append("    <loc>{}</loc>".format(escape(url)))
+        lines.append("    <changefreq>daily</changefreq>")
+        lines.append("    <priority>{}</priority>".format(priority))
+        lines.append("  </url>")
+    lines.append("</urlset>")
+    with open(os.path.join(DOCS_DIR, "sitemap.xml"), "w", encoding="utf-8") as fh:
+        fh.write("\n".join(lines) + "\n")
+    print("wrote docs/sitemap.xml ({} urls)".format(len(urls)))
+
+
+def write_robots():
+    """Generate docs/robots.txt; the Sitemap line stays tied to BASE_URL."""
+    content = ("User-agent: *\n"
+               "Allow: /\n\n"
+               "Sitemap: {}/sitemap.xml\n".format(BASE_URL))
+    with open(os.path.join(DOCS_DIR, "robots.txt"), "w", encoding="utf-8") as fh:
+        fh.write(content)
+    print("wrote docs/robots.txt")
+
+
 def main():
     write_locations_js()
     write_location_pages()
     write_hub()
     write_compare_locations()
+    write_sitemap()
+    write_robots()
 
 
 if __name__ == "__main__":
