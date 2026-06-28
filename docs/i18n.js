@@ -134,7 +134,7 @@ const I18N = {
 
         // Nav (shared)
         nav_brand:     '🌊 Черно море',
-        nav_dashboard: 'Табло',
+        nav_dashboard: 'Данни',
         nav_compare:   'Сравнение по години',
         nav_heatmap:   'Топлинна карта',
         nav_stats:     'Статистика',
