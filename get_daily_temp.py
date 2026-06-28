@@ -11,13 +11,9 @@ import time
 import urllib.request
 from datetime import datetime, timezone
 
-# Locations to collect. Each writes its own csv file.
-# The exact Sinemorets town coords snap to a land-masked cell (all null);
-# lat=42.06/lon=28.0 snaps to the nearest sea cell (42.21N, 28.13E).
-LOCATIONS = [
-    {"name": "Burgas",     "lat": 42.47, "lon": 27.55, "csv_file": "sea_water_temp.csv"},
-    {"name": "Sinemorets", "lat": 42.06, "lon": 28.0,  "csv_file": "sinemorets_water_temp.csv"},
-]
+# Locations to collect (one csv per location) are defined in locations.py,
+# the single source of truth shared with backfill.py and build_site.py.
+from locations import LOCATIONS
 
 
 def build_api_url(lat, lon):
@@ -93,7 +89,7 @@ def update_location(location):
     readings = get_readings(api_url)
     last_record_date = get_last_record_date(csv_file)
     added = save_new_data(readings, last_record_date, csv_file)
-    print("{}: added {} new record(s).".format(location["name"], added))
+    print("{}: added {} new record(s).".format(location["name_en"], added))
 
 
 def get_data():
@@ -101,7 +97,7 @@ def get_data():
         try:
             update_location(location)
         except Exception as error:  # noqa: BLE001 - don't let one location abort the rest
-            print("{}: failed - {}".format(location["name"], error))
+            print("{}: failed - {}".format(location["name_en"], error))
 
 
 if __name__ == '__main__':

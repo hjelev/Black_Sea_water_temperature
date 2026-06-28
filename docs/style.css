@@ -101,6 +101,8 @@ body {
     margin-left: auto;
 }
 .loc-btn {
+    display: inline-flex;
+    align-items: center;
     background: none;
     border: 1px solid var(--nav-border);
     padding: 0.25rem 0.55rem;
@@ -109,6 +111,7 @@ body {
     cursor: pointer;
     border-radius: 999px;
     color: var(--text-muted);
+    text-decoration: none;
     white-space: nowrap;
     transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
@@ -118,6 +121,34 @@ body {
     background: var(--accent);
     border-color: var(--accent);
 }
+
+/* Hub (root) location cards */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+}
+.hub-card {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--nav-border);
+    border-radius: 12px;
+    background: var(--container-bg);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.hub-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+.hub-flag { font-size: 1.6rem; line-height: 1; }
+.hub-name { font-size: 0.95rem; }
 
 /* Language switcher */
 .lang-switch {

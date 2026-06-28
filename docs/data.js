@@ -1,30 +1,23 @@
 const CSV_BASE = 'https://raw.githubusercontent.com/hjelev/Black_Sea_water_temperature/refs/heads/main/';
 
-const LOCATIONS = {
-    burgas:     { csv: 'sea_water_temp.csv',        nameKey: 'loc_burgas',     flag: '🏖️' },
-    sinemorets: { csv: 'sinemorets_water_temp.csv', nameKey: 'loc_sinemorets', flag: '⛵' },
-};
+// window.LOCATIONS is provided by the generated locations.js (loaded first).
+// Each page sets window.LOCATION_ID in its <head> so the location comes from
+// the URL, not localStorage — every town has its own indexable page.
 
 window.getLocation = function() {
-    const saved = localStorage.getItem('location');
-    return LOCATIONS[saved] ? saved : 'burgas';
-};
-
-window.setLocation = function(id) {
-    if (!LOCATIONS[id]) return;
-    localStorage.setItem('location', id);
-    location.reload();
+    const id = window.LOCATION_ID;
+    return (window.LOCATIONS && window.LOCATIONS[id]) ? id : 'burgas';
 };
 
 window.locationName = function() {
-    return t(LOCATIONS[window.getLocation()].nameKey);
+    return t(window.LOCATIONS[window.getLocation()].nameKey);
 };
 
 window.loadData = function() {
     const id = window.getLocation();
     window.__seaData = window.__seaData || {};
     if (window.__seaData[id]) return Promise.resolve(window.__seaData[id]);
-    return fetch(CSV_BASE + LOCATIONS[id].csv)
+    return fetch(CSV_BASE + window.LOCATIONS[id].csv)
         .then(r => r.text())
         .then(text => {
             const records = [];
@@ -55,19 +48,21 @@ window.renderLocationSwitcher = function() {
     const container = document.querySelector('.loc-switch');
     if (!container) return;
     const current = window.getLocation();
+    // Preserve the current view (index/compare/heatmap/stats) when switching town.
+    const file = (location.pathname.split('/').pop()) || 'index.html';
+    const page = file.endsWith('.html') ? file : 'index.html';
     container.innerHTML = '';
-    Object.keys(LOCATIONS).forEach(id => {
-        const loc = LOCATIONS[id];
+    Object.keys(window.LOCATIONS).forEach(id => {
+        const loc = window.LOCATIONS[id];
         const label = t(loc.nameKey);
         const shortLabel = label.split(',')[0];
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'loc-btn' + (id === current ? ' active' : '');
-        btn.textContent = loc.flag + ' ' + shortLabel;
-        btn.title = label;
-        btn.setAttribute('aria-label', label);
-        btn.addEventListener('click', () => window.setLocation(id));
-        container.appendChild(btn);
+        const link = document.createElement('a');
+        link.className = 'loc-btn' + (id === current ? ' active' : '');
+        link.href = '/' + id + '/' + page;
+        link.textContent = loc.flag + ' ' + shortLabel;
+        link.title = label;
+        link.setAttribute('aria-label', label);
+        container.appendChild(link);
     });
 };
 

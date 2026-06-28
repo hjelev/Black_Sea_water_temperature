@@ -20,8 +20,16 @@ const I18N = {
         footer_title: 'Black Sea Water Temperature',
 
         // Locations (shared)
-        loc_burgas:     'Burgas, Bulgaria',
-        loc_sinemorets: 'Sinemorets, Bulgaria',
+        loc_burgas:      'Burgas, Bulgaria',
+        loc_sinemorets:  'Sinemorets, Bulgaria',
+        loc_varna:       'Varna, Bulgaria',
+        loc_kamenbryag:  'Kamen Bryag, Bulgaria',
+        loc_tyulenovo:   'Tyulenovo, Bulgaria',
+
+        // index.html (hub)
+        hub_h1:       'Black Sea Water Temperature',
+        hub_subtitle: "Live and historical sea surface temperature for Bulgaria's Black Sea coast",
+        hub_pick:     'Choose a location',
 
         // index.html
         dash_h1:          'Dashboard',
@@ -85,8 +93,16 @@ const I18N = {
         footer_title: 'Температура на водата в Черно море',
 
         // Locations (shared)
-        loc_burgas:     'Бургас, България',
-        loc_sinemorets: 'Синеморец, България',
+        loc_burgas:      'Бургас, България',
+        loc_sinemorets:  'Синеморец, България',
+        loc_varna:       'Варна, България',
+        loc_kamenbryag:  'Камен бряг, България',
+        loc_tyulenovo:   'Тюленово, България',
+
+        // index.html (hub)
+        hub_h1:       'Температура на водата в Черно море',
+        hub_subtitle: 'Температура на морската повърхност по Българското Черноморие — на живо и исторически данни',
+        hub_pick:     'Изберете локация',
 
         // index.html
         dash_h1:            'Табло',
