@@ -1,19 +1,47 @@
 # Parse water temperature data from www.stringmeteo.com 
 # and save it as csv file. Python 3.7 is needed
+import io
+import time
 import pandas as pd
 from datetime import date
 from datetime import datetime
 from bs4 import BeautifulSoup
-import urllib
+import urllib.request
 
 baseUrlAir = "https://www.sinoptik.bg/burgas-bulgaria-100732770"
 baseurl = "https://www.stringmeteo.com/synop/sea_water.php?year="
 csv_file = "sea_water_temp.csv"
 
+# The server serves a stub page (no tables) to the default urllib User-Agent
+# from cloud/CI IPs, so fetch with a browser User-Agent and retry.
+USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+              "AppleWebKit/537.36 (KHTML, like Gecko) "
+              "Chrome/124.0.0.0 Safari/537.36")
+
+
+def fetch_html(url, retries=3, delay=5):
+    last_error = None
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return resp.read().decode("utf-8", errors="replace")
+        except Exception as error:  # noqa: BLE001 - retry on any network error
+            last_error = error
+            if attempt < retries - 1:
+                time.sleep(delay)
+    raise RuntimeError("Failed to fetch {} after {} attempts: {}".format(
+        url, retries, last_error))
+
 
 def get_data_for_current_month(base_url):
     url = base_url + str(date.today().year)  # Use this to parse stringmeteo.com site
-    tables = pd.read_html(url, encoding="utf8")  # Returns list of all tables on page
+    html = fetch_html(url)
+    tables = pd.read_html(io.StringIO(html))  # Returns list of all tables on page
+    if date.today().month - 1 >= len(tables):
+        raise RuntimeError(
+            "Expected at least {} tables for month {}, found {}".format(
+                date.today().month, date.today().month, len(tables)))
     data = tables[date.today().month - 1]
     return data
 
