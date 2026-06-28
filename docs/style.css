@@ -1,30 +1,32 @@
 :root {
-    --bg: #f4f4f9;
-    --container-bg: #ffffff;
-    --text: #333333;
-    --text-muted: #666666;
-    --accent: #007bff;
-    --accent-light: rgba(0, 123, 255, 0.1);
-    --nav-bg: #ffffff;
-    --nav-border: #e0e0e0;
-    --card-bg: rgba(0, 123, 255, 0.08);
-    --record-hot: rgba(255, 80, 50, 0.12);
-    --record-cold: rgba(0, 150, 255, 0.12);
+    /* Light "sea" mode: page background matches the OSM sea color (#aad3df) */
+    --bg: #aad3df;
+    --container-bg: #eaf4f8;
+    --text: #1a3c4a;
+    --text-muted: #4a6a76;
+    --accent: #00729a;
+    --accent-light: rgba(0, 114, 154, 0.12);
+    --nav-bg: #d6eaf1;
+    --nav-border: #9cc3d2;
+    --card-bg: rgba(0, 114, 154, 0.10);
+    --record-hot: rgba(255, 80, 50, 0.14);
+    --record-cold: rgba(0, 150, 255, 0.14);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #121212;
-        --container-bg: #1e1e1e;
-        --text: #e0e0e0;
-        --text-muted: #999999;
-        --accent: #4da6ff;
-        --accent-light: rgba(77, 166, 255, 0.12);
-        --nav-bg: #1a1a1a;
-        --nav-border: #333333;
-        --card-bg: rgba(77, 166, 255, 0.1);
+        /* Deep-sea navy mode */
+        --bg: #0a1a24;
+        --container-bg: #12303d;
+        --text: #d6e6ec;
+        --text-muted: #8aa6b0;
+        --accent: #4db8d9;
+        --accent-light: rgba(77, 184, 217, 0.14);
+        --nav-bg: #0d2531;
+        --nav-border: #1e4252;
+        --card-bg: rgba(77, 184, 217, 0.10);
         --record-hot: rgba(255, 100, 70, 0.15);
-        --record-cold: rgba(77, 166, 255, 0.15);
+        --record-cold: rgba(77, 184, 217, 0.15);
     }
 }
 
