@@ -417,7 +417,18 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .footer a:hover { color: var(--accent); }
 
 @media (max-width: 640px) {
-    .nav-toggle { display: block; }
+    .nav-toggle { display: block; order: 3; }   /* sandwich in the top-right corner */
+    /* Language flags sit just left of the sandwich; together they fill the
+       right corner of the first row. */
+    .lang-switch { order: 2; margin-left: auto; }
+    /* Location dropdown drops onto its own row, below the sandwich + language. */
+    .loc-switch {
+        order: 4;
+        width: 100%;
+        margin-left: 0;
+        justify-content: flex-end;
+        padding-bottom: 0.5rem;
+    }
     .nav-links {
         display: none;
         order: 5;            /* wraps onto its own full-width row */
