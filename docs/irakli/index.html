@@ -40,6 +40,7 @@
 <div class="container">
     <h1 data-i18n="dash_h1">Dashboard</h1>
     <p class="subtitle" id="subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
+    <p class="location-description" id="location-description"></p>
 
     <h3 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h3>
     <div id="date-stats" class="stats-grid"></div>
@@ -61,6 +62,11 @@
 <script>
 document.getElementById('subtitle').textContent =
     t('dash_subtitle').replace('{location}', locationName());
+const descKey = 'desc_' + window.getLocation().replace(/-/g, '');
+const descText = t(descKey);
+const descEl = document.getElementById('location-description');
+if (descText && descText !== descKey) descEl.textContent = descText;
+else descEl.style.display = 'none';
 loadData().then(records => {
     const last = records[records.length - 1];
     const maxYear = last.year;
