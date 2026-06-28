@@ -80,6 +80,7 @@ const I18N = {
         desc_svetivlas: "This town is historically significant as a quiet settlement that has developed into a premier luxury yachting destination with a massive, modern marina. It sits at the foot of the Balkan Mountains, offering a beautiful contrast between the green slopes and the deep blue sea. Its beaches are well-kept and offer a slightly more upscale, peaceful experience compared to its bustling neighbor, Sunny Beach.",
 
         // compare.html
+        loc_connector: 'for',
         cmp_h1:        'Compare Years',
         cmp_subtitle:  'Overlay selected years on a Jan–Dec axis to spot seasonal patterns',
         cmp_from:      'From',
@@ -202,6 +203,7 @@ const I18N = {
         desc_svetivlas: "Този град е исторически значим като тихо селище, превърнало се в първокласна луксозна дестинация за яхтинг с огромна модерна марина. Той е разположен в подножието на Стара планина, предлагайки красив контраст между зелените склонове и тъмносиньото море. Плажовете му са добре поддържани и предлагат малко по-изискано, спокойно изживяване в сравнение с оживения му съсед Слънчев бряг.",
 
         // compare.html
+        loc_connector: 'за',
         cmp_h1:        'Сравнение по години',
         cmp_subtitle:  'Наложете избрани години по ос ян.–дек., за да откриете сезонни модели',
         cmp_from:      'От',
@@ -264,13 +266,22 @@ function setLang(lang) {
     location.reload();
 }
 
+function locSuffix() {
+    if (typeof window.locationName !== 'function') return '';
+    return ' ' + t('loc_connector') + ' ' + window.locationName();
+}
+
 function applyStaticTranslations() {
     document.documentElement.lang = getLang();
     document.querySelectorAll('[data-i18n]').forEach(el => {
-        el.textContent = t(el.dataset.i18n);
+        let txt = t(el.dataset.i18n);
+        if (el.hasAttribute('data-i18n-loc')) txt += locSuffix();
+        el.textContent = txt;
     });
     document.querySelectorAll('[data-i18n-html]').forEach(el => {
-        el.innerHTML = t(el.dataset.i18nHtml);
+        let html = t(el.dataset.i18nHtml);
+        if (el.hasAttribute('data-i18n-loc')) html += locSuffix();
+        el.innerHTML = html;
     });
     const titleEl = document.querySelector('title[data-i18n-title]');
     if (titleEl) document.title = t(titleEl.dataset.i18nTitle);
