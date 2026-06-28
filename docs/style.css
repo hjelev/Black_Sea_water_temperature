@@ -204,6 +204,14 @@ body {
 }
 .hub-flag { font-size: 1.6rem; line-height: 1; }
 .hub-name { font-size: 0.95rem; }
+.hub-country {
+    margin: 1.6rem 0 0.4rem;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--nav-border);
+    padding-bottom: 0.3rem;
+}
+.hub-country:first-of-type { margin-top: 1rem; }
 
 /* Language switcher */
 .lang-switch {
@@ -380,6 +388,23 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-bottom: 1rem;
+}
+
+.loc-group {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+.loc-group-title {
+    flex-basis: 100%;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .year-check-label {

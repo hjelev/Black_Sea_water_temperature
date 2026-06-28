@@ -13,6 +13,23 @@ window.locationName = function() {
     return t(window.LOCATIONS[window.getLocation()].nameKey);
 };
 
+// Iterate locations grouped by country in COUNTRY_ORDER, then any leftover
+// countries. cb(countrySlug, [ids]) is called once per non-empty group.
+window.eachCountryGroup = function(cb) {
+    const order = window.COUNTRY_ORDER || [];
+    const seen = {};
+    const emit = (country) => {
+        const ids = Object.keys(window.LOCATIONS)
+            .filter(id => window.LOCATIONS[id].country === country);
+        if (ids.length) { seen[country] = true; cb(country, ids); }
+    };
+    order.forEach(emit);
+    Object.keys(window.LOCATIONS).forEach(id => {
+        const c = window.LOCATIONS[id].country;
+        if (c && !seen[c]) emit(c);
+    });
+};
+
 // Load and parse one location's CSV by id, cached in window.__seaData[id].
 window.loadLocationData = function(id) {
     window.__seaData = window.__seaData || {};
@@ -60,7 +77,7 @@ window.renderLocationSwitcher = function() {
     const select = document.createElement('select');
     select.className = 'loc-select';
     select.setAttribute('aria-label', t('nav_location'));
-    Object.keys(window.LOCATIONS).forEach(id => {
+    const addOption = (parent, id) => {
         const loc = window.LOCATIONS[id];
         const label = t(loc.nameKey);
         const shortLabel = label.split(',')[0];
@@ -69,7 +86,13 @@ window.renderLocationSwitcher = function() {
         opt.textContent = loc.flag + ' ' + shortLabel;
         opt.title = label;
         if (id === current) opt.selected = true;
-        select.appendChild(opt);
+        parent.appendChild(opt);
+    };
+    window.eachCountryGroup(function(country, ids) {
+        const group = document.createElement('optgroup');
+        group.label = t('country_' + country);
+        ids.forEach(id => addOption(group, id));
+        select.appendChild(group);
     });
     select.addEventListener('change', () => {
         if (select.value) window.location.href = select.value;

@@ -20,36 +20,37 @@
 # Python 3.7+ , standard library only.
 import os
 
-from locations import LOCATIONS
+from locations import LOCATIONS, COUNTRY_ORDER
 
 BASE_URL = "https://more.masoko.net"
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
-# Per-page SEO metadata. {loc} = English town name, {year} = first data year.
+# Per-page SEO metadata. {loc} = English town name, {country} = English country
+# name, {year} = first data year.
 PAGES = {
     "index.html": {
         "title": "{loc} Sea Water Temperature — Live Black Sea Data",
         "desc": ("Live and historical Black Sea water temperature at {loc}, "
-                 "Bulgaria. Daily sea surface temperature since {year}, with a "
+                 "{country}. Daily sea surface temperature since {year}, with a "
                  "30-day trend and full history charts."),
     },
     "compare.html": {
         "title": "Compare Years — {loc} Black Sea Water Temperature",
-        "desc": ("Compare Black Sea water temperature at {loc}, Bulgaria across "
+        "desc": ("Compare Black Sea water temperature at {loc}, {country} across "
                  "years on a Jan–Dec axis to spot seasonal patterns and warming "
                  "trends."),
     },
     "heatmap.html": {
         "title": "Monthly Heatmap — {loc} Black Sea Water Temperature",
         "desc": ("Monthly Black Sea water temperature heatmap for {loc}, "
-                 "Bulgaria — average sea surface temperature per month across "
+                 "{country} — average sea surface temperature per month across "
                  "every recorded year."),
     },
     "stats.html": {
         "title": "Statistics & Records — {loc} Black Sea Water Temperature",
         "desc": ("All-time records and annual statistics for Black Sea water "
-                 "temperature at {loc}, Bulgaria — hottest and coldest readings, "
+                 "temperature at {loc}, {country} — hottest and coldest readings, "
                  "yearly min/avg/max and the long-term trend."),
     },
 }
@@ -59,6 +60,14 @@ NAV_KEY = "loc_{}"  # i18n key, e.g. loc_kamenbryag
 
 def i18n_key(slug):
     return "loc_" + slug.replace("-", "")
+
+
+def locations_by_country():
+    """Yield (country_slug, [locations]) in COUNTRY_ORDER, skipping empty groups."""
+    for country in COUNTRY_ORDER:
+        group = [loc for loc in LOCATIONS if loc["country"] == country]
+        if group:
+            yield country, group
 
 
 def escape(text):
@@ -118,8 +127,10 @@ def write_location_pages():
         out_dir = os.path.join(DOCS_DIR, slug)
         os.makedirs(out_dir, exist_ok=True)
         for page_file, meta in PAGES.items():
-            title = meta["title"].format(loc=loc["name_en"], year=year)
-            desc = meta["desc"].format(loc=loc["name_en"], year=year)
+            title = meta["title"].format(
+                loc=loc["name_en"], country=loc["country_en"], year=year)
+            desc = meta["desc"].format(
+                loc=loc["name_en"], country=loc["country_en"], year=year)
             head = build_head(title, desc, canonical_for(slug, page_file))
             page = head.replace("{slug}", slug) + bodies[page_file]
             with open(os.path.join(out_dir, page_file), "w", encoding="utf-8") as fh:
@@ -136,11 +147,13 @@ def write_locations_js():
     for loc in LOCATIONS:
         lines.append(
             '    "{slug}": {{ csv: "{csv}", nameKey: "{key}", flag: "{flag}", '
-            'lat: {lat}, lon: {lon} }},'.format(
+            'lat: {lat}, lon: {lon}, country: "{country}" }},'.format(
                 slug=loc["slug"], csv=loc["csv_file"],
                 key=i18n_key(loc["slug"]), flag=loc["flag"],
-                lat=loc["lat"], lon=loc["lon"]))
+                lat=loc["lat"], lon=loc["lon"], country=loc["country"]))
     lines.append("};")
+    lines.append("window.COUNTRY_ORDER = {};".format(
+        "[" + ", ".join('"{}"'.format(c) for c in COUNTRY_ORDER) + "]"))
     path = os.path.join(DOCS_DIR, "locations.js")
     with open(path, "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines) + "\n")
@@ -148,20 +161,28 @@ def write_locations_js():
 
 
 def write_hub():
-    cards = []
-    for loc in LOCATIONS:
-        cards.append(
-            '        <a class="hub-card" href="/{slug}/">\n'
-            '            <span class="hub-flag">{flag}</span>\n'
-            '            <span class="hub-name" data-i18n="{key}">{name}</span>\n'
-            '        </a>'.format(
-                slug=loc["slug"], flag=loc["flag"],
-                key=i18n_key(loc["slug"]), name=escape(loc["name_en"] + ", Bulgaria")))
+    sections = []
+    for country, group in locations_by_country():
+        cards = []
+        for loc in group:
+            cards.append(
+                '            <a class="hub-card" href="/{slug}/">\n'
+                '                <span class="hub-flag">{flag}</span>\n'
+                '                <span class="hub-name" data-i18n="{key}">{name}</span>\n'
+                '            </a>'.format(
+                    slug=loc["slug"], flag=loc["flag"],
+                    key=i18n_key(loc["slug"]),
+                    name=escape(loc["name_en"] + ", " + loc["country_en"])))
+        sections.append(
+            '        <h3 class="hub-country" data-i18n="country_{country}">{label}</h3>\n'
+            '        <div class="hub-grid">\n{cards}\n        </div>'.format(
+                country=country, label=escape(group[0]["country_en"]),
+                cards="\n".join(cards)))
     head = build_head(
-        "Black Sea Water Temperature — Bulgaria",
-        ("Live and historical Black Sea water temperature for Bulgarian coastal "
-         "towns: Burgas, Sinemorets, Varna, Kamen Bryag and Tyulenovo. Daily sea "
-         "surface temperature, yearly comparisons, heatmaps and records."),
+        "Black Sea Water Temperature — Bulgaria, Turkey, Romania, Georgia, Russia",
+        ("Live and historical Black Sea water temperature for coastal towns across "
+         "Bulgaria, Turkey, Romania, Georgia and Russia. Daily sea surface "
+         "temperature, yearly comparisons, heatmaps and records."),
         BASE_URL + "/").replace("{slug}", "burgas")
     body = """<body>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -191,9 +212,7 @@ def write_hub():
     <div id="map"></div>
 
     <h2 data-i18n="hub_pick">Choose a location</h2>
-    <div class="hub-grid">
-{cards}
-    </div>
+{sections}
 </div>
 
 <footer class="footer">
@@ -205,7 +224,7 @@ def write_hub():
 <script src="/map.js"></script>
 </body>
 </html>
-""".format(cards="\n".join(cards))
+""".format(sections="\n".join(sections))
     with open(os.path.join(DOCS_DIR, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(head + body)
     print("wrote docs/index.html (hub)")
@@ -215,9 +234,9 @@ def write_compare_locations():
     """Global (non per-location) page that overlays multiple towns on one chart."""
     head = build_head(
         "Compare Locations — Black Sea Water Temperature",
-        ("Compare Black Sea water temperature across Bulgarian coastal towns on a "
-         "single chart — overlay any locations across the years and on a Jan–Dec "
-         "seasonal axis."),
+        ("Compare Black Sea water temperature across coastal towns in Bulgaria, "
+         "Turkey, Romania, Georgia and Russia on a single chart — overlay any "
+         "locations across the years and on a Jan–Dec seasonal axis."),
         BASE_URL + "/compare-locations.html").replace("{slug}", "burgas")
     body = template_body("compare-locations.html")
     with open(os.path.join(DOCS_DIR, "compare-locations.html"), "w", encoding="utf-8") as fh:

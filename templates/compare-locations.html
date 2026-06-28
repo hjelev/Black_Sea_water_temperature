@@ -138,13 +138,17 @@ function drawSeasonal() {
 
 function redraw() { drawTimeline(); drawSeasonal(); }
 
-// Build location checkboxes from the shared LOCATIONS dict.
+// Build location checkboxes from the shared LOCATIONS dict, grouped by country.
 const cbContainer = document.getElementById('location-checkboxes');
-Object.keys(window.LOCATIONS).forEach(id => {
-    const checked = DEFAULT_LOCATIONS.includes(id) ? 'checked' : '';
-    cbContainer.innerHTML += `<label class="year-check-label">
-        <input type="checkbox" class="loc-cb" value="${id}" ${checked}> ${locLabel(id)}
-    </label>`;
+window.eachCountryGroup((country, ids) => {
+    let html = `<div class="loc-group-title">${t('country_' + country)}</div>`;
+    ids.forEach(id => {
+        const checked = DEFAULT_LOCATIONS.includes(id) ? 'checked' : '';
+        html += `<label class="year-check-label">
+            <input type="checkbox" class="loc-cb" value="${id}" ${checked}> ${locLabel(id)}
+        </label>`;
+    });
+    cbContainer.innerHTML += `<div class="loc-group">${html}</div>`;
 });
 document.querySelectorAll('.loc-cb').forEach(cb => cb.addEventListener('change', redraw));
 

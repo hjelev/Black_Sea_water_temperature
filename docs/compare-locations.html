@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compare Locations — Black Sea Water Temperature</title>
-    <meta name="description" content="Compare Black Sea water temperature across Bulgarian coastal towns on a single chart — overlay any locations across the years and on a Jan–Dec seasonal axis.">
+    <meta name="description" content="Compare Black Sea water temperature across coastal towns in Bulgaria, Turkey, Romania, Georgia and Russia on a single chart — overlay any locations across the years and on a Jan–Dec seasonal axis.">
     <link rel="canonical" href="https://more.masoko.net/compare-locations.html">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Compare Locations — Black Sea Water Temperature">
-    <meta property="og:description" content="Compare Black Sea water temperature across Bulgarian coastal towns on a single chart — overlay any locations across the years and on a Jan–Dec seasonal axis.">
+    <meta property="og:description" content="Compare Black Sea water temperature across coastal towns in Bulgaria, Turkey, Romania, Georgia and Russia on a single chart — overlay any locations across the years and on a Jan–Dec seasonal axis.">
     <meta property="og:url" content="https://more.masoko.net/compare-locations.html">
     <meta name="twitter:card" content="summary">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
@@ -147,13 +147,17 @@ function drawSeasonal() {
 
 function redraw() { drawTimeline(); drawSeasonal(); }
 
-// Build location checkboxes from the shared LOCATIONS dict.
+// Build location checkboxes from the shared LOCATIONS dict, grouped by country.
 const cbContainer = document.getElementById('location-checkboxes');
-Object.keys(window.LOCATIONS).forEach(id => {
-    const checked = DEFAULT_LOCATIONS.includes(id) ? 'checked' : '';
-    cbContainer.innerHTML += `<label class="year-check-label">
-        <input type="checkbox" class="loc-cb" value="${id}" ${checked}> ${locLabel(id)}
-    </label>`;
+window.eachCountryGroup((country, ids) => {
+    let html = `<div class="loc-group-title">${t('country_' + country)}</div>`;
+    ids.forEach(id => {
+        const checked = DEFAULT_LOCATIONS.includes(id) ? 'checked' : '';
+        html += `<label class="year-check-label">
+            <input type="checkbox" class="loc-cb" value="${id}" ${checked}> ${locLabel(id)}
+        </label>`;
+    });
+    cbContainer.innerHTML += `<div class="loc-group">${html}</div>`;
 });
 document.querySelectorAll('.loc-cb').forEach(cb => cb.addEventListener('change', redraw));
 

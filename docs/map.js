@@ -18,7 +18,8 @@
         const el = document.getElementById('map');
         if (!el || !window.L || !window.LOCATIONS) return;
 
-        const map = L.map('map', { scrollWheelZoom: false }).setView([42.9, 27.95], 8);
+        // Centre on the Black Sea basin; fitBounds below tightens to the markers.
+        const map = L.map('map', { scrollWheelZoom: false }).setView([43.4, 34.0], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
