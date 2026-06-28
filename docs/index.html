@@ -21,13 +21,14 @@
             <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
             <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
         </ul>
+        <div class="loc-switch"></div>
         <div class="lang-switch"></div>
     </div>
 </nav>
 
 <div class="container">
     <h1 data-i18n="dash_h1">Dashboard</h1>
-    <p class="subtitle" data-i18n="dash_subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
+    <p class="subtitle" id="subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
 
     <h3 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h3>
     <div id="date-stats" class="stats-grid"></div>
@@ -47,6 +48,8 @@
 </footer>
 <script src="data.js"></script>
 <script>
+document.getElementById('subtitle').textContent =
+    t('dash_subtitle').replace('{location}', locationName());
 loadData().then(records => {
     const last = records[records.length - 1];
     const maxYear = last.year;

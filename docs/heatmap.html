@@ -21,13 +21,14 @@
             <li><a href="heatmap.html" class="active" data-i18n="nav_heatmap">Heatmap</a></li>
             <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
         </ul>
+        <div class="loc-switch"></div>
         <div class="lang-switch"></div>
     </div>
 </nav>
 
 <div class="container">
     <h1 data-i18n="hm_h1">Monthly Heatmap</h1>
-    <p class="subtitle" data-i18n="hm_subtitle">Average water temperature per month across all years (2000–present)</p>
+    <p class="subtitle" id="subtitle">Average water temperature per month across all years (2000–present)</p>
 
     <div id="heatmap-chart" class="chart-tall"></div>
 
@@ -48,6 +49,8 @@ const MONTHS = t('months');
 loadData().then(records => {
     const minYear = records[0].year;
     const maxYear = records[records.length - 1].year;
+    document.getElementById('subtitle').textContent =
+        t('hm_subtitle').replace('{year}', minYear);
     const years = [];
     for (let y = minYear; y <= maxYear; y++) years.push(y);
 

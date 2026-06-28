@@ -1,8 +1,30 @@
-const CSV_URL = 'https://raw.githubusercontent.com/hjelev/Black_Sea_water_temperature/refs/heads/main/sea_water_temp.csv';
+const CSV_BASE = 'https://raw.githubusercontent.com/hjelev/Black_Sea_water_temperature/refs/heads/main/';
+
+const LOCATIONS = {
+    burgas:     { csv: 'sea_water_temp.csv',        nameKey: 'loc_burgas',     flag: '🏖️' },
+    sinemorets: { csv: 'sinemorets_water_temp.csv', nameKey: 'loc_sinemorets', flag: '⛵' },
+};
+
+window.getLocation = function() {
+    const saved = localStorage.getItem('location');
+    return LOCATIONS[saved] ? saved : 'burgas';
+};
+
+window.setLocation = function(id) {
+    if (!LOCATIONS[id]) return;
+    localStorage.setItem('location', id);
+    location.reload();
+};
+
+window.locationName = function() {
+    return t(LOCATIONS[window.getLocation()].nameKey);
+};
 
 window.loadData = function() {
-    if (window.__seaData) return Promise.resolve(window.__seaData);
-    return fetch(CSV_URL)
+    const id = window.getLocation();
+    window.__seaData = window.__seaData || {};
+    if (window.__seaData[id]) return Promise.resolve(window.__seaData[id]);
+    return fetch(CSV_BASE + LOCATIONS[id].csv)
         .then(r => r.text())
         .then(text => {
             const records = [];
@@ -24,10 +46,32 @@ window.loadData = function() {
                     });
                 }
             }
-            window.__seaData = records;
+            window.__seaData[id] = records;
             return records;
         });
 };
+
+window.renderLocationSwitcher = function() {
+    const container = document.querySelector('.loc-switch');
+    if (!container) return;
+    const current = window.getLocation();
+    container.innerHTML = '';
+    Object.keys(LOCATIONS).forEach(id => {
+        const loc = LOCATIONS[id];
+        const label = t(loc.nameKey);
+        const shortLabel = label.split(',')[0];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'loc-btn' + (id === current ? ' active' : '');
+        btn.textContent = loc.flag + ' ' + shortLabel;
+        btn.title = label;
+        btn.setAttribute('aria-label', label);
+        btn.addEventListener('click', () => window.setLocation(id));
+        container.appendChild(btn);
+    });
+};
+
+document.addEventListener('DOMContentLoaded', window.renderLocationSwitcher);
 
 window.plotlyTheme = function() {
     const text = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#333';
