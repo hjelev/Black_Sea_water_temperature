@@ -18,6 +18,7 @@
 # from the csv files; the html is static).
 #
 # Python 3.7+ , standard library only.
+import json
 import os
 
 from locations import LOCATIONS, COUNTRY_ORDER
@@ -52,6 +53,11 @@ PAGES = {
         "desc": ("All-time records and annual statistics for Black Sea water "
                  "temperature at {loc}, {country} — hottest and coldest readings, "
                  "yearly min/avg/max and the long-term trend."),
+    },
+    "gallery.html": {
+        "title": "Photos — {loc} Black Sea Coast",
+        "desc": ("Photos of {loc}, {country} on the Black Sea coast, sourced from "
+                 "Wikimedia Commons — beaches, harbour and seaside views."),
     },
 }
 
@@ -113,6 +119,47 @@ def template_body(page_file):
     return body
 
 
+def load_galleries():
+    """Per-location Commons photos cached by fetch_galleries.py. Optional: if the
+    file is missing the gallery pages just render an empty-state message."""
+    path = os.path.join(DOCS_DIR, "galleries.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except (FileNotFoundError, ValueError):
+        return {}
+
+
+def gallery_markup(images):
+    """Build the static grid of thumbnails + attribution for one location."""
+    if not images:
+        return ('<p class="gallery-empty" data-i18n="gal_none">'
+                'No photos found for this location yet.</p>')
+    items = []
+    for im in images:
+        artist = escape(im.get("artist") or "Wikimedia Commons")
+        license_name = escape(im.get("license") or "")
+        license_url = escape(im.get("licenseUrl") or im.get("page") or "")
+        thumb = escape(im["thumb"])
+        full = escape(im.get("full") or im["thumb"])
+        page = escape(im.get("page") or "")
+        title = escape(im.get("title") or "")
+        w, h = im.get("w"), im.get("h")
+        dims = ' width="{}" height="{}"'.format(w, h) if w and h else ""
+        lic = ('<a href="{url}" target="_blank" rel="noopener nofollow">{name}</a>'
+               .format(url=license_url, name=license_name)) if license_name else ""
+        items.append(
+            '<figure class="gallery-item">'
+            '<a class="gallery-link" href="{full}" data-full="{full}" '
+            'data-page="{page}" data-artist="{artist}">'
+            '<img src="{thumb}" alt="{title}" loading="lazy"{dims}></a>'
+            '<figcaption class="gallery-caption">© {artist}{sep}{lic}</figcaption>'
+            '</figure>'.format(
+                full=full, page=page, artist=artist, thumb=thumb, title=title,
+                dims=dims, sep=" · " if lic else "", lic=lic))
+    return "\n".join(items)
+
+
 def canonical_for(slug, page_file):
     if page_file == "index.html":
         return "{base}/{slug}/".format(base=BASE_URL, slug=slug)
@@ -121,6 +168,7 @@ def canonical_for(slug, page_file):
 
 def write_location_pages():
     bodies = {page: template_body(page) for page in PAGES}
+    galleries = load_galleries()
     for loc in LOCATIONS:
         slug = loc["slug"]
         year = loc["start_date"][:4]
@@ -133,6 +181,8 @@ def write_location_pages():
                 loc=loc["name_en"], country=loc["country_en"], year=year)
             head = build_head(title, desc, canonical_for(slug, page_file))
             page = head.replace("{slug}", slug) + bodies[page_file]
+            if page_file == "gallery.html":
+                page = page.replace("{gallery}", gallery_markup(galleries.get(slug, [])))
             with open(os.path.join(out_dir, page_file), "w", encoding="utf-8") as fh:
                 fh.write(page)
         print("{}: wrote {} pages to docs/{}/".format(
@@ -199,6 +249,7 @@ def write_hub():
             <li><a href="/burgas/compare.html" data-i18n="nav_compare">Compare Years</a></li>
             <li><a href="/burgas/heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
             <li><a href="/burgas/stats.html" data-i18n="nav_stats">Statistics</a></li>
+            <li><a href="/burgas/gallery.html" data-i18n="nav_gallery">Photos</a></li>
             <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
         </ul>
         <div class="lang-switch"></div>

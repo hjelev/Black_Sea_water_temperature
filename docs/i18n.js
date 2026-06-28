@@ -8,6 +8,7 @@ const I18N = {
         title_compare:   'Compare Years — Black Sea Water Temperature',
         title_heatmap:   'Monthly Heatmap — Black Sea Water Temperature',
         title_stats:     'Statistics — Black Sea Water Temperature',
+        title_gallery:   'Photos — Black Sea Water Temperature',
         title_comparelocations: 'Compare Locations — Black Sea Water Temperature',
 
         // Nav (shared)
@@ -16,6 +17,7 @@ const I18N = {
         nav_compare:   'Compare Years',
         nav_heatmap:   'Heatmap',
         nav_stats:     'Statistics',
+        nav_gallery:   'Photos',
         nav_comparelocations: 'Compare Locations',
         nav_location:  'Location',
         nav_menu:      'Menu',
@@ -169,6 +171,12 @@ const I18N = {
         st_yearly_avg:  'Yearly avg',
         st_trend_5yr:   '5-yr trend',
 
+        // gallery.html
+        gal_h1:    'Photos',
+        gal_intro: 'Photos from Wikimedia Commons — click an image to enlarge.',
+        gal_none:  'No photos found for this location yet.',
+        gal_commons: 'View on Wikimedia Commons',
+
         months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
     },
 
@@ -178,6 +186,7 @@ const I18N = {
         title_compare:   'Сравнение по години — Температура на Черно море',
         title_heatmap:   'Месечна карта — Температура на Черно море',
         title_stats:     'Статистика — Температура на Черно море',
+        title_gallery:   'Снимки — Температура на Черно море',
         title_comparelocations: 'Сравнение на локации — Температура на Черно море',
 
         // Nav (shared)
@@ -186,6 +195,7 @@ const I18N = {
         nav_compare:   'Сравнение по години',
         nav_heatmap:   'Топлинна карта',
         nav_stats:     'Статистика',
+        nav_gallery:   'Снимки',
         nav_comparelocations: 'Сравнение на локации',
         nav_location:  'Локация',
         nav_menu:      'Меню',
@@ -338,6 +348,12 @@ const I18N = {
         st_min:         'Мин',
         st_yearly_avg:  'Годишна средна',
         st_trend_5yr:   '5-год. тенденция',
+
+        // gallery.html
+        gal_h1:    'Снимки',
+        gal_intro: 'Снимки от Wikimedia Commons — щракнете върху изображение за уголемяване.',
+        gal_none:  'Все още няма намерени снимки за тази локация.',
+        gal_commons: 'Виж в Wikimedia Commons',
 
         months: ['Яну','Фев','Мар','Апр','Май','Юни','Юли','Авг','Сеп','Окт','Ное','Дек'],
     },
