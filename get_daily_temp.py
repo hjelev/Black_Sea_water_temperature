@@ -11,18 +11,23 @@ import time
 import urllib.request
 from datetime import datetime, timezone
 
-csv_file = "sea_water_temp.csv"
+# Locations to collect. Each writes its own csv file.
+# The exact Sinemorets town coords snap to a land-masked cell (all null);
+# lat=42.06/lon=28.0 snaps to the nearest sea cell (42.21N, 28.13E).
+LOCATIONS = [
+    {"name": "Burgas",     "lat": 42.47, "lon": 27.55, "csv_file": "sea_water_temp.csv"},
+    {"name": "Sinemorets", "lat": 42.06, "lon": 28.0,  "csv_file": "sinemorets_water_temp.csv"},
+]
 
-# Burgas Bay, Black Sea (a point over water near Burgas).
-LATITUDE = 42.47
-LONGITUDE = 27.55
 
-API_URL = (
-    "https://marine-api.open-meteo.com/v1/marine"
-    "?latitude={lat}&longitude={lon}"
-    "&hourly=sea_surface_temperature"
-    "&timezone=UTC&past_days=3&forecast_days=1"
-).format(lat=LATITUDE, lon=LONGITUDE)
+def build_api_url(lat, lon):
+    return (
+        "https://marine-api.open-meteo.com/v1/marine"
+        "?latitude={lat}&longitude={lon}"
+        "&hourly=sea_surface_temperature"
+        "&timezone=UTC&past_days=3&forecast_days=1"
+    ).format(lat=lat, lon=lon)
+
 
 # Keep the same daily cadence as the historical series.
 RECORD_HOURS = (6, 12, 18)
@@ -42,8 +47,8 @@ def fetch_json(url, retries=3, delay=5):
         url, retries, last_error))
 
 
-def get_readings():
-    data = fetch_json(API_URL)
+def get_readings(api_url):
+    data = fetch_json(api_url)
     hourly = data.get("hourly", {})
     times = hourly.get("time", [])
     temps = hourly.get("sea_surface_temperature", [])
@@ -82,11 +87,21 @@ def save_new_data(readings, last_record_date, csv_file_name):
     return len(new_rows)
 
 
-def get_data():
-    readings = get_readings()
+def update_location(location):
+    csv_file = location["csv_file"]
+    api_url = build_api_url(location["lat"], location["lon"])
+    readings = get_readings(api_url)
     last_record_date = get_last_record_date(csv_file)
     added = save_new_data(readings, last_record_date, csv_file)
-    print("Added {} new record(s).".format(added))
+    print("{}: added {} new record(s).".format(location["name"], added))
+
+
+def get_data():
+    for location in LOCATIONS:
+        try:
+            update_location(location)
+        except Exception as error:  # noqa: BLE001 - don't let one location abort the rest
+            print("{}: failed - {}".format(location["name"], error))
 
 
 if __name__ == '__main__':

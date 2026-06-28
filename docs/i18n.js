@@ -19,9 +19,13 @@ const I18N = {
         // Footer (shared)
         footer_title: 'Black Sea Water Temperature',
 
+        // Locations (shared)
+        loc_burgas:     'Burgas, Bulgaria',
+        loc_sinemorets: 'Sinemorets, Bulgaria',
+
         // index.html
         dash_h1:          'Dashboard',
-        dash_subtitle:    'Black Sea water temperature — Burgas, Bulgaria',
+        dash_subtitle:    'Black Sea water temperature — {location}',
         dash_stats_loading: 'Temperature on this date (loading…)',
         dash_stats_title: 'Temperature on {date} — last 5 years',
         dash_last30:      'Last 30 Days',
@@ -39,13 +43,13 @@ const I18N = {
 
         // heatmap.html
         hm_h1:         'Monthly Heatmap',
-        hm_subtitle:   'Average water temperature per month across all years (2000–present)',
+        hm_subtitle:   'Average water temperature per month across all years ({year}–present)',
         hm_monthly:    'Monthly Averages by Year',
         hm_tip:        'Each cell shows the mean temperature for that month/year. Hover for exact values.',
 
         // stats.html
         st_h1:          'Statistics &amp; Records',
-        st_subtitle:    'All-time records and annual statistics since 2000',
+        st_subtitle:    'All-time records and annual statistics since {year}',
         st_records:     'All-time Records',
         st_annual:      'Annual Min / Avg / Max',
         st_trend:       'Long-term Trend',
@@ -80,9 +84,13 @@ const I18N = {
         // Footer (shared)
         footer_title: 'Температура на водата в Черно море',
 
+        // Locations (shared)
+        loc_burgas:     'Бургас, България',
+        loc_sinemorets: 'Синеморец, България',
+
         // index.html
         dash_h1:            'Табло',
-        dash_subtitle:      'Температура на водата в Черно море — Бургас, България',
+        dash_subtitle:      'Температура на водата в Черно море — {location}',
         dash_stats_loading: 'Температура на тази дата (зареждане…)',
         dash_stats_title: 'Температура на {date} — последните 5 години',
         dash_last30:        'Последните 30 дни',
@@ -100,13 +108,13 @@ const I18N = {
 
         // heatmap.html
         hm_h1:         'Месечна топлинна карта',
-        hm_subtitle:   'Средна температура на водата по месеци за всички години (2000 – днес)',
+        hm_subtitle:   'Средна температура на водата по месеци за всички години ({year} – днес)',
         hm_monthly:    'Месечни средни по години',
         hm_tip:        'Всяка клетка показва средната температура за този месец/година. Посочете за точни стойности.',
 
         // stats.html
         st_h1:          'Статистика и рекорди',
-        st_subtitle:    'Рекорди за всички времена и годишна статистика от 2000 г.',
+        st_subtitle:    'Рекорди за всички времена и годишна статистика от {year} г.',
         st_records:     'Рекорди за всички времена',
         st_annual:      'Годишни мин / ср / макс',
         st_trend:       'Дългосрочна тенденция',

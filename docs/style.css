@@ -93,12 +93,38 @@ body {
     border-bottom-color: var(--accent);
 }
 
+/* Location switcher */
+.loc-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+}
+.loc-btn {
+    background: none;
+    border: 1px solid var(--nav-border);
+    padding: 0.25rem 0.55rem;
+    font-size: 0.8rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 999px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.loc-btn:hover { color: var(--text); }
+.loc-btn.active {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
 /* Language switcher */
 .lang-switch {
     display: flex;
     align-items: center;
     gap: 0.15rem;
-    margin-left: auto;
+    margin-left: 0.6rem;
 }
 .lang-btn {
     background: none;
