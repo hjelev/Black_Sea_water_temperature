@@ -134,9 +134,12 @@ def write_locations_js():
         "window.LOCATIONS = {",
     ]
     for loc in LOCATIONS:
-        lines.append('    "{slug}": {{ csv: "{csv}", nameKey: "{key}", flag: "{flag}" }},'.format(
-            slug=loc["slug"], csv=loc["csv_file"],
-            key=i18n_key(loc["slug"]), flag=loc["flag"]))
+        lines.append(
+            '    "{slug}": {{ csv: "{csv}", nameKey: "{key}", flag: "{flag}", '
+            'lat: {lat}, lon: {lon} }},'.format(
+                slug=loc["slug"], csv=loc["csv_file"],
+                key=i18n_key(loc["slug"]), flag=loc["flag"],
+                lat=loc["lat"], lon=loc["lon"]))
     lines.append("};")
     path = os.path.join(DOCS_DIR, "locations.js")
     with open(path, "w", encoding="utf-8") as fh:
@@ -161,6 +164,10 @@ def write_hub():
          "surface temperature, yearly comparisons, heatmaps and records."),
         BASE_URL + "/").replace("{slug}", "burgas")
     body = """<body>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <nav class="nav">
     <div class="nav-inner">
@@ -180,6 +187,9 @@ def write_hub():
     <h1 data-i18n="hub_h1">Black Sea Water Temperature</h1>
     <p class="subtitle" data-i18n="hub_subtitle">Live and historical sea surface temperature for Bulgaria's Black Sea coast</p>
 
+    <h2 data-i18n="hub_map">Current water temperature</h2>
+    <div id="map"></div>
+
     <h2 data-i18n="hub_pick">Choose a location</h2>
     <div class="hub-grid">
 {cards}
@@ -191,6 +201,8 @@ def write_hub():
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+
+<script src="/map.js"></script>
 </body>
 </html>
 """.format(cards="\n".join(cards))

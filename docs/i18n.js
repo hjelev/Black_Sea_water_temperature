@@ -45,7 +45,9 @@ const I18N = {
         // index.html (hub)
         hub_h1:       'Black Sea Water Temperature',
         hub_subtitle: "Live and historical sea surface temperature for Bulgaria's Black Sea coast",
+        hub_map:      'Current water temperature',
         hub_pick:     'Choose a location',
+        map_view:     'View dashboard',
 
         // index.html
         dash_h1:          'Dashboard',
@@ -144,7 +146,9 @@ const I18N = {
         // index.html (hub)
         hub_h1:       'Температура на водата в Черно море',
         hub_subtitle: 'Температура на морската повърхност по Българското Черноморие — на живо и исторически данни',
+        hub_map:      'Текуща температура на водата',
         hub_pick:     'Изберете локация',
+        map_view:     'Към таблото',
 
         // index.html
         dash_h1:            'Табло',

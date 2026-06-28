@@ -27,5 +27,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add *_water_temp.csv sea_water_temp.csv
+          git add *_water_temp.csv sea_water_temp.csv docs/latest_temps.json
           git diff --staged --quiet || (git commit -m "daily temp update" && git push)

@@ -7,6 +7,7 @@
 #
 # Python 3.7+ , standard library only.
 import json
+import os
 import time
 import urllib.request
 from datetime import datetime, timezone
@@ -92,12 +93,42 @@ def update_location(location):
     print("{}: added {} new record(s).".format(location["name_en"], added))
 
 
+def read_last_reading(csv_file_name):
+    """Return (date_str, temp) from the last line of a csv."""
+    with open(csv_file_name, "r") as file_object:
+        last_line = file_object.readlines()[-1].strip()
+    date_str, temp_str = last_line.split(",")
+    return date_str.strip(), float(temp_str)
+
+
+def write_latest_temps():
+    """Write docs/latest_temps.json with each location's most recent reading.
+
+    Consumed by the hub map (docs/map.js) so it can label every marker with the
+    current water temperature without downloading all the full csv files.
+    """
+    latest = {}
+    for location in LOCATIONS:
+        try:
+            date_str, temp = read_last_reading(location["csv_file"])
+            latest[location["slug"]] = {"temp": temp, "date": date_str}
+        except Exception as error:  # noqa: BLE001 - skip a bad csv, keep the rest
+            print("{}: could not read latest - {}".format(
+                location["name_en"], error))
+    docs_dir = os.path.join(os.path.dirname(__file__), "docs")
+    path = os.path.join(docs_dir, "latest_temps.json")
+    with open(path, "w") as file_object:
+        json.dump(latest, file_object, indent=0)
+    print("wrote docs/latest_temps.json ({} locations)".format(len(latest)))
+
+
 def get_data():
     for location in LOCATIONS:
         try:
             update_location(location)
         except Exception as error:  # noqa: BLE001 - don't let one location abort the rest
             print("{}: failed - {}".format(location["name_en"], error))
+    write_latest_temps()
 
 
 if __name__ == '__main__':

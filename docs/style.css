@@ -123,6 +123,42 @@ body {
 .loc-select:focus { outline: none; border-color: var(--accent); }
 .loc-select option { color: var(--text); background: var(--container-bg); }
 
+/* Hub (root) map */
+#map {
+    width: 100%;
+    height: clamp(300px, 50vh, 480px);
+    border: 1px solid var(--nav-border);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    z-index: 1; /* keep tiles/controls below the sticky nav (z-index 100) */
+}
+/* Temperature pins (Leaflet divIcon) */
+.map-temp-pin-inner {
+    display: inline-block;
+    transform: translate(-50%, -50%);
+    padding: 0.15rem 0.4rem;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+}
+.map-popup-name { font-weight: 700; margin-bottom: 0.2rem; }
+.map-popup-temp { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+.map-popup-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
+.map-popup-link {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+.map-popup-link:hover { text-decoration: underline; }
+
 /* Hub (root) location cards */
 .hub-grid {
     display: grid;
