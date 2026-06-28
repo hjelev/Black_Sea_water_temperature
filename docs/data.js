@@ -52,18 +52,24 @@ window.renderLocationSwitcher = function() {
     const file = (location.pathname.split('/').pop()) || 'index.html';
     const page = file.endsWith('.html') ? file : 'index.html';
     container.innerHTML = '';
+    const select = document.createElement('select');
+    select.className = 'loc-select';
+    select.setAttribute('aria-label', t('nav_location'));
     Object.keys(window.LOCATIONS).forEach(id => {
         const loc = window.LOCATIONS[id];
         const label = t(loc.nameKey);
         const shortLabel = label.split(',')[0];
-        const link = document.createElement('a');
-        link.className = 'loc-btn' + (id === current ? ' active' : '');
-        link.href = '/' + id + '/' + page;
-        link.textContent = loc.flag + ' ' + shortLabel;
-        link.title = label;
-        link.setAttribute('aria-label', label);
-        container.appendChild(link);
+        const opt = document.createElement('option');
+        opt.value = '/' + id + '/' + page;
+        opt.textContent = loc.flag + ' ' + shortLabel;
+        opt.title = label;
+        if (id === current) opt.selected = true;
+        select.appendChild(opt);
     });
+    select.addEventListener('change', () => {
+        if (select.value) window.location.href = select.value;
+    });
+    container.appendChild(select);
 };
 
 document.addEventListener('DOMContentLoaded', window.renderLocationSwitcher);

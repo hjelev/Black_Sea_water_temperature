@@ -93,48 +93,35 @@ body {
     border-bottom-color: var(--accent);
 }
 
-/* Location switcher — full-width horizontal scroller on its own row */
+/* Location switcher — dropdown menu sitting left of the language flags */
 .loc-switch {
-    order: 3;
-    flex: 0 0 100%;
-    width: 100%;
+    order: 2;
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 0.1rem 0 0.5rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--nav-border) transparent;
+    margin-left: auto;
 }
-.loc-switch::-webkit-scrollbar { height: 6px; }
-.loc-switch::-webkit-scrollbar-track { background: transparent; }
-.loc-switch::-webkit-scrollbar-thumb {
-    background: var(--nav-border);
-    border-radius: 999px;
-}
-.loc-btn {
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
+.loc-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background: none;
     border: 1px solid var(--nav-border);
-    padding: 0.25rem 0.55rem;
-    font-size: 0.8rem;
-    line-height: 1;
-    cursor: pointer;
     border-radius: 999px;
     color: var(--text-muted);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    font-size: 0.8rem;
+    line-height: 1;
+    padding: 0.3rem 1.5rem 0.3rem 0.6rem;
+    cursor: pointer;
+    max-width: 11rem;
+    /* caret */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    transition: color 0.15s, border-color 0.15s;
 }
-.loc-btn:hover { color: var(--text); }
-.loc-btn.active {
-    color: #fff;
-    background: var(--accent);
-    border-color: var(--accent);
-}
+.loc-select:hover { color: var(--text); border-color: var(--text-muted); }
+.loc-select:focus { outline: none; border-color: var(--accent); }
+.loc-select option { color: var(--text); background: var(--container-bg); }
 
 /* Hub (root) location cards */
 .hub-grid {
@@ -166,11 +153,11 @@ body {
 
 /* Language switcher */
 .lang-switch {
-    order: 2;
+    order: 3;
     display: flex;
     align-items: center;
     gap: 0.15rem;
-    margin-left: auto;
+    margin-left: 0.5rem;
 }
 .lang-btn {
     background: none;

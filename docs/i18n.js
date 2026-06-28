@@ -15,6 +15,7 @@ const I18N = {
         nav_compare:   'Compare Years',
         nav_heatmap:   'Heatmap',
         nav_stats:     'Statistics',
+        nav_location:  'Location',
 
         // Footer (shared)
         footer_title: 'Black Sea Water Temperature',
@@ -101,6 +102,7 @@ const I18N = {
         nav_compare:   'Сравнение по години',
         nav_heatmap:   'Топлинна карта',
         nav_stats:     'Статистика',
+        nav_location:  'Локация',
 
         // Footer (shared)
         footer_title: 'Температура на водата в Черно море',
