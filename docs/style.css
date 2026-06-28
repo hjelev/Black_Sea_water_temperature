@@ -111,12 +111,15 @@ body {
 }
 .nav-toggle:hover { color: var(--text); border-color: var(--text-muted); }
 
-/* Location switcher — dropdown menu sitting left of the language flags */
+/* Location switcher — dropdown menu on its own row, left, under the brand */
 .loc-switch {
-    order: 2;
+    order: 3;                 /* after lang-switch so it wraps to its own row */
     display: flex;
     align-items: center;
-    margin-left: auto;
+    flex-basis: 100%;         /* force onto its own full-width row */
+    margin-left: 0;
+    justify-content: flex-start;   /* left-aligned, under the brand */
+    padding-bottom: 0.5rem;
 }
 .loc-select {
     appearance: none;
@@ -225,11 +228,11 @@ body {
 
 /* Language switcher */
 .lang-switch {
-    order: 3;
+    order: 2;                 /* stays on the top row */
     display: flex;
     align-items: center;
     gap: 0.15rem;
-    margin-left: 0.5rem;
+    margin-left: auto;        /* push to the right of the top row */
 }
 .lang-btn {
     background: none;
@@ -470,7 +473,7 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
         order: 4;
         width: 100%;
         margin-left: 0;
-        justify-content: flex-end;
+        justify-content: flex-start;
         padding-bottom: 0.5rem;
     }
     .nav-links {
