@@ -429,8 +429,39 @@ function renderNavToggle() {
     inner.appendChild(btn);
 }
 
+// Collapse the nav to a hamburger whenever the brand + menu + flags no longer
+// fit on a single row. Width-agnostic: it measures the real layout, so it
+// works for any language label lengths and any viewport size.
+function updateNavCollapse() {
+    const inner = document.querySelector('.nav-inner');
+    if (!inner) return;
+    const nav = inner.closest('.nav');
+    const brand = inner.querySelector('.nav-brand');
+    const links = inner.querySelector('.nav-links');
+    const lang = inner.querySelector('.lang-switch');
+    if (!nav || !brand || !links || !lang) return;
+    // Measure in the expanded state.
+    const wasOpen = nav.classList.contains('nav-open');
+    nav.classList.remove('nav-collapsed', 'nav-open');
+    // If the menu or the flags dropped below the brand's row, it doesn't fit.
+    const top = brand.offsetTop;
+    const overflow = links.offsetTop > top + 1 || lang.offsetTop > top + 1;
+    if (overflow) {
+        nav.classList.add('nav-collapsed');
+        if (wasOpen) nav.classList.add('nav-open');
+    }
+}
+
+let navCollapseRaf;
+function scheduleNavCollapse() {
+    cancelAnimationFrame(navCollapseRaf);
+    navCollapseRaf = requestAnimationFrame(updateNavCollapse);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     applyStaticTranslations();
     renderSwitcher();
     renderNavToggle();
+    updateNavCollapse();
+    window.addEventListener('resize', scheduleNavCollapse);
 });

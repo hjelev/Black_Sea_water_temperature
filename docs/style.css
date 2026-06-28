@@ -72,6 +72,7 @@ body {
 .nav-links {
     display: flex;
     flex-wrap: wrap;
+    flex-shrink: 0;   /* don't squeeze the menu; if it doesn't fit, JS collapses it */
     gap: 0;
     margin: 0;
     padding: 0;
@@ -463,38 +464,38 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .footer a { color: var(--text-muted); text-decoration: none; }
 .footer a:hover { color: var(--accent); }
 
-@media (max-width: 640px) {
-    .nav-toggle { display: block; order: 3; }   /* sandwich in the top-right corner */
-    /* Language flags sit just left of the sandwich; together they fill the
-       right corner of the first row. */
-    .lang-switch { order: 2; margin-left: auto; }
-    /* Location dropdown drops onto its own row, below the sandwich + language. */
-    .loc-switch {
-        order: 4;
-        width: 100%;
-        margin-left: 0;
-        justify-content: flex-end;
-        padding-bottom: 0.5rem;
-    }
-    .nav-links {
-        display: none;
-        order: 5;            /* wraps onto its own full-width row */
-        flex-direction: column;
-        width: 100%;
-        gap: 0;
-    }
-    .nav.nav-open .nav-links { display: flex; }
-    .nav-links li { width: 100%; }
-    .nav-links a {
-        width: 100%;
-        padding: 0.85rem 0.5rem;
-        border-bottom: 1px solid var(--nav-border);
-        border-left: 3px solid transparent;   /* keep active marker visible */
-    }
-    .nav-links a.active {
-        border-bottom-color: var(--nav-border);
-        border-left-color: var(--accent);
-    }
+/* Collapsed ("sandwich") nav — toggled by JS in i18n.js whenever the menu
+   items + flags no longer fit on one row (any viewport width). */
+.nav-collapsed .nav-toggle { display: block; order: 3; }   /* sandwich in the top-right corner */
+/* Language flags sit just left of the sandwich; together they fill the
+   right corner of the first row. */
+.nav-collapsed .lang-switch { order: 2; margin-left: auto; }
+/* Location dropdown drops onto its own row, below the sandwich + language. */
+.nav-collapsed .loc-switch {
+    order: 4;
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
+    padding-bottom: 0.5rem;
+}
+.nav-collapsed .nav-links {
+    display: none;
+    order: 5;            /* wraps onto its own full-width row */
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+}
+.nav-collapsed.nav-open .nav-links { display: flex; }
+.nav-collapsed .nav-links li { width: 100%; }
+.nav-collapsed .nav-links a {
+    width: 100%;
+    padding: 0.85rem 0.5rem;
+    border-bottom: 1px solid var(--nav-border);
+    border-left: 3px solid transparent;   /* keep active marker visible */
+}
+.nav-collapsed .nav-links a.active {
+    border-bottom-color: var(--nav-border);
+    border-left-color: var(--accent);
 }
 
 @media (max-width: 480px) {
