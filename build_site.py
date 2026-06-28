@@ -166,9 +166,10 @@ def write_hub():
         cards = []
         for loc in group:
             cards.append(
-                '            <a class="hub-card" href="/{slug}/">\n'
+                '            <a class="hub-card" href="/{slug}/" data-loc="{slug}">\n'
                 '                <span class="hub-flag">{flag}</span>\n'
                 '                <span class="hub-name" data-i18n="{key}">{name}</span>\n'
+                '                <span class="hub-temp"></span>\n'
                 '            </a>'.format(
                     slug=loc["slug"], flag=loc["flag"],
                     key=i18n_key(loc["slug"]),

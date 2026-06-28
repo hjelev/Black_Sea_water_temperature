@@ -203,7 +203,16 @@ body {
     box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
 .hub-flag { font-size: 1.6rem; line-height: 1; }
-.hub-name { font-size: 0.95rem; }
+.hub-name { font-size: 0.95rem; flex: 1; }
+.hub-temp {
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+.hub-temp:empty { display: none; }
 .hub-country {
     margin: 1.6rem 0 0.4rem;
     font-size: 1.05rem;

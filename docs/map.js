@@ -65,6 +65,21 @@
 
                     bounds.push([loc.lat, loc.lon]);
                 });
+
+                // Label each home-screen location card with the same current
+                // temperature, colour-matched to the map pins.
+                document.querySelectorAll('.hub-card[data-loc]').forEach(card => {
+                    const span = card.querySelector('.hub-temp');
+                    const rec = latest[card.dataset.loc];
+                    if (!span) return;
+                    const temp = rec ? rec.temp : null;
+                    if (temp != null && !isNaN(temp)) {
+                        span.textContent = temp.toFixed(1) + '°';
+                        span.style.background = tempColor(temp);
+                        span.style.color = '#fff';
+                    }
+                });
+
                 if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
             });
     }
