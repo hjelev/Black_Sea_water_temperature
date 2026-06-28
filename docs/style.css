@@ -93,6 +93,22 @@ body {
     border-bottom-color: var(--accent);
 }
 
+/* Hamburger toggle — hidden on desktop, shown via media query on mobile */
+.nav-toggle {
+    display: none;
+    order: 4;
+    background: none;
+    border: 1px solid var(--nav-border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0.25rem 0.55rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+.nav-toggle:hover { color: var(--text); border-color: var(--text-muted); }
+
 /* Location switcher — dropdown menu sitting left of the language flags */
 .loc-switch {
     order: 2;
@@ -399,6 +415,29 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 
 .footer a { color: var(--text-muted); text-decoration: none; }
 .footer a:hover { color: var(--accent); }
+
+@media (max-width: 640px) {
+    .nav-toggle { display: block; }
+    .nav-links {
+        display: none;
+        order: 5;            /* wraps onto its own full-width row */
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
+    .nav.nav-open .nav-links { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+        width: 100%;
+        padding: 0.85rem 0.5rem;
+        border-bottom: 1px solid var(--nav-border);
+        border-left: 3px solid transparent;   /* keep active marker visible */
+    }
+    .nav-links a.active {
+        border-bottom-color: var(--nav-border);
+        border-left-color: var(--accent);
+    }
+}
 
 @media (max-width: 480px) {
     .container { padding: 1rem 0.75rem; }

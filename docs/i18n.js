@@ -18,6 +18,7 @@ const I18N = {
         nav_stats:     'Statistics',
         nav_comparelocations: 'Compare Locations',
         nav_location:  'Location',
+        nav_menu:      'Menu',
 
         // Footer (shared)
         footer_title: 'Black Sea Water Temperature',
@@ -119,6 +120,7 @@ const I18N = {
         nav_stats:     'Статистика',
         nav_comparelocations: 'Сравнение на локации',
         nav_location:  'Локация',
+        nav_menu:      'Меню',
 
         // Footer (shared)
         footer_title: 'Температура на водата в Черно море',
@@ -255,7 +257,35 @@ function renderSwitcher() {
     });
 }
 
+function renderNavToggle() {
+    const inner = document.querySelector('.nav-inner');
+    if (!inner || inner.querySelector('.nav-toggle')) return;
+    const nav = inner.closest('.nav');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nav-toggle';
+    btn.textContent = '☰';
+    btn.setAttribute('aria-label', t('nav_menu'));
+    btn.setAttribute('aria-expanded', 'false');
+    const close = () => {
+        nav.classList.remove('nav-open');
+        btn.setAttribute('aria-expanded', 'false');
+    };
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = nav.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', String(open));
+    });
+    // Close when a menu link is tapped or when clicking outside the nav.
+    inner.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', close));
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target)) close();
+    });
+    inner.appendChild(btn);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     applyStaticTranslations();
     renderSwitcher();
+    renderNavToggle();
 });
