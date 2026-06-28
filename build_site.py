@@ -170,6 +170,7 @@ def write_hub():
             <li><a href="/burgas/compare.html" data-i18n="nav_compare">Compare Years</a></li>
             <li><a href="/burgas/heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
             <li><a href="/burgas/stats.html" data-i18n="nav_stats">Statistics</a></li>
+            <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
         </ul>
         <div class="lang-switch"></div>
     </div>
@@ -198,10 +199,25 @@ def write_hub():
     print("wrote docs/index.html (hub)")
 
 
+def write_compare_locations():
+    """Global (non per-location) page that overlays multiple towns on one chart."""
+    head = build_head(
+        "Compare Locations — Black Sea Water Temperature",
+        ("Compare Black Sea water temperature across Bulgarian coastal towns on a "
+         "single chart — overlay any locations across the years and on a Jan–Dec "
+         "seasonal axis."),
+        BASE_URL + "/compare-locations.html").replace("{slug}", "burgas")
+    body = template_body("compare-locations.html")
+    with open(os.path.join(DOCS_DIR, "compare-locations.html"), "w", encoding="utf-8") as fh:
+        fh.write(head + body)
+    print("wrote docs/compare-locations.html")
+
+
 def main():
     write_locations_js()
     write_location_pages()
     write_hub()
+    write_compare_locations()
 
 
 if __name__ == "__main__":

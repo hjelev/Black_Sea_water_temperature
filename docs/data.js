@@ -13,8 +13,8 @@ window.locationName = function() {
     return t(window.LOCATIONS[window.getLocation()].nameKey);
 };
 
-window.loadData = function() {
-    const id = window.getLocation();
+// Load and parse one location's CSV by id, cached in window.__seaData[id].
+window.loadLocationData = function(id) {
     window.__seaData = window.__seaData || {};
     if (window.__seaData[id]) return Promise.resolve(window.__seaData[id]);
     return fetch(CSV_BASE + window.LOCATIONS[id].csv)
@@ -42,6 +42,11 @@ window.loadData = function() {
             window.__seaData[id] = records;
             return records;
         });
+};
+
+// Load the location named by the current page's window.LOCATION_ID.
+window.loadData = function() {
+    return window.loadLocationData(window.getLocation());
 };
 
 window.renderLocationSwitcher = function() {

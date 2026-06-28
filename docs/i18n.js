@@ -8,6 +8,7 @@ const I18N = {
         title_compare:   'Compare Years — Black Sea Water Temperature',
         title_heatmap:   'Monthly Heatmap — Black Sea Water Temperature',
         title_stats:     'Statistics — Black Sea Water Temperature',
+        title_comparelocations: 'Compare Locations — Black Sea Water Temperature',
 
         // Nav (shared)
         nav_brand:     '🌊 Black Sea Temp',
@@ -15,6 +16,7 @@ const I18N = {
         nav_compare:   'Compare Years',
         nav_heatmap:   'Heatmap',
         nav_stats:     'Statistics',
+        nav_comparelocations: 'Compare Locations',
         nav_location:  'Location',
 
         // Footer (shared)
@@ -63,6 +65,16 @@ const I18N = {
         cmp_timeline:  'Timeline selector',
         cmp_tip:       'Drag to select a date range — updates the year checkboxes above.',
 
+        // compare-locations.html
+        cl_h1:           'Compare Locations',
+        cl_subtitle:     'Overlay water temperature for different towns along the Black Sea coast',
+        cl_smooth:       'Smooth (7-day avg)',
+        cl_timeline_h2:  'Across the years',
+        cl_timeline_tip: 'Each line is a location over the full record. Toggle towns above.',
+        cl_seasonal_h2:  'Seasonal (single year)',
+        cl_seasonal_tip: 'Selected year only, mapped onto a Jan–Dec axis to compare seasons.',
+        cl_year:         'Year',
+
         // heatmap.html
         hm_h1:         'Monthly Heatmap',
         hm_subtitle:   'Average water temperature per month across all years ({year}–present)',
@@ -95,6 +107,7 @@ const I18N = {
         title_compare:   'Сравнение по години — Температура на Черно море',
         title_heatmap:   'Месечна карта — Температура на Черно море',
         title_stats:     'Статистика — Температура на Черно море',
+        title_comparelocations: 'Сравнение на локации — Температура на Черно море',
 
         // Nav (shared)
         nav_brand:     '🌊 Черно море',
@@ -102,6 +115,7 @@ const I18N = {
         nav_compare:   'Сравнение по години',
         nav_heatmap:   'Топлинна карта',
         nav_stats:     'Статистика',
+        nav_comparelocations: 'Сравнение на локации',
         nav_location:  'Локация',
 
         // Footer (shared)
@@ -149,6 +163,16 @@ const I18N = {
         cmp_smooth:    'Изглаждане (7-дневна ср.)',
         cmp_timeline:  'Избор по времева линия',
         cmp_tip:       'Плъзнете, за да изберете период — обновява отметките за години горе.',
+
+        // compare-locations.html
+        cl_h1:           'Сравнение на локации',
+        cl_subtitle:     'Наложете температурата на водата за различни градове по Черноморието',
+        cl_smooth:       'Изглаждане (7-дневна ср.)',
+        cl_timeline_h2:  'През годините',
+        cl_timeline_tip: 'Всяка линия е локация за целия период. Превключвайте градовете горе.',
+        cl_seasonal_h2:  'Сезонно (една година)',
+        cl_seasonal_tip: 'Само избраната година, по ос ян.–дек. за сравнение на сезоните.',
+        cl_year:         'Година',
 
         // heatmap.html
         hm_h1:         'Месечна топлинна карта',
