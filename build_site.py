@@ -58,6 +58,7 @@ PAGES = {
         "title": "Photos — {loc} Black Sea Coast",
         "desc": ("Photos of {loc}, {country} on the Black Sea coast, sourced from "
                  "Wikimedia Commons — beaches, harbour and seaside views."),
+        "plotly": False,  # photo page has no charts; skip the ~1 MB Plotly bundle
     },
 }
 
@@ -81,10 +82,15 @@ def escape(text):
                 .replace(">", "&gt;").replace('"', "&quot;"))
 
 
-def build_head(title, description, canonical):
-    """Generated <head> shared by every page; only the SEO fields vary."""
+def build_head(title, description, canonical, plotly=True):
+    """Generated <head> shared by every page; only the SEO fields vary.
+
+    plotly=False omits the ~1 MB Plotly bundle for pages with no charts
+    (e.g. the photo gallery)."""
     t = escape(title)
     d = escape(description)
+    plotly_tag = ('    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>\n'
+                  if plotly else "")
     return """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,15 +104,15 @@ def build_head(title, description, canonical):
     <meta property="og:description" content="{desc}">
     <meta property="og:url" content="{canonical}">
     <meta name="twitter:card" content="summary">
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-    <link rel="icon" href="/favicon.svg">
+{plotly}    <link rel="icon" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
     <script src="/i18n.js"></script>
     <script src="/locations.js"></script>
     <script>window.LOCATION_ID = '{slug}';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
-""".format(title=t, desc=d, canonical=escape(canonical), slug="{slug}")
+""".format(title=t, desc=d, canonical=escape(canonical), slug="{slug}",
+           plotly=plotly_tag)
 
 
 def template_body(page_file):
@@ -179,7 +185,8 @@ def write_location_pages():
                 loc=loc["name_en"], country=loc["country_en"], year=year)
             desc = meta["desc"].format(
                 loc=loc["name_en"], country=loc["country_en"], year=year)
-            head = build_head(title, desc, canonical_for(slug, page_file))
+            head = build_head(title, desc, canonical_for(slug, page_file),
+                              plotly=meta.get("plotly", True))
             page = head.replace("{slug}", slug) + bodies[page_file]
             if page_file == "gallery.html":
                 page = page.replace("{gallery}", gallery_markup(galleries.get(slug, [])))

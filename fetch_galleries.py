@@ -33,12 +33,57 @@ THUMB_WIDTH = 480
 # Skip files that are clearly not location photos.
 SKIP_RE = re.compile(r"(map|flag|coat[ _]of[ _]arms|locator|logo|icon|"
                      r"diagram|chart|seal|\.svg$)", re.I)
+# Skip photos OF people: location names like "Irakli" double as personal names,
+# so the name search drags in portraits. Commons files them in person categories.
+PERSON_CAT_RE = re.compile(r"(births|deaths|portraits?|politician|"
+                           r"minister|president|ambassador|diplomat|governor|mayor|"
+                           r"footballer|athlete|actor|actress|singer|musician|"
+                           r"film director|writer|officials?|"
+                           r"people named|men named|women named|selfies|"
+                           r"\(given name\)|\(surname\)|"
+                           r"in \d{4}$)", re.I)  # "<Person> in 2015" biographical cats
+# Explicit title overrides for stubborn false positives.
+TITLE_BLOCK_RE = re.compile(r"\bportrait\b", re.I)
+# Keep real-world photos only: drop documents, scans and artwork/paintings.
+# Checked against both the file title and its categories.
+NON_PHOTO_RE = re.compile(r"(painting|drawing|engraving|illustration|lithograph|"
+                          r"etching|sketch|watercolou?r|fresco|mural|artwork|"
+                          r"poster|stamp|banknote|\bcoin|medal|"
+                          r"document|manuscript|\bletter|certificate|"
+                          r"newspaper|page from|scan of|blueprint|screenshot)", re.I)
 TAG_RE = re.compile(r"<[^>]+>")
 
+# Place nouns that legitimately follow a location name in a geographic category
+# ("Sozopol Island", "Varna Bay") and must not be read as a person's surname.
+PLACE_NOUN = (r"Beach|Bay|Gulf|Port|Harbou?r|Cape|Marina|Reserve|Island|Lighthouse|"
+              r"Peninsula|Resort|Lake|River|Sea|Coast|Monastery|Church|Cathedral|"
+              r"Mosque|Necropolis|Fortress|Castle|Bridge|Park|Garden|Station|Museum|"
+              r"Municipality|Province|District|Village|Town|City|Region|Oblast|Raion")
+# Trailing words stripped from a location name to expose a one-word "given name"
+# root ("Irakli Beach" -> "Irakli", "Sunny Beach" -> "Sunny").
+TAIL_STRIP = {"beach", "bay", "coast", "gulf"}
+
+
+def location_name_re(name_en):
+    """For a location whose name doubles as a personal given name (the beach
+    "Irakli" vs. the common Georgian name Irakli), return a regex matching person
+    categories "<Name> <Surname>" so portraits are dropped without enumerating
+    every politician. Returns None for multi-word place names, which have no such
+    collision and would risk false positives (e.g. "Golden Sands")."""
+    words = name_en.split()
+    while len(words) > 1 and words[-1].lower() in TAIL_STRIP:
+        words = words[:-1]
+    if len(words) != 1:
+        return None
+    return re.compile(r"^" + re.escape(words[0]) +
+                      r" (?!(?:" + PLACE_NOUN + r")\b)[A-Z][\w.-]+$")
+
 IIPROPS = {
-    "prop": "imageinfo",
+    "prop": "imageinfo|categories",
     "iiprop": "url|extmetadata|mime|size",
     "iiurlwidth": THUMB_WIDTH,
+    "cllimit": "max",
+    "clshow": "!hidden",
 }
 
 
@@ -57,13 +102,33 @@ def clean(text):
     return TAG_RE.sub("", text).strip()
 
 
-def parse_pages(data):
+def parse_pages(data, name_en=""):
     out = []
+    name_re = location_name_re(name_en) if name_en else None
     pages = (data.get("query", {}) or {}).get("pages", {}) or {}
     # Preserve the API's relevance/distance ordering via the 'index' field.
     for p in sorted(pages.values(), key=lambda p: p.get("index", 1e9)):
         title = p.get("title", "")
-        if SKIP_RE.search(title):
+        if SKIP_RE.search(title) or TITLE_BLOCK_RE.search(title):
+            continue
+        cats = [c.get("title", "").replace("Category:", "").strip()
+                for c in (p.get("categories") or [])]
+        if any(PERSON_CAT_RE.search(c) for c in cats):
+            continue
+        # "<Location> <Surname>" categories (e.g. "Irakli Gharibashvili") are
+        # people named after the place; drop them but spare the place's own name.
+        if name_re and any(c.lower() != name_en.lower() and name_re.match(c)
+                           for c in cats):
+            continue
+        if NON_PHOTO_RE.search(title) or any(NON_PHOTO_RE.search(c) for c in cats):
+            continue
+        # An eponymous category exactly equal to the filename (e.g. "Irakli
+        # Kvirikadze.jpg" filed only under "Category:Irakli Kvirikadze") marks a
+        # single-subject portrait. Require a multi-word stem so legit one-word
+        # place names ("Sozopol") are kept.
+        stem = re.sub(r"\.[a-z0-9]+$", "", title.replace("File:", ""),
+                      flags=re.I).strip()
+        if " " in stem and any(c.lower() == stem.lower() for c in cats):
             continue
         info = (p.get("imageinfo") or [{}])[0]
         if info.get("mime") not in ("image/jpeg", "image/png"):
@@ -94,10 +159,10 @@ def search_by_name(name):
         "gsrnamespace": 6,
         "gsrlimit": 20,
     })
-    return parse_pages(api_get(params))
+    return parse_pages(api_get(params), name)
 
 
-def search_by_geo(lat, lon):
+def search_by_geo(lat, lon, name=""):
     params = dict(IIPROPS)
     params.update({
         "generator": "geosearch",
@@ -106,7 +171,7 @@ def search_by_geo(lat, lon):
         "ggslimit": 30,
         "ggsnamespace": 6,
     })
-    return parse_pages(api_get(params))
+    return parse_pages(api_get(params), name)
 
 
 def dedupe(images):
@@ -125,9 +190,9 @@ def fetch_location(loc):
         images = search_by_name(loc["name_en"])
     except Exception as exc:
         print("  name search failed: {}".format(exc))
-    if len(images) < 4:
+    if len(dedupe(images)) < 4:
         try:
-            images += search_by_geo(loc["lat"], loc["lon"])
+            images += search_by_geo(loc["lat"], loc["lon"], loc["name_en"])
         except Exception as exc:
             print("  geo search failed: {}".format(exc))
     return dedupe(images)[:PER_LOCATION]
