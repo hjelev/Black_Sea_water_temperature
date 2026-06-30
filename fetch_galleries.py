@@ -30,9 +30,45 @@ USER_AGENT = ("BlackSeaTempGallery/1.0 (https://more.masoko.net; "
 PER_LOCATION = 8
 THUMB_WIDTH = 480
 
-# Skip files that are clearly not location photos.
-SKIP_RE = re.compile(r"(map|flag|coat[ _]of[ _]arms|locator|logo|icon|"
-                     r"diagram|chart|seal|\.svg$)", re.I)
+# Skip files that are clearly not location photos. Checked against both the
+# file title and its categories so locator-map / building / museum categories are
+# caught even when the filename itself looks innocent.
+SKIP_RE = re.compile(
+    r"("
+    # graphics / maps / non-photographic
+    r"map|flag|coat[ _]of[ _]arms|locator|logo|icon|diagram|chart|seal|collage|"
+    r"\.svg$|within bulgaria|within .* (municipality|province)|-he\.png$|"
+    # religious buildings
+    r"church|cathedral|chapel|monaster|mosque|basilica|synagogue|temple|"
+    # museums / archaeology / fossils
+    r"museum|paleontolog|palaeontolog|fossil|archaeolog|archeolog|treasure|"
+    r"exhibit|artefact|artifact|"
+    # monuments / memorials / public art / tombs / official buildings
+    r"monument|memorial|\bstatue|fountain|\bbattle\b|mausoleum|grabmal|\btomb\b|"
+    r"library|bibliothek|town ?hall|\bmayors?\b|administration|municipal office|"
+    # vehicles / ads / sport trophies
+    r"police|\bcar\b|\bbus\b|\btram\b|advert|\bad\b|trophy|\bcup\b|"
+    r"airport|automobile|motorcycle|"
+    # military / war
+    r"aircraft|warship|\bnaval\b|\bUSS\b|kiev-class|marines|submarine|destroyer|"
+    r"\bbomb|bombard|\bwar\b|wartime|interwar|détruit|destroyed|"
+    # events / construction
+    r"olympic|\bconstruction\b|"
+    # space / planetary nomenclature
+    r"ISS\d|view of earth|astronaut|olympus mons|\bcrater\b|"
+    # historical documents / royalty (saint-name collisions)
+    r"\bfolio\b|\bcodex\b|princess|\bprince\b|via julia|bandeira"
+    r")", re.I)
+# Positive nature / beach / scenic terms. Used to RANK (not hard-filter) kept
+# images so beach and coast shots lead each gallery, while generic-title scenic
+# town views are still allowed through. Note: 'panorama\b' must not match the
+# unrelated 'panoramio' filename token from panoramio.com imports.
+NATURE_RE = re.compile(
+    r"(beach|coast|coastline|shore|seaside|seascape|\bsea\b|black sea|sand|dune|"
+    r"cliff|rock|\bcape\b|\bbay\b|gulf|lagoon|cove|bird|wildlife|sunset|sunrise|"
+    r"\bwave|nature|reserve|landscape|panorama\b|scenic|aerial|\bview\b|forest|"
+    r"\btree|meadow|\bhill|flower|sunflower|garden|\bpark\b|waterfall|river|lake|"
+    r"\bmouth\b)", re.I)
 # Skip photos OF people: location names like "Irakli" double as personal names,
 # so the name search drags in portraits. Commons files them in person categories.
 PERSON_CAT_RE = re.compile(r"(births|deaths|portraits?|politician|"
@@ -109,10 +145,14 @@ def parse_pages(data, name_en=""):
     # Preserve the API's relevance/distance ordering via the 'index' field.
     for p in sorted(pages.values(), key=lambda p: p.get("index", 1e9)):
         title = p.get("title", "")
-        if SKIP_RE.search(title) or TITLE_BLOCK_RE.search(title):
+        if TITLE_BLOCK_RE.search(title):
             continue
         cats = [c.get("title", "").replace("Category:", "").strip()
                 for c in (p.get("categories") or [])]
+        # Block obvious non-nature subjects (maps, buildings, museums, monuments,
+        # vehicles, ...) by title OR category.
+        if SKIP_RE.search(title) or any(SKIP_RE.search(c) for c in cats):
+            continue
         if any(PERSON_CAT_RE.search(c) for c in cats):
             continue
         # "<Location> <Surname>" categories (e.g. "Irakli Gharibashvili") are
@@ -137,7 +177,12 @@ def parse_pages(data, name_en=""):
         if not thumb or not full:
             continue
         meta = info.get("extmetadata", {}) or {}
+        # Prefer nature/beach/scenic shots: matches in title or categories sort
+        # first, generic scenic-town views fall behind but are kept.
+        is_nature = bool(NATURE_RE.search(title) or
+                         any(NATURE_RE.search(c) for c in cats))
         out.append({
+            "_nature": is_nature,
             "title": title.replace("File:", ""),
             "thumb": thumb,
             "full": full,
@@ -190,12 +235,23 @@ def fetch_location(loc):
         images = search_by_name(loc["name_en"])
     except Exception as exc:
         print("  name search failed: {}".format(exc))
-    if len(dedupe(images)) < 4:
+    deduped = dedupe(images)
+    nature = sum(1 for im in deduped if im.get("_nature"))
+    # Backfill from nearby coordinates (same nature filtering) when the name
+    # search is thin OR light on actual nature/coastal content -- e.g. a coastal
+    # city whose name returns mostly inland-village or townscape photos.
+    if len(deduped) < PER_LOCATION or nature < 4:
         try:
             images += search_by_geo(loc["lat"], loc["lon"], loc["name_en"])
         except Exception as exc:
             print("  geo search failed: {}".format(exc))
-    return dedupe(images)[:PER_LOCATION]
+    images = dedupe(images)
+    # Stable sort: nature/beach/scenic shots first, relevance order preserved.
+    images.sort(key=lambda im: not im.get("_nature"))
+    images = images[:PER_LOCATION]
+    for im in images:
+        im.pop("_nature", None)
+    return images
 
 
 def main():
