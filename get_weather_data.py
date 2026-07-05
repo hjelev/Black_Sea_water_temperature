@@ -28,7 +28,8 @@ DAILY_VARS = (
 )
 CURRENT_VARS = (
     "temperature_2m,apparent_temperature,"
-    "relative_humidity_2m,wind_speed_10m,weathercode"
+    "relative_humidity_2m,wind_speed_10m,wind_direction_10m,"
+    "uv_index,weathercode"
 )
 HOURLY_VARS = "temperature_2m,weathercode"
 
@@ -92,6 +93,8 @@ def parse_current(data):
         "feels_like": current.get("apparent_temperature"),
         "humidity": current.get("relative_humidity_2m"),
         "wind": current.get("wind_speed_10m"),
+        "wind_dir": current.get("wind_direction_10m"),
+        "uv": current.get("uv_index"),
         "code": current.get("weathercode"),
     }
 

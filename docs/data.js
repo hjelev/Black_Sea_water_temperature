@@ -158,6 +158,17 @@ window.formatUpdatedAgo = function(isoTs) {
     return t('weather_updated_hours_ago').replace('{n}', Math.round(minutes / 60));
 };
 
+// Compass abbreviation (translated) for a wind_direction_10m degree value
+// (0-360, meteorological convention: direction the wind is blowing FROM).
+window.windDirectionLabel = function(deg) {
+    const keys = [
+        'wind_dir_n', 'wind_dir_ne', 'wind_dir_e', 'wind_dir_se',
+        'wind_dir_s', 'wind_dir_sw', 'wind_dir_w', 'wind_dir_nw'
+    ];
+    const index = Math.round(((deg % 360) + 360) % 360 / 45) % 8;
+    return t(keys[index]);
+};
+
 // Current-conditions card. `current` may be null/absent (e.g. upstream API
 // hiccup) - hide the card gracefully rather than throwing.
 window.renderCurrentWeather = function(container, current, updatedIso, waterTemp) {
@@ -169,14 +180,20 @@ window.renderCurrentWeather = function(container, current, updatedIso, waterTemp
     const feelsLike = current.feels_like != null ? Math.round(current.feels_like) : '–';
     const humidity = current.humidity != null ? Math.round(current.humidity) : '–';
     const wind = current.wind != null ? Math.round(current.wind) : '–';
+    const uv = current.uv != null ? current.uv.toFixed(1) : '–';
     const water = waterTemp != null ? waterTemp.toFixed(1) : '–';
+    const windArrow = current.wind_dir != null
+        ? `<span class="cw-wind-arrow" style="display:inline-block;transform:rotate(${Math.round(current.wind_dir) + 180}deg)">↑</span> `
+        : '';
+    const windDir = current.wind_dir != null ? ' ' + window.windDirectionLabel(current.wind_dir) : '';
     container.innerHTML = `
         <span class="cw-icon">${window.weatherIcon(current.code)}</span>
-        <span class="cw-temp">${temp}°C</span>
         <span class="cw-water"><span class="cw-water-icon">💧</span>${water}°C</span>
+        <span class="cw-temp">${temp}°C</span>
         <span class="cw-detail">${t('weather_feels_like')} ${feelsLike}°C</span>
         <span class="cw-detail">${t('weather_humidity')} ${humidity}%</span>
-        <span class="cw-detail">${t('weather_wind')} ${wind} km/h</span>
+        <span class="cw-detail">${t('weather_uv')} ${uv}</span>
+        <span class="cw-detail">${windArrow}${t('weather_wind')} ${wind} km/h${windDir}</span>
         <span class="cw-updated">${window.formatUpdatedAgo(updatedIso)}</span>`;
 };
 

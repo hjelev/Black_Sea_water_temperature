@@ -90,8 +90,9 @@ loadData().then(records => {
     // Stats cards
     const statsEl = document.getElementById('date-stats');
     document.getElementById('stats-title').textContent =
-        t('dash_stats_title').replace('{date}',
-            `${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')}`);
+        t('dash_stats_title')
+            .replace('{location}', locationName())
+            .replace('{date}', `${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')}`);
     for (let i = 0; i < 5; i++) {
         const year = maxYear - i;
         const dayRecs = records.filter(r => r.year === year && r.month === month && r.day === day);
