@@ -187,8 +187,8 @@ window.renderCurrentWeather = function(container, current, updatedIso, waterTemp
         : '';
     const windDir = current.wind_dir != null ? ' ' + window.windDirectionLabel(current.wind_dir) : '';
     container.innerHTML = `
-        <span class="cw-icon">${window.weatherIcon(current.code)}</span>
         <span class="cw-water"><span class="cw-water-icon">💧</span>${water}°C</span>
+        <span class="cw-icon">${window.weatherIcon(current.code)}</span>
         <span class="cw-temp">${temp}°C</span>
         <span class="cw-detail">${t('weather_feels_like')} ${feelsLike}°C</span>
         <span class="cw-detail">${t('weather_humidity')} ${humidity}%</span>
