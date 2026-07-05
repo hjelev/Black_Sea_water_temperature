@@ -264,6 +264,8 @@ def bake(html, lang, loc=None):
         val = tr.get(key, TR["en"].get(key, key))
         if not is_html:
             val = escape(val)
+        if "{location}" in val and loc is not None:
+            val = val.replace("{location}", escape(tr[i18n_key(loc["slug"])]))
         if "data-i18n-loc" in open_tag and loc is not None:
             val += escape(" {} {}".format(tr["loc_connector"],
                                           tr[i18n_key(loc["slug"])]))
