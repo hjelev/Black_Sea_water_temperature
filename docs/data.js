@@ -102,6 +102,53 @@ window.renderLocationSwitcher = function() {
 
 document.addEventListener('DOMContentLoaded', window.renderLocationSwitcher);
 
+// Load one location's rolling weather window (5 days back + 5 days forecast)
+// from docs/weather/<slug>.json, written hourly by get_weather_data.py.
+// Same-origin, language-neutral (numbers/dates only) so bg and en pages share it.
+window.loadWeatherData = function(id) {
+    return fetch('/weather/' + id + '.json').then(r => r.json());
+};
+
+// WMO weather codes (Open-Meteo `weathercode`) mapped to an emoji icon.
+// https://open-meteo.com/en/docs#weathervariables
+window.weatherIcon = function(code) {
+    const icons = {
+        0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+        45: '🌫️', 48: '🌫️',
+        51: '🌦️', 53: '🌦️', 55: '🌦️',
+        56: '🌧️', 57: '🌧️',
+        61: '🌧️', 63: '🌧️', 65: '🌧️',
+        66: '🌧️', 67: '🌧️',
+        71: '🌨️', 73: '🌨️', 75: '🌨️', 77: '🌨️',
+        80: '🌦️', 81: '🌧️', 82: '⛈️',
+        85: '🌨️', 86: '🌨️',
+        95: '⛈️', 96: '⛈️', 99: '⛈️'
+    };
+    return icons[code] || '🌡️';
+};
+
+// Render the 10-day (5 past + today + 4 forecast) card strip into `container`.
+window.renderWeatherCards = function(container, days) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    container.innerHTML = days.map(d => {
+        const isToday = d.date === todayStr;
+        const label = new Date(d.date + 'T00:00:00Z').toLocaleDateString(
+            window.LANG === 'bg' ? 'bg-BG' : 'en-US',
+            { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+        const high = d.temp_max != null ? Math.round(d.temp_max) : '–';
+        const low = d.temp_min != null ? Math.round(d.temp_min) : '–';
+        const uv = d.uv_max != null ? d.uv_max.toFixed(1) : '–';
+        const wind = d.wind_max != null ? Math.round(d.wind_max) : '–';
+        return `<div class="weather-card${isToday ? ' today' : ''}">
+            <span class="weather-date">${isToday ? t('weather_today') : label}</span>
+            <span class="weather-icon">${window.weatherIcon(d.code)}</span>
+            <span class="weather-temps">${high}° / ${low}°C</span>
+            <span class="weather-detail">${t('weather_uv')} ${uv}</span>
+            <span class="weather-detail">${t('weather_wind')} ${wind} km/h</span>
+        </div>`;
+    }).join('');
+};
+
 window.plotlyTheme = function() {
     const text = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#333';
     const muted = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#666';

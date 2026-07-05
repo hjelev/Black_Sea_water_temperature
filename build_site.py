@@ -114,6 +114,20 @@ PAGES = {
         },
         "plotly": False,  # photo page has no charts; skip the ~1 MB Plotly bundle
     },
+    "weather.html": {
+        "title": {
+            "en": "Weather Forecast — {loc} Black Sea Coast",
+            "bg": "Прогноза за времето — {loc}",
+        },
+        "desc": {
+            "en": ("Air temperature, UV index and wind speed for {loc}, {country} — "
+                   "last 5 days and a 5-day forecast, updated hourly."),
+            "bg": ("Температура на въздуха, UV индекс и скорост на вятъра за {loc}, "
+                   "{country} — последните 5 дни и прогноза за 5 дни, обновявани "
+                   "всеки час."),
+        },
+        "plotly": False,  # daily cards, not charts; skip the ~1 MB Plotly bundle
+    },
 }
 
 HUB_META = {
