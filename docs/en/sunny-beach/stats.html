@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics &amp; Records — Sunny Beach Black Sea Water Temperature</title>
+    <meta name="description" content="All-time records and annual statistics for Black Sea water temperature at Sunny Beach, Bulgaria — hottest and coldest readings, yearly min/avg/max and the long-term trend.">
+    <link rel="canonical" href="https://more.masoko.net/en/sunny-beach/stats.html">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/sunny-beach/stats.html">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/sunny-beach/stats.html">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/sunny-beach/stats.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Statistics &amp; Records — Sunny Beach Black Sea Water Temperature">
+    <meta property="og:description" content="All-time records and annual statistics for Black Sea water temperature at Sunny Beach, Bulgaria — hottest and coldest readings, yearly min/avg/max and the long-term trend.">
+    <meta property="og:url" content="https://more.masoko.net/en/sunny-beach/stats.html">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/i18n.js"></script>
+    <script src="/locations.js"></script>
+    <script>window.LOCATION_ID = 'sunny-beach'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
+    <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="/en/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
+            <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
+            <li><a href="stats.html" class="active" data-i18n="nav_stats">Statistics</a></li>
+            <li><a href="gallery.html" data-i18n="nav_gallery">Photos</a></li>
+            <li><a href="/en/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
+        </ul>
+        <div class="loc-switch"></div>
+        <div class="lang-switch"></div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 data-i18n-html="st_h1" data-i18n-loc>Statistics &amp; Records for Sunny Beach, Bulgaria</h1>
+    <p class="subtitle" id="subtitle">All-time records and annual statistics since 2000</p>
+
+    <h2 data-i18n="st_records">All-time Records</h2>
+    <div id="records-grid" class="records-grid"></div>
+
+    <h2 data-i18n="st_annual">Annual Min / Avg / Max</h2>
+    <div id="annual-chart" class="chart"></div>
+
+    <h2 data-i18n="st_trend">Long-term Trend</h2>
+    <p class="tip" data-i18n="st_trend_tip">Yearly average with a 5-year moving average trend line.</p>
+    <div id="trend-chart" class="chart"></div>
+</div>
+
+<footer class="footer">
+    <span data-i18n="footer_title">Black Sea Water Temperature</span>
+    <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
+</footer>
+<script src="/data.js"></script>
+<script>
+function movingAvg(arr, n) {
+    return arr.map((_, i) => {
+        const slice = arr.slice(Math.max(0, i - Math.floor(n/2)), Math.min(arr.length, i + Math.ceil(n/2)));
+        const valid = slice.filter(v => v !== null);
+        return valid.length ? parseFloat((valid.reduce((a,b) => a+b,0) / valid.length).toFixed(2)) : null;
+    });
+}
+
+const MONTH_NAMES = t('months');
+function fmt(date) {
+    return `${MONTH_NAMES[date.month - 1]} ${date.day}, ${date.year}`;
+}
+
+loadData().then(records => {
+    const minYear = records[0].year;
+    const maxYear = records[records.length - 1].year;
+    document.getElementById('subtitle').textContent =
+        t('st_subtitle').replace('{year}', minYear);
+    const years = [];
+    for (let y = minYear; y <= maxYear; y++) years.push(y);
+
+    // All-time records
+    const hotRecord  = records.reduce((a, b) => b.temp > a.temp ? b : a);
+    const coldRecord = records.reduce((a, b) => b.temp < a.temp ? b : a);
+
+    // Yearly stats
+    const yMin = [], yMax = [], yAvg = [];
+    years.forEach(y => {
+        const recs = records.filter(r => r.year === y);
+        if (!recs.length) { yMin.push(null); yMax.push(null); yAvg.push(null); return; }
+        yMin.push(parseFloat(Math.min(...recs.map(r => r.temp)).toFixed(1)));
+        yMax.push(parseFloat(Math.max(...recs.map(r => r.temp)).toFixed(1)));
+        yAvg.push(parseFloat((recs.reduce((s,r) => s+r.temp,0) / recs.length).toFixed(2)));
+    });
+
+    // Warmest / coldest year by average
+    let warmestYear = years[0], coldestYear = years[0];
+    years.forEach((y, i) => {
+        if (yAvg[i] !== null) {
+            if (yAvg[i] > yAvg[years.indexOf(warmestYear)]) warmestYear = y;
+            if (yAvg[i] < yAvg[years.indexOf(coldestYear)]) coldestYear = y;
+        }
+    });
+    const warmestAvg = yAvg[years.indexOf(warmestYear)];
+    const coldestAvg = yAvg[years.indexOf(coldestYear)];
+
+    // Records grid
+    const grid = document.getElementById('records-grid');
+    grid.innerHTML = `
+        <div class="record-card hot">
+            <span class="label">${t('st_hottest')}</span>
+            <span class="record-value">${hotRecord.temp}°C</span>
+            <span class="record-date">${fmt(hotRecord)}</span>
+        </div>
+        <div class="record-card cold">
+            <span class="label">${t('st_coldest')}</span>
+            <span class="record-value">${coldRecord.temp}°C</span>
+            <span class="record-date">${fmt(coldRecord)}</span>
+        </div>
+        <div class="record-card hot">
+            <span class="label">${t('st_warmest_yr')}</span>
+            <span class="record-value">${warmestAvg}°C</span>
+            <span class="record-date">${warmestYear}</span>
+        </div>
+        <div class="record-card cold">
+            <span class="label">${t('st_coldest_yr')}</span>
+            <span class="record-value">${coldestAvg}°C</span>
+            <span class="record-date">${coldestYear}</span>
+        </div>
+    `;
+
+    const theme = plotlyTheme();
+    const yrStr = years.map(String);
+
+    // Annual min/avg/max chart
+    Plotly.newPlot('annual-chart', [
+        {
+            x: yrStr, y: yMax, name: t('st_max'),
+            type: 'scatter', mode: 'lines+markers',
+            line: { color: '#e05030' }, marker: { size: 5 },
+            hovertemplate: `${t('st_max')} %{x}: <b>%{y:.1f}°C</b><extra></extra>`
+        },
+        {
+            x: yrStr, y: yAvg, name: t('st_avg'),
+            type: 'scatter', mode: 'lines+markers',
+            line: { color: '#007bff' }, marker: { size: 5 },
+            hovertemplate: `${t('st_avg')} %{x}: <b>%{y:.1f}°C</b><extra></extra>`
+        },
+        {
+            x: yrStr, y: yMin, name: t('st_min'),
+            type: 'scatter', mode: 'lines+markers',
+            line: { color: '#4da6ff' }, marker: { size: 5 },
+            hovertemplate: `${t('st_min')} %{x}: <b>%{y:.1f}°C</b><extra></extra>`
+        }
+    ], {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '°C' },
+        hovermode: 'x unified',
+        legend: { orientation: 'h', y: -0.2 }
+    }, { responsive: true });
+
+    // Trend chart: yearly avg + 5-year moving average
+    yAvg[yAvg.length - 1] = null;
+    const trend = movingAvg(yAvg, 5);
+    Plotly.newPlot('trend-chart', [
+        {
+            x: yrStr, y: yAvg, name: t('st_yearly_avg'),
+            type: 'scatter', mode: 'lines+markers',
+            line: { color: '#007bff', width: 1 }, marker: { size: 4 }, opacity: 0.6,
+            hovertemplate: '%{x}: <b>%{y:.2f}°C</b><extra></extra>'
+        },
+        {
+            x: yrStr, y: trend, name: t('st_trend_5yr'),
+            type: 'scatter', mode: 'lines',
+            line: { color: '#e05030', width: 2.5 },
+            hovertemplate: `${t('st_trend_5yr')} %{x}: <b>%{y:.2f}°C</b><extra></extra>`
+        }
+    ], {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '°C' },
+        hovermode: 'x unified',
+        legend: { orientation: 'h', y: -0.2 }
+    }, { responsive: true });
+});
+</script>
+</body>
+</html>

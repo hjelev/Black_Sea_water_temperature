@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Sea Water Temperature — Bulgaria, Turkey, Romania, Georgia, Russia</title>
-    <meta name="description" content="Live and historical Black Sea water temperature for coastal towns across Bulgaria, Turkey, Romania, Georgia and Russia. Daily sea surface temperature, yearly comparisons, heatmaps and records.">
+    <title>Температура на водата в Черно море — България, Турция, Румъния, Грузия, Русия</title>
+    <meta name="description" content="Актуална и историческа температура на морската вода в Черно море за крайбрежни градове в България, Турция, Румъния, Грузия и Русия. Дневна температура, годишни сравнения, топлинни карти и рекорди.">
     <link rel="canonical" href="https://more.masoko.net/">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Black Sea Water Temperature — Bulgaria, Turkey, Romania, Georgia, Russia">
-    <meta property="og:description" content="Live and historical Black Sea water temperature for coastal towns across Bulgaria, Turkey, Romania, Georgia and Russia. Daily sea surface temperature, yearly comparisons, heatmaps and records.">
+    <meta property="og:title" content="Температура на водата в Черно море — България, Турция, Румъния, Грузия, Русия">
+    <meta property="og:description" content="Актуална и историческа температура на морската вода в Черно море за крайбрежни градове в България, Турция, Румъния, Грузия и Русия. Дневна температура, годишни сравнения, топлинни карти и рекорди.">
     <meta property="og:url" content="https://more.masoko.net/">
+    <meta property="og:locale" content="bg_BG">
     <meta name="twitter:card" content="summary">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
     <script src="/i18n.js"></script>
     <script src="/locations.js"></script>
-    <script>window.LOCATION_ID = 'burgas';</script>
+    <script>window.LOCATION_ID = 'burgas'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
 <body>
@@ -27,236 +31,236 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Черно море</a>
         <ul class="nav-links">
-            <li><a href="/burgas/index.html" data-i18n="nav_dashboard">Dashboard</a></li>
-            <li><a href="/burgas/compare.html" data-i18n="nav_compare">Compare Years</a></li>
-            <li><a href="/burgas/heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
-            <li><a href="/burgas/stats.html" data-i18n="nav_stats">Statistics</a></li>
-            <li><a href="/burgas/gallery.html" data-i18n="nav_gallery">Photos</a></li>
-            <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
+            <li><a href="/burgas/index.html" data-i18n="nav_dashboard">Данни</a></li>
+            <li><a href="/burgas/compare.html" data-i18n="nav_compare">Сравнение по години</a></li>
+            <li><a href="/burgas/heatmap.html" data-i18n="nav_heatmap">Топлинна карта</a></li>
+            <li><a href="/burgas/stats.html" data-i18n="nav_stats">Статистика</a></li>
+            <li><a href="/burgas/gallery.html" data-i18n="nav_gallery">Снимки</a></li>
+            <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Сравнение на локации</a></li>
         </ul>
         <div class="lang-switch"></div>
     </div>
 </nav>
 
 <div class="container">
-    <h1 data-i18n="hub_h1">Black Sea Water Temperature</h1>
-    <p class="subtitle" data-i18n="hub_subtitle">Live and historical sea surface temperature for Bulgaria's Black Sea coast</p>
+    <h1 data-i18n="hub_h1">Температура на водата в Черно море</h1>
+    <p class="subtitle" data-i18n="hub_subtitle">Температура на морската повърхност по Черноморието — България, Турция, Румъния, Грузия и Русия, на живо и исторически данни</p>
 
-    <h2 data-i18n="hub_map">Current water temperature</h2>
+    <h2 data-i18n="hub_map">Текуща температура на водата</h2>
     <div id="map"></div>
 
-    <h2 data-i18n="hub_pick">Choose a location</h2>
-        <h3 class="hub-country" data-i18n="country_bulgaria">Bulgaria</h3>
+    <h2 data-i18n="hub_pick">Изберете локация</h2>
+        <h3 class="hub-country" data-i18n="country_bulgaria">България</h3>
         <div class="hub-grid">
             <a class="hub-card" href="/burgas/" data-loc="burgas">
                 <span class="hub-flag">🏖️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_burgas">Burgas, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_burgas">Бургас, България</span>
             </a>
             <a class="hub-card" href="/sinemorets/" data-loc="sinemorets">
                 <span class="hub-flag">⛵</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_sinemorets">Sinemorets, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_sinemorets">Синеморец, България</span>
             </a>
             <a class="hub-card" href="/varna/" data-loc="varna">
                 <span class="hub-flag">🏛️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_varna">Varna, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_varna">Варна, България</span>
             </a>
             <a class="hub-card" href="/kamen-bryag/" data-loc="kamen-bryag">
                 <span class="hub-flag">🪨</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_kamenbryag">Kamen Bryag, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_kamenbryag">Камен бряг, България</span>
             </a>
             <a class="hub-card" href="/tyulenovo/" data-loc="tyulenovo">
                 <span class="hub-flag">🦭</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_tyulenovo">Tyulenovo, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_tyulenovo">Тюленово, България</span>
             </a>
             <a class="hub-card" href="/nessebar/" data-loc="nessebar">
                 <span class="hub-flag">🏘️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_nessebar">Nessebar, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_nessebar">Несебър, България</span>
             </a>
             <a class="hub-card" href="/sozopol/" data-loc="sozopol">
                 <span class="hub-flag">⚓</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_sozopol">Sozopol, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_sozopol">Созопол, България</span>
             </a>
             <a class="hub-card" href="/sunny-beach/" data-loc="sunny-beach">
                 <span class="hub-flag">☀️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_sunnybeach">Sunny Beach, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_sunnybeach">Слънчев бряг, България</span>
             </a>
             <a class="hub-card" href="/golden-sands/" data-loc="golden-sands">
                 <span class="hub-flag">🌅</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_goldensands">Golden Sands, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_goldensands">Златни пясъци, България</span>
             </a>
             <a class="hub-card" href="/balchik/" data-loc="balchik">
                 <span class="hub-flag">🌷</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_balchik">Balchik, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_balchik">Балчик, България</span>
             </a>
             <a class="hub-card" href="/cape-kaliakra/" data-loc="cape-kaliakra">
                 <span class="hub-flag">🦅</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_capekaliakra">Cape Kaliakra, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_capekaliakra">Нос Калиакра, България</span>
             </a>
             <a class="hub-card" href="/albena/" data-loc="albena">
                 <span class="hub-flag">🌴</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_albena">Albena, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_albena">Албена, България</span>
             </a>
             <a class="hub-card" href="/sveti-konstantin/" data-loc="sveti-konstantin">
                 <span class="hub-flag">🧖</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_svetikonstantin">St. Konstantin and Elena, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_svetikonstantin">Св. св. Константин и Елена, България</span>
             </a>
             <a class="hub-card" href="/irakli/" data-loc="irakli">
                 <span class="hub-flag">🌿</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_irakli">Irakli Beach, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_irakli">Иракли, България</span>
             </a>
             <a class="hub-card" href="/pomorie/" data-loc="pomorie">
                 <span class="hub-flag">🧂</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_pomorie">Pomorie, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_pomorie">Поморие, България</span>
             </a>
             <a class="hub-card" href="/primorsko/" data-loc="primorsko">
                 <span class="hub-flag">🏕️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_primorsko">Primorsko, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_primorsko">Приморско, България</span>
             </a>
             <a class="hub-card" href="/lozenets/" data-loc="lozenets">
                 <span class="hub-flag">🍇</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_lozenets">Lozenets, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_lozenets">Лозенец, България</span>
             </a>
             <a class="hub-card" href="/sveti-vlas/" data-loc="sveti-vlas">
                 <span class="hub-flag">🛥️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_svetivlas">Sveti Vlas, Bulgaria</span>
+                <span class="hub-name" data-i18n="loc_svetivlas">Свети Влас, България</span>
             </a>
         </div>
-        <h3 class="hub-country" data-i18n="country_turkey">Turkey</h3>
+        <h3 class="hub-country" data-i18n="country_turkey">Турция</h3>
         <div class="hub-grid">
             <a class="hub-card" href="/trabzon/" data-loc="trabzon">
                 <span class="hub-flag">⛪</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_trabzon">Trabzon, Turkey</span>
+                <span class="hub-name" data-i18n="loc_trabzon">Трабзон, Турция</span>
             </a>
             <a class="hub-card" href="/sinop/" data-loc="sinop">
                 <span class="hub-flag">🏰</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_sinop">Sinop, Turkey</span>
+                <span class="hub-name" data-i18n="loc_sinop">Синоп, Турция</span>
             </a>
             <a class="hub-card" href="/amasra/" data-loc="amasra">
                 <span class="hub-flag">🎣</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_amasra">Amasra, Turkey</span>
+                <span class="hub-name" data-i18n="loc_amasra">Амасра, Турция</span>
             </a>
             <a class="hub-card" href="/rize/" data-loc="rize">
                 <span class="hub-flag">🍵</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_rize">Rize, Turkey</span>
+                <span class="hub-name" data-i18n="loc_rize">Ризе, Турция</span>
             </a>
             <a class="hub-card" href="/sile/" data-loc="sile">
                 <span class="hub-flag">🗼</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_sile">Şile, Turkey</span>
+                <span class="hub-name" data-i18n="loc_sile">Шиле, Турция</span>
             </a>
         </div>
-        <h3 class="hub-country" data-i18n="country_romania">Romania</h3>
+        <h3 class="hub-country" data-i18n="country_romania">Румъния</h3>
         <div class="hub-grid">
             <a class="hub-card" href="/constanta/" data-loc="constanta">
                 <span class="hub-flag">🎰</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_constanta">Constanța, Romania</span>
+                <span class="hub-name" data-i18n="loc_constanta">Кюстенджа, Румъния</span>
             </a>
             <a class="hub-card" href="/mamaia/" data-loc="mamaia">
                 <span class="hub-flag">🎉</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_mamaia">Mamaia, Romania</span>
+                <span class="hub-name" data-i18n="loc_mamaia">Мамая, Румъния</span>
             </a>
             <a class="hub-card" href="/vama-veche/" data-loc="vama-veche">
                 <span class="hub-flag">🎸</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_vamaveche">Vama Veche, Romania</span>
+                <span class="hub-name" data-i18n="loc_vamaveche">Вама Веке, Румъния</span>
             </a>
             <a class="hub-card" href="/olimp/" data-loc="olimp">
                 <span class="hub-flag">🌳</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_olimp">Olimp, Romania</span>
+                <span class="hub-name" data-i18n="loc_olimp">Олимп, Румъния</span>
             </a>
             <a class="hub-card" href="/vadu/" data-loc="vadu">
                 <span class="hub-flag">🦩</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_vadu">Vadu &amp; Corbu, Romania</span>
+                <span class="hub-name" data-i18n="loc_vadu">Ваду и Корбу, Румъния</span>
             </a>
         </div>
-        <h3 class="hub-country" data-i18n="country_georgia">Georgia</h3>
+        <h3 class="hub-country" data-i18n="country_georgia">Грузия</h3>
         <div class="hub-grid">
             <a class="hub-card" href="/batumi/" data-loc="batumi">
                 <span class="hub-flag">🌆</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_batumi">Batumi, Georgia</span>
+                <span class="hub-name" data-i18n="loc_batumi">Батуми, Грузия</span>
             </a>
             <a class="hub-card" href="/kvariati/" data-loc="kvariati">
                 <span class="hub-flag">🤿</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_kvariati">Kvariati, Georgia</span>
+                <span class="hub-name" data-i18n="loc_kvariati">Кварияти, Грузия</span>
             </a>
             <a class="hub-card" href="/shekvetili/" data-loc="shekvetili">
                 <span class="hub-flag">🧲</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_shekvetili">Shekvetili, Georgia</span>
+                <span class="hub-name" data-i18n="loc_shekvetili">Шекветили, Грузия</span>
             </a>
             <a class="hub-card" href="/kobuleti/" data-loc="kobuleti">
                 <span class="hub-flag">🐚</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_kobuleti">Kobuleti, Georgia</span>
+                <span class="hub-name" data-i18n="loc_kobuleti">Кобулети, Грузия</span>
             </a>
             <a class="hub-card" href="/green-cape/" data-loc="green-cape">
                 <span class="hub-flag">🪴</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_greencape">Green Cape, Georgia</span>
+                <span class="hub-name" data-i18n="loc_greencape">Зелени нос, Грузия</span>
             </a>
         </div>
-        <h3 class="hub-country" data-i18n="country_russia">Russia</h3>
+        <h3 class="hub-country" data-i18n="country_russia">Русия</h3>
         <div class="hub-grid">
             <a class="hub-card" href="/sochi/" data-loc="sochi">
                 <span class="hub-flag">🏔️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_sochi">Sochi, Russia</span>
+                <span class="hub-name" data-i18n="loc_sochi">Сочи, Русия</span>
             </a>
             <a class="hub-card" href="/anapa/" data-loc="anapa">
                 <span class="hub-flag">🏝️</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_anapa">Anapa, Russia</span>
+                <span class="hub-name" data-i18n="loc_anapa">Анапа, Русия</span>
             </a>
             <a class="hub-card" href="/gelendzhik/" data-loc="gelendzhik">
                 <span class="hub-flag">🎢</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_gelendzhik">Gelendzhik, Russia</span>
+                <span class="hub-name" data-i18n="loc_gelendzhik">Геленджик, Русия</span>
             </a>
             <a class="hub-card" href="/novorossiysk/" data-loc="novorossiysk">
                 <span class="hub-flag">🚢</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_novorossiysk">Novorossiysk, Russia</span>
+                <span class="hub-name" data-i18n="loc_novorossiysk">Новоросийск, Русия</span>
             </a>
             <a class="hub-card" href="/abrau-durso/" data-loc="abrau-durso">
                 <span class="hub-flag">🍾</span>
                 <span class="hub-temp"></span>
-                <span class="hub-name" data-i18n="loc_abraudurso">Abrau-Durso, Russia</span>
+                <span class="hub-name" data-i18n="loc_abraudurso">Абрау-Дюрсо, Русия</span>
             </a>
         </div>
 </div>
 
 <footer class="footer">
-    <span data-i18n="footer_title">Black Sea Water Temperature</span>
+    <span data-i18n="footer_title">Температура на водата в Черно море</span>
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>

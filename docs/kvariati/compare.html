@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compare Years — Kvariati Black Sea Water Temperature</title>
-    <meta name="description" content="Compare Black Sea water temperature at Kvariati, Georgia across years on a Jan–Dec axis to spot seasonal patterns and warming trends.">
+    <title>Сравнение по години — температура на водата в Кварияти</title>
+    <meta name="description" content="Сравнете температурата на морската вода в Черно море при Кварияти, Грузия по години върху ос януари–декември, за да откриете сезонни модели и тенденции на затопляне.">
     <link rel="canonical" href="https://more.masoko.net/kvariati/compare.html">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/kvariati/compare.html">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/kvariati/compare.html">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/kvariati/compare.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Compare Years — Kvariati Black Sea Water Temperature">
-    <meta property="og:description" content="Compare Black Sea water temperature at Kvariati, Georgia across years on a Jan–Dec axis to spot seasonal patterns and warming trends.">
+    <meta property="og:title" content="Сравнение по години — температура на водата в Кварияти">
+    <meta property="og:description" content="Сравнете температурата на морската вода в Черно море при Кварияти, Грузия по години върху ос януари–декември, за да откриете сезонни модели и тенденции на затопляне.">
     <meta property="og:url" content="https://more.masoko.net/kvariati/compare.html">
+    <meta property="og:locale" content="bg_BG">
     <meta name="twitter:card" content="summary">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
     <script src="/i18n.js"></script>
     <script src="/locations.js"></script>
-    <script>window.LOCATION_ID = 'kvariati';</script>
+    <script>window.LOCATION_ID = 'kvariati'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
 
@@ -24,14 +28,14 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Черно море</a>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
-            <li><a href="compare.html" class="active" data-i18n="nav_compare">Compare Years</a></li>
-            <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
-            <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
-            <li><a href="gallery.html" data-i18n="nav_gallery">Photos</a></li>
-            <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
+            <li><a href="index.html" data-i18n="nav_dashboard">Данни</a></li>
+            <li><a href="compare.html" class="active" data-i18n="nav_compare">Сравнение по години</a></li>
+            <li><a href="heatmap.html" data-i18n="nav_heatmap">Топлинна карта</a></li>
+            <li><a href="stats.html" data-i18n="nav_stats">Статистика</a></li>
+            <li><a href="gallery.html" data-i18n="nav_gallery">Снимки</a></li>
+            <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Сравнение на локации</a></li>
         </ul>
         <div class="loc-switch"></div>
         <div class="lang-switch"></div>
@@ -39,26 +43,26 @@
 </nav>
 
 <div class="container">
-    <h1 data-i18n="cmp_h1" data-i18n-loc>Compare Years</h1>
-    <p class="subtitle" data-i18n="cmp_subtitle">Overlay selected years on a Jan–Dec axis to spot seasonal patterns</p>
+    <h1 data-i18n="cmp_h1" data-i18n-loc>Сравнение по години за Кварияти, Грузия</h1>
+    <p class="subtitle" data-i18n="cmp_subtitle">Наложете избрани години по ос ян.–дек., за да откриете сезонни модели</p>
 
     <div class="controls">
-        <label><span data-i18n="cmp_from">From</span> <select id="sel-start"></select></label>
-        <label><span data-i18n="cmp_to">To</span> <select id="sel-end"></select></label>
-        <label style="margin-left:auto"><input type="checkbox" id="chk-smooth"> <span data-i18n="cmp_smooth">Smooth (7-day avg)</span></label>
+        <label><span data-i18n="cmp_from">От</span> <select id="sel-start"></select></label>
+        <label><span data-i18n="cmp_to">До</span> <select id="sel-end"></select></label>
+        <label style="margin-left:auto"><input type="checkbox" id="chk-smooth"> <span data-i18n="cmp_smooth">Изглаждане (7-дневна ср.)</span></label>
     </div>
 
     <div id="year-checkboxes" class="year-checkboxes"></div>
 
     <div id="comparison-chart" class="chart"></div>
 
-    <h2 data-i18n="cmp_timeline">Timeline selector</h2>
-    <p class="tip" data-i18n="cmp_tip">Drag to select a date range — updates the year checkboxes above.</p>
+    <h2 data-i18n="cmp_timeline">Избор по времева линия</h2>
+    <p class="tip" data-i18n="cmp_tip">Плъзнете, за да изберете период — обновява отметките за години горе.</p>
     <div id="main-chart" class="chart"></div>
 </div>
 
 <footer class="footer">
-    <span data-i18n="footer_title">Black Sea Water Temperature</span>
+    <span data-i18n="footer_title">Температура на водата в Черно море</span>
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>

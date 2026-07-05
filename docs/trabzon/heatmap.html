@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monthly Heatmap — Trabzon Black Sea Water Temperature</title>
-    <meta name="description" content="Monthly Black Sea water temperature heatmap for Trabzon, Turkey — average sea surface temperature per month across every recorded year.">
+    <title>Месечна топлинна карта — температура на водата в Трабзон</title>
+    <meta name="description" content="Месечна топлинна карта на температурата на морската вода при Трабзон, Турция — средна температура на морската повърхност по месеци за всяка записана година.">
     <link rel="canonical" href="https://more.masoko.net/trabzon/heatmap.html">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/trabzon/heatmap.html">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/trabzon/heatmap.html">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/trabzon/heatmap.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Monthly Heatmap — Trabzon Black Sea Water Temperature">
-    <meta property="og:description" content="Monthly Black Sea water temperature heatmap for Trabzon, Turkey — average sea surface temperature per month across every recorded year.">
+    <meta property="og:title" content="Месечна топлинна карта — температура на водата в Трабзон">
+    <meta property="og:description" content="Месечна топлинна карта на температурата на морската вода при Трабзон, Турция — средна температура на морската повърхност по месеци за всяка записана година.">
     <meta property="og:url" content="https://more.masoko.net/trabzon/heatmap.html">
+    <meta property="og:locale" content="bg_BG">
     <meta name="twitter:card" content="summary">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
     <script src="/i18n.js"></script>
     <script src="/locations.js"></script>
-    <script>window.LOCATION_ID = 'trabzon';</script>
+    <script>window.LOCATION_ID = 'trabzon'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
 
@@ -24,14 +28,14 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Черно море</a>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
-            <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
-            <li><a href="heatmap.html" class="active" data-i18n="nav_heatmap">Heatmap</a></li>
-            <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
-            <li><a href="gallery.html" data-i18n="nav_gallery">Photos</a></li>
-            <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
+            <li><a href="index.html" data-i18n="nav_dashboard">Данни</a></li>
+            <li><a href="compare.html" data-i18n="nav_compare">Сравнение по години</a></li>
+            <li><a href="heatmap.html" class="active" data-i18n="nav_heatmap">Топлинна карта</a></li>
+            <li><a href="stats.html" data-i18n="nav_stats">Статистика</a></li>
+            <li><a href="gallery.html" data-i18n="nav_gallery">Снимки</a></li>
+            <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Сравнение на локации</a></li>
         </ul>
         <div class="loc-switch"></div>
         <div class="lang-switch"></div>
@@ -39,18 +43,18 @@
 </nav>
 
 <div class="container">
-    <h1 data-i18n="hm_h1" data-i18n-loc>Monthly Heatmap</h1>
+    <h1 data-i18n="hm_h1" data-i18n-loc>Месечна топлинна карта за Трабзон, Турция</h1>
     <p class="subtitle" id="subtitle">Average water temperature per month across all years (2000–present)</p>
 
     <div id="heatmap-chart" class="chart-tall"></div>
 
-    <h2 data-i18n="hm_monthly">Monthly Averages by Year</h2>
-    <p class="tip" data-i18n="hm_tip">Each cell shows the mean temperature for that month/year. Hover for exact values.</p>
+    <h2 data-i18n="hm_monthly">Месечни средни по години</h2>
+    <p class="tip" data-i18n="hm_tip">Всяка клетка показва средната температура за този месец/година. Посочете за точни стойности.</p>
     <div id="monthly-avg-chart" class="chart"></div>
 </div>
 
 <footer class="footer">
-    <span data-i18n="footer_title">Black Sea Water Temperature</span>
+    <span data-i18n="footer_title">Температура на водата в Черно море</span>
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
