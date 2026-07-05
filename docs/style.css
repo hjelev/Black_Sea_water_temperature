@@ -354,6 +354,52 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
     display: block;
 }
 
+/* Weather forecast cards */
+.weather-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.weather-card {
+    background: var(--card-bg);
+    padding: 0.9rem 0.6rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.weather-card.today {
+    box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.weather-card .weather-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.3rem;
+    text-transform: capitalize;
+}
+
+.weather-card .weather-icon {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.weather-card .weather-temps {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+}
+
+.weather-card .weather-detail {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: block;
+}
+
 /* Charts */
 .chart {
     width: 100%;
