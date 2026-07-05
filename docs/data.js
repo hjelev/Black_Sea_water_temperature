@@ -160,7 +160,7 @@ window.formatUpdatedAgo = function(isoTs) {
 
 // Current-conditions card. `current` may be null/absent (e.g. upstream API
 // hiccup) - hide the card gracefully rather than throwing.
-window.renderCurrentWeather = function(container, current, updatedIso) {
+window.renderCurrentWeather = function(container, current, updatedIso, waterTemp) {
     if (!current) {
         container.style.display = 'none';
         return;
@@ -169,9 +169,11 @@ window.renderCurrentWeather = function(container, current, updatedIso) {
     const feelsLike = current.feels_like != null ? Math.round(current.feels_like) : '–';
     const humidity = current.humidity != null ? Math.round(current.humidity) : '–';
     const wind = current.wind != null ? Math.round(current.wind) : '–';
+    const water = waterTemp != null ? waterTemp.toFixed(1) : '–';
     container.innerHTML = `
         <span class="cw-icon">${window.weatherIcon(current.code)}</span>
         <span class="cw-temp">${temp}°C</span>
+        <span class="cw-water"><span class="cw-water-icon">💧</span>${water}°C</span>
         <span class="cw-detail">${t('weather_feels_like')} ${feelsLike}°C</span>
         <span class="cw-detail">${t('weather_humidity')} ${humidity}%</span>
         <span class="cw-detail">${t('weather_wind')} ${wind} km/h</span>
