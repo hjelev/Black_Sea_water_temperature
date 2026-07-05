@@ -1,12 +1,15 @@
 # Fetch air temperature, UV index, wind speed and a short weather forecast
 # from the Open-Meteo Forecast API (the same provider as the sea-temperature
 # pipeline in get_daily_temp.py) and store a rolling 5-days-back +
-# 5-days-forecast window per location.
+# 5-days-forecast window per location, plus current conditions and a
+# trailing 24h hourly temperature series.
 #
 # Unlike the sea-temperature csv files, this is not an append-only history:
 # forecasts change every run and past days can be revised, so each run
 # overwrites docs/weather/<slug>.json with the freshest full window rather
-# than accumulating rows.
+# than accumulating rows. The hourly series relies on Open-Meteo's own
+# past_hours=24 window to self-limit to the last 24h - no local purge
+# bookkeeping needed.
 #
 # Python 3.7+, standard library only.
 import json
@@ -23,15 +26,22 @@ DAILY_VARS = (
     "temperature_2m_max,temperature_2m_min,"
     "uv_index_max,wind_speed_10m_max,weathercode"
 )
+CURRENT_VARS = (
+    "temperature_2m,apparent_temperature,"
+    "relative_humidity_2m,wind_speed_10m,weathercode"
+)
+HOURLY_VARS = "temperature_2m,weathercode"
 
 
 def build_api_url(lat, lon):
     return (
         "https://api.open-meteo.com/v1/forecast"
         "?latitude={lat}&longitude={lon}"
-        "&daily={daily}"
+        "&daily={daily}&current={current}&hourly={hourly}"
+        "&past_hours=24&forecast_hours=0"
         "&timezone=UTC&past_days=5&forecast_days=5"
-    ).format(lat=lat, lon=lon, daily=DAILY_VARS)
+    ).format(lat=lat, lon=lon, daily=DAILY_VARS,
+              current=CURRENT_VARS, hourly=HOURLY_VARS)
 
 
 def fetch_json(url, retries=3, delay=5):
@@ -48,8 +58,7 @@ def fetch_json(url, retries=3, delay=5):
         url, retries, last_error))
 
 
-def get_days(api_url):
-    data = fetch_json(api_url)
+def parse_daily(data):
     daily = data.get("daily", {})
     dates = daily.get("time", [])
     if not dates:
@@ -74,13 +83,43 @@ def get_days(api_url):
     return days
 
 
-def write_weather_file(slug, days):
+def parse_current(data):
+    current = data.get("current") or {}
+    if "temperature_2m" not in current:
+        return None
+    return {
+        "temp": current.get("temperature_2m"),
+        "feels_like": current.get("apparent_temperature"),
+        "humidity": current.get("relative_humidity_2m"),
+        "wind": current.get("wind_speed_10m"),
+        "code": current.get("weathercode"),
+    }
+
+
+def parse_hourly(data):
+    hourly = data.get("hourly", {})
+    times = hourly.get("time", [])
+    temps = hourly.get("temperature_2m", [])
+    codes = hourly.get("weathercode", [])
+    return [
+        {
+            "time": time,
+            "temp": temps[i] if i < len(temps) else None,
+            "code": codes[i] if i < len(codes) else None,
+        }
+        for i, time in enumerate(times)
+    ]
+
+
+def write_weather_file(slug, days, current, hourly):
     docs_dir = os.path.join(os.path.dirname(__file__), "docs", "weather")
     os.makedirs(docs_dir, exist_ok=True)
     path = os.path.join(docs_dir, "{}.json".format(slug))
     payload = {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "days": days,
+        "current": current,
+        "hourly": hourly,
     }
     with open(path, "w") as file_object:
         json.dump(payload, file_object, indent=0)
@@ -88,10 +127,13 @@ def write_weather_file(slug, days):
 
 def update_location(location):
     api_url = build_api_url(location["lat"], location["lon"])
-    days = get_days(api_url)
-    write_weather_file(location["slug"], days)
-    print("{}: wrote {} day(s) of weather data.".format(
-        location["name_en"], len(days)))
+    data = fetch_json(api_url)
+    days = parse_daily(data)
+    current = parse_current(data)
+    hourly = parse_hourly(data)
+    write_weather_file(location["slug"], days, current, hourly)
+    print("{}: wrote {} day(s), current conditions, {} hourly reading(s).".format(
+        location["name_en"], len(days), len(hourly)))
 
 
 def get_data():

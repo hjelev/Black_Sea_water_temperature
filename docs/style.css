@@ -400,6 +400,38 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
     display: block;
 }
 
+/* Current conditions card */
+.current-weather {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    background: var(--card-bg);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.current-weather .cw-icon { font-size: 2.2rem; }
+
+.current-weather .cw-temp {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.current-weather .cw-detail {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.current-weather .cw-updated {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-left: auto;
+}
+
 /* Charts */
 .chart {
     width: 100%;

@@ -149,6 +149,58 @@ window.renderWeatherCards = function(container, days) {
     }).join('');
 };
 
+// Relative "Updated Xm ago" string from an ISO 8601 UTC timestamp, no i18n
+// library needed — same {n}/{location} templating pattern used elsewhere.
+window.formatUpdatedAgo = function(isoTs) {
+    const minutes = Math.max(0, Math.round((Date.now() - new Date(isoTs).getTime()) / 60000));
+    if (minutes < 1) return t('weather_updated_just_now');
+    if (minutes < 60) return t('weather_updated_mins_ago').replace('{n}', minutes);
+    return t('weather_updated_hours_ago').replace('{n}', Math.round(minutes / 60));
+};
+
+// Current-conditions card. `current` may be null/absent (e.g. upstream API
+// hiccup) - hide the card gracefully rather than throwing.
+window.renderCurrentWeather = function(container, current, updatedIso) {
+    if (!current) {
+        container.style.display = 'none';
+        return;
+    }
+    const temp = current.temp != null ? Math.round(current.temp) : '–';
+    const feelsLike = current.feels_like != null ? Math.round(current.feels_like) : '–';
+    const humidity = current.humidity != null ? Math.round(current.humidity) : '–';
+    const wind = current.wind != null ? Math.round(current.wind) : '–';
+    container.innerHTML = `
+        <span class="cw-icon">${window.weatherIcon(current.code)}</span>
+        <span class="cw-temp">${temp}°C</span>
+        <span class="cw-detail">${t('weather_feels_like')} ${feelsLike}°C</span>
+        <span class="cw-detail">${t('weather_humidity')} ${humidity}%</span>
+        <span class="cw-detail">${t('weather_wind')} ${wind} km/h</span>
+        <span class="cw-updated">${window.formatUpdatedAgo(updatedIso)}</span>`;
+};
+
+// Trailing 24h hourly air-temperature line chart. Hides the whole section
+// (heading + chart) if no hourly data is available.
+window.renderHourlyChart = function(containerId, hourly) {
+    const section = document.getElementById('hourly-section');
+    if (!hourly || !hourly.length) {
+        if (section) section.style.display = 'none';
+        return;
+    }
+    const theme = window.plotlyTheme();
+    Plotly.newPlot(containerId, [{
+        x: hourly.map(h => h.time),
+        y: hourly.map(h => h.temp),
+        type: 'scatter', mode: 'lines+markers',
+        line: { color: '#e0a030', width: 2 },
+        marker: { size: 4 },
+        hovertemplate: '%{x|%H:%M}: <b>%{y:.1f}°C</b><extra></extra>'
+    }], {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '°C' }
+    }, { responsive: true, displayModeBar: false });
+};
+
 window.plotlyTheme = function() {
     const text = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#333';
     const muted = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#666';

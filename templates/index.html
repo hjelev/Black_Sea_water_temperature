@@ -37,6 +37,14 @@
     <h3 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h3>
     <div id="date-stats" class="stats-grid"></div>
 
+    <h2 data-i18n="weather_current">Current Conditions</h2>
+    <div id="current-weather" class="current-weather"></div>
+
+    <div id="hourly-section">
+        <h2 data-i18n="weather_last24h">Air Temperature — Last 24 Hours</h2>
+        <div id="hourly-chart" class="chart"></div>
+    </div>
+
     <h2 data-i18n="dash_last30">Last 30 Days</h2>
     <div id="recent-chart" class="chart"></div>
 
@@ -113,6 +121,10 @@ loadData().then(records => {
         xaxis: { ...theme.xaxis, title: '' },
         yaxis: { ...theme.yaxis, title: '°C' }
     }, { responsive: true, displayModeBar: false });
+});
+loadWeatherData(getLocation()).then(data => {
+    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated);
+    renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>
 </body>
