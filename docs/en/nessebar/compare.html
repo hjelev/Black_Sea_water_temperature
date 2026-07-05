@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Years — Nessebar Black Sea Water Temperature</title>
+    <meta name="description" content="Compare Black Sea water temperature at Nessebar, Bulgaria across years on a Jan–Dec axis to spot seasonal patterns and warming trends.">
+    <link rel="canonical" href="https://more.masoko.net/en/nessebar/compare.html">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/nessebar/compare.html">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/nessebar/compare.html">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/nessebar/compare.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Compare Years — Nessebar Black Sea Water Temperature">
+    <meta property="og:description" content="Compare Black Sea water temperature at Nessebar, Bulgaria across years on a Jan–Dec axis to spot seasonal patterns and warming trends.">
+    <meta property="og:url" content="https://more.masoko.net/en/nessebar/compare.html">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/i18n.js"></script>
+    <script src="/locations.js"></script>
+    <script>window.LOCATION_ID = 'nessebar'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
+    <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="/en/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="compare.html" class="active" data-i18n="nav_compare">Compare Years</a></li>
+            <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
+            <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
+            <li><a href="gallery.html" data-i18n="nav_gallery">Photos</a></li>
+            <li><a href="/en/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
+        </ul>
+        <div class="loc-switch"></div>
+        <div class="lang-switch"></div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 data-i18n="cmp_h1" data-i18n-loc>Compare Years for Nessebar, Bulgaria</h1>
+    <p class="subtitle" data-i18n="cmp_subtitle">Overlay selected years on a Jan–Dec axis to spot seasonal patterns</p>
+
+    <div class="controls">
+        <label><span data-i18n="cmp_from">From</span> <select id="sel-start"></select></label>
+        <label><span data-i18n="cmp_to">To</span> <select id="sel-end"></select></label>
+        <label style="margin-left:auto"><input type="checkbox" id="chk-smooth"> <span data-i18n="cmp_smooth">Smooth (7-day avg)</span></label>
+    </div>
+
+    <div id="year-checkboxes" class="year-checkboxes"></div>
+
+    <div id="comparison-chart" class="chart"></div>
+
+    <h2 data-i18n="cmp_timeline">Timeline selector</h2>
+    <p class="tip" data-i18n="cmp_tip">Drag to select a date range — updates the year checkboxes above.</p>
+    <div id="main-chart" class="chart"></div>
+</div>
+
+<footer class="footer">
+    <span data-i18n="footer_title">Black Sea Water Temperature</span>
+    <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
+</footer>
+<script src="/data.js"></script>
+<script>
+let allRecords = [];
+let smoothEnabled = false;
+
+function movingAvg(arr, window) {
+    return arr.map((_, i) => {
+        const half = Math.floor(window / 2);
+        const slice = arr.slice(Math.max(0, i - half), Math.min(arr.length, i + half + 1));
+        return slice.reduce((a, b) => a + b, 0) / slice.length;
+    });
+}
+
+function checkedYears() {
+    return Array.from(document.querySelectorAll('.year-cb:checked')).map(cb => parseInt(cb.value));
+}
+
+function drawComparison() {
+    const years = checkedYears();
+    const theme = plotlyTheme();
+    const traces = years.map(y => {
+        const data = allRecords.filter(r => r.year === y);
+        const xs = data.map(r => `2024-${String(r.month).padStart(2,'0')}-${String(r.day).padStart(2,'0')}`);
+        const ys = smoothEnabled ? movingAvg(data.map(r => r.temp), 7) : data.map(r => r.temp);
+        return {
+            x: xs, y: ys,
+            name: String(y),
+            type: 'scatter', mode: 'lines',
+            hovertemplate: '<b>%{data.name}</b> (%{x|%b %d}): %{y:.1f}°C<extra></extra>'
+        };
+    });
+    Plotly.react('comparison-chart', traces, {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '', tickformat: '%b' },
+        yaxis: { ...theme.yaxis, title: '°C' },
+        hovermode: 'x unified',
+        legend: { orientation: 'h', y: -0.15 }
+    }, { responsive: true });
+}
+
+function setYearRange(start, end) {
+    document.querySelectorAll('.year-cb').forEach(cb => {
+        const y = parseInt(cb.value);
+        cb.checked = y >= start && y <= end;
+    });
+    drawComparison();
+}
+
+loadData().then(records => {
+    allRecords = records;
+    const minYear = records[0].year;
+    const maxYear = records[records.length - 1].year;
+
+    // Populate range selects
+    const selStart = document.getElementById('sel-start');
+    const selEnd   = document.getElementById('sel-end');
+    for (let y = minYear; y <= maxYear; y++) {
+        selStart.innerHTML += `<option value="${y}" ${y === maxYear - 2 ? 'selected' : ''}>${y}</option>`;
+        selEnd.innerHTML   += `<option value="${y}" ${y === maxYear ? 'selected' : ''}>${y}</option>`;
+    }
+
+    // Year checkboxes
+    const cbContainer = document.getElementById('year-checkboxes');
+    for (let y = minYear; y <= maxYear; y++) {
+        const checked = y >= maxYear - 2 ? 'checked' : '';
+        cbContainer.innerHTML += `<label class="year-check-label">
+            <input type="checkbox" class="year-cb" value="${y}" ${checked}> ${y}
+        </label>`;
+    }
+
+    document.querySelectorAll('.year-cb').forEach(cb => cb.addEventListener('change', drawComparison));
+
+    selStart.addEventListener('change', () => setYearRange(parseInt(selStart.value), parseInt(selEnd.value)));
+    selEnd.addEventListener('change',   () => setYearRange(parseInt(selStart.value), parseInt(selEnd.value)));
+
+    document.getElementById('chk-smooth').addEventListener('change', e => {
+        smoothEnabled = e.target.checked;
+        drawComparison();
+    });
+
+    drawComparison();
+
+    // Full timeline brush
+    const theme = plotlyTheme();
+    Plotly.newPlot('main-chart', [{
+        x: records.map(r => r.dateStr),
+        y: records.map(r => r.temp),
+        type: 'scatter', mode: 'lines',
+        line: { color: '#007bff', width: 1 },
+        hovertemplate: '%{x|%Y-%m-%d}: <b>%{y:.1f}°C</b><extra></extra>'
+    }], {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '°C' },
+        title: { text: '' }
+    }, { responsive: true, displayModeBar: false });
+
+    document.getElementById('main-chart').on('plotly_relayout', ev => {
+        if (ev['xaxis.range[0]']) {
+            const s = new Date(ev['xaxis.range[0]']).getFullYear();
+            const e = new Date(ev['xaxis.range[1]']).getFullYear();
+            selStart.value = s;
+            selEnd.value   = e;
+            setYearRange(s, e);
+        }
+    });
+});
+</script>
+</body>
+</html>

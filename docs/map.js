@@ -58,7 +58,7 @@
                             + '<div class="map-popup-name">' + loc.flag + ' ' + name + '</div>'
                             + '<div class="map-popup-temp">' + popupTemp + '</div>'
                             + dateLine
-                            + '<a class="map-popup-link" href="/' + id + '/">'
+                            + '<a class="map-popup-link" href="' + (window.LANG_PREFIX || '') + '/' + id + '/">'
                             + t('map_view') + ' →</a>'
                             + '</div>'
                         );

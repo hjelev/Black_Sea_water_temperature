@@ -82,7 +82,7 @@ window.renderLocationSwitcher = function() {
         const label = t(loc.nameKey);
         const shortLabel = label.split(',')[0];
         const opt = document.createElement('option');
-        opt.value = '/' + id + '/' + page;
+        opt.value = (window.LANG_PREFIX || '') + '/' + id + '/' + page;
         opt.textContent = loc.flag + ' ' + shortLabel;
         opt.title = label;
         if (id === current) opt.selected = true;
