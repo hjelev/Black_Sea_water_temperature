@@ -114,12 +114,30 @@ def parse_hourly(data):
     ]
 
 
-def write_weather_file(slug, days, current, hourly):
+def append_current(hourly, current, now):
+    # Open-Meteo's hourly series only carries fully-finalized hours, so it
+    # can lag the live "current" reading by 1-2h. Splice current on as the
+    # newest point (using the same `now` as the file's "updated" field) so
+    # the chart's last point always matches what just got fetched, instead
+    # of looking stuck an hour or two behind.
+    if current is None:
+        return hourly
+    now_str = now.strftime("%Y-%m-%dT%H:%M")
+    if hourly and now_str <= hourly[-1]["time"]:
+        return hourly
+    return hourly + [{
+        "time": now_str,
+        "temp": current["temp"],
+        "code": current["code"],
+    }]
+
+
+def write_weather_file(slug, days, current, hourly, now):
     docs_dir = os.path.join(os.path.dirname(__file__), "docs", "weather")
     os.makedirs(docs_dir, exist_ok=True)
     path = os.path.join(docs_dir, "{}.json".format(slug))
     payload = {
-        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "updated": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "days": days,
         "current": current,
         "hourly": hourly,
@@ -131,10 +149,11 @@ def write_weather_file(slug, days, current, hourly):
 def update_location(location):
     api_url = build_api_url(location["lat"], location["lon"])
     data = fetch_json(api_url)
+    now = datetime.now(timezone.utc)
     days = parse_daily(data)
     current = parse_current(data)
-    hourly = parse_hourly(data)
-    write_weather_file(location["slug"], days, current, hourly)
+    hourly = append_current(parse_hourly(data), current, now)
+    write_weather_file(location["slug"], days, current, hourly, now)
     print("{}: wrote {} day(s), current conditions, {} hourly reading(s).".format(
         location["name_en"], len(days), len(hourly)))
 

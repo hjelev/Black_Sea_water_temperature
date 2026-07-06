@@ -206,16 +206,20 @@ window.renderHourlyChart = function(containerId, hourly) {
         return;
     }
     const theme = window.plotlyTheme();
+    const locale = window.LANG === 'bg' ? 'bg-BG' : 'en-US';
+    const labels = hourly.map(h =>
+        new Date(h.time + 'Z').toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
     Plotly.newPlot(containerId, [{
-        x: hourly.map(h => h.time),
+        x: labels,
         y: hourly.map(h => h.temp),
         type: 'scatter', mode: 'lines+markers',
         line: { color: '#e0a030', width: 2 },
         marker: { size: 4 },
-        hovertemplate: '%{x|%H:%M}: <b>%{y:.1f}°C</b><extra></extra>'
+        text: labels,
+        hovertemplate: '%{text}: <b>%{y:.1f}°C</b><extra></extra>'
     }], {
         ...theme,
-        xaxis: { ...theme.xaxis, title: '' },
+        xaxis: { ...theme.xaxis, title: '', type: 'category' },
         yaxis: { ...theme.yaxis, title: '°C' }
     }, { responsive: true, displayModeBar: false });
 };
