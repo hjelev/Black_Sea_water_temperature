@@ -1,5 +1,5 @@
 {
-"updated": "2026-07-21T03:10:45Z",
+"updated": "2026-07-21T05:10:04Z",
 "days": [
 {
 "date": "2026-07-16",
@@ -46,62 +46,52 @@
 "temp_max": 28.3,
 "temp_min": 20.1,
 "uv_max": 7.4,
-"wind_max": 12.1,
-"code": 3
-},
-{
-"date": "2026-07-22",
-"temp_max": 24.0,
-"temp_min": 19.0,
-"uv_max": 7.25,
-"wind_max": 15.8,
-"code": 95
-},
-{
-"date": "2026-07-23",
-"temp_max": 25.6,
-"temp_min": 18.1,
-"uv_max": 7.25,
-"wind_max": 17.4,
-"code": 2
-},
-{
-"date": "2026-07-24",
-"temp_max": 24.9,
-"temp_min": 17.5,
-"uv_max": 6.7,
-"wind_max": 13.0,
-"code": 80
-},
-{
-"date": "2026-07-25",
-"temp_max": 22.9,
-"temp_min": 17.8,
-"uv_max": 4.45,
-"wind_max": 14.4,
-"code": 80
-}
-],
-"current": {
-"temp": 20.1,
-"feels_like": 22.7,
-"humidity": 95,
-"wind": 5.9,
-"wind_dir": 232,
-"uv": 0.0,
-"code": 1
-},
-"hourly": [
-{
-"time": "2026-07-20T03:00",
-"temp": 20.2,
+"wind_max": 12.8,
 "code": 45
 },
 {
-"time": "2026-07-20T04:00",
-"temp": 20.8,
-"code": 1
+"date": "2026-07-22",
+"temp_max": 27.2,
+"temp_min": 19.1,
+"uv_max": 7.25,
+"wind_max": 18.7,
+"code": 80
 },
+{
+"date": "2026-07-23",
+"temp_max": 25.3,
+"temp_min": 18.0,
+"uv_max": 7.25,
+"wind_max": 17.6,
+"code": 3
+},
+{
+"date": "2026-07-24",
+"temp_max": 25.8,
+"temp_min": 17.3,
+"uv_max": 6.7,
+"wind_max": 10.2,
+"code": 95
+},
+{
+"date": "2026-07-25",
+"temp_max": 24.6,
+"temp_min": 18.1,
+"uv_max": 4.45,
+"wind_max": 17.9,
+"code": 3
+}
+],
+"current": {
+"temp": 23.0,
+"feels_like": 26.4,
+"humidity": 84,
+"wind": 3.3,
+"wind_dir": 229,
+"uv": 1.55,
+"code": 0
+},
+"hourly": [
 {
 "time": "2026-07-20T05:00",
 "temp": 23.3,
@@ -199,23 +189,33 @@
 },
 {
 "time": "2026-07-21T00:00",
-"temp": 20.7,
+"temp": 20.5,
 "code": 1
 },
 {
 "time": "2026-07-21T01:00",
-"temp": 20.4,
+"temp": 20.3,
 "code": 3
 },
 {
 "time": "2026-07-21T02:00",
-"temp": 20.3,
+"temp": 20.5,
 "code": 1
 },
 {
-"time": "2026-07-21T03:10",
+"time": "2026-07-21T03:00",
 "temp": 20.1,
 "code": 1
+},
+{
+"time": "2026-07-21T04:00",
+"temp": 20.6,
+"code": 0
+},
+{
+"time": "2026-07-21T05:10",
+"temp": 23.0,
+"code": 0
 }
 ]
 }
