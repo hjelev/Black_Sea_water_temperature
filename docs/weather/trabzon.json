@@ -1,5 +1,5 @@
 {
-"updated": "2026-07-29T11:47:53Z",
+"updated": "2026-07-29T12:48:59Z",
 "days": [
 {
 "date": "2026-07-24",
@@ -43,18 +43,18 @@
 },
 {
 "date": "2026-07-29",
-"temp_max": 25.6,
-"temp_min": 21.3,
+"temp_max": 25.4,
+"temp_min": 21.5,
 "uv_max": 4.95,
 "wind_max": 9.7,
 "code": 3
 },
 {
 "date": "2026-07-30",
-"temp_max": 25.8,
-"temp_min": 20.6,
+"temp_max": 25.9,
+"temp_min": 21.2,
 "uv_max": 3.9,
-"wind_max": 19.2,
+"wind_max": 18.0,
 "code": 3
 },
 {
@@ -83,20 +83,15 @@
 }
 ],
 "current": {
-"temp": 25.4,
+"temp": 25.3,
 "feels_like": 28.2,
-"humidity": 73,
-"wind": 8.2,
-"wind_dir": 38,
-"uv": 3.35,
-"code": 3
+"humidity": 70,
+"wind": 4.8,
+"wind_dir": 27,
+"uv": 2.8,
+"code": 2
 },
 "hourly": [
-{
-"time": "2026-07-28T11:00",
-"temp": 27.1,
-"code": 1
-},
 {
 "time": "2026-07-28T12:00",
 "temp": 26.4,
@@ -209,13 +204,18 @@
 },
 {
 "time": "2026-07-29T10:00",
-"temp": 24.6,
+"temp": 24.0,
 "code": 3
 },
 {
-"time": "2026-07-29T11:47",
-"temp": 25.4,
+"time": "2026-07-29T11:00",
+"temp": 24.5,
 "code": 3
+},
+{
+"time": "2026-07-29T12:48",
+"temp": 25.3,
+"code": 2
 }
 ]
 }
