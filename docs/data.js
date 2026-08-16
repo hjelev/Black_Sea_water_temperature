@@ -197,7 +197,7 @@ window.renderCurrentWeather = function(container, current, updatedIso, waterTemp
         <span class="cw-updated">${window.formatUpdatedAgo(updatedIso)}</span>`;
 };
 
-// Trailing 24h hourly air-temperature line chart. Hides the whole section
+// Trailing 48h hourly air-temperature line chart. Hides the whole section
 // (heading + chart) if no hourly data is available.
 window.renderHourlyChart = function(containerId, hourly) {
     const section = document.getElementById('hourly-section');
@@ -208,7 +208,7 @@ window.renderHourlyChart = function(containerId, hourly) {
     const theme = window.plotlyTheme();
     const locale = window.LANG === 'bg' ? 'bg-BG' : 'en-US';
     const labels = hourly.map(h =>
-        new Date(h.time + 'Z').toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
+        new Date(h.time + 'Z').toLocaleTimeString(locale, { weekday: 'short', hour: '2-digit', minute: '2-digit' }));
     Plotly.newPlot(containerId, [{
         x: labels,
         y: hourly.map(h => h.temp),

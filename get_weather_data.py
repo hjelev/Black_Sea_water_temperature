@@ -2,13 +2,13 @@
 # from the Open-Meteo Forecast API (the same provider as the sea-temperature
 # pipeline in get_daily_temp.py) and store a rolling 5-days-back +
 # 5-days-forecast window per location, plus current conditions and a
-# trailing 24h hourly temperature series.
+# trailing 48h hourly temperature series.
 #
 # Unlike the sea-temperature csv files, this is not an append-only history:
 # forecasts change every run and past days can be revised, so each run
 # overwrites docs/weather/<slug>.json with the freshest full window rather
 # than accumulating rows. The hourly series relies on Open-Meteo's own
-# past_hours=24 window to self-limit to the last 24h - no local purge
+# past_hours=48 window to self-limit to the last 48h - no local purge
 # bookkeeping needed.
 #
 # Python 3.7+, standard library only.
@@ -39,7 +39,7 @@ def build_api_url(lat, lon):
         "https://api.open-meteo.com/v1/forecast"
         "?latitude={lat}&longitude={lon}"
         "&daily={daily}&current={current}&hourly={hourly}"
-        "&past_hours=24&forecast_hours=0"
+        "&past_hours=48&forecast_hours=0"
         "&timezone=UTC&past_days=5&forecast_days=5"
     ).format(lat=lat, lon=lon, daily=DAILY_VARS,
               current=CURRENT_VARS, hourly=HOURLY_VARS)
