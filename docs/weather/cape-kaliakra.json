@@ -1,14 +1,6 @@
 {
-"updated": "2026-08-27T23:11:32Z",
+"updated": "2026-08-28T03:11:33Z",
 "days": [
-{
-"date": "2026-08-22",
-"temp_max": 26.1,
-"temp_min": 20.8,
-"uv_max": 6.6,
-"wind_max": 11.4,
-"code": 2
-},
 {
 "date": "2026-08-23",
 "temp_max": 27.7,
@@ -44,7 +36,7 @@
 {
 "date": "2026-08-27",
 "temp_max": 24.2,
-"temp_min": 20.3,
+"temp_min": 20.4,
 "uv_max": 5.55,
 "wind_max": 14.0,
 "code": 95
@@ -53,15 +45,15 @@
 "date": "2026-08-28",
 "temp_max": 24.7,
 "temp_min": 17.8,
-"uv_max": 6.2,
-"wind_max": 30.2,
-"code": 3
+"uv_max": 6.25,
+"wind_max": 28.8,
+"code": 2
 },
 {
 "date": "2026-08-29",
 "temp_max": 25.7,
 "temp_min": 17.5,
-"uv_max": 6.25,
+"uv_max": 6.3,
 "wind_max": 21.1,
 "code": 3
 },
@@ -69,7 +61,7 @@
 "date": "2026-08-30",
 "temp_max": 26.8,
 "temp_min": 19.5,
-"uv_max": 6.0,
+"uv_max": 6.2,
 "wind_max": 17.1,
 "code": 3
 },
@@ -77,41 +69,29 @@
 "date": "2026-08-31",
 "temp_max": 26.5,
 "temp_min": 19.9,
-"uv_max": 6.15,
+"uv_max": 6.2,
 "wind_max": 17.7,
 "code": 2
+},
+{
+"date": "2026-09-01",
+"temp_max": 25.8,
+"temp_min": 17.5,
+"uv_max": 6.15,
+"wind_max": 8.0,
+"code": 45
 }
 ],
 "current": {
-"temp": 20.3,
-"feels_like": 22.0,
-"humidity": 94,
-"wind": 12.8,
-"wind_dir": 338,
+"temp": 18.4,
+"feels_like": 17.5,
+"humidity": 87,
+"wind": 21.6,
+"wind_dir": 358,
 "uv": 0.0,
-"code": 80
+"code": 2
 },
 "hourly": [
-{
-"time": "2026-08-25T23:00",
-"temp": 23.7,
-"code": 1
-},
-{
-"time": "2026-08-26T00:00",
-"temp": 23.5,
-"code": 0
-},
-{
-"time": "2026-08-26T01:00",
-"temp": 23.4,
-"code": 1
-},
-{
-"time": "2026-08-26T02:00",
-"temp": 23.3,
-"code": 0
-},
 {
 "time": "2026-08-26T03:00",
 "temp": 23.2,
@@ -333,9 +313,29 @@
 "code": 3
 },
 {
-"time": "2026-08-27T23:11",
-"temp": 20.3,
-"code": 80
+"time": "2026-08-27T23:00",
+"temp": 20.4,
+"code": 3
+},
+{
+"time": "2026-08-28T00:00",
+"temp": 20.0,
+"code": 2
+},
+{
+"time": "2026-08-28T01:00",
+"temp": 19.5,
+"code": 2
+},
+{
+"time": "2026-08-28T02:00",
+"temp": 18.9,
+"code": 1
+},
+{
+"time": "2026-08-28T03:11",
+"temp": 18.4,
+"code": 2
 }
 ]
 }
