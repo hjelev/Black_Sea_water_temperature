@@ -1,5 +1,5 @@
 {
-"updated": "2026-08-28T15:03:36Z",
+"updated": "2026-08-28T20:02:54Z",
 "days": [
 {
 "date": "2026-08-23",
@@ -43,80 +43,55 @@
 },
 {
 "date": "2026-08-28",
-"temp_max": 23.8,
+"temp_max": 24.7,
 "temp_min": 20.8,
 "uv_max": 6.35,
-"wind_max": 15.9,
+"wind_max": 16.6,
 "code": 95
 },
 {
 "date": "2026-08-29",
-"temp_max": 24.1,
-"temp_min": 20.0,
-"uv_max": 6.35,
-"wind_max": 14.0,
+"temp_max": 24.3,
+"temp_min": 20.2,
+"uv_max": 6.4,
+"wind_max": 14.4,
 "code": 3
 },
 {
 "date": "2026-08-30",
-"temp_max": 25.6,
-"temp_min": 20.8,
-"uv_max": 6.35,
-"wind_max": 10.1,
-"code": 3
+"temp_max": 25.5,
+"temp_min": 19.4,
+"uv_max": 6.3,
+"wind_max": 9.6,
+"code": 45
 },
 {
 "date": "2026-08-31",
-"temp_max": 25.3,
-"temp_min": 20.7,
+"temp_max": 26.1,
+"temp_min": 20.2,
 "uv_max": 6.3,
-"wind_max": 9.0,
+"wind_max": 9.4,
 "code": 2
 },
 {
 "date": "2026-09-01",
-"temp_max": 25.7,
-"temp_min": 19.1,
+"temp_max": 25.6,
+"temp_min": 19.7,
 "uv_max": 6.3,
-"wind_max": 8.7,
+"wind_max": 8.6,
 "code": 2
 }
 ],
 "current": {
-"temp": 23.8,
-"feels_like": 23.1,
-"humidity": 53,
-"wind": 12.4,
+"temp": 22.1,
+"feels_like": 21.8,
+"humidity": 67,
+"wind": 15.0,
 "wind_dir": 10,
-"uv": 1.55,
+"uv": 0.0,
 "code": 2
 },
 "hourly": [
-{
-"time": "2026-08-26T15:00",
-"temp": 25.5,
-"code": 2
-},
-{
-"time": "2026-08-26T16:00",
-"temp": 25.0,
-"code": 2
-},
-{
-"time": "2026-08-26T17:00",
-"temp": 24.5,
-"code": 3
-},
-{
-"time": "2026-08-26T18:00",
-"temp": 24.4,
-"code": 2
-},
-{
-"time": "2026-08-26T19:00",
-"temp": 24.0,
-"code": 2
-},
 {
 "time": "2026-08-26T20:00",
 "temp": 23.7,
@@ -319,22 +294,47 @@
 },
 {
 "time": "2026-08-28T12:00",
-"temp": 23.5,
+"temp": 24.0,
 "code": 1
 },
 {
 "time": "2026-08-28T13:00",
-"temp": 23.7,
+"temp": 24.0,
 "code": 0
 },
 {
 "time": "2026-08-28T14:00",
-"temp": 23.7,
+"temp": 24.2,
 "code": 0
 },
 {
-"time": "2026-08-28T15:03",
-"temp": 23.8,
+"time": "2026-08-28T15:00",
+"temp": 24.7,
+"code": 0
+},
+{
+"time": "2026-08-28T16:00",
+"temp": 24.4,
+"code": 1
+},
+{
+"time": "2026-08-28T17:00",
+"temp": 23.7,
+"code": 2
+},
+{
+"time": "2026-08-28T18:00",
+"temp": 22.1,
+"code": 2
+},
+{
+"time": "2026-08-28T19:00",
+"temp": 21.8,
+"code": 1
+},
+{
+"time": "2026-08-28T20:02",
+"temp": 22.1,
 "code": 2
 }
 ]
