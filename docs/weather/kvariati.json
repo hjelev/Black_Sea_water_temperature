@@ -1,5 +1,5 @@
 {
-"updated": "2026-09-19T04:19:38Z",
+"updated": "2026-09-19T05:16:29Z",
 "days": [
 {
 "date": "2026-09-14",
@@ -36,17 +36,17 @@
 {
 "date": "2026-09-18",
 "temp_max": 23.9,
-"temp_min": 20.8,
+"temp_min": 20.7,
 "uv_max": 5.65,
-"wind_max": 10.7,
-"code": 95
+"wind_max": 10.4,
+"code": 81
 },
 {
 "date": "2026-09-19",
-"temp_max": 20.8,
-"temp_min": 20.1,
+"temp_max": 21.1,
+"temp_min": 20.2,
 "uv_max": 0.55,
-"wind_max": 31.8,
+"wind_max": 25.0,
 "code": 95
 },
 {
@@ -54,7 +54,7 @@
 "temp_max": 21.9,
 "temp_min": 19.8,
 "uv_max": 5.1,
-"wind_max": 11.4,
+"wind_max": 10.7,
 "code": 3
 },
 {
@@ -62,7 +62,7 @@
 "temp_max": 22.6,
 "temp_min": 19.7,
 "uv_max": 4.7,
-"wind_max": 7.6,
+"wind_max": 7.8,
 "code": 3
 },
 {
@@ -70,7 +70,7 @@
 "temp_max": 25.8,
 "temp_min": 20.0,
 "uv_max": 5.8,
-"wind_max": 9.2,
+"wind_max": 9.0,
 "code": 3
 },
 {
@@ -78,25 +78,20 @@
 "temp_max": 26.3,
 "temp_min": 19.7,
 "uv_max": 5.15,
-"wind_max": 18.4,
+"wind_max": 17.1,
 "code": 61
 }
 ],
 "current": {
 "temp": 20.6,
-"feels_like": 21.9,
-"humidity": 91,
-"wind": 14.5,
-"wind_dir": 199,
-"uv": 0.1,
-"code": 63
+"feels_like": 20.9,
+"humidity": 97,
+"wind": 25.0,
+"wind_dir": 223,
+"uv": 0.3,
+"code": 95
 },
 "hourly": [
-{
-"time": "2026-09-17T04:00",
-"temp": 21.2,
-"code": 3
-},
 {
 "time": "2026-09-17T05:00",
 "temp": 21.8,
@@ -299,27 +294,27 @@
 },
 {
 "time": "2026-09-18T21:00",
-"temp": 20.8,
-"code": 80
-},
-{
-"time": "2026-09-18T22:00",
 "temp": 20.9,
 "code": 80
 },
 {
-"time": "2026-09-18T23:00",
+"time": "2026-09-18T22:00",
 "temp": 20.8,
-"code": 95
-},
-{
-"time": "2026-09-19T00:00",
-"temp": 20.7,
 "code": 80
 },
 {
-"time": "2026-09-19T01:00",
+"time": "2026-09-18T23:00",
+"temp": 20.7,
+"code": 81
+},
+{
+"time": "2026-09-19T00:00",
 "temp": 20.6,
+"code": 95
+},
+{
+"time": "2026-09-19T01:00",
+"temp": 20.7,
 "code": 95
 },
 {
@@ -329,13 +324,18 @@
 },
 {
 "time": "2026-09-19T03:00",
-"temp": 20.5,
+"temp": 20.4,
 "code": 61
 },
 {
-"time": "2026-09-19T04:19",
+"time": "2026-09-19T04:00",
+"temp": 20.5,
+"code": 95
+},
+{
+"time": "2026-09-19T05:16",
 "temp": 20.6,
-"code": 63
+"code": 95
 }
 ]
 }
