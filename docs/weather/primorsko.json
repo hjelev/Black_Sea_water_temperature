@@ -1,5 +1,5 @@
 {
-"updated": "2026-09-19T05:15:44Z",
+"updated": "2026-09-19T06:26:12Z",
 "days": [
 {
 "date": "2026-09-14",
@@ -43,10 +43,10 @@
 },
 {
 "date": "2026-09-19",
-"temp_max": 24.0,
-"temp_min": 14.1,
+"temp_max": 23.9,
+"temp_min": 14.2,
 "uv_max": 5.0,
-"wind_max": 9.8,
+"wind_max": 10.0,
 "code": 45
 },
 {
@@ -54,7 +54,7 @@
 "temp_max": 23.9,
 "temp_min": 15.2,
 "uv_max": 5.35,
-"wind_max": 10.7,
+"wind_max": 9.4,
 "code": 45
 },
 {
@@ -62,7 +62,7 @@
 "temp_max": 25.3,
 "temp_min": 13.7,
 "uv_max": 5.35,
-"wind_max": 11.9,
+"wind_max": 11.1,
 "code": 45
 },
 {
@@ -70,33 +70,28 @@
 "temp_max": 19.8,
 "temp_min": 14.4,
 "uv_max": 2.2,
-"wind_max": 13.7,
+"wind_max": 12.7,
 "code": 61
 },
 {
 "date": "2026-09-23",
 "temp_max": 17.4,
-"temp_min": 9.7,
+"temp_min": 9.8,
 "uv_max": 5.0,
-"wind_max": 18.9,
+"wind_max": 18.3,
 "code": 3
 }
 ],
 "current": {
-"temp": 16.1,
-"feels_like": 16.9,
-"humidity": 89,
-"wind": 4.4,
-"wind_dir": 235,
-"uv": 0.8,
+"temp": 19.9,
+"feels_like": 20.9,
+"humidity": 71,
+"wind": 3.1,
+"wind_dir": 249,
+"uv": 2.0,
 "code": 1
 },
 "hourly": [
-{
-"time": "2026-09-17T05:00",
-"temp": 14.7,
-"code": 1
-},
 {
 "time": "2026-09-17T06:00",
 "temp": 19.1,
@@ -294,47 +289,52 @@
 },
 {
 "time": "2026-09-18T21:00",
-"temp": 16.0,
+"temp": 16.4,
 "code": 0
 },
 {
 "time": "2026-09-18T22:00",
-"temp": 15.1,
-"code": 2
+"temp": 15.3,
+"code": 1
 },
 {
 "time": "2026-09-18T23:00",
-"temp": 14.6,
+"temp": 14.7,
 "code": 45
 },
 {
 "time": "2026-09-19T00:00",
 "temp": 14.6,
-"code": 3
+"code": 45
 },
 {
 "time": "2026-09-19T01:00",
 "temp": 14.5,
-"code": 3
+"code": 45
 },
 {
 "time": "2026-09-19T02:00",
+"temp": 14.6,
+"code": 2
+},
+{
+"time": "2026-09-19T03:00",
 "temp": 14.5,
 "code": 1
 },
 {
-"time": "2026-09-19T03:00",
-"temp": 14.3,
-"code": 1
-},
-{
 "time": "2026-09-19T04:00",
-"temp": 14.1,
+"temp": 14.2,
 "code": 1
 },
 {
-"time": "2026-09-19T05:15",
-"temp": 16.1,
+"time": "2026-09-19T05:00",
+"temp": 15.1,
+"code": 1
+},
+{
+"time": "2026-09-19T06:26",
+"temp": 19.9,
 "code": 1
 }
 ]

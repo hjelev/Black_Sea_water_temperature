@@ -1,5 +1,5 @@
 {
-"updated": "2026-09-19T05:16:29Z",
+"updated": "2026-09-19T06:26:55Z",
 "days": [
 {
 "date": "2026-09-14",
@@ -43,10 +43,10 @@
 },
 {
 "date": "2026-09-19",
-"temp_max": 21.5,
-"temp_min": 20.4,
+"temp_max": 21.3,
+"temp_min": 20.6,
 "uv_max": 0.6,
-"wind_max": 18.7,
+"wind_max": 20.9,
 "code": 95
 },
 {
@@ -54,7 +54,7 @@
 "temp_max": 22.7,
 "temp_min": 19.4,
 "uv_max": 5.05,
-"wind_max": 10.2,
+"wind_max": 10.4,
 "code": 80
 },
 {
@@ -62,7 +62,7 @@
 "temp_max": 23.8,
 "temp_min": 19.1,
 "uv_max": 4.3,
-"wind_max": 9.2,
+"wind_max": 8.3,
 "code": 3
 },
 {
@@ -70,33 +70,28 @@
 "temp_max": 25.9,
 "temp_min": 19.3,
 "uv_max": 5.75,
-"wind_max": 9.0,
+"wind_max": 7.4,
 "code": 3
 },
 {
 "date": "2026-09-23",
 "temp_max": 24.9,
-"temp_min": 19.5,
+"temp_min": 20.6,
 "uv_max": 5.7,
-"wind_max": 16.9,
+"wind_max": 16.6,
 "code": 80
 }
 ],
 "current": {
-"temp": 20.9,
-"feels_like": 22.1,
-"humidity": 95,
-"wind": 18.6,
-"wind_dir": 227,
-"uv": 0.25,
+"temp": 21.2,
+"feels_like": 21.7,
+"humidity": 90,
+"wind": 20.8,
+"wind_dir": 242,
+"uv": 0.4,
 "code": 63
 },
 "hourly": [
-{
-"time": "2026-09-17T05:00",
-"temp": 22.0,
-"code": 3
-},
 {
 "time": "2026-09-17T06:00",
 "temp": 22.8,
@@ -299,42 +294,47 @@
 },
 {
 "time": "2026-09-18T22:00",
-"temp": 21.0,
+"temp": 21.1,
 "code": 95
 },
 {
 "time": "2026-09-18T23:00",
-"temp": 21.0,
+"temp": 21.2,
 "code": 95
 },
 {
 "time": "2026-09-19T00:00",
-"temp": 21.0,
+"temp": 21.2,
 "code": 81
 },
 {
 "time": "2026-09-19T01:00",
 "temp": 21.1,
-"code": 80
+"code": 95
 },
 {
 "time": "2026-09-19T02:00",
 "temp": 21.0,
-"code": 95
+"code": 80
 },
 {
 "time": "2026-09-19T03:00",
-"temp": 20.4,
-"code": 63
-},
-{
-"time": "2026-09-19T04:00",
-"temp": 20.6,
+"temp": 20.9,
 "code": 95
 },
 {
-"time": "2026-09-19T05:16",
+"time": "2026-09-19T04:00",
+"temp": 20.8,
+"code": 95
+},
+{
+"time": "2026-09-19T05:00",
 "temp": 20.9,
+"code": 63
+},
+{
+"time": "2026-09-19T06:26",
+"temp": 21.2,
 "code": 63
 }
 ]
