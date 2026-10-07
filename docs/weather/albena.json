@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-07T00:50:48Z",
+"updated": "2026-10-07T01:36:45Z",
 "days": [
 {
 "date": "2026-10-02",
@@ -38,29 +38,29 @@
 "temp_max": 21.4,
 "temp_min": 8.5,
 "uv_max": 3.9,
-"wind_max": 8.5,
+"wind_max": 8.7,
 "code": 3
 },
 {
 "date": "2026-10-07",
 "temp_max": 21.5,
-"temp_min": 9.0,
+"temp_min": 9.1,
 "uv_max": 4.35,
-"wind_max": 11.1,
+"wind_max": 10.8,
 "code": 3
 },
 {
 "date": "2026-10-08",
 "temp_max": 20.3,
-"temp_min": 14.8,
+"temp_min": 14.9,
 "uv_max": 3.7,
-"wind_max": 19.2,
+"wind_max": 18.9,
 "code": 3
 },
 {
 "date": "2026-10-09",
 "temp_max": 21.9,
-"temp_min": 14.9,
+"temp_min": 14.8,
 "uv_max": 4.35,
 "wind_max": 10.5,
 "code": 45
@@ -68,35 +68,30 @@
 {
 "date": "2026-10-10",
 "temp_max": 22.6,
-"temp_min": 13.8,
+"temp_min": 13.9,
 "uv_max": 4.2,
-"wind_max": 8.7,
+"wind_max": 8.5,
 "code": 3
 },
 {
 "date": "2026-10-11",
 "temp_max": 19.7,
-"temp_min": 15.8,
+"temp_min": 15.9,
 "uv_max": 3.0,
 "wind_max": 14.6,
 "code": 95
 }
 ],
 "current": {
-"temp": 10.1,
-"feels_like": 8.3,
-"humidity": 83,
-"wind": 7.4,
-"wind_dir": 309,
+"temp": 9.9,
+"feels_like": 8.0,
+"humidity": 84,
+"wind": 8.0,
+"wind_dir": 306,
 "uv": 0.0,
-"code": 0
+"code": 1
 },
 "hourly": [
-{
-"time": "2026-10-05T00:00",
-"temp": 8.1,
-"code": 0
-},
 {
 "time": "2026-10-05T01:00",
 "temp": 7.6,
@@ -244,7 +239,7 @@
 },
 {
 "time": "2026-10-06T06:00",
-"temp": 13.1,
+"temp": 13.2,
 "code": 1
 },
 {
@@ -299,27 +294,27 @@
 },
 {
 "time": "2026-10-06T17:00",
-"temp": 17.7,
+"temp": 17.6,
 "code": 1
 },
 {
 "time": "2026-10-06T18:00",
-"temp": 16.6,
+"temp": 16.5,
 "code": 0
 },
 {
 "time": "2026-10-06T19:00",
-"temp": 15.7,
+"temp": 15.5,
 "code": 0
 },
 {
 "time": "2026-10-06T20:00",
-"temp": 14.7,
+"temp": 14.6,
 "code": 0
 },
 {
 "time": "2026-10-06T21:00",
-"temp": 13.9,
+"temp": 13.8,
 "code": 1
 },
 {
@@ -333,9 +328,14 @@
 "code": 0
 },
 {
-"time": "2026-10-07T00:50",
-"temp": 10.1,
+"time": "2026-10-07T00:00",
+"temp": 10.6,
 "code": 0
+},
+{
+"time": "2026-10-07T01:36",
+"temp": 9.9,
+"code": 1
 }
 ]
 }
