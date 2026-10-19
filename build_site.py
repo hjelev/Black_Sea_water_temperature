@@ -126,7 +126,7 @@ PAGES = {
                    "{country} — последните 5 дни и прогноза за 5 дни, обновявани "
                    "всеки час."),
         },
-        "plotly": False,  # daily cards, not charts; skip the ~1 MB Plotly bundle
+        "plotly": True,   # air-vs-sea + hourly charts
     },
 }
 

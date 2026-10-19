@@ -127,26 +127,38 @@ window.weatherIcon = function(code) {
     return icons[code] || '🌡️';
 };
 
-// Render the 10-day (5 past + today + 4 forecast) card strip into `container`.
-window.renderWeatherCards = function(container, days) {
-    const todayStr = new Date().toISOString().slice(0, 10);
-    container.innerHTML = days.map(d => {
-        const isToday = d.date === todayStr;
-        const label = new Date(d.date + 'T00:00:00Z').toLocaleDateString(
-            window.LANG === 'bg' ? 'bg-BG' : 'en-US',
-            { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
-        const high = d.temp_max != null ? Math.round(d.temp_max) : '–';
-        const low = d.temp_min != null ? Math.round(d.temp_min) : '–';
-        const uv = d.uv_max != null ? d.uv_max.toFixed(1) : '–';
-        const wind = d.wind_max != null ? Math.round(d.wind_max) : '–';
-        return `<div class="weather-card${isToday ? ' today' : ''}">
-            <span class="weather-date">${isToday ? t('weather_today') : label}</span>
-            <span class="weather-icon">${window.weatherIcon(d.code)}</span>
-            <span class="weather-temps">${high}° / ${low}°C</span>
-            <span class="weather-detail">${t('weather_uv')} ${uv}</span>
-            <span class="weather-detail">${t('weather_wind')} ${wind} km/h</span>
-        </div>`;
-    }).join('');
+// WMO code → translated condition key (wx_*).
+window.weatherCondKey = function(code) {
+    if (code === 0) return 'wx_clear';
+    if (code === 1) return 'wx_mainly_clear';
+    if (code === 2) return 'wx_partly_cloudy';
+    if (code === 3) return 'wx_overcast';
+    if (code === 45 || code === 48) return 'wx_fog';
+    if (code >= 51 && code <= 55) return 'wx_drizzle';
+    if (code === 56 || code === 57 || code === 66 || code === 67) return 'wx_freezing_rain';
+    if (code >= 61 && code <= 65) return 'wx_rain';
+    if ((code >= 71 && code <= 77) || code === 85 || code === 86) return 'wx_snow';
+    if (code >= 80 && code <= 82) return 'wx_showers';
+    if (code >= 95) return 'wx_thunder';
+    return 'wx_partly_cloudy';
+};
+
+// WHO UV index categories → { key, color }.
+window.uvLevel = function(uv) {
+    if (uv < 3) return { key: 'uv_low', color: '#3ea72d' };
+    if (uv < 6) return { key: 'uv_moderate', color: '#e0b000' };
+    if (uv < 8) return { key: 'uv_high', color: '#f18b00' };
+    if (uv < 11) return { key: 'uv_very_high', color: '#e53210' };
+    return { key: 'uv_extreme', color: '#b567a4' };
+};
+
+// Rough Beaufort grouping of a km/h wind speed.
+window.windKey = function(kmh) {
+    if (kmh < 6) return 'wind_calm';
+    if (kmh < 20) return 'wind_light';
+    if (kmh < 39) return 'wind_moderate';
+    if (kmh < 62) return 'wind_strong';
+    return 'wind_gale';
 };
 
 // Relative "Updated Xm ago" string from an ISO 8601 UTC timestamp, no i18n
@@ -202,8 +214,9 @@ window.renderCurrentWeather = function(container, current, updatedIso, waterTemp
 };
 
 // Trailing 48h hourly air-temperature line chart. Hides the whole section
-// (heading + chart) if no hourly data is available.
-window.renderHourlyChart = function(containerId, hourly) {
+// (heading + chart) if no hourly data is available. opts.icons adds a weather
+// icon above the line every 3 hours (6 on narrow screens).
+window.renderHourlyChart = function(containerId, hourly, opts) {
     const section = document.getElementById('hourly-section');
     if (!hourly || !hourly.length) {
         if (section) section.style.display = 'none';
@@ -215,9 +228,19 @@ window.renderHourlyChart = function(containerId, hourly) {
     const times = hourly.map(h => new Date(h.time + 'Z'));
     const labels = times.map(d =>
         d.toLocaleString(locale, { weekday: 'short', hour: '2-digit', minute: '2-digit' }));
+    const temps = hourly.map(h => h.temp);
+    const range = window.paddedRange(temps);
+    const el = document.getElementById(containerId);
+    const iconStep = el && el.clientWidth < 600 ? 6 : 3;
+    const annotations = (opts && opts.icons) ? hourly
+        .map((h, i) => ({ h, i }))
+        .filter(({ h, i }) => i % iconStep === 0 && h.code != null && h.temp != null)
+        .map(({ h, i }) => ({ x: times[i], y: h.temp, yshift: 16, showarrow: false,
+                              text: window.weatherIcon(h.code), font: { size: 15 } })) : [];
+    if (annotations.length && range) range[1] += (range[1] - range[0]) * 0.12;
     Plotly.newPlot(containerId, [{
         x: times,
-        y: hourly.map(h => h.temp),
+        y: temps,
         type: 'scatter', mode: 'lines',
         line: { color: '#e0a030', width: 2.5, shape: 'spline' },
         fill: 'tozeroy', fillcolor: 'rgba(224,160,48,0.12)',
@@ -226,8 +249,8 @@ window.renderHourlyChart = function(containerId, hourly) {
     }], {
         ...theme,
         xaxis: { ...theme.xaxis, title: '', tickformat: '%H:%M\n%d.%m' },
-        yaxis: { ...theme.yaxis, title: '°C', rangemode: 'normal',
-                 range: window.paddedRange(hourly.map(h => h.temp)) }
+        yaxis: { ...theme.yaxis, title: '°C', rangemode: 'normal', range },
+        annotations
     }, window.plotlyConfig());
 };
 
