@@ -1,7 +1,7 @@
 # Black Sea Water Temperature
 
 Live and historical **sea surface temperature** for the Black Sea coast,
-tracking **38 locations** across 5 countries (Bulgaria, Turkey, Romania, Georgia
+tracking **53 locations** across 5 countries (Bulgaria, Turkey, Romania, Georgia
 and Russia). Data comes from the free, key-less
 [Open-Meteo Marine API](https://open-meteo.com/en/docs/marine-weather-api) and is
 updated automatically every 2 hours by GitHub Actions.
@@ -85,7 +85,7 @@ The active pipeline (`locations.py`, `get_daily_temp.py`, `backfill.py`,
 │   ├── latest_temps.json        #   current reading per location (written by CI)
 │   ├── data.js                  #   loads CSVs from raw GitHub + renders charts
 │   ├── map.js                   #   Leaflet hub map
-│   ├── i18n.js                  #   EN/BG translations (hand-maintained)
+│   ├── i18n.js                  #   EN/BG translations (generated from translations.json)
 │   ├── style.css, favicon.svg
 │   ├── sitemap.xml, robots.txt  #   (generated)
 │   └── CNAME                     #   more.masoko.net
@@ -148,16 +148,24 @@ match the cadence of the original historical series.
    curl "https://marine-api.open-meteo.com/v1/marine?latitude=42.82&longitude=27.92&hourly=sea_surface_temperature&past_days=1&forecast_days=1"
    ```
 
-2. **Add translations to `docs/i18n.js`.** In **both** the `en` and `bg` blocks
-   add a `loc_<slug-without-dashes>` key (dashes are stripped — `cape-kaliakra`
-   becomes `loc_capekaliakra`):
+   The marine grid is 1/12° (~9 km), so neighbouring resorts often snap to the
+   same cell. Check the `latitude`/`longitude` the API echoes back: if it matches
+   an existing location's cell, the new location's live readings will be
+   identical to that neighbour's (see the cell table at the top of
+   `locations.py`).
 
-   ```js
-   loc_obzor: 'Obzor, Bulgaria',   // in the en block
-   loc_obzor: 'Обзор, България',   // in the bg block
+2. **Add translations to `translations.json`.** In **both** the `en` and `bg`
+   blocks add a `loc_<slug-without-dashes>` name and a `desc_<slug-without-dashes>`
+   description (dashes are stripped — `cape-kaliakra` becomes `loc_capekaliakra`):
+
+   ```json
+   "loc_obzor": "Obzor, Bulgaria",       // in the en block
+   "loc_obzor": "Обзор, България",       // in the bg block
    ```
 
    For a **new country**, also add `country_<slug>` to both blocks.
+   `docs/i18n.js` is generated from this file by `build_site.py` — don't edit it
+   by hand.
 
 3. **Backfill the history:**
 
@@ -168,7 +176,11 @@ match the cadence of the original historical series.
    This creates `obzor_water_temp.csv` filled from `start_date` to today. (Run
    `python3 backfill.py` with no argument to rebuild every location.)
 
-4. **Regenerate the site:**
+4. **Fetch photos** (optional, network): `python3 fetch_galleries.py` refreshes
+   `docs/galleries.json` for every location. For ambiguous names add search terms
+   to `EXTRA_QUERIES` / `NAME_ALIASES` in that script.
+
+5. **Regenerate the site:**
 
    ```bash
    python3 build_site.py
@@ -178,7 +190,7 @@ match the cadence of the original historical series.
    `docs/index.html`, `docs/compare-locations.html`, `docs/sitemap.xml` and
    `docs/robots.txt`.
 
-5. **Commit** the new CSV and the regenerated `docs/`. The next scheduled CI run
+6. **Commit** the new CSV and the regenerated `docs/`. The next scheduled CI run
    will start appending fresh readings and add the location to
    `docs/latest_temps.json`.
 

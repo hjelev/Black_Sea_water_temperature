@@ -66,7 +66,10 @@ SKIP_RE = re.compile(
     r"locomotive|railway|\btrain\b|\bgara\b|rafting|yayla|uzungöl|long lake|"
     r"hist\. ?foto|\bussr\b|\bссср\b|rian archive|dust storm|"
     # book plates / archive scans / space-station shots
-    r"\bp\.\s?\d+|LABW|apollo|soyuz"
+    r"\bp\.\s?\d+|LABW|apollo|soyuz|"
+    # civic buildings / events / cemeteries
+    r"antarctic|glacier|\bpeak\b|livingston island|\bnunatak|"
+    r"cemetery|гробищ|post.office|chitalishte|читалище|bread oven|terror|терорист"
     r")", re.I)
 # Archive photos (a year 1800-1989 in the title) look dated next to the live data.
 OLD_YEAR_RE = re.compile(r"(?<!\d)(18\d\d|19[0-8]\d)(?!\d)")
@@ -171,12 +174,27 @@ EXTRA_QUERIES = {
     "shekvetili": ["Shekvetili beach"],
     "sochi": ["Sochi beach", "Sochi Black Sea"],
     "abrau-durso": ["Durso beach", "Abrau-Durso lake"],
+    "byala": ["Byala Varna beach", "Byala Bulgaria Black Sea", "Бяла плаж"],
+    "dyuni": ["Duni resort Bulgaria", "Dyuni beach", "Arkutino"],
+    "kiten": ["Kiten Bulgaria", "Kiten beach"],
+    "ravda": ["Ravda Bulgaria"],
+    "chernomorets": ["Chernomorets Bulgaria"],
+    "tsarevo": ["Tsarevo Bulgaria"],
+    "shabla": ["Shabla lighthouse", "Cape Shabla"],
+    "krapets": ["Krapets Bulgaria"],
+    "durankulak": ["Durankulak lake"],
+    "shkorpilovtsi": ["Shkorpilovtsi beach", "Kamchia river mouth"],
 }
 # Native-script names for non-Bulgarian locations (name_bg covers Bulgaria).
 LOCAL_NAMES = {
     "sochi": "Сочи", "anapa": "Анапа", "gelendzhik": "Геленджик",
     "novorossiysk": "Новороссийск", "abrau-durso": "Абрау-Дюрсо",
     "constanta": "Constanța", "sile": "Şile",
+}
+# Per-location title blocks for namesakes that the generic filters can't tell
+# apart (FC Chernomorets of Varna/Odesa matches).
+LOCATION_BLOCK = {
+    "chernomorets": re.compile(r"(варна|varna|урал|odesa|одеса|fc\b|футбол)", re.I),
 }
 # Name fragments that count as "the title names this place" for ranking.
 NAME_ALIASES = {
@@ -191,6 +209,15 @@ NAME_ALIASES = {
     "abrau-durso": ["abrau", "durso", "абрау", "дюрсо"],
     "constanta": ["constanța", "constanta", "constanţa", "tomis"],
     "sile": ["şile", "sile"],
+    # Another Byala lies inland near Ruse; only trust its seaside photos.
+    "byala": ["byala beach", "byala, varna", "byala varna", "byala bulgaria black",
+              "бяла, варн", "бяла плаж", "бяла - плаж"],
+    "dyuni": ["dyuni", "duni", "дюни", "arkutino", "аркутино"],
+    # Russian "обзор" means "overview"; only the Latin spelling is the town.
+    "obzor": ["obzor"],
+    "nessebar": ["nessebar", "nesebar", "nesebyr", "несебър", "несебр"],
+    "shkorpilovtsi": ["shkorpilovtsi", "škorpilovci", "шкорпиловци", "kamchia",
+                      "камчия"],
 }
 
 
@@ -360,6 +387,9 @@ def candidates(loc):
     out = []
     for im in dedupe(images):
         title = fold(im["title"])
+        block = LOCATION_BLOCK.get(loc["slug"])
+        if block and block.search(title):
+            continue
         named = mentions(title, aliases)
         if not named and mentions(title, others):
             continue  # a neighbouring tracked location's photo

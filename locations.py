@@ -29,6 +29,16 @@
 #   lozenets          42.22, 27.85
 #   sveti-vlas        42.71, 27.80
 #
+# Later Bulgarian additions request the Open-Meteo marine cell centre directly
+# (the grid is 1/12 deg, ~9 km). Several resorts snap to the same current cell
+# as a neighbour, so their live readings match (archived history can still
+# differ where the upstream model grid changed over time):
+#   golden-sands = sveti-konstantin      burgas = pomorie = sarafovo = chernomorets
+#   sunny-beach  = sveti-vlas            tyulenovo = shabla     albena = kranevo
+#   irakli = byala = obzor               primorsko = dyuni = kiten
+#   lozenets = tsarevo                   sinemorets = ahtopol
+# Own cells: durankulak, krapets, shkorpilovtsi, ravda, rezovo.
+#
 # International locations (Turkey/Romania/Georgia/Russia) are nudged toward the
 # open sea away from their coastlines (north for the Turkish south coast, east
 # for Romania, west for Georgia, south for the NE Russian coast).
@@ -91,6 +101,51 @@ LOCATIONS = [
      "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
     {"slug": "sveti-vlas",  "csv_file": "sveti_vlas_water_temp.csv",  "lat": 42.71, "lon": 27.8,
      "name_en": "Sveti Vlas",  "name_bg": "Свети Влас", "flag": "🛥️", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "durankulak", "csv_file": "durankulak_water_temp.csv", "lat": 43.708, "lon": 28.708,
+     "name_en": "Durankulak", "name_bg": "Дуранкулак", "flag": "🦢", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "krapets", "csv_file": "krapets_water_temp.csv", "lat": 43.625, "lon": 28.708,
+     "name_en": "Krapets", "name_bg": "Крапец", "flag": "🏄", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "shabla", "csv_file": "shabla_water_temp.csv", "lat": 43.541, "lon": 28.708,
+     "name_en": "Shabla", "name_bg": "Шабла", "flag": "🔦", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "kranevo", "csv_file": "kranevo_water_temp.csv", "lat": 43.291, "lon": 28.208,
+     "name_en": "Kranevo", "name_bg": "Кранево", "flag": "🌲", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "shkorpilovtsi", "csv_file": "shkorpilovtsi_water_temp.csv", "lat": 43.042, "lon": 27.958,
+     "name_en": "Shkorpilovtsi", "name_bg": "Шкорпиловци", "flag": "🏞️", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "byala", "csv_file": "byala_water_temp.csv", "lat": 42.792, "lon": 27.958,
+     "name_en": "Byala", "name_bg": "Бяла", "flag": "🍷", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "obzor", "csv_file": "obzor_water_temp.csv", "lat": 42.792, "lon": 27.958,
+     "name_en": "Obzor", "name_bg": "Обзор", "flag": "🌄", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "ravda", "csv_file": "ravda_water_temp.csv", "lat": 42.625, "lon": 27.708,
+     "name_en": "Ravda", "name_bg": "Равда", "flag": "🐟", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "sarafovo", "csv_file": "sarafovo_water_temp.csv", "lat": 42.542, "lon": 27.708,
+     "name_en": "Sarafovo", "name_bg": "Сарафово", "flag": "✈️", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "chernomorets", "csv_file": "chernomorets_water_temp.csv", "lat": 42.542, "lon": 27.708,
+     "name_en": "Chernomorets", "name_bg": "Черноморец", "flag": "🐬", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "dyuni", "csv_file": "dyuni_water_temp.csv", "lat": 42.375, "lon": 27.875,
+     "name_en": "Dyuni", "name_bg": "Дюни", "flag": "🏜️", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "kiten", "csv_file": "kiten_water_temp.csv", "lat": 42.375, "lon": 27.875,
+     "name_en": "Kiten", "name_bg": "Китен", "flag": "⛺", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "tsarevo", "csv_file": "tsarevo_water_temp.csv", "lat": 42.292, "lon": 27.958,
+     "name_en": "Tsarevo", "name_bg": "Царево", "flag": "👑", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "ahtopol", "csv_file": "ahtopol_water_temp.csv", "lat": 42.208, "lon": 28.125,
+     "name_en": "Ahtopol", "name_bg": "Ахтопол", "flag": "🌊", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "rezovo", "csv_file": "rezovo_water_temp.csv", "lat": 41.958, "lon": 28.208,
+     "name_en": "Rezovo", "name_bg": "Резово", "flag": "🛂", "start_date": "2023-01-01",
      "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
 
     # --- Turkey (sea lies north of the coast → nudge latitude north) ---

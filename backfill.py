@@ -15,7 +15,7 @@ import json
 import sys
 import time
 import urllib.request
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 
 from locations import LOCATIONS
 
@@ -54,10 +54,13 @@ def get_readings(lat, lon, start_date, end_date):
     if not times or not temps:
         raise RuntimeError("Open-Meteo returned no hourly data: {}".format(data))
 
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
     readings = []
     for iso_time, temp in zip(times, temps):
         moment = datetime.strptime(iso_time, "%Y-%m-%dT%H:%M")
         if moment.hour not in RECORD_HOURS:
+            continue
+        if moment > now:  # skip forecast hours, like get_daily_temp.py
             continue
         if temp is None:
             continue
