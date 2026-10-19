@@ -14,9 +14,11 @@
 #
 # Python 3.7+ , standard library only.
 import json
+import math
 import os
 import re
 import time
+import unicodedata
 import urllib.parse
 import urllib.request
 
@@ -57,8 +59,23 @@ SKIP_RE = re.compile(
     # space / planetary nomenclature
     r"ISS\d|view of earth|astronaut|olympus mons|\bcrater\b|"
     # historical documents / royalty (saint-name collisions)
-    r"\bfolio\b|\bcodex\b|princess|\bprince\b|via julia|bandeira"
+    r"\bfolio\b|\bcodex\b|princess|\bprince\b|via julia|bandeira|"
+    # hotel / venue promo shots, infrastructure, ships, archive photos
+    r"\bhotel|restaurant|\bradar\b|\binterior\b|\bIMO\b|tanker|cargo ship|"
+    r"hilton|хилтон|reading.hall|muzeu|stadium|stadion|tribune|\bship\b|cruise|\bSSS\b|"
+    r"locomotive|railway|\btrain\b|\bgara\b|rafting|yayla|uzungöl|long lake|"
+    r"hist\. ?foto|\bussr\b|\bссср\b|rian archive|dust storm|"
+    # book plates / archive scans / space-station shots
+    r"\bp\.\s?\d+|LABW|apollo|soyuz"
     r")", re.I)
+# Archive photos (a year 1800-1989 in the title) look dated next to the live data.
+OLD_YEAR_RE = re.compile(r"(?<!\d)(18\d\d|19[0-8]\d)(?!\d)")
+# Strong "this is the seaside" title terms, multilingual (bg/ru/ro/tr/ka-latin).
+COAST_TITLE_RE = re.compile(
+    r"(beach|coast|shore|seaside|\bsea\b|black sea|\bbay\b|cliff|\bcape\b|"
+    r"aerial|drone|panorama|\bview\b|sunset|sunrise|harbou?r|marina|\bport\b|"
+    r"плаж|пляж|море|бряг|берег|бухт|залив|plaj|litoral|sahil|plaj|deniz|"
+    r"strand|küste|plaża|morze)", re.I)
 # Positive nature / beach / scenic terms. Used to RANK (not hard-filter) kept
 # images so beach and coast shots lead each gallery, while generic-title scenic
 # town views are still allowed through. Note: 'panorama\b' must not match the
@@ -115,11 +132,65 @@ def location_name_re(name_en):
                       r" (?!(?:" + PLACE_NOUN + r")\b)[A-Z][\w.-]+$")
 
 IIPROPS = {
-    "prop": "imageinfo|categories",
+    "prop": "imageinfo|categories|coordinates",
     "iiprop": "url|extmetadata|mime|size",
     "iiurlwidth": THUMB_WIDTH,
     "cllimit": "max",
     "clshow": "!hidden",
+    "colimit": "max",
+}
+
+# Photos geotagged farther than this from the location are a different place
+# that merely shares the name (Green Cape, Australia; La Rize, France) or an
+# inland excursion (Uzungöl from Trabzon).
+MAX_KM = 15
+# Skip low-resolution originals; they look soft in the lightbox.
+MIN_WIDTH = 1000
+# At most this many photos from one author per location, so one prolific
+# uploader's series can't fill a whole gallery.
+PER_ARTIST = 2
+
+# Extra Commons search queries for locations whose display name is ambiguous or
+# rarely used on Commons. Each location is also searched as "<name_en>",
+# "<name_en> beach" and its local-language name.
+EXTRA_QUERIES = {
+    "sveti-konstantin": ["Sveti Konstantin Varna", "Saints Constantine and Helena resort",
+                         "Konstantin i Elena beach"],
+    "irakli": ["Irakli beach Bulgaria"],
+    "cape-kaliakra": ["Kaliakra"],
+    "trabzon": ["Trabzon sahil", "Trabzon Black Sea"],
+    "rize": ["Rize sahil", "Rize Black Sea"],
+    "sinop": ["Sinop sahil", "Sinop Black Sea"],
+    "sile": ["Şile plaj", "Sile beach"],
+    "constanta": ["Constanța plaja", "Constanta beach"],
+    "olimp": ["Olimp Romania", "Olimp Mangalia"],
+    "vadu": ["Vadu beach", "Corbu beach", "Plaja Vadu", "Plaja Corbu"],
+    "green-cape": ["Mtsvane Kontskhi", "Green Cape Batumi", "Green Cape Georgia",
+                   "Batumi Botanical Garden"],
+    "kvariati": ["Kvariati beach"],
+    "shekvetili": ["Shekvetili beach"],
+    "sochi": ["Sochi beach", "Sochi Black Sea"],
+    "abrau-durso": ["Durso beach", "Abrau-Durso lake"],
+}
+# Native-script names for non-Bulgarian locations (name_bg covers Bulgaria).
+LOCAL_NAMES = {
+    "sochi": "Сочи", "anapa": "Анапа", "gelendzhik": "Геленджик",
+    "novorossiysk": "Новороссийск", "abrau-durso": "Абрау-Дюрсо",
+    "constanta": "Constanța", "sile": "Şile",
+}
+# Name fragments that count as "the title names this place" for ranking.
+NAME_ALIASES = {
+    "sveti-konstantin": ["konstantin", "константин"],
+    "cape-kaliakra": ["kaliakra", "калиакра"],
+    "irakli": ["irakli", "иракли"],
+    # "Green Cape" alone is mostly Green Cape, NSW (Australia), so require the
+    # Georgian name; likewise "Vadu" is a common Romanian village name.
+    "green-cape": ["mtsvane", "makhinjauri", "batumi botanical", "ботанич"],
+    "vadu": ["vadu ct", "vadu 20", "vadu beach", "plaja vadu", "dune vadu",
+             "corbu, romania", "plaja corbu", "corbu beach"],
+    "abrau-durso": ["abrau", "durso", "абрау", "дюрсо"],
+    "constanta": ["constanța", "constanta", "constanţa", "tomis"],
+    "sile": ["şile", "sile"],
 }
 
 
@@ -170,9 +241,14 @@ def parse_pages(data, name_en=""):
                       flags=re.I).strip()
         if " " in stem and any(c.lower() == stem.lower() for c in cats):
             continue
+        if OLD_YEAR_RE.search(title):
+            continue
         info = (p.get("imageinfo") or [{}])[0]
         if info.get("mime") not in ("image/jpeg", "image/png"):
             continue
+        if (info.get("width") or 0) < MIN_WIDTH or \
+                (info.get("height") or 0) > (info.get("width") or 0) * 1.4:
+            continue  # low-res, or a tall portrait crop that tiles badly
         thumb, full = info.get("thumburl"), info.get("url")
         if not thumb or not full:
             continue
@@ -181,8 +257,12 @@ def parse_pages(data, name_en=""):
         # first, generic scenic-town views fall behind but are kept.
         is_nature = bool(NATURE_RE.search(title) or
                          any(NATURE_RE.search(c) for c in cats))
+        coords = (p.get("coordinates") or [None])[0]
         out.append({
             "_nature": is_nature,
+            "_coast": bool(COAST_TITLE_RE.search(title)),
+            "_coord": (coords["lat"], coords["lon"]) if coords else None,
+            "_wide": (info.get("width") or 0) >= 2000,
             "title": title.replace("File:", ""),
             "thumb": thumb,
             "full": full,
@@ -196,15 +276,15 @@ def parse_pages(data, name_en=""):
     return out
 
 
-def search_by_name(name):
+def search_by_name(query, name_en):
     params = dict(IIPROPS)
     params.update({
         "generator": "search",
-        "gsrsearch": name + " filetype:bitmap",
+        "gsrsearch": query + " filetype:bitmap",
         "gsrnamespace": 6,
-        "gsrlimit": 20,
+        "gsrlimit": 30,
     })
-    return parse_pages(api_get(params), name)
+    return parse_pages(api_get(params), name_en)
 
 
 def search_by_geo(lat, lon, name=""):
@@ -213,10 +293,89 @@ def search_by_geo(lat, lon, name=""):
         "generator": "geosearch",
         "ggscoord": "{}|{}".format(lat, lon),
         "ggsradius": 10000,
-        "ggslimit": 30,
+        "ggslimit": 50,
         "ggsnamespace": 6,
     })
     return parse_pages(api_get(params), name)
+
+
+def km_between(a, b):
+    lat1, lon1, lat2, lon2 = map(math.radians, (a[0], a[1], b[0], b[1]))
+    h = (math.sin((lat2 - lat1) / 2) ** 2 +
+         math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2)
+    return 6371 * 2 * math.asin(math.sqrt(h))
+
+
+def fold(text):
+    """Lowercase and strip diacritics so 'Constanța' matches 'Constanta'."""
+    text = unicodedata.normalize("NFKD", text.lower())
+    return "".join(ch for ch in text if not unicodedata.combining(ch))
+
+
+def series_key(title):
+    """Collapse numbered series ('Shekvetili Park 42.jpg', 'Sunny Beach 3.jpg',
+    '... - panoramio (5).jpg') to one key so a gallery shows one of each."""
+    stem = re.sub(r"\.[a-z0-9]+$", "", title, flags=re.I)
+    stem = re.sub(r"\(.*?\)|panoramio|\d+", " ", fold(stem))
+    return frozenset(re.sub(r"[\W_]+", " ", stem).split())
+
+
+def queries_for(loc):
+    qs = [loc["name_en"], loc["name_en"] + " beach"]
+    local = LOCAL_NAMES.get(loc["slug"]) or (
+        loc["name_bg"] if loc["country"] == "bulgaria" else None)
+    if local:
+        qs.append(local)
+    return qs + EXTRA_QUERIES.get(loc["slug"], [])
+
+
+def mentions(title, aliases):
+    # Anchor at a word start so "Rize" doesn't match "prize".
+    return any(re.search(r"(?<!\w)" + re.escape(a), title) for a in aliases)
+
+
+def name_aliases(loc):
+    aliases = NAME_ALIASES.get(loc["slug"]) or [loc["name_en"], loc["name_bg"]]
+    return [fold(a) for a in aliases + [LOCAL_NAMES.get(loc["slug"], "")] if a]
+
+
+def candidates(loc):
+    """All filtered, scored photos for a location, best first."""
+    images = []
+    for q in queries_for(loc):
+        try:
+            images += search_by_name(q, loc["name_en"])
+        except Exception as exc:
+            print("  search {!r} failed: {}".format(q, exc))
+        time.sleep(0.3)
+    try:
+        images += search_by_geo(loc["lat"], loc["lon"], loc["name_en"])
+    except Exception as exc:
+        print("  geo search failed: {}".format(exc))
+
+    aliases = name_aliases(loc)
+    others = [a for o in LOCATIONS if o["slug"] != loc["slug"]
+              for a in name_aliases(o)]
+    here = (loc["lat"], loc["lon"])
+    out = []
+    for im in dedupe(images):
+        title = fold(im["title"])
+        named = mentions(title, aliases)
+        if not named and mentions(title, others):
+            continue  # a neighbouring tracked location's photo
+        if im["_coord"]:
+            dist = km_between(here, im["_coord"])
+            if dist > MAX_KM:
+                continue
+        elif not named:
+            continue  # no geotag and not named after the place: can't trust it
+        else:
+            dist = MAX_KM
+        im["_score"] = (4 * named + 3 * im["_coast"] + im["_nature"] +
+                        im["_wide"] + (1 if dist < 6 else 0))
+        out.append(im)
+    out.sort(key=lambda im: -im["_score"])
+    return out
 
 
 def dedupe(images):
@@ -229,38 +388,49 @@ def dedupe(images):
     return out
 
 
-def fetch_location(loc):
-    images = []
-    try:
-        images = search_by_name(loc["name_en"])
-    except Exception as exc:
-        print("  name search failed: {}".format(exc))
-    deduped = dedupe(images)
-    nature = sum(1 for im in deduped if im.get("_nature"))
-    # Backfill from nearby coordinates (same nature filtering) when the name
-    # search is thin OR light on actual nature/coastal content -- e.g. a coastal
-    # city whose name returns mostly inland-village or townscape photos.
-    if len(deduped) < PER_LOCATION or nature < 4:
-        try:
-            images += search_by_geo(loc["lat"], loc["lon"], loc["name_en"])
-        except Exception as exc:
-            print("  geo search failed: {}".format(exc))
-    images = dedupe(images)
-    # Stable sort: nature/beach/scenic shots first, relevance order preserved.
-    images.sort(key=lambda im: not im.get("_nature"))
-    images = images[:PER_LOCATION]
-    for im in images:
-        im.pop("_nature", None)
-    return images
+def pick(cands, taken):
+    """Top PER_LOCATION photos, one per numbered series, PER_ARTIST max, skipping
+    photos another location claimed with a better score."""
+    chosen, series, artists = [], set(), {}
+    for im in cands:
+        if im["full"] in taken:
+            continue
+        key = series_key(im["title"])
+        if key in series or artists.get(im["artist"], 0) >= PER_ARTIST:
+            continue
+        series.add(key)
+        artists[im["artist"]] = artists.get(im["artist"], 0) + 1
+        chosen.append(im)
+        if len(chosen) == PER_LOCATION:
+            break
+    return chosen
 
 
 def main():
-    galleries = {}
+    pool = {}
     for loc in LOCATIONS:
-        imgs = fetch_location(loc)
-        galleries[loc["slug"]] = imgs
-        print("{}: {} photos".format(loc["name_en"], len(imgs)))
-        time.sleep(0.5)
+        pool[loc["slug"]] = candidates(loc)
+        print("{}: {} candidates".format(loc["name_en"], len(pool[loc["slug"]])))
+
+    # A photo matching several nearby locations (Balchik/Albena, Varna/Sveti
+    # Konstantin) belongs to the one where it scores best, so no two galleries
+    # repeat a photo.
+    best = {}
+    for slug, cands in pool.items():
+        for im in cands:
+            if im["full"] not in best or im["_score"] > best[im["full"]][1]:
+                best[im["full"]] = (slug, im["_score"])
+
+    galleries = {}
+    for slug, cands in pool.items():
+        taken = {url: owner for url, (owner, _) in best.items() if owner != slug}
+        imgs = pick(cands, taken)
+        for im in imgs:
+            for k in [k for k in im if k.startswith("_")]:
+                im.pop(k)
+        galleries[slug] = imgs
+        print("{}: {} photos".format(slug, len(imgs)))
+
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(galleries, fh, ensure_ascii=False, indent=1)
     print("wrote {} ({} locations)".format(OUT, len(galleries)))
