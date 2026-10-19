@@ -1,17 +1,17 @@
 {
-"updated": "2026-10-19T07:33:27Z",
+"updated": "2026-10-19T08:26:48Z",
 "days": [
 {
 "date": "2026-10-14",
 "temp_max": 13.0,
-"temp_min": 9.6,
+"temp_min": 10.3,
 "uv_max": 1.0,
-"wind_max": 24.7,
+"wind_max": 24.5,
 "code": 61
 },
 {
 "date": "2026-10-15",
-"temp_max": 15.3,
+"temp_max": 15.2,
 "temp_min": 8.0,
 "uv_max": 3.95,
 "wind_max": 22.1,
@@ -19,8 +19,8 @@
 },
 {
 "date": "2026-10-16",
-"temp_max": 15.1,
-"temp_min": 8.6,
+"temp_max": 15.0,
+"temp_min": 8.7,
 "uv_max": 3.8,
 "wind_max": 18.5,
 "code": 3
@@ -35,7 +35,7 @@
 },
 {
 "date": "2026-10-18",
-"temp_max": 15.3,
+"temp_max": 15.2,
 "temp_min": 9.5,
 "uv_max": 2.1,
 "wind_max": 16.1,
@@ -43,18 +43,18 @@
 },
 {
 "date": "2026-10-19",
-"temp_max": 17.8,
-"temp_min": 13.6,
+"temp_max": 17.9,
+"temp_min": 13.9,
 "uv_max": 0.85,
-"wind_max": 16.3,
+"wind_max": 16.1,
 "code": 61
 },
 {
 "date": "2026-10-20",
-"temp_max": 17.6,
+"temp_max": 17.5,
 "temp_min": 12.1,
 "uv_max": 3.5,
-"wind_max": 9.2,
+"wind_max": 8.9,
 "code": 61
 },
 {
@@ -78,25 +78,20 @@
 "temp_max": 16.6,
 "temp_min": 12.0,
 "uv_max": 3.0,
-"wind_max": 15.8,
+"wind_max": 15.6,
 "code": 61
 }
 ],
 "current": {
-"temp": 14.6,
-"feels_like": 12.6,
+"temp": 15.0,
+"feels_like": 13.1,
 "humidity": 77,
-"wind": 15.1,
+"wind": 15.5,
 "wind_dir": 295,
-"uv": 0.35,
+"uv": 0.25,
 "code": 61
 },
 "hourly": [
-{
-"time": "2026-10-17T07:00",
-"temp": 10.0,
-"code": 3
-},
 {
 "time": "2026-10-17T08:00",
 "temp": 11.1,
@@ -209,17 +204,17 @@
 },
 {
 "time": "2026-10-18T06:00",
-"temp": 10.4,
+"temp": 10.5,
 "code": 3
 },
 {
 "time": "2026-10-18T07:00",
-"temp": 11.6,
+"temp": 11.7,
 "code": 3
 },
 {
 "time": "2026-10-18T08:00",
-"temp": 12.7,
+"temp": 12.5,
 "code": 3
 },
 {
@@ -254,7 +249,7 @@
 },
 {
 "time": "2026-10-18T15:00",
-"temp": 15.1,
+"temp": 15.0,
 "code": 3
 },
 {
@@ -279,7 +274,7 @@
 },
 {
 "time": "2026-10-18T20:00",
-"temp": 15.3,
+"temp": 15.2,
 "code": 3
 },
 {
@@ -333,8 +328,13 @@
 "code": 61
 },
 {
-"time": "2026-10-19T07:33",
-"temp": 14.6,
+"time": "2026-10-19T07:00",
+"temp": 14.4,
+"code": 61
+},
+{
+"time": "2026-10-19T08:26",
+"temp": 15.0,
 "code": 61
 }
 ]
