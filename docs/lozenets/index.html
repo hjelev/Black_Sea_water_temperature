@@ -48,6 +48,8 @@
     <p class="subtitle" id="subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
     <p class="location-description" id="location-description"></p>
 
+    <div id="water-hero" class="water-hero"></div>
+
     <h2 data-i18n="weather_current">Текущи метеорологични условия в Лозенец, България</h2>
     <div id="current-weather" class="current-weather"></div>
 
@@ -105,24 +107,43 @@ loadData().then(records => {
         </div>`;
     }
 
+    renderWaterHero(document.getElementById('water-hero'), records);
+
     const theme = plotlyTheme();
 
-    // Recent 30 days chart
+    // Recent 30 days chart, with the previous years' average for the same dates
     const cutoff = new Date(last.dateStr);
     cutoff.setDate(cutoff.getDate() - 30);
     const recent = records.filter(r => new Date(r.dateStr) >= cutoff);
-    Plotly.newPlot('recent-chart', [{
+    const avg = dayAverages(records, maxYear);
+    const avgDays = [...new Set(recent.map(r => r.dateStr.substring(0, 10)))]
+        .filter(d => avg.byDay[d.substring(5)] != null);
+    const recentTraces = [{
         x: recent.map(r => r.dateStr),
         y: recent.map(r => r.temp),
+        name: t('dash_this_year'),
         type: 'scatter', mode: 'lines+markers',
         line: { color: '#007bff', width: 2 },
         marker: { size: 4 },
         hovertemplate: '%{x|%b %d}: <b>%{y:.1f}°C</b><extra></extra>'
-    }], {
+    }];
+    if (avg.years >= 2 && avgDays.length) {
+        recentTraces.unshift({
+            x: avgDays.map(d => d + ' 12:00:00'),
+            y: avgDays.map(d => avg.byDay[d.substring(5)]),
+            name: t('dash_avg_label') + ' (' + avg.years + ')',
+            type: 'scatter', mode: 'lines',
+            line: { color: '#8aa6b0', width: 2, dash: 'dash', shape: 'spline' },
+            hovertemplate: '%{x|%b %d}: %{y:.1f}°C<extra>' + t('dash_avg_label') + '</extra>'
+        });
+    }
+    Plotly.newPlot('recent-chart', recentTraces, {
         ...theme,
+        showlegend: recentTraces.length > 1,
+        legend: { ...theme.legend, orientation: 'h', x: 0, y: 1.12 },
         xaxis: { ...theme.xaxis, title: '' },
         yaxis: { ...theme.yaxis, title: '°C' }
-    }, { responsive: true, displayModeBar: false });
+    }, plotlyConfig());
 
     // Full history chart
     Plotly.newPlot('main-chart', [{
@@ -133,13 +154,25 @@ loadData().then(records => {
         hovertemplate: '%{x|%Y-%m-%d}: <b>%{y:.1f}°C</b><extra></extra>'
     }], {
         ...theme,
-        xaxis: { ...theme.xaxis, title: '' },
-        yaxis: { ...theme.yaxis, title: '°C' }
-    }, { responsive: true, displayModeBar: false });
+        xaxis: { ...theme.xaxis, title: '',
+            rangeselector: {
+                x: 0, y: 1.08,
+                bgcolor: 'rgba(128,128,128,0.12)', activecolor: 'rgba(0,123,255,0.35)',
+                font: { color: theme.font.color },
+                buttons: [
+                    { count: 1, label: t('range_1m'), step: 'month', stepmode: 'backward' },
+                    { count: 1, label: t('range_1y'), step: 'year', stepmode: 'backward' },
+                    { count: 5, label: t('range_5y'), step: 'year', stepmode: 'backward' },
+                    { step: 'all', label: t('range_all') }
+                ]
+            },
+            rangeslider: { visible: true, thickness: 0.08, bgcolor: 'rgba(128,128,128,0.08)' }
+        },
+        yaxis: { ...theme.yaxis, title: '°C', fixedrange: false }
+    }, plotlyConfig());
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
-    const waterTemp = records[records.length - 1].temp;
-    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated, waterTemp);
+    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated);
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

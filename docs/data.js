@@ -155,7 +155,8 @@ window.formatUpdatedAgo = function(isoTs) {
     const minutes = Math.max(0, Math.round((Date.now() - new Date(isoTs).getTime()) / 60000));
     if (minutes < 1) return t('weather_updated_just_now');
     if (minutes < 60) return t('weather_updated_mins_ago').replace('{n}', minutes);
-    return t('weather_updated_hours_ago').replace('{n}', Math.round(minutes / 60));
+    if (minutes < 48 * 60) return t('weather_updated_hours_ago').replace('{n}', Math.round(minutes / 60));
+    return t('weather_updated_days_ago').replace('{n}', Math.round(minutes / 1440));
 };
 
 // Compass abbreviation (translated) for a wind_direction_10m degree value
@@ -181,13 +182,15 @@ window.renderCurrentWeather = function(container, current, updatedIso, waterTemp
     const humidity = current.humidity != null ? Math.round(current.humidity) : '–';
     const wind = current.wind != null ? Math.round(current.wind) : '–';
     const uv = current.uv != null ? current.uv.toFixed(1) : '–';
-    const water = waterTemp != null ? waterTemp.toFixed(1) : '–';
+    // The dashboard shows water in its own hero card, so it passes no waterTemp.
+    const waterHtml = waterTemp != null
+        ? `<span class="cw-water"><span class="cw-water-icon">💧</span>${waterTemp.toFixed(1)}°C</span>` : '';
     const windArrow = current.wind_dir != null
         ? `<span class="cw-wind-arrow" style="display:inline-block;transform:rotate(${Math.round(current.wind_dir) + 180}deg)">↑</span> `
         : '';
     const windDir = current.wind_dir != null ? ' ' + window.windDirectionLabel(current.wind_dir) : '';
     container.innerHTML = `
-        <span class="cw-water"><span class="cw-water-icon">💧</span>${water}°C</span>
+        ${waterHtml}
         <span class="cw-icon">${window.weatherIcon(current.code)}</span>
         <span class="cw-temp">${temp}°C</span>
         <span class="cw-detail">${t('weather_feels_like')} ${feelsLike}°C</span>
@@ -195,6 +198,7 @@ window.renderCurrentWeather = function(container, current, updatedIso, waterTemp
         <span class="cw-detail">${t('weather_uv')} ${uv}</span>
         <span class="cw-detail">${windArrow}${t('weather_wind')} ${wind} km/h${windDir}</span>
         <span class="cw-updated">${window.formatUpdatedAgo(updatedIso)}</span>`;
+    if (Date.now() - new Date(updatedIso).getTime() > 6 * 3600 * 1000) container.classList.add('stale');
 };
 
 // Trailing 48h hourly air-temperature line chart. Hides the whole section
@@ -207,21 +211,115 @@ window.renderHourlyChart = function(containerId, hourly) {
     }
     const theme = window.plotlyTheme();
     const locale = window.LANG === 'bg' ? 'bg-BG' : 'en-US';
-    const labels = hourly.map(h =>
-        new Date(h.time + 'Z').toLocaleTimeString(locale, { weekday: 'short', hour: '2-digit', minute: '2-digit' }));
+    // Real date axis (not categories) so Plotly thins the ticks to fit any width.
+    const times = hourly.map(h => new Date(h.time + 'Z'));
+    const labels = times.map(d =>
+        d.toLocaleString(locale, { weekday: 'short', hour: '2-digit', minute: '2-digit' }));
     Plotly.newPlot(containerId, [{
-        x: labels,
+        x: times,
         y: hourly.map(h => h.temp),
-        type: 'scatter', mode: 'lines+markers',
-        line: { color: '#e0a030', width: 2 },
-        marker: { size: 4 },
+        type: 'scatter', mode: 'lines',
+        line: { color: '#e0a030', width: 2.5, shape: 'spline' },
+        fill: 'tozeroy', fillcolor: 'rgba(224,160,48,0.12)',
         text: labels,
         hovertemplate: '%{text}: <b>%{y:.1f}°C</b><extra></extra>'
     }], {
         ...theme,
-        xaxis: { ...theme.xaxis, title: '', type: 'category' },
-        yaxis: { ...theme.yaxis, title: '°C' }
-    }, { responsive: true, displayModeBar: false });
+        xaxis: { ...theme.xaxis, title: '', tickformat: '%H:%M\n%d.%m' },
+        yaxis: { ...theme.yaxis, title: '°C', rangemode: 'normal',
+                 range: window.paddedRange(hourly.map(h => h.temp)) }
+    }, window.plotlyConfig());
+};
+
+// [min, max] of the values with a little headroom, so filled areas don't
+// stretch the axis down to zero.
+window.paddedRange = function(values) {
+    const v = values.filter(x => x != null && !isNaN(x));
+    if (!v.length) return undefined;
+    const lo = Math.min(...v), hi = Math.max(...v);
+    const pad = Math.max(0.5, (hi - lo) * 0.1);
+    return [lo - pad, hi + pad];
+};
+
+window.plotlyConfig = function() {
+    return { responsive: true, displayModeBar: false };
+};
+
+// Cold→warm colour across the Black Sea's ~4–28 °C range (same scale as the hub map).
+window.tempColor = function(temp) {
+    if (temp == null || isNaN(temp)) return '#888';
+    const f = Math.max(0, Math.min(1, (temp - 4) / 24));
+    return 'hsl(' + Math.round(220 - f * 220) + ', 75%, 47%)';
+};
+
+window.comfortKey = function(temp) {
+    if (temp < 17) return 'comfort_cold';
+    if (temp < 21) return 'comfort_cool';
+    if (temp < 24) return 'comfort_pleasant';
+    return 'comfort_warm';
+};
+
+// Mean temperature per "MM-DD" over every year before `beforeYear`.
+// Returns { byDay: {'MM-DD': avg}, years: n }.
+window.dayAverages = function(records, beforeYear) {
+    const sums = {}, years = new Set();
+    records.forEach(r => {
+        if (r.year >= beforeYear) return;
+        years.add(r.year);
+        const k = r.dateStr.substring(5, 10);
+        (sums[k] = sums[k] || [0, 0]);
+        sums[k][0] += r.temp; sums[k][1]++;
+    });
+    const byDay = {};
+    Object.keys(sums).forEach(k => { byDay[k] = sums[k][0] / sums[k][1]; });
+    return { byDay, years: years.size };
+};
+
+// Big "sea water now" card: latest reading, 24h change, anomaly vs the
+// historical average for the date, and a swimming-comfort label.
+window.renderWaterHero = function(container, records) {
+    if (!container || !records.length) return;
+    const last = records[records.length - 1];
+    const lastTime = new Date(last.dateStr.replace(' ', 'T') + 'Z').getTime();
+    // Reading closest to 24h before the latest one.
+    let prev = null;
+    for (let i = records.length - 2; i >= 0; i--) {
+        const dt = lastTime - new Date(records[i].dateStr.replace(' ', 'T') + 'Z').getTime();
+        if (dt >= 20 * 3600 * 1000) { prev = records[i]; break; }
+    }
+    let deltaHtml = '';
+    if (prev) {
+        const d = Math.round((last.temp - prev.temp) * 10) / 10;
+        const cls = d > 0 ? 'up' : d < 0 ? 'down' : 'flat';
+        const arrow = d > 0 ? '▲' : d < 0 ? '▼' : '●';
+        const txt = d === 0 ? t('water_delta_flat')
+            : t('water_delta_day').replace('{sign}', d > 0 ? '+' : '−').replace('{n}', Math.abs(d).toFixed(1));
+        deltaHtml = `<span class="wh-chip ${cls}">${arrow} ${txt}</span>`;
+    }
+    const avg = window.dayAverages(records, last.year);
+    const norm = avg.byDay[last.dateStr.substring(5, 10)];
+    let anomalyHtml = '';
+    if (norm != null && avg.years >= 2) {
+        const a = Math.round((last.temp - norm) * 10) / 10;
+        const key = a > 0 ? 'water_vs_avg_above' : a < 0 ? 'water_vs_avg_below' : 'water_vs_avg_same';
+        anomalyHtml = `<span class="wh-chip ${a > 0 ? 'up' : a < 0 ? 'down' : 'flat'}">${
+            t(key).replace('{n}', Math.abs(a).toFixed(1)).replace('{years}', avg.years)}</span>`;
+    }
+    const locale = window.LANG === 'bg' ? 'bg-BG' : 'en-US';
+    const measured = new Date(lastTime).toLocaleString(locale,
+        { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    container.style.setProperty('--wh-color', window.tempColor(last.temp));
+    container.innerHTML = `
+        <div class="wh-main">
+            <span class="wh-label">💧 ${t('water_now')}</span>
+            <span class="wh-temp">${last.temp.toFixed(1)}<small>°C</small></span>
+            <span class="wh-comfort">${t(window.comfortKey(last.temp))}</span>
+        </div>
+        <div class="wh-side">
+            ${deltaHtml}
+            ${anomalyHtml}
+            <span class="wh-measured">${t('water_measured').replace('{date}', measured)}</span>
+        </div>`;
 };
 
 window.plotlyTheme = function() {
@@ -237,3 +335,15 @@ window.plotlyTheme = function() {
         margin: { l: 50, r: 20, t: 40, b: 50 }
     };
 };
+
+// Plotly's `responsive` only reacts to window resizes; a chart drawn before the
+// scrollbar or fonts settle keeps a stale width. Re-fit charts whenever their
+// container actually changes size.
+if (window.ResizeObserver) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const ro = new ResizeObserver(entries => entries.forEach(e => {
+            if (e.target.classList.contains('js-plotly-plot')) Plotly.Plots.resize(e.target);
+        }));
+        document.querySelectorAll('.chart, .chart-tall').forEach(el => ro.observe(el));
+    });
+}

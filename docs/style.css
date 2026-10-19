@@ -184,15 +184,15 @@ body {
 /* Hub (root) location cards */
 .hub-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 0.75rem;
     margin-top: 1rem;
 }
 .hub-card {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 1.5rem 1.65rem;
+    padding: 0.85rem 1rem;
     border: 1px solid var(--nav-border);
     border-radius: 12px;
     background: var(--container-bg);
@@ -206,8 +206,8 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
-.hub-flag { font-size: 2rem; line-height: 1; flex-shrink: 0; }
-.hub-name { font-size: 1.1rem; flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.hub-flag { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.hub-name { font-size: 1rem; flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .hub-temp {
     font-size: 1rem;
     font-weight: 700;
@@ -261,12 +261,21 @@ body {
     max-width: 1000px;
     margin: auto;
     background: var(--container-bg);
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1.25rem;
     min-height: calc(100vh - 50px);
+    overflow-x: clip;     /* never let a wide chart push the page sideways */
+}
+@media (min-width: 1040px) {
+    .container {
+        margin-top: 1rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 40, 60, 0.10);
+        min-height: auto;
+    }
 }
 
 h1 { font-size: 1.5rem; margin: 0 0 0.25rem 0; }
-h2 { font-size: 1.2rem; margin: 1.5rem 0 0.75rem 0; }
+h2 { font-size: 1.2rem; margin: 2rem 0 0.75rem 0; padding-left: 0.6rem; border-left: 4px solid var(--accent); line-height: 1.3; }
 h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-weight: 600; }
 
 .subtitle {
@@ -442,6 +451,81 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
     font-style: italic;
     margin-left: auto;
 }
+.current-weather.stale .cw-updated { color: #d0702a; font-weight: 600; font-style: normal; }
+
+/* "Sea water now" hero card on the dashboard */
+.water-hero {
+    --wh-color: var(--accent);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding: 1.25rem 1.5rem;
+    margin: 0.5rem 0 1rem;
+    border-radius: 16px;
+    color: #fff;
+    background:
+        radial-gradient(120% 140% at 100% 0%, rgba(255,255,255,0.22), transparent 55%),
+        linear-gradient(135deg, var(--wh-color), color-mix(in srgb, var(--wh-color) 55%, #0a2a3a));
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--wh-color) 35%, transparent);
+}
+.water-hero:empty { display: none; }
+.wh-main { display: flex; flex-direction: column; }
+.wh-label { font-size: 0.85rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.06em; }
+.wh-temp { font-size: 3.4rem; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+.wh-temp small { font-size: 1.4rem; font-weight: 600; margin-left: 0.1rem; }
+.wh-comfort { font-size: 1rem; font-weight: 600; }
+.wh-side { display: flex; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+.wh-chip {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.wh-measured { font-size: 0.75rem; opacity: 0.85; }
+
+/* Hub: warmest / coldest chips, search + sort */
+.hub-summary { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+.hub-summary:empty { display: none; }
+.hub-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.4rem 0.3rem 0.75rem;
+    border: 1px solid var(--nav-border);
+    border-radius: 999px;
+    background: var(--card-bg);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+.hub-chip:hover { border-color: var(--accent); }
+.hub-chip-label { color: var(--text-muted); font-size: 0.75rem; }
+.hub-chip b { color: #fff; border-radius: 999px; padding: 0.1rem 0.45rem; }
+.hub-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.hub-search {
+    flex: 1 1 220px;
+    max-width: 360px;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--nav-border);
+    border-radius: 999px;
+    background: var(--container-bg);
+    color: var(--text);
+    font-size: 0.95rem;
+}
+.hub-search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+.hub-sort { font-size: 0.9rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 0.35rem; }
+.hub-flat { margin-top: 1rem; }
+.hub-card[hidden], .hub-section[hidden], .hub-flat[hidden] { display: none; }
 
 /* Charts */
 .chart {
@@ -591,6 +675,8 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 
 @media (max-width: 480px) {
     .container { padding: 1rem 0.75rem; }
+    .wh-temp { font-size: 2.8rem; }
+    .water-hero { padding: 1rem 1.1rem; }
     h1 { font-size: 1.25rem; }
     .nav-brand { font-size: 0.85rem; }
     .nav-links a { padding: 0.7rem 0.6rem; font-size: 0.8rem; }

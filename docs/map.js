@@ -81,7 +81,70 @@
                 });
 
                 if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
+                renderSummary(latest);
+                initHubTools(latest);
             });
+    }
+
+    // "Warmest now / Coldest now" chips above the map.
+    function renderSummary(latest) {
+        const el = document.getElementById('hub-summary');
+        if (!el) return;
+        const rows = Object.keys(window.LOCATIONS)
+            .filter(id => latest[id] && latest[id].temp != null && !isNaN(latest[id].temp))
+            .map(id => ({ id, temp: latest[id].temp }))
+            .sort((a, b) => b.temp - a.temp);
+        if (rows.length < 2) return;
+        const chip = (row, key) => {
+            const loc = window.LOCATIONS[row.id];
+            return '<a class="hub-chip" href="' + (window.LANG_PREFIX || '') + '/' + row.id + '/">'
+                + '<span class="hub-chip-label">' + t(key) + '</span> '
+                + loc.flag + ' ' + t(loc.nameKey).split(',')[0]
+                + ' <b style="background:' + tempColor(row.temp) + '">' + row.temp.toFixed(1) + '°</b></a>';
+        };
+        el.innerHTML = chip(rows[0], 'hub_warmest') + chip(rows[rows.length - 1], 'hub_coldest');
+    }
+
+    // Search box + "sort by temperature" toggle for the location cards.
+    function initHubTools(latest) {
+        const search = document.getElementById('hub-search');
+        const sort = document.getElementById('hub-sort');
+        const wrap = document.getElementById('hub-locations');
+        const empty = document.getElementById('hub-no-match');
+        if (!search || !sort || !wrap) return;
+        const cards = Array.from(wrap.querySelectorAll('.hub-card[data-loc]'));
+        // Remember each card's home so un-sorting restores the country groups.
+        const homes = cards.map(c => ({ card: c, parent: c.parentNode }));
+        const flat = document.createElement('div');
+        flat.className = 'hub-grid hub-flat';
+        flat.hidden = true;
+        wrap.appendChild(flat);
+        const tempOf = c => {
+            const rec = latest[c.dataset.loc];
+            return rec && rec.temp != null && !isNaN(rec.temp) ? rec.temp : -Infinity;
+        };
+
+        function apply() {
+            const q = search.value.trim().toLowerCase();
+            if (sort.checked) {
+                cards.slice().sort((a, b) => tempOf(b) - tempOf(a)).forEach(c => flat.appendChild(c));
+            } else {
+                homes.forEach(h => h.parent.appendChild(h.card));
+            }
+            flat.hidden = !sort.checked;
+            let shown = 0;
+            cards.forEach(c => {
+                const match = !q || c.dataset.search.indexOf(q) !== -1;
+                c.hidden = !match;
+                if (match) shown++;
+            });
+            wrap.querySelectorAll('.hub-section').forEach(sec => {
+                sec.hidden = sort.checked || !sec.querySelector('.hub-card:not([hidden])');
+            });
+            if (empty) empty.hidden = shown > 0;
+        }
+        search.addEventListener('input', apply);
+        sort.addEventListener('change', apply);
     }
 
     document.addEventListener('DOMContentLoaded', initMap);

@@ -424,17 +424,22 @@ def write_hub():
             cards = []
             for loc in group:
                 cards.append(
-                    '            <a class="hub-card" href="/{slug}/" data-loc="{slug}">\n'
+                    # Short town name only — the country is the section heading.
+                    # data-search holds both languages so search works either way.
+                    '            <a class="hub-card" href="/{slug}/" data-loc="{slug}" data-search="{search}">\n'
                     '                <span class="hub-flag">{flag}</span>\n'
+                    '                <span class="hub-name">{name}</span>\n'
                     '                <span class="hub-temp"></span>\n'
-                    '                <span class="hub-name" data-i18n="{key}">{name}</span>\n'
                     '            </a>'.format(
                         slug=loc["slug"], flag=loc["flag"],
-                        key=i18n_key(loc["slug"]),
-                        name=escape(loc["name_en"] + ", " + loc["country_en"])))
+                        search=escape((loc["name_en"] + " " + loc["name_bg"] + " "
+                                       + loc["slug"]).lower()),
+                        name=escape(loc["name_" + lang])))
             sections.append(
+                '        <section class="hub-section">\n'
                 '        <h3 class="hub-country" data-i18n="country_{country}">{label}</h3>\n'
-                '        <div class="hub-grid">\n{cards}\n        </div>'.format(
+                '        <div class="hub-grid">\n{cards}\n        </div>\n'
+                '        </section>'.format(
                     country=country, label=escape(group[0]["country_en"]),
                     cards="\n".join(cards)))
         head = build_head(HUB_META["title"][lang], HUB_META["desc"][lang],
@@ -465,10 +470,18 @@ def write_hub():
     <p class="subtitle" data-i18n="hub_subtitle">Live and historical sea surface temperature for Bulgaria's Black Sea coast</p>
 
     <h2 data-i18n="hub_map">Current water temperature</h2>
+    <div id="hub-summary" class="hub-summary"></div>
     <div id="map"></div>
 
     <h2 data-i18n="hub_pick">Choose a location</h2>
+    <div class="hub-tools">
+        <input type="search" id="hub-search" class="hub-search" placeholder="{search_ph}" autocomplete="off">
+        <label class="hub-sort"><input type="checkbox" id="hub-sort"> <span data-i18n="hub_sort_temp">Sort by temperature</span></label>
+    </div>
+    <div id="hub-locations">
 {sections}
+    </div>
+    <p id="hub-no-match" class="gallery-empty" data-i18n="hub_no_match" hidden>No locations match your search.</p>
 </div>
 
 <footer class="footer">
@@ -480,7 +493,7 @@ def write_hub():
 <script src="/map.js"></script>
 </body>
 </html>
-""".format(sections="\n".join(sections))
+""".format(sections="\n".join(sections), search_ph=escape(TR[lang]["hub_search"]))
         if lang == "en":
             body = prefix_links(body)
         page = bake(head + body, lang)
