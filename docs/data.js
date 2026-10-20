@@ -183,35 +183,76 @@ window.windDirectionLabel = function(deg) {
     return t(keys[index]);
 };
 
-// Current-conditions card. `current` may be null/absent (e.g. upstream API
-// hiccup) - hide the card gracefully rather than throwing.
-window.renderCurrentWeather = function(container, current, updatedIso, waterTemp) {
-    if (!current) {
-        container.style.display = 'none';
-        return;
-    }
-    const temp = current.temp != null ? Math.round(current.temp) : '–';
-    const feelsLike = current.feels_like != null ? Math.round(current.feels_like) : '–';
-    const humidity = current.humidity != null ? Math.round(current.humidity) : '–';
-    const wind = current.wind != null ? Math.round(current.wind) : '–';
-    const uv = current.uv != null ? current.uv.toFixed(1) : '–';
-    // The dashboard shows water in its own hero card, so it passes no waterTemp.
-    const waterHtml = waterTemp != null
-        ? `<span class="cw-water"><span class="cw-water-icon">💧</span>${waterTemp.toFixed(1)}°C</span>` : '';
-    const windArrow = current.wind_dir != null
-        ? `<span class="cw-wind-arrow" style="display:inline-block;transform:rotate(${Math.round(current.wind_dir) + 180}deg)">↑</span> `
-        : '';
-    const windDir = current.wind_dir != null ? ' ' + window.windDirectionLabel(current.wind_dir) : '';
-    container.innerHTML = `
-        ${waterHtml}
-        <span class="cw-icon">${window.weatherIcon(current.code)}</span>
-        <span class="cw-temp">${temp}°C</span>
-        <span class="cw-detail">${t('weather_feels_like')} ${feelsLike}°C</span>
-        <span class="cw-detail">${t('weather_humidity')} ${humidity}%</span>
-        <span class="cw-detail">${t('weather_uv')} ${uv}</span>
-        <span class="cw-detail">${windArrow}${t('weather_wind')} ${wind} km/h${windDir}</span>
-        <span class="cw-updated">${window.formatUpdatedAgo(updatedIso)}</span>`;
-    if (Date.now() - new Date(updatedIso).getTime() > 6 * 3600 * 1000) container.classList.add('stale');
+// Wind compass: arrow points where the wind blows TO (from + 180°).
+function compassSvg(deg) {
+    const labels = ['wind_dir_n', 'wind_dir_e', 'wind_dir_s', 'wind_dir_w'].map(t);
+    const arrow = deg == null ? '' :
+        `<g transform="rotate(${Math.round(deg) + 180} 50 50)">
+            <path d="M50 16 L58 38 L50 33 L42 38 Z" fill="var(--accent)"/>
+            <line x1="50" y1="33" x2="50" y2="80" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+         </g>`;
+    return `<svg class="wx-compass" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="44" fill="none" stroke="var(--nav-border)" stroke-width="2"/>
+        ${[0, 45, 90, 135, 180, 225, 270, 315].map(a =>
+            `<line x1="50" y1="8" x2="50" y2="${a % 90 ? 12 : 15}" stroke="var(--text-muted)" stroke-width="2" transform="rotate(${a} 50 50)"/>`).join('')}
+        <text x="50" y="27" text-anchor="middle">${labels[0]}</text>
+        <text x="77" y="54" text-anchor="middle">${labels[1]}</text>
+        <text x="50" y="81" text-anchor="middle">${labels[2]}</text>
+        <text x="23" y="54" text-anchor="middle">${labels[3]}</text>
+        ${arrow}
+    </svg>`;
+}
+
+// "Right now" tiles: main conditions, optional sea water, wind compass, UV
+// gauge and humidity ring. `current` may be null/absent (e.g. upstream API
+// hiccup) - hide the block gracefully rather than throwing. The dashboard
+// shows water in its own hero card, so it passes no waterTemp.
+window.renderWeatherNow = function(el, current, updatedIso, waterTemp) {
+    const c = current;
+    if (!c) { el.style.display = 'none'; return; }
+    const round = v => v != null ? Math.round(v) : '–';
+    const uv = c.uv != null ? c.uv : 0;
+    const uvl = window.uvLevel(uv);
+    const hum = c.humidity != null ? Math.round(c.humidity) : null;
+    const stale = Date.now() - new Date(updatedIso).getTime() > 6 * 3600 * 1000;
+    // Wide screens fit the main tile plus all gauges on one row.
+    el.style.setProperty('--wx-gauges', 2 + (waterTemp != null) + (hum != null));
+    el.innerHTML = `
+        <div class="wx-tile wx-main">
+            <span class="wx-big-icon">${window.weatherIcon(c.code)}</span>
+            <div>
+                <span class="wx-big-temp">${round(c.temp)}°</span>
+                <span class="wx-cond">${t(window.weatherCondKey(c.code))}</span>
+                <span class="wx-sub">${t('weather_feels_like')} ${round(c.feels_like)}°C</span>
+                <span class="wx-sub wx-upd${stale ? ' stale' : ''}">${window.formatUpdatedAgo(updatedIso)}</span>
+            </div>
+        </div>
+        ${waterTemp != null ? `<div class="wx-tile wx-sea" style="--wh-color:${window.tempColor(waterTemp)}">
+            <span class="wx-tile-label">💧 ${t('weather_sea')}</span>
+            <span class="wx-tile-value">${waterTemp.toFixed(1)}°C</span>
+            <span class="wx-sub">${t(window.comfortKey(waterTemp))}</span>
+        </div>` : ''}
+        <div class="wx-tile">
+            <span class="wx-tile-label">🌬️ ${t('weather_wind')}</span>
+            <div class="wx-wind">
+                ${compassSvg(c.wind_dir)}
+                <div>
+                    <span class="wx-tile-value">${round(c.wind)} <small>km/h</small></span>
+                    <span class="wx-sub">${t(window.windKey(c.wind || 0))}${c.wind_dir != null
+                        ? ', ' + t('weather_from').replace('{dir}', window.windDirectionLabel(c.wind_dir)) : ''}</span>
+                </div>
+            </div>
+        </div>
+        <div class="wx-tile">
+            <span class="wx-tile-label">☀️ ${t('weather_uv_index')}</span>
+            <span class="wx-tile-value" style="color:${uvl.color}">${uv.toFixed(1)}</span>
+            <div class="wx-uv-bar"><span style="left:${Math.min(100, uv / 12 * 100)}%"></span></div>
+            <span class="wx-sub">${t(uvl.key)}</span>
+        </div>
+        ${hum != null ? `<div class="wx-tile">
+            <span class="wx-tile-label">💦 ${t('weather_humidity')}</span>
+            <div class="wx-ring" style="--p:${hum}"><span>${hum}%</span></div>
+        </div>` : ''}`;
 };
 
 // Trailing 48h hourly air-temperature line chart. Hides the whole section

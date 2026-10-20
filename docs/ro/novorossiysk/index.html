@@ -27,7 +27,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Ce temperatură are apa mării la Novorosiisk, Rusia astăzi?","acceptedAnswer":{"@type":"Answer","text":"Temperatura apei mării la Novorosiisk, Rusia este de 20.5°C (măsurată pe 20.10.2026). Este cu 1.2°C mai caldă decât media pe 3 ani pentru această dată (19.3°C)."}},{"@type":"Question","name":"Când este marea cea mai caldă la Novorosiisk, Rusia?","acceptedAnswer":{"@type":"Answer","text":"Cea mai caldă lună este august, cu o temperatură medie a apei de 25.8°C. Cea mai mare valoare înregistrată este 28.9°C (25.07.2024)."}},{"@type":"Question","name":"Când este sezonul de scăldat la Novorosiisk, Rusia?","acceptedAnswer":{"@type":"Answer","text":"Marea are în medie 20°C sau mai mult din iunie până în octombrie — acesta este principalul sezon de scăldat. Cea mai caldă lună este august, cu 25.8°C."}},{"@type":"Question","name":"Cât de rece devine marea la Novorosiisk, Rusia?","acceptedAnswer":{"@type":"Answer","text":"Cea mai rece lună este februarie, cu o medie de 9.6°C. Cea mai mică valoare înregistrată este 8.2°C (22.02.2025)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=51d53ef0">
+    <link rel="stylesheet" href="/style.css?v=40e3dd1b">
     <script src="/i18n.ro.js?v=65c08f3e"></script>
     <script src="/locations.js?v=18d9d241"></script>
     <script>window.LOCATION_ID = 'novorossiysk'; window.LANG = 'ro'; window.LANG_PREFIX = '/ro';</script>
@@ -63,7 +63,7 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">Temperatura apei mării la Novorosiisk, Rusia este de 20.5°C (măsurată pe 20.10.2026). Este cu 1.2°C mai caldă decât media pe 3 ani pentru această dată (19.3°C).</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Condiții meteo actuale la Novorosiisk, Rusia</a></h2>
-    <a id="current-weather" class="current-weather" href="weather.html"></a>
+    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Temperatura la această dată (se încarcă…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +142,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=d5ec2cf0"></script>
+<script src="/data.js?v=bcf05826"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -233,7 +233,7 @@ loadData().then(records => {
     }, plotlyConfig());
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
-    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated);
+    renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

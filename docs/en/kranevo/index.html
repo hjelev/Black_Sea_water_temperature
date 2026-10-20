@@ -27,7 +27,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the water temperature in Kranevo, Bulgaria today?","acceptedAnswer":{"@type":"Answer","text":"The sea water temperature in Kranevo, Bulgaria is 18.2°C (measured Oct 20, 2026). That is 0.5°C colder than the 3-year average for this date (18.7°C)."}},{"@type":"Question","name":"When is the sea warmest in Kranevo, Bulgaria?","acceptedAnswer":{"@type":"Answer","text":"The warmest month is August, with an average water temperature of 25.8°C. The highest reading on record is 28.2°C (Jul 24, 2024)."}},{"@type":"Question","name":"When is the swimming season in Kranevo, Bulgaria?","acceptedAnswer":{"@type":"Answer","text":"The sea averages 20°C or more from June to September, which is the main swimming season. August is the warmest month at 25.8°C."}},{"@type":"Question","name":"How cold does the sea get in Kranevo, Bulgaria?","acceptedAnswer":{"@type":"Answer","text":"The coldest month is February, averaging 6.7°C. The lowest reading on record is 4.8°C (Mar 4, 2026)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=51d53ef0">
+    <link rel="stylesheet" href="/style.css?v=40e3dd1b">
     <script src="/i18n.en.js?v=46ce6ae0"></script>
     <script src="/locations.js?v=18d9d241"></script>
     <script>window.LOCATION_ID = 'kranevo'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
@@ -63,7 +63,7 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">The sea water temperature in Kranevo, Bulgaria is 18.2°C (measured Oct 20, 2026). That is 0.5°C colder than the 3-year average for this date (18.7°C).</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Current weather conditions in Kranevo, Bulgaria</a></h2>
-    <a id="current-weather" class="current-weather" href="weather.html"></a>
+    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +142,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=d5ec2cf0"></script>
+<script src="/data.js?v=bcf05826"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -233,7 +233,7 @@ loadData().then(records => {
     }, plotlyConfig());
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
-    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated);
+    renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

@@ -27,7 +27,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kamen Bryag, Bulgaristan deniz suyu sıcaklığı bugün kaç derece?","acceptedAnswer":{"@type":"Answer","text":"Kamen Bryag, Bulgaristan deniz suyu sıcaklığı 18.5°C (ölçüm: 20.10.2026). Bu, bu tarihin 3 yıllık ortalamasından (18.6°C) 0.1°C daha soğuk."}},{"@type":"Question","name":"Kamen Bryag, Bulgaristan denizi en sıcak ne zaman?","acceptedAnswer":{"@type":"Answer","text":"En sıcak ay Ağustos; ortalama su sıcaklığı 25.6°C. Kaydedilen en yüksek değer 28.0°C (24.07.2024)."}},{"@type":"Question","name":"Kamen Bryag, Bulgaristan için deniz sezonu ne zaman?","acceptedAnswer":{"@type":"Answer","text":"Deniz Haziran – Eylül döneminde ortalama 20°C veya üzerindedir; bu ana yüzme sezonudur. En sıcak ay Ağustos (25.6°C)."}},{"@type":"Question","name":"Kamen Bryag, Bulgaristan denizi ne kadar soğuk olur?","acceptedAnswer":{"@type":"Answer","text":"En soğuk ay Şubat; ortalama 6.7°C. Kaydedilen en düşük değer 4.8°C (25.02.2026)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=51d53ef0">
+    <link rel="stylesheet" href="/style.css?v=40e3dd1b">
     <script src="/i18n.tr.js?v=25999d43"></script>
     <script src="/locations.js?v=18d9d241"></script>
     <script>window.LOCATION_ID = 'kamen-bryag'; window.LANG = 'tr'; window.LANG_PREFIX = '/tr';</script>
@@ -63,7 +63,7 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">Kamen Bryag, Bulgaristan deniz suyu sıcaklığı 18.5°C (ölçüm: 20.10.2026). Bu, bu tarihin 3 yıllık ortalamasından (18.6°C) 0.1°C daha soğuk.</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Güncel hava durumu — Kamen Bryag, Bulgaristan</a></h2>
-    <a id="current-weather" class="current-weather" href="weather.html"></a>
+    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Bu tarihteki sıcaklık (yükleniyor…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +142,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=d5ec2cf0"></script>
+<script src="/data.js?v=bcf05826"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -233,7 +233,7 @@ loadData().then(records => {
     }, plotlyConfig());
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
-    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated);
+    renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

@@ -27,7 +27,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Каква е температурата на водата в Златни пясъци, България днес?","acceptedAnswer":{"@type":"Answer","text":"Температурата на морската вода в Златни пясъци, България е 18.4°C (измерена на 20.10.2026). Това е с 0.5°C под средната за тази дата за последните 3 години (18.9°C)."}},{"@type":"Question","name":"Кога морето е най-топло в Златни пясъци, България?","acceptedAnswer":{"@type":"Answer","text":"Най-топлият месец е август със средна температура на водата 25.8°C. Най-високата измерена стойност е 28.3°C (24.07.2024)."}},{"@type":"Question","name":"Кога е сезонът за къпане в Златни пясъци, България?","acceptedAnswer":{"@type":"Answer","text":"Средната температура на морето е 20°C или повече от юни до септември — това е основният сезон за къпане. Най-топъл е август с 25.8°C."}},{"@type":"Question","name":"Колко студено става морето в Златни пясъци, България?","acceptedAnswer":{"@type":"Answer","text":"Най-студеният месец е февруари със средно 6.6°C. Най-ниската измерена стойност е 4.7°C (04.03.2026)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=51d53ef0">
+    <link rel="stylesheet" href="/style.css?v=40e3dd1b">
     <script src="/i18n.bg.js?v=ee7e492c"></script>
     <script src="/locations.js?v=18d9d241"></script>
     <script>window.LOCATION_ID = 'golden-sands'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
@@ -63,7 +63,7 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">Температурата на морската вода в Златни пясъци, България е 18.4°C (измерена на 20.10.2026). Това е с 0.5°C под средната за тази дата за последните 3 години (18.9°C).</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Текущи метеорологични условия в Златни пясъци, България</a></h2>
-    <a id="current-weather" class="current-weather" href="weather.html"></a>
+    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Температура на тази дата (зареждане…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +142,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=d5ec2cf0"></script>
+<script src="/data.js?v=bcf05826"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -233,7 +233,7 @@ loadData().then(records => {
     }, plotlyConfig());
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
-    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated);
+    renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

@@ -37,7 +37,7 @@
     <div id="water-hero" class="water-hero">{today}</div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Current Conditions</a></h2>
-    <a id="current-weather" class="current-weather" href="weather.html"></a>
+    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -153,7 +153,7 @@ loadData().then(records => {
     }, plotlyConfig());
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
-    renderCurrentWeather(document.getElementById('current-weather'), data.current, data.updated);
+    renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

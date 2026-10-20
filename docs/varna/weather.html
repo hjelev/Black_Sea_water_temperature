@@ -25,7 +25,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черно море","item":"https://more.masoko.net/"},{"@type":"ListItem","position":2,"name":"Варна","item":"https://more.masoko.net/varna/"},{"@type":"ListItem","position":3,"name":"Времето","item":"https://more.masoko.net/varna/weather.html"}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=51d53ef0">
+    <link rel="stylesheet" href="/style.css?v=40e3dd1b">
     <script src="/i18n.bg.js?v=ee7e492c"></script>
     <script src="/locations.js?v=18d9d241"></script>
     <script>window.LOCATION_ID = 'varna'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
@@ -89,77 +89,11 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=d5ec2cf0"></script>
+<script src="/data.js?v=bcf05826"></script>
 <script>
 
 const round = v => v != null ? Math.round(v) : '–';
 const locale = getLocale();
-
-// Wind compass: arrow points where the wind blows TO (from + 180°).
-function compassSvg(deg) {
-    const labels = ['wind_dir_n', 'wind_dir_e', 'wind_dir_s', 'wind_dir_w'].map(t);
-    const arrow = deg == null ? '' :
-        `<g transform="rotate(${Math.round(deg) + 180} 50 50)">
-            <path d="M50 16 L58 38 L50 33 L42 38 Z" fill="var(--accent)"/>
-            <line x1="50" y1="33" x2="50" y2="80" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
-         </g>`;
-    return `<svg class="wx-compass" viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="44" fill="none" stroke="var(--nav-border)" stroke-width="2"/>
-        ${[0, 45, 90, 135, 180, 225, 270, 315].map(a =>
-            `<line x1="50" y1="8" x2="50" y2="${a % 90 ? 12 : 15}" stroke="var(--text-muted)" stroke-width="2" transform="rotate(${a} 50 50)"/>`).join('')}
-        <text x="50" y="27" text-anchor="middle">${labels[0]}</text>
-        <text x="77" y="54" text-anchor="middle">${labels[1]}</text>
-        <text x="50" y="81" text-anchor="middle">${labels[2]}</text>
-        <text x="23" y="54" text-anchor="middle">${labels[3]}</text>
-        ${arrow}
-    </svg>`;
-}
-
-function renderNow(el, data, records) {
-    const c = data.current;
-    if (!c) { el.style.display = 'none'; return; }
-    const water = records && records.length ? records[records.length - 1].temp : null;
-    const uv = c.uv != null ? c.uv : 0;
-    const uvl = uvLevel(uv);
-    const hum = c.humidity != null ? Math.round(c.humidity) : null;
-    const stale = Date.now() - new Date(data.updated).getTime() > 6 * 3600 * 1000;
-    el.innerHTML = `
-        <div class="wx-tile wx-main">
-            <span class="wx-big-icon">${weatherIcon(c.code)}</span>
-            <div>
-                <span class="wx-big-temp">${round(c.temp)}°</span>
-                <span class="wx-cond">${t(weatherCondKey(c.code))}</span>
-                <span class="wx-sub">${t('weather_feels_like')} ${round(c.feels_like)}°C</span>
-                <span class="wx-sub wx-upd${stale ? ' stale' : ''}">${formatUpdatedAgo(data.updated)}</span>
-            </div>
-        </div>
-        ${water != null ? `<div class="wx-tile wx-sea" style="--wh-color:${tempColor(water)}">
-            <span class="wx-tile-label">💧 ${t('weather_sea')}</span>
-            <span class="wx-tile-value">${water.toFixed(1)}°C</span>
-            <span class="wx-sub">${t(comfortKey(water))}</span>
-        </div>` : ''}
-        <div class="wx-tile">
-            <span class="wx-tile-label">🌬️ ${t('weather_wind')}</span>
-            <div class="wx-wind">
-                ${compassSvg(c.wind_dir)}
-                <div>
-                    <span class="wx-tile-value">${round(c.wind)} <small>km/h</small></span>
-                    <span class="wx-sub">${t(windKey(c.wind || 0))}${c.wind_dir != null
-                        ? ', ' + t('weather_from').replace('{dir}', windDirectionLabel(c.wind_dir)) : ''}</span>
-                </div>
-            </div>
-        </div>
-        <div class="wx-tile">
-            <span class="wx-tile-label">☀️ ${t('weather_uv_index')}</span>
-            <span class="wx-tile-value" style="color:${uvl.color}">${uv.toFixed(1)}</span>
-            <div class="wx-uv-bar"><span style="left:${Math.min(100, uv / 12 * 100)}%"></span></div>
-            <span class="wx-sub">${t(uvl.key)}</span>
-        </div>
-        ${hum != null ? `<div class="wx-tile">
-            <span class="wx-tile-label">💦 ${t('weather_humidity')}</span>
-            <div class="wx-ring" style="--p:${hum}"><span>${hum}%</span></div>
-        </div>` : ''}`;
-}
 
 // One row per day; the bar shows that day's min–max inside the 10-day range.
 function renderDays(el, days) {
@@ -233,7 +167,8 @@ Promise.all([
     loadWeatherData(getLocation()),
     loadData().catch(() => null)
 ]).then(([data, records]) => {
-    renderNow(document.getElementById('wx-now'), data, records);
+    renderWeatherNow(document.getElementById('wx-now'), data.current, data.updated,
+        records && records.length ? records[records.length - 1].temp : null);
     renderDays(document.getElementById('wx-days'), data.days || []);
     renderAirSea('wx-air-sea', data.days || [], records);
     renderHourlyChart('hourly-chart', data.hourly, { icons: true });
