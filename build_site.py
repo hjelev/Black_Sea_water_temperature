@@ -23,6 +23,7 @@
 # client-side from the csv files; the html is static).
 #
 # Python 3.7+ , standard library only.
+import hashlib
 import json
 import os
 import re
@@ -293,6 +294,28 @@ def template_body(page_file):
     return body
 
 
+# Root-level local assets (/data.js, /style.css, ...) referenced from pages.
+ASSET_RE = re.compile(r'((?:src|href)="/)([\w.-]+\.(?:js|css))"')
+
+
+def version_assets(html):
+    """Append ?v=<content hash> to root-level js/css references.
+
+    The assets are served with a multi-hour max-age while pages expire after
+    minutes, so without this a browser can pair a fresh page with a stale
+    data.js and crash on helpers it doesn't have yet. Run after
+    write_i18n_js()/write_locations_js() so their hashes are current."""
+    def repl(m):
+        path = os.path.join(DOCS_DIR, m.group(2))
+        if not os.path.isfile(path):
+            return m.group(0)
+        with open(path, "rb") as fh:
+            digest = hashlib.sha1(fh.read()).hexdigest()[:8]
+        return '{}{}?v={}"'.format(m.group(1), m.group(2), digest)
+
+    return ASSET_RE.sub(repl, html)
+
+
 def load_galleries():
     """Per-location Commons photos cached by fetch_galleries.py. Optional: if the
     file is missing the gallery pages just render an empty-state message."""
@@ -368,7 +391,8 @@ def write_location_pages():
                         "{gallery}", gallery_markup(galleries.get(slug, [])))
                 if lang == "en":
                     body = prefix_links(body)
-                page = bake(head.replace("{slug}", slug) + body, lang, loc)
+                page = version_assets(
+                    bake(head.replace("{slug}", slug) + body, lang, loc))
                 with open(os.path.join(out_dir, page_file), "w", encoding="utf-8") as fh:
                     fh.write(page)
         print("{}: wrote {} pages x {} languages to docs/[en/]{}/".format(
@@ -496,7 +520,7 @@ def write_hub():
 """.format(sections="\n".join(sections), search_ph=escape(TR[lang]["hub_search"]))
         if lang == "en":
             body = prefix_links(body)
-        page = bake(head + body, lang)
+        page = version_assets(bake(head + body, lang))
         out_dir = out_dir_for(lang)
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, "index.html"), "w", encoding="utf-8") as fh:
@@ -514,7 +538,7 @@ def write_compare_locations():
         body = template_body("compare-locations.html")
         if lang == "en":
             body = prefix_links(body)
-        page = bake(head + body, lang)
+        page = version_assets(bake(head + body, lang))
         out_dir = out_dir_for(lang)
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, "compare-locations.html"), "w",
