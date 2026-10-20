@@ -96,7 +96,7 @@ body {
     border-bottom-color: var(--accent);
 }
 
-/* Hamburger toggle — hidden on desktop, shown via media query on mobile */
+/* Hamburger toggle — hidden unless JS collapses the nav (mobile only) */
 .nav-toggle {
     display: none;
     order: 4;
@@ -593,8 +593,26 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .footer a { color: var(--text-muted); text-decoration: none; }
 .footer a:hover { color: var(--accent); }
 
-/* Collapsed ("sandwich") nav — toggled by JS in i18n.js whenever the menu
-   items + flags no longer fit on one row (any viewport width). */
+/* Wide two-row nav — desktop (>=768px) when the menu doesn't fit next to
+   the brand: brand + flags on top, the full menu (and location dropdown)
+   on a second row, so the menu stays visible instead of hiding in a sandwich. */
+/* Top row: brand … location dropdown + flags; second row: the menu. */
+.nav-wide .loc-switch {
+    order: 1;
+    flex-basis: auto;
+    margin-left: auto;
+    padding-bottom: 0;
+}
+.nav-wide .lang-switch { order: 2; margin-left: auto; }
+.nav-wide .loc-switch + .lang-switch { margin-left: 0.75rem; }   /* hub has no dropdown */
+.nav-wide .nav-links {
+    order: 3;
+    flex: 0 1 calc(100% + 0.85rem);   /* always its own row; links wrap if still too wide */
+    margin-left: -0.85rem;   /* align first link's text with the brand */
+}
+
+/* Collapsed ("sandwich") nav — toggled by JS in i18n_runtime.js on mobile
+   (<768px) whenever the menu items + flags no longer fit on one row. */
 .nav-collapsed .nav-toggle { display: block; order: 3; }   /* sandwich in the top-right corner */
 /* Language flags sit just left of the sandwich; together they fill the
    right corner of the first row. */

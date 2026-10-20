@@ -300,9 +300,11 @@ function renderNavToggle() {
     inner.appendChild(btn);
 }
 
-// Collapse the nav to a hamburger whenever the brand + menu + flags no longer
-// fit on a single row. Width-agnostic: it measures the real layout, so it
-// works for any language label lengths and any viewport size.
+// When the brand + menu + flags no longer fit on a single row: on mobile,
+// collapse the nav to a hamburger; on desktop, keep the menu visible and move
+// it onto its own row under the brand. Measures the real layout, so it works
+// for any language label lengths.
+const NAV_DESKTOP_MQ = window.matchMedia('(min-width: 768px)');
 function updateNavCollapse() {
     const inner = document.querySelector('.nav-inner');
     if (!inner) return;
@@ -313,11 +315,14 @@ function updateNavCollapse() {
     if (!nav || !brand || !links || !lang) return;
     // Measure in the expanded state.
     const wasOpen = nav.classList.contains('nav-open');
-    nav.classList.remove('nav-collapsed', 'nav-open');
+    nav.classList.remove('nav-collapsed', 'nav-open', 'nav-wide');
     // If the menu or the flags dropped below the brand's row, it doesn't fit.
     const top = brand.offsetTop;
     const overflow = links.offsetTop > top + 1 || lang.offsetTop > top + 1;
-    if (overflow) {
+    if (!overflow) return;
+    if (NAV_DESKTOP_MQ.matches) {
+        nav.classList.add('nav-wide');
+    } else {
         nav.classList.add('nav-collapsed');
         if (wasOpen) nav.classList.add('nav-open');
     }
