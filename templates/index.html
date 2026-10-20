@@ -16,7 +16,7 @@
     <div class="nav-inner">
         <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
         <ul class="nav-links">
-            <li><a href="index.html" class="active" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="./" class="active" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
             <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
             <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
@@ -30,11 +30,11 @@
 </nav>
 
 <div class="container">
-    <h1 data-i18n="dash_h1" data-i18n-loc>Dashboard</h1>
-    <p class="subtitle" id="subtitle">Black Sea water temperature — Burgas, Bulgaria</p>
-    <p class="location-description" id="location-description"></p>
+    <h1 data-i18n="dash_h1">Sea Water Temperature</h1>
+    <p class="subtitle" data-i18n="dash_subtitle">Black Sea water temperature</p>
+    <p class="location-description" data-i18n="desc_{lockey}"></p>
 
-    <div id="water-hero" class="water-hero"></div>
+    <div id="water-hero" class="water-hero">{today}</div>
 
     <h2 data-i18n="weather_current">Current Conditions</h2>
     <div id="current-weather" class="current-weather"></div>
@@ -53,6 +53,8 @@
     <h2 data-i18n="dash_full">Full History</h2>
     <p class="tip" data-i18n="dash_full_tip">Zoom or select a range below to explore historical data.</p>
     <div id="main-chart" class="chart"></div>
+
+{seo_content}
 </div>
 
 <footer class="footer">
@@ -62,13 +64,6 @@
 </footer>
 <script src="data.js"></script>
 <script>
-document.getElementById('subtitle').textContent =
-    t('dash_subtitle').replace('{location}', locationName());
-const descKey = 'desc_' + window.getLocation().replace(/-/g, '');
-const descText = t(descKey);
-const descEl = document.getElementById('location-description');
-if (descText && descText !== descKey) descEl.textContent = descText;
-else descEl.style.display = 'none';
 loadData().then(records => {
     const last = records[records.length - 1];
     const maxYear = last.year;

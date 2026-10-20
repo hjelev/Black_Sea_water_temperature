@@ -8,17 +8,25 @@
     <link rel="canonical" href="https://more.masoko.net/olimp/stats.html">
     <link rel="alternate" hreflang="bg" href="https://more.masoko.net/olimp/stats.html">
     <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/olimp/stats.html">
+    <link rel="alternate" hreflang="ru" href="https://more.masoko.net/ru/olimp/stats.html">
+    <link rel="alternate" hreflang="tr" href="https://more.masoko.net/tr/olimp/stats.html">
+    <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/olimp/stats.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/olimp/stats.html">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Статистика и рекорди — температура на водата в Олимп">
     <meta property="og:description" content="Рекорди и годишна статистика за температурата на морската вода в Черно море при Олимп, Румъния — най-високи и най-ниски стойности, годишни мин/ср/макс и дългосрочната тенденция.">
     <meta property="og:url" content="https://more.masoko.net/olimp/stats.html">
     <meta property="og:locale" content="bg_BG">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="tr_TR">
+    <meta property="og:locale:alternate" content="ro_RO">
     <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черно море","item":"https://more.masoko.net/"},{"@type":"ListItem","position":2,"name":"Олимп","item":"https://more.masoko.net/olimp/"},{"@type":"ListItem","position":3,"name":"Статистика","item":"https://more.masoko.net/olimp/stats.html"}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=a8efb13f">
-    <script src="/i18n.js?v=08bebfbc"></script>
+    <link rel="stylesheet" href="/style.css?v=0da817b0">
+    <script src="/i18n.bg.js?v=32e85860"></script>
     <script src="/locations.js?v=18d9d241"></script>
     <script>window.LOCATION_ID = 'olimp'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -30,7 +38,7 @@
     <div class="nav-inner">
         <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Черно море</a>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav_dashboard">Данни</a></li>
+            <li><a href="./" data-i18n="nav_dashboard">Данни</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Сравнение по години</a></li>
             <li><a href="heatmap.html" data-i18n="nav_heatmap">Топлинна карта</a></li>
             <li><a href="stats.html" class="active" data-i18n="nav_stats">Статистика</a></li>
@@ -44,8 +52,10 @@
 </nav>
 
 <div class="container">
-    <h1 data-i18n-html="st_h1" data-i18n-loc>Статистика и рекорди за Олимп, Румъния</h1>
-    <p class="subtitle" id="subtitle">All-time records and annual statistics since 2000</p>
+    <nav class="breadcrumb" aria-label="Навигационна пътека"><a href="/">Черно море</a> <span class="crumb-sep">›</span> <a href="/olimp/">Олимп</a> <span class="crumb-sep">›</span> <span aria-current="page">Статистика</span></nav>
+
+    <h1 data-i18n="st_h1">Рекорди и статистика за температурата на водата — Олимп, Румъния</h1>
+    <p class="subtitle" data-i18n="st_subtitle">Рекорди за всички времена и годишна статистика от 2023 г.</p>
 
     <h2 data-i18n="st_records">Рекорди за всички времена</h2>
     <div id="records-grid" class="records-grid"></div>
@@ -56,6 +66,18 @@
     <h2 data-i18n="st_trend">Дългосрочна тенденция</h2>
     <p class="tip" data-i18n="st_trend_tip">Годишна средна стойност с линия на 5-годишна плъзгаща средна.</p>
     <div id="trend-chart" class="chart"></div>
+
+    <section class="nearby">
+    <h2>Близки плажове и градове</h2>
+    <div class="nearby-links">
+        <a class="nearby-link" href="/vama-veche/stats.html">🎸 Вама Веке <span class="nearby-km">22 km</span></a>
+        <a class="nearby-link" href="/constanta/stats.html">🎰 Кюстенджа <span class="nearby-km">25 km</span></a>
+        <a class="nearby-link" href="/durankulak/stats.html">🦢 Дуранкулак <span class="nearby-km">27 km</span></a>
+        <a class="nearby-link" href="/mamaia/stats.html">🎉 Мамая <span class="nearby-km">34 km</span></a>
+        <a class="nearby-link" href="/krapets/stats.html">🏄 Крапец <span class="nearby-km">36 km</span></a>
+        <a class="nearby-link" href="/shabla/stats.html">🔦 Шабла <span class="nearby-km">46 km</span></a>
+    </div>
+    </section>
 </div>
 
 <footer class="footer">
@@ -63,7 +85,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=4301e6a7"></script>
+<script src="/data.js?v=d5ec2cf0"></script>
 <script>
 function movingAvg(arr, n) {
     return arr.map((_, i) => {
@@ -81,8 +103,6 @@ function fmt(date) {
 loadData().then(records => {
     const minYear = records[0].year;
     const maxYear = records[records.length - 1].year;
-    document.getElementById('subtitle').textContent =
-        t('st_subtitle').replace('{year}', minYear);
     const years = [];
     for (let y = minYear; y <= maxYear; y++) years.push(y);
 

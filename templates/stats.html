@@ -16,7 +16,7 @@
     <div class="nav-inner">
         <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="./" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
             <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
             <li><a href="stats.html" class="active" data-i18n="nav_stats">Statistics</a></li>
@@ -30,8 +30,8 @@
 </nav>
 
 <div class="container">
-    <h1 data-i18n-html="st_h1" data-i18n-loc>Statistics &amp; Records</h1>
-    <p class="subtitle" id="subtitle">All-time records and annual statistics since 2000</p>
+    <h1 data-i18n="st_h1">Statistics &amp; Records</h1>
+    <p class="subtitle" data-i18n="st_subtitle">All-time records and annual statistics since 2000</p>
 
     <h2 data-i18n="st_records">All-time Records</h2>
     <div id="records-grid" class="records-grid"></div>
@@ -67,8 +67,6 @@ function fmt(date) {
 loadData().then(records => {
     const minYear = records[0].year;
     const maxYear = records[records.length - 1].year;
-    document.getElementById('subtitle').textContent =
-        t('st_subtitle').replace('{year}', minYear);
     const years = [];
     for (let y = minYear; y <= maxYear; y++) years.push(y);
 

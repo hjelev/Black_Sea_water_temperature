@@ -40,11 +40,15 @@ lists every tracked location and its coordinates. Everything else reads from it:
   (`.github/workflows/update-temp.yml`). For each location it fetches the latest
   sea surface temperature, appends any new readings to that location's CSV, and
   rewrites `docs/latest_temps.json` (the current reading per location, used by the
-  hub map). The workflow then commits the changed CSVs and JSON.
+  hub map). It then runs `build_site.py` so the latest reading, monthly averages
+  and FAQ baked into the pages stay current, and commits the CSVs, JSON and
+  `docs/`.
 - **History** — `backfill.py` is a one-time script that pulls the full history
   from the Open-Meteo archive (back to each location's `start_date`).
 - **Site** — `build_site.py` turns the templates in `templates/` plus
-  `locations.py` into the static site under `docs/`. The frontend is fully static:
+  `locations.py` into the static site under `docs/`, in five languages:
+  Bulgarian at the root and English, Russian, Turkish and Romanian under
+  `/en/`, `/ru/`, `/tr/`, `/ro/`. The frontend is fully static:
   it loads each location's CSV directly from `raw.githubusercontent.com` and draws
   the charts client-side with [Plotly](https://plotly.com/javascript/). GitHub
   Pages serves `docs/`.
@@ -85,9 +89,9 @@ The active pipeline (`locations.py`, `get_daily_temp.py`, `backfill.py`,
 │   ├── latest_temps.json        #   current reading per location (written by CI)
 │   ├── data.js                  #   loads CSVs from raw GitHub + renders charts
 │   ├── map.js                   #   Leaflet hub map
-│   ├── i18n.js                  #   EN/BG translations (generated from translations.json)
+│   ├── i18n.<lang>.js           #   per-language UI strings (generated from translations.json)
 │   ├── style.css, favicon.svg
-│   ├── sitemap.xml, robots.txt  #   (generated)
+│   ├── sitemap.xml, robots.txt, 404.html  # (generated)
 │   └── CNAME                     #   more.masoko.net
 │
 ├── .github/workflows/
@@ -154,8 +158,8 @@ match the cadence of the original historical series.
    identical to that neighbour's (see the cell table at the top of
    `locations.py`).
 
-2. **Add translations to `translations.json`.** In **both** the `en` and `bg`
-   blocks add a `loc_<slug-without-dashes>` name and a `desc_<slug-without-dashes>`
+2. **Add translations to `translations.json`.** In **every** language block
+   (`bg`, `en`, `ru`, `tr`, `ro`) add a `loc_<slug-without-dashes>` name and a `desc_<slug-without-dashes>`
    description (dashes are stripped — `cape-kaliakra` becomes `loc_capekaliakra`):
 
    ```json
@@ -163,9 +167,10 @@ match the cadence of the original historical series.
    "loc_obzor": "Обзор, България",       // in the bg block
    ```
 
-   For a **new country**, also add `country_<slug>` to both blocks.
-   `docs/i18n.js` is generated from this file by `build_site.py` — don't edit it
-   by hand.
+   Also add the Russian prepositional form ("в Обзоре") to `RU_LOCATIVE` in
+   `build_site.py`. For a **new country**, add `country_<slug>` to every block.
+   `docs/i18n.<lang>.js` is generated from this file by `build_site.py` — don't
+   edit it by hand.
 
 3. **Backfill the history:**
 

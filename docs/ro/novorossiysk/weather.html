@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prognoza meteo — Novorosiisk</title>
+    <meta name="description" content="Temperatura aerului, indicele UV și viteza vântului la Novorosiisk, Rusia — ultimele 5 zile și prognoza pe 5 zile, actualizate din oră în oră.">
+    <link rel="canonical" href="https://more.masoko.net/ro/novorossiysk/weather.html">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/novorossiysk/weather.html">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/novorossiysk/weather.html">
+    <link rel="alternate" hreflang="ru" href="https://more.masoko.net/ru/novorossiysk/weather.html">
+    <link rel="alternate" hreflang="tr" href="https://more.masoko.net/tr/novorossiysk/weather.html">
+    <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/novorossiysk/weather.html">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/novorossiysk/weather.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Prognoza meteo — Novorosiisk">
+    <meta property="og:description" content="Temperatura aerului, indicele UV și viteza vântului la Novorosiisk, Rusia — ultimele 5 zile și prognoza pe 5 zile, actualizate din oră în oră.">
+    <meta property="og:url" content="https://more.masoko.net/ro/novorossiysk/weather.html">
+    <meta property="og:locale" content="ro_RO">
+    <meta property="og:locale:alternate" content="bg_BG">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="tr_TR">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Marea Neagră","item":"https://more.masoko.net/ro/"},{"@type":"ListItem","position":2,"name":"Novorosiisk","item":"https://more.masoko.net/ro/novorossiysk/"},{"@type":"ListItem","position":3,"name":"Vremea","item":"https://more.masoko.net/ro/novorossiysk/weather.html"}]}</script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css?v=0da817b0">
+    <script src="/i18n.ro.js?v=c37d9adf"></script>
+    <script src="/locations.js?v=18d9d241"></script>
+    <script>window.LOCATION_ID = 'novorossiysk'; window.LANG = 'ro'; window.LANG_PREFIX = '/ro';</script>
+    <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="/ro/" data-i18n="nav_brand">🌊 Marea Neagră</a>
+        <ul class="nav-links">
+            <li><a href="./" data-i18n="nav_dashboard">Prezentare</a></li>
+            <li><a href="compare.html" data-i18n="nav_compare">Comparație pe ani</a></li>
+            <li><a href="heatmap.html" data-i18n="nav_heatmap">Hartă termică</a></li>
+            <li><a href="stats.html" data-i18n="nav_stats">Statistici</a></li>
+            <li><a href="gallery.html" data-i18n="nav_gallery">Fotografii</a></li>
+            <li><a href="weather.html" class="active" data-i18n="nav_weather">Vremea</a></li>
+            <li><a href="/ro/compare-locations.html" data-i18n="nav_comparelocations">Comparație localități</a></li>
+        </ul>
+        <div class="loc-switch"></div>
+        <div class="lang-switch"></div>
+    </div>
+</nav>
+
+<div class="container">
+    <nav class="breadcrumb" aria-label="Navigare"><a href="/ro/">Marea Neagră</a> <span class="crumb-sep">›</span> <a href="/ro/novorossiysk/">Novorosiisk</a> <span class="crumb-sep">›</span> <span aria-current="page">Vremea</span></nav>
+
+    <h1 data-i18n="weather_h1">Vremea la Novorosiisk, Rusia</h1>
+    <p class="subtitle" data-i18n="weather_subtitle">Temperatura aerului, indicele UV și vântul — Novorosiisk, Rusia</p>
+
+    <h2 data-i18n="weather_now">Chiar acum</h2>
+    <div id="wx-now" class="wx-now"><p class="loading">…</p></div>
+
+    <h2 data-i18n="weather_10day">Privire de ansamblu pe 10 zile</h2>
+    <div id="wx-days" class="wx-days"></div>
+
+    <h2 data-i18n="weather_air_vs_sea">Temperatura aerului și a mării</h2>
+    <div id="wx-air-sea" class="chart"></div>
+
+    <div id="hourly-section">
+        <h2 data-i18n="weather_last48h">Temperatura aerului — ultimele 48 de ore</h2>
+        <div id="hourly-chart" class="chart"></div>
+    </div>
+
+    <section class="nearby">
+    <h2>Plaje și localități din apropiere</h2>
+    <div class="nearby-links">
+        <a class="nearby-link" href="/ro/abrau-durso/weather.html">🍾 Abrau-Diurso <span class="nearby-km">17 km</span></a>
+        <a class="nearby-link" href="/ro/gelendzhik/weather.html">🎢 Ghelendjik <span class="nearby-km">32 km</span></a>
+        <a class="nearby-link" href="/ro/anapa/weather.html">🏝️ Anapa <span class="nearby-km">38 km</span></a>
+        <a class="nearby-link" href="/ro/sochi/weather.html">🏔️ Soci <span class="nearby-km">203 km</span></a>
+        <a class="nearby-link" href="/ro/sinop/weather.html">🏰 Sinop <span class="nearby-km">354 km</span></a>
+        <a class="nearby-link" href="/ro/trabzon/weather.html">⛪ Trabzon <span class="nearby-km">435 km</span></a>
+    </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <span data-i18n="footer_title">Temperatura apei Mării Negre</span>
+    <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
+</footer>
+<script src="/data.js?v=d5ec2cf0"></script>
+<script>
+
+const round = v => v != null ? Math.round(v) : '–';
+const locale = getLocale();
+
+// Wind compass: arrow points where the wind blows TO (from + 180°).
+function compassSvg(deg) {
+    const labels = ['wind_dir_n', 'wind_dir_e', 'wind_dir_s', 'wind_dir_w'].map(t);
+    const arrow = deg == null ? '' :
+        `<g transform="rotate(${Math.round(deg) + 180} 50 50)">
+            <path d="M50 16 L58 38 L50 33 L42 38 Z" fill="var(--accent)"/>
+            <line x1="50" y1="33" x2="50" y2="80" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+         </g>`;
+    return `<svg class="wx-compass" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="44" fill="none" stroke="var(--nav-border)" stroke-width="2"/>
+        ${[0, 45, 90, 135, 180, 225, 270, 315].map(a =>
+            `<line x1="50" y1="8" x2="50" y2="${a % 90 ? 12 : 15}" stroke="var(--text-muted)" stroke-width="2" transform="rotate(${a} 50 50)"/>`).join('')}
+        <text x="50" y="27" text-anchor="middle">${labels[0]}</text>
+        <text x="77" y="54" text-anchor="middle">${labels[1]}</text>
+        <text x="50" y="81" text-anchor="middle">${labels[2]}</text>
+        <text x="23" y="54" text-anchor="middle">${labels[3]}</text>
+        ${arrow}
+    </svg>`;
+}
+
+function renderNow(el, data, records) {
+    const c = data.current;
+    if (!c) { el.style.display = 'none'; return; }
+    const water = records && records.length ? records[records.length - 1].temp : null;
+    const uv = c.uv != null ? c.uv : 0;
+    const uvl = uvLevel(uv);
+    const hum = c.humidity != null ? Math.round(c.humidity) : null;
+    const stale = Date.now() - new Date(data.updated).getTime() > 6 * 3600 * 1000;
+    el.innerHTML = `
+        <div class="wx-tile wx-main">
+            <span class="wx-big-icon">${weatherIcon(c.code)}</span>
+            <div>
+                <span class="wx-big-temp">${round(c.temp)}°</span>
+                <span class="wx-cond">${t(weatherCondKey(c.code))}</span>
+                <span class="wx-sub">${t('weather_feels_like')} ${round(c.feels_like)}°C</span>
+                <span class="wx-sub wx-upd${stale ? ' stale' : ''}">${formatUpdatedAgo(data.updated)}</span>
+            </div>
+        </div>
+        ${water != null ? `<div class="wx-tile wx-sea" style="--wh-color:${tempColor(water)}">
+            <span class="wx-tile-label">💧 ${t('weather_sea')}</span>
+            <span class="wx-tile-value">${water.toFixed(1)}°C</span>
+            <span class="wx-sub">${t(comfortKey(water))}</span>
+        </div>` : ''}
+        <div class="wx-tile">
+            <span class="wx-tile-label">🌬️ ${t('weather_wind')}</span>
+            <div class="wx-wind">
+                ${compassSvg(c.wind_dir)}
+                <div>
+                    <span class="wx-tile-value">${round(c.wind)} <small>km/h</small></span>
+                    <span class="wx-sub">${t(windKey(c.wind || 0))}${c.wind_dir != null
+                        ? ', ' + t('weather_from').replace('{dir}', windDirectionLabel(c.wind_dir)) : ''}</span>
+                </div>
+            </div>
+        </div>
+        <div class="wx-tile">
+            <span class="wx-tile-label">☀️ ${t('weather_uv_index')}</span>
+            <span class="wx-tile-value" style="color:${uvl.color}">${uv.toFixed(1)}</span>
+            <div class="wx-uv-bar"><span style="left:${Math.min(100, uv / 12 * 100)}%"></span></div>
+            <span class="wx-sub">${t(uvl.key)}</span>
+        </div>
+        ${hum != null ? `<div class="wx-tile">
+            <span class="wx-tile-label">💦 ${t('weather_humidity')}</span>
+            <div class="wx-ring" style="--p:${hum}"><span>${hum}%</span></div>
+        </div>` : ''}`;
+}
+
+// One row per day; the bar shows that day's min–max inside the 10-day range.
+function renderDays(el, days) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const temps = days.flatMap(d => [d.temp_min, d.temp_max]).filter(v => v != null);
+    const lo = Math.min(...temps), hi = Math.max(...temps), span = Math.max(1, hi - lo);
+    let html = '', section = null;
+    days.forEach(d => {
+        const s = d.date < todayStr ? 'past' : 'forecast';
+        if (s !== section) {
+            section = s;
+            html += `<div class="wx-days-head">${t(s === 'past' ? 'weather_past' : 'weather_forecast')}</div>`;
+        }
+        const isToday = d.date === todayStr;
+        const label = isToday ? t('weather_today') : new Date(d.date + 'T00:00:00Z').toLocaleDateString(
+            locale, { weekday: 'short', day: 'numeric', month: 'numeric', timeZone: 'UTC' });
+        const left = d.temp_min != null ? (d.temp_min - lo) / span * 100 : 0;
+        const width = d.temp_min != null && d.temp_max != null ? (d.temp_max - d.temp_min) / span * 100 : 0;
+        const uv = d.uv_max != null ? uvLevel(d.uv_max) : null;
+        html += `<div class="wx-day${isToday ? ' today' : ''}${s === 'past' ? ' past' : ''}">
+            <span class="wx-day-name">${label}</span>
+            <span class="wx-day-icon" title="${t(weatherCondKey(d.code))}">${weatherIcon(d.code)}</span>
+            <span class="wx-day-min">${round(d.temp_min)}°</span>
+            <span class="wx-range"><span style="left:${left}%;width:${Math.max(width, 3)}%;
+                background:linear-gradient(90deg, ${tempColor(d.temp_min)}, ${tempColor(d.temp_max)})"></span></span>
+            <span class="wx-day-max">${round(d.temp_max)}°</span>
+            <span class="wx-day-uv"${uv ? ` style="background:${uv.color}" title="${t('weather_uv_index')}: ${t(uv.key)}"` : ''}>${
+                d.uv_max != null ? 'UV ' + Math.round(d.uv_max) : ''}</span>
+            <span class="wx-day-wind">🌬️ ${round(d.wind_max)} <small>km/h</small></span>
+        </div>`;
+    });
+    el.innerHTML = html;
+}
+
+// Daily air min–max band with the daily mean sea temperature on top.
+function renderAirSea(id, days, records) {
+    const theme = plotlyTheme();
+    const x = days.map(d => d.date);
+    const seaByDay = {};
+    (records || []).forEach(r => {
+        const k = r.dateStr.substring(0, 10);
+        (seaByDay[k] = seaByDay[k] || []).push(r.temp);
+    });
+    const sea = x.map(d => seaByDay[d] ? seaByDay[d].reduce((a, b) => a + b, 0) / seaByDay[d].length : null);
+    const todayStr = new Date().toISOString().slice(0, 10);
+    Plotly.newPlot(id, [
+        { x, y: days.map(d => d.temp_min), name: t('weather_air_min'), type: 'scatter', mode: 'lines',
+          line: { color: '#e0a030', width: 0, shape: 'spline' }, showlegend: false,
+          hovertemplate: '%{y:.0f}°C<extra>' + t('weather_air_min') + '</extra>' },
+        { x, y: days.map(d => d.temp_max), name: t('weather_air_range'), type: 'scatter', mode: 'lines+markers',
+          fill: 'tonexty', fillcolor: 'rgba(224,160,48,0.22)',
+          line: { color: '#e0a030', width: 2, shape: 'spline' }, marker: { size: 6 },
+          hovertemplate: '%{y:.0f}°C<extra>' + t('weather_air_max') + '</extra>' },
+        { x, y: sea, name: t('weather_sea'), type: 'scatter', mode: 'lines+markers',
+          line: { color: '#007bff', width: 3, shape: 'spline' }, marker: { size: 7 }, connectgaps: false,
+          hovertemplate: '%{y:.1f}°C<extra>' + t('weather_sea') + '</extra>' }
+    ], {
+        ...theme,
+        hovermode: 'x unified',
+        legend: { ...theme.legend, orientation: 'h', x: 0, y: 1.12 },
+        xaxis: { ...theme.xaxis, title: '', type: 'date', tickformat: '%d.%m', dtick: 86400000 },
+        yaxis: { ...theme.yaxis, title: '°C' },
+        shapes: [{ type: 'line', xref: 'x', yref: 'paper', x0: todayStr, x1: todayStr, y0: 0, y1: 1,
+                   line: { color: 'rgba(128,128,128,0.6)', width: 1, dash: 'dot' } }],
+        annotations: [{ x: todayStr, y: 1, xref: 'x', yref: 'paper', yanchor: 'bottom', showarrow: false,
+                        text: t('weather_today'), font: { size: 11, color: theme.xaxis.color } }]
+    }, plotlyConfig());
+}
+
+Promise.all([
+    loadWeatherData(getLocation()),
+    loadData().catch(() => null)
+]).then(([data, records]) => {
+    renderNow(document.getElementById('wx-now'), data, records);
+    renderDays(document.getElementById('wx-days'), data.days || []);
+    renderAirSea('wx-air-sea', data.days || [], records);
+    renderHourlyChart('hourly-chart', data.hourly, { icons: true });
+});
+</script>
+</body>
+</html>

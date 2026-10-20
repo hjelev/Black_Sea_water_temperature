@@ -15,7 +15,7 @@
     <div class="nav-inner">
         <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav_dashboard">Dashboard</a></li>
+            <li><a href="./" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
             <li><a href="heatmap.html" data-i18n="nav_heatmap">Heatmap</a></li>
             <li><a href="stats.html" data-i18n="nav_stats">Statistics</a></li>
@@ -29,8 +29,8 @@
 </nav>
 
 <div class="container">
-    <h1 data-i18n="weather_h1" data-i18n-loc>Weather</h1>
-    <p class="subtitle" id="weather-subtitle">Air temperature, UV index and wind — Burgas, Bulgaria</p>
+    <h1 data-i18n="weather_h1">Weather</h1>
+    <p class="subtitle" data-i18n="weather_subtitle">Air temperature, UV index and wind — Burgas, Bulgaria</p>
 
     <h2 data-i18n="weather_now">Right now</h2>
     <div id="wx-now" class="wx-now"><p class="loading">…</p></div>
@@ -54,11 +54,9 @@
 </footer>
 <script src="data.js"></script>
 <script>
-document.getElementById('weather-subtitle').textContent =
-    t('weather_subtitle').replace('{location}', locationName());
 
 const round = v => v != null ? Math.round(v) : '–';
-const locale = window.LANG === 'bg' ? 'bg-BG' : 'en-US';
+const locale = getLocale();
 
 // Wind compass: arrow points where the wind blows TO (from + 180°).
 function compassSvg(deg) {

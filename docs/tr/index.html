@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karadeniz Deniz Suyu Sıcaklığı — Bulgaristan, Türkiye, Romanya, Gürcistan, Rusya</title>
+    <meta name="description" content="Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya'daki kıyı kasabaları için güncel ve geçmiş Karadeniz deniz suyu sıcaklığı. Günlük deniz sıcaklığı, yıllık karşılaştırmalar, ısı haritaları ve rekorlar.">
+    <link rel="canonical" href="https://more.masoko.net/tr/">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/">
+    <link rel="alternate" hreflang="ru" href="https://more.masoko.net/ru/">
+    <link rel="alternate" hreflang="tr" href="https://more.masoko.net/tr/">
+    <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Karadeniz Deniz Suyu Sıcaklığı — Bulgaristan, Türkiye, Romanya, Gürcistan, Rusya">
+    <meta property="og:description" content="Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya'daki kıyı kasabaları için güncel ve geçmiş Karadeniz deniz suyu sıcaklığı. Günlük deniz sıcaklığı, yıllık karşılaştırmalar, ısı haritaları ve rekorlar.">
+    <meta property="og:url" content="https://more.masoko.net/tr/">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:locale:alternate" content="bg_BG">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="ro_RO">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Karadeniz Deniz Suyu Sıcaklığı","url":"https://more.masoko.net/tr/","inLanguage":"tr","description":"Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya'daki kıyı kasabaları için güncel ve geçmiş Karadeniz deniz suyu sıcaklığı. Günlük deniz sıcaklığı, yıllık karşılaştırmalar, ısı haritaları ve rekorlar."}</script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css?v=0da817b0">
+    <script src="/i18n.tr.js?v=ca31c7c9"></script>
+    <script src="/locations.js?v=18d9d241"></script>
+    <script>window.LOCATION_ID = 'burgas'; window.LANG = 'tr'; window.LANG_PREFIX = '/tr';</script>
+    <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
+</head>
+<body>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="/tr/" data-i18n="nav_brand">🌊 Karadeniz</a>
+        <ul class="nav-links">
+            <li><a href="/tr/burgas/" data-i18n="nav_dashboard">Genel Bakış</a></li>
+            <li><a href="/tr/burgas/compare.html" data-i18n="nav_compare">Yılları Karşılaştır</a></li>
+            <li><a href="/tr/burgas/heatmap.html" data-i18n="nav_heatmap">Isı Haritası</a></li>
+            <li><a href="/tr/burgas/stats.html" data-i18n="nav_stats">İstatistikler</a></li>
+            <li><a href="/tr/burgas/gallery.html" data-i18n="nav_gallery">Fotoğraflar</a></li>
+            <li><a href="/tr/compare-locations.html" data-i18n="nav_comparelocations">Konumları Karşılaştır</a></li>
+        </ul>
+        <div class="lang-switch"></div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 data-i18n="hub_h1">Karadeniz Deniz Suyu Sıcaklığı</h1>
+    <p class="subtitle" data-i18n="hub_subtitle">Karadeniz kıyısı için güncel ve geçmiş deniz yüzeyi sıcaklığı — Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya</p>
+
+    <h2 data-i18n="hub_map">Güncel deniz suyu sıcaklığı</h2>
+    <div id="hub-summary" class="hub-summary"></div>
+    <div id="map"></div>
+
+    <h2 data-i18n="hub_pick">Bir konum seçin</h2>
+    <div class="hub-tools">
+        <input type="search" id="hub-search" class="hub-search" placeholder="Konum ara…" autocomplete="off">
+        <label class="hub-sort"><input type="checkbox" id="hub-sort"> <span data-i18n="hub_sort_temp">Sıcaklığa göre sırala</span></label>
+    </div>
+    <div id="hub-locations">
+        <section class="hub-section">
+        <h3 class="hub-country" data-i18n="country_bulgaria">Bulgaristan</h3>
+        <div class="hub-grid">
+            <a class="hub-card" href="/tr/burgas/" data-loc="burgas" data-search="бургас burgas бургас burgaz burgas burgas">
+                <span class="hub-flag">🏖️</span>
+                <span class="hub-name">Burgaz</span>
+                <span class="hub-temp" style="background:hsl(84, 75%, 47%);color:#fff">18.8°</span>
+            </a>
+            <a class="hub-card" href="/tr/sinemorets/" data-loc="sinemorets" data-search="синеморец sinemorets синеморец sinemorets sinemoreț sinemorets">
+                <span class="hub-flag">⛵</span>
+                <span class="hub-name">Sinemorets</span>
+                <span class="hub-temp" style="background:hsl(78, 75%, 47%);color:#fff">19.5°</span>
+            </a>
+            <a class="hub-card" href="/tr/varna/" data-loc="varna" data-search="варна varna варна varna varna varna">
+                <span class="hub-flag">🏛️</span>
+                <span class="hub-name">Varna</span>
+                <span class="hub-temp" style="background:hsl(88, 75%, 47%);color:#fff">18.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/kamen-bryag/" data-loc="kamen-bryag" data-search="камен бряг kamen bryag камен-бряг kamen bryag kamen briag kamen-bryag">
+                <span class="hub-flag">🪨</span>
+                <span class="hub-name">Kamen Bryag</span>
+                <span class="hub-temp" style="background:hsl(88, 75%, 47%);color:#fff">18.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/tyulenovo/" data-loc="tyulenovo" data-search="тюленово tyulenovo тюленово tyulenovo tiulenovo tyulenovo">
+                <span class="hub-flag">🦭</span>
+                <span class="hub-name">Tyulenovo</span>
+                <span class="hub-temp" style="background:hsl(86, 75%, 47%);color:#fff">18.6°</span>
+            </a>
+            <a class="hub-card" href="/tr/nessebar/" data-loc="nessebar" data-search="несебър nessebar несебр nesebar nesebăr nessebar">
+                <span class="hub-flag">🏘️</span>
+                <span class="hub-name">Nesebar</span>
+                <span class="hub-temp" style="background:hsl(81, 75%, 47%);color:#fff">19.2°</span>
+            </a>
+            <a class="hub-card" href="/tr/sozopol/" data-loc="sozopol" data-search="созопол sozopol созополь sozopol sozopol sozopol">
+                <span class="hub-flag">⚓</span>
+                <span class="hub-name">Sozopol</span>
+                <span class="hub-temp" style="background:hsl(79, 75%, 47%);color:#fff">19.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/sunny-beach/" data-loc="sunny-beach" data-search="слънчев бряг sunny beach солнечный берег sunny beach sunny beach sunny-beach">
+                <span class="hub-flag">☀️</span>
+                <span class="hub-name">Sunny Beach</span>
+                <span class="hub-temp" style="background:hsl(85, 75%, 47%);color:#fff">18.7°</span>
+            </a>
+            <a class="hub-card" href="/tr/golden-sands/" data-loc="golden-sands" data-search="златни пясъци golden sands золотые пески altın kumlar nisipurile de aur golden-sands">
+                <span class="hub-flag">🌅</span>
+                <span class="hub-name">Altın Kumlar</span>
+                <span class="hub-temp" style="background:hsl(89, 75%, 47%);color:#fff">18.3°</span>
+            </a>
+            <a class="hub-card" href="/tr/balchik/" data-loc="balchik" data-search="балчик balchik балчик balçık balcic balchik">
+                <span class="hub-flag">🌷</span>
+                <span class="hub-name">Balçık</span>
+                <span class="hub-temp" style="background:hsl(90, 75%, 47%);color:#fff">18.2°</span>
+            </a>
+            <a class="hub-card" href="/tr/cape-kaliakra/" data-loc="cape-kaliakra" data-search="нос калиакра cape kaliakra мыс калиакра kaliakra burnu capul caliacra cape-kaliakra">
+                <span class="hub-flag">🦅</span>
+                <span class="hub-name">Kaliakra Burnu</span>
+                <span class="hub-temp" style="background:hsl(90, 75%, 47%);color:#fff">18.2°</span>
+            </a>
+            <a class="hub-card" href="/tr/albena/" data-loc="albena" data-search="албена albena албена albena albena albena">
+                <span class="hub-flag">🌴</span>
+                <span class="hub-name">Albena</span>
+                <span class="hub-temp" style="background:hsl(91, 75%, 47%);color:#fff">18.1°</span>
+            </a>
+            <a class="hub-card" href="/tr/sveti-konstantin/" data-loc="sveti-konstantin" data-search="св. св. константин и елена st. konstantin and elena святые константин и елена sveti konstantin ve elena sfinții constantin și elena sveti-konstantin">
+                <span class="hub-flag">🧖</span>
+                <span class="hub-name">Sveti Konstantin ve Elena</span>
+                <span class="hub-temp" style="background:hsl(88, 75%, 47%);color:#fff">18.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/irakli/" data-loc="irakli" data-search="иракли irakli beach пляж иракли i̇rakli plajı plaja irakli irakli">
+                <span class="hub-flag">🌿</span>
+                <span class="hub-name">İrakli Plajı</span>
+                <span class="hub-temp" style="background:hsl(84, 75%, 47%);color:#fff">18.8°</span>
+            </a>
+            <a class="hub-card" href="/tr/pomorie/" data-loc="pomorie" data-search="поморие pomorie поморие pomorie pomorie pomorie">
+                <span class="hub-flag">🧂</span>
+                <span class="hub-name">Pomorie</span>
+                <span class="hub-temp" style="background:hsl(82, 75%, 47%);color:#fff">19.0°</span>
+            </a>
+            <a class="hub-card" href="/tr/primorsko/" data-loc="primorsko" data-search="приморско primorsko приморско primorsko primorsko primorsko">
+                <span class="hub-flag">🏕️</span>
+                <span class="hub-name">Primorsko</span>
+                <span class="hub-temp" style="background:hsl(79, 75%, 47%);color:#fff">19.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/lozenets/" data-loc="lozenets" data-search="лозенец lozenets лозенец lozenets lozeneț lozenets">
+                <span class="hub-flag">🍇</span>
+                <span class="hub-name">Lozenets</span>
+                <span class="hub-temp" style="background:hsl(79, 75%, 47%);color:#fff">19.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/sveti-vlas/" data-loc="sveti-vlas" data-search="свети влас sveti vlas святой влас sveti vlas sveti vlas sveti-vlas">
+                <span class="hub-flag">🛥️</span>
+                <span class="hub-name">Sveti Vlas</span>
+                <span class="hub-temp" style="background:hsl(85, 75%, 47%);color:#fff">18.7°</span>
+            </a>
+            <a class="hub-card" href="/tr/durankulak/" data-loc="durankulak" data-search="дуранкулак durankulak дуранкулак durankulak durankulak durankulak">
+                <span class="hub-flag">🦢</span>
+                <span class="hub-name">Durankulak</span>
+                <span class="hub-temp" style="background:hsl(87, 75%, 47%);color:#fff">18.5°</span>
+            </a>
+            <a class="hub-card" href="/tr/krapets/" data-loc="krapets" data-search="крапец krapets крапец krapets krapeț krapets">
+                <span class="hub-flag">🏄</span>
+                <span class="hub-name">Krapets</span>
+                <span class="hub-temp" style="background:hsl(86, 75%, 47%);color:#fff">18.6°</span>
+            </a>
+            <a class="hub-card" href="/tr/shabla/" data-loc="shabla" data-search="шабла shabla шабла şabla șabla shabla">
+                <span class="hub-flag">🔦</span>
+                <span class="hub-name">Şabla</span>
+                <span class="hub-temp" style="background:hsl(87, 75%, 47%);color:#fff">18.5°</span>
+            </a>
+            <a class="hub-card" href="/tr/kranevo/" data-loc="kranevo" data-search="кранево kranevo кранево kranevo kranevo kranevo">
+                <span class="hub-flag">🌲</span>
+                <span class="hub-name">Kranevo</span>
+                <span class="hub-temp" style="background:hsl(92, 75%, 47%);color:#fff">18.0°</span>
+            </a>
+            <a class="hub-card" href="/tr/shkorpilovtsi/" data-loc="shkorpilovtsi" data-search="шкорпиловци shkorpilovtsi шкорпиловци şkorpilovtsi șkorpilovți shkorpilovtsi">
+                <span class="hub-flag">🏞️</span>
+                <span class="hub-name">Şkorpilovtsi</span>
+                <span class="hub-temp" style="background:hsl(86, 75%, 47%);color:#fff">18.6°</span>
+            </a>
+            <a class="hub-card" href="/tr/byala/" data-loc="byala" data-search="бяла byala бяла byala biala byala">
+                <span class="hub-flag">🍷</span>
+                <span class="hub-name">Byala</span>
+                <span class="hub-temp" style="background:hsl(84, 75%, 47%);color:#fff">18.8°</span>
+            </a>
+            <a class="hub-card" href="/tr/obzor/" data-loc="obzor" data-search="обзор obzor обзор obzor obzor obzor">
+                <span class="hub-flag">🌄</span>
+                <span class="hub-name">Obzor</span>
+                <span class="hub-temp" style="background:hsl(84, 75%, 47%);color:#fff">18.8°</span>
+            </a>
+            <a class="hub-card" href="/tr/ravda/" data-loc="ravda" data-search="равда ravda равда ravda ravda ravda">
+                <span class="hub-flag">🐟</span>
+                <span class="hub-name">Ravda</span>
+                <span class="hub-temp" style="background:hsl(86, 75%, 47%);color:#fff">18.6°</span>
+            </a>
+            <a class="hub-card" href="/tr/sarafovo/" data-loc="sarafovo" data-search="сарафово sarafovo сарафово sarafovo sarafovo sarafovo">
+                <span class="hub-flag">✈️</span>
+                <span class="hub-name">Sarafovo</span>
+                <span class="hub-temp" style="background:hsl(82, 75%, 47%);color:#fff">19.0°</span>
+            </a>
+            <a class="hub-card" href="/tr/chernomorets/" data-loc="chernomorets" data-search="черноморец chernomorets черноморец çernomorets cernomoreț chernomorets">
+                <span class="hub-flag">🐬</span>
+                <span class="hub-name">Çernomorets</span>
+                <span class="hub-temp" style="background:hsl(82, 75%, 47%);color:#fff">19.0°</span>
+            </a>
+            <a class="hub-card" href="/tr/dyuni/" data-loc="dyuni" data-search="дюни dyuni дюны dyuni diuni dyuni">
+                <span class="hub-flag">🏜️</span>
+                <span class="hub-name">Dyuni</span>
+                <span class="hub-temp" style="background:hsl(79, 75%, 47%);color:#fff">19.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/kiten/" data-loc="kiten" data-search="китен kiten китен kiten kiten kiten">
+                <span class="hub-flag">⛺</span>
+                <span class="hub-name">Kiten</span>
+                <span class="hub-temp" style="background:hsl(79, 75%, 47%);color:#fff">19.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/tsarevo/" data-loc="tsarevo" data-search="царево tsarevo царево tsarevo țarevo tsarevo">
+                <span class="hub-flag">👑</span>
+                <span class="hub-name">Tsarevo</span>
+                <span class="hub-temp" style="background:hsl(79, 75%, 47%);color:#fff">19.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/ahtopol/" data-loc="ahtopol" data-search="ахтопол ahtopol ахтопол ahtopol ahtopol ahtopol">
+                <span class="hub-flag">🌊</span>
+                <span class="hub-name">Ahtopol</span>
+                <span class="hub-temp" style="background:hsl(81, 75%, 47%);color:#fff">19.2°</span>
+            </a>
+            <a class="hub-card" href="/tr/rezovo/" data-loc="rezovo" data-search="резово rezovo резово rezovo rezovo rezovo">
+                <span class="hub-flag">🛂</span>
+                <span class="hub-name">Rezovo</span>
+                <span class="hub-temp" style="background:hsl(77, 75%, 47%);color:#fff">19.6°</span>
+            </a>
+        </div>
+        </section>
+        <section class="hub-section">
+        <h3 class="hub-country" data-i18n="country_turkey">Türkiye</h3>
+        <div class="hub-grid">
+            <a class="hub-card" href="/tr/trabzon/" data-loc="trabzon" data-search="трабзон trabzon трабзон trabzon trabzon trabzon">
+                <span class="hub-flag">⛪</span>
+                <span class="hub-name">Trabzon</span>
+                <span class="hub-temp" style="background:hsl(71, 75%, 47%);color:#fff">20.3°</span>
+            </a>
+            <a class="hub-card" href="/tr/sinop/" data-loc="sinop" data-search="синоп sinop синоп sinop sinop sinop">
+                <span class="hub-flag">🏰</span>
+                <span class="hub-name">Sinop</span>
+                <span class="hub-temp" style="background:hsl(77, 75%, 47%);color:#fff">19.6°</span>
+            </a>
+            <a class="hub-card" href="/tr/amasra/" data-loc="amasra" data-search="амасра amasra амасра amasra amasra amasra">
+                <span class="hub-flag">🎣</span>
+                <span class="hub-name">Amasra</span>
+                <span class="hub-temp" style="background:hsl(85, 75%, 47%);color:#fff">18.7°</span>
+            </a>
+            <a class="hub-card" href="/tr/rize/" data-loc="rize" data-search="ризе rize ризе rize rize rize">
+                <span class="hub-flag">🍵</span>
+                <span class="hub-name">Rize</span>
+                <span class="hub-temp" style="background:hsl(60, 75%, 47%);color:#fff">21.4°</span>
+            </a>
+            <a class="hub-card" href="/tr/sile/" data-loc="sile" data-search="шиле şile шиле şile șile sile">
+                <span class="hub-flag">🗼</span>
+                <span class="hub-name">Şile</span>
+                <span class="hub-temp" style="background:hsl(85, 75%, 47%);color:#fff">18.7°</span>
+            </a>
+        </div>
+        </section>
+        <section class="hub-section">
+        <h3 class="hub-country" data-i18n="country_romania">Romanya</h3>
+        <div class="hub-grid">
+            <a class="hub-card" href="/tr/constanta/" data-loc="constanta" data-search="кюстенджа constanța констанца köstence constanța constanta">
+                <span class="hub-flag">🎰</span>
+                <span class="hub-name">Köstence</span>
+                <span class="hub-temp" style="background:hsl(92, 75%, 47%);color:#fff">18.0°</span>
+            </a>
+            <a class="hub-card" href="/tr/mamaia/" data-loc="mamaia" data-search="мамая mamaia мамая mamaia mamaia mamaia">
+                <span class="hub-flag">🎉</span>
+                <span class="hub-name">Mamaia</span>
+                <span class="hub-temp" style="background:hsl(92, 75%, 47%);color:#fff">18.0°</span>
+            </a>
+            <a class="hub-card" href="/tr/vama-veche/" data-loc="vama-veche" data-search="вама веке vama veche вама-веке vama veche vama veche vama-veche">
+                <span class="hub-flag">🎸</span>
+                <span class="hub-name">Vama Veche</span>
+                <span class="hub-temp" style="background:hsl(87, 75%, 47%);color:#fff">18.5°</span>
+            </a>
+            <a class="hub-card" href="/tr/olimp/" data-loc="olimp" data-search="олимп olimp олимп olimp olimp olimp">
+                <span class="hub-flag">🌳</span>
+                <span class="hub-name">Olimp</span>
+                <span class="hub-temp" style="background:hsl(91, 75%, 47%);color:#fff">18.1°</span>
+            </a>
+            <a class="hub-card" href="/tr/vadu/" data-loc="vadu" data-search="ваду и корбу vadu &amp; corbu ваду и корбу vadu ve corbu vadu și corbu vadu">
+                <span class="hub-flag">🦩</span>
+                <span class="hub-name">Vadu ve Corbu</span>
+                <span class="hub-temp" style="background:hsl(109, 75%, 47%);color:#fff">16.1°</span>
+            </a>
+        </div>
+        </section>
+        <section class="hub-section">
+        <h3 class="hub-country" data-i18n="country_georgia">Gürcistan</h3>
+        <div class="hub-grid">
+            <a class="hub-card" href="/tr/batumi/" data-loc="batumi" data-search="батуми batumi батуми batum batumi batumi">
+                <span class="hub-flag">🌆</span>
+                <span class="hub-name">Batum</span>
+                <span class="hub-temp" style="background:hsl(60, 75%, 47%);color:#fff">21.5°</span>
+            </a>
+            <a class="hub-card" href="/tr/kvariati/" data-loc="kvariati" data-search="кварияти kvariati квариати kvariati kvariati kvariati">
+                <span class="hub-flag">🤿</span>
+                <span class="hub-name">Kvariati</span>
+                <span class="hub-temp" style="background:hsl(60, 75%, 47%);color:#fff">21.5°</span>
+            </a>
+            <a class="hub-card" href="/tr/shekvetili/" data-loc="shekvetili" data-search="шекветили shekvetili шекветили şekvetili șekvetili shekvetili">
+                <span class="hub-flag">🧲</span>
+                <span class="hub-name">Şekvetili</span>
+                <span class="hub-temp" style="background:hsl(61, 75%, 47%);color:#fff">21.3°</span>
+            </a>
+            <a class="hub-card" href="/tr/kobuleti/" data-loc="kobuleti" data-search="кобулети kobuleti кобулети kobuleti kobuleti kobuleti">
+                <span class="hub-flag">🐚</span>
+                <span class="hub-name">Kobuleti</span>
+                <span class="hub-temp" style="background:hsl(61, 75%, 47%);color:#fff">21.3°</span>
+            </a>
+            <a class="hub-card" href="/tr/green-cape/" data-loc="green-cape" data-search="зелени нос green cape зелёный мыс yeşil burun green cape green-cape">
+                <span class="hub-flag">🪴</span>
+                <span class="hub-name">Yeşil Burun</span>
+                <span class="hub-temp" style="background:hsl(60, 75%, 47%);color:#fff">21.4°</span>
+            </a>
+        </div>
+        </section>
+        <section class="hub-section">
+        <h3 class="hub-country" data-i18n="country_russia">Rusya</h3>
+        <div class="hub-grid">
+            <a class="hub-card" href="/tr/sochi/" data-loc="sochi" data-search="сочи sochi сочи soçi soci sochi">
+                <span class="hub-flag">🏔️</span>
+                <span class="hub-name">Soçi</span>
+                <span class="hub-temp" style="background:hsl(64, 75%, 47%);color:#fff">21.0°</span>
+            </a>
+            <a class="hub-card" href="/tr/anapa/" data-loc="anapa" data-search="анапа anapa анапа anapa anapa anapa">
+                <span class="hub-flag">🏝️</span>
+                <span class="hub-name">Anapa</span>
+                <span class="hub-temp" style="background:hsl(74, 75%, 47%);color:#fff">19.9°</span>
+            </a>
+            <a class="hub-card" href="/tr/gelendzhik/" data-loc="gelendzhik" data-search="геленджик gelendzhik геленджик gelencik ghelendjik gelendzhik">
+                <span class="hub-flag">🎢</span>
+                <span class="hub-name">Gelencik</span>
+                <span class="hub-temp" style="background:hsl(68, 75%, 47%);color:#fff">20.6°</span>
+            </a>
+            <a class="hub-card" href="/tr/novorossiysk/" data-loc="novorossiysk" data-search="новоросийск novorossiysk новороссийск novorossiysk novorosiisk novorossiysk">
+                <span class="hub-flag">🚢</span>
+                <span class="hub-name">Novorossiysk</span>
+                <span class="hub-temp" style="background:hsl(69, 75%, 47%);color:#fff">20.5°</span>
+            </a>
+            <a class="hub-card" href="/tr/abrau-durso/" data-loc="abrau-durso" data-search="абрау-дюрсо abrau-durso абрау-дюрсо abrau-dyurso abrau-diurso abrau-durso">
+                <span class="hub-flag">🍾</span>
+                <span class="hub-name">Abrau-Dyurso</span>
+                <span class="hub-temp" style="background:hsl(72, 75%, 47%);color:#fff">20.2°</span>
+            </a>
+        </div>
+        </section>
+    </div>
+    <p id="hub-no-match" class="gallery-empty" data-i18n="hub_no_match" hidden>Aramanızla eşleşen konum yok.</p>
+</div>
+
+<footer class="footer">
+    <span data-i18n="footer_title">Karadeniz Deniz Suyu Sıcaklığı</span>
+    <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
+</footer>
+
+<script src="/map.js?v=e48fe8c1"></script>
+</body>
+</html>

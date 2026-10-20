@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konumları Karşılaştır — Karadeniz Deniz Suyu Sıcaklığı</title>
+    <meta name="description" content="Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya'daki kıyı kasabalarının Karadeniz su sıcaklığını tek grafikte karşılaştırın — yıllar boyunca ve Ocak–Aralık mevsim ekseninde.">
+    <link rel="canonical" href="https://more.masoko.net/tr/compare-locations.html">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/compare-locations.html">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/compare-locations.html">
+    <link rel="alternate" hreflang="ru" href="https://more.masoko.net/ru/compare-locations.html">
+    <link rel="alternate" hreflang="tr" href="https://more.masoko.net/tr/compare-locations.html">
+    <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/compare-locations.html">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/compare-locations.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Konumları Karşılaştır — Karadeniz Deniz Suyu Sıcaklığı">
+    <meta property="og:description" content="Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya'daki kıyı kasabalarının Karadeniz su sıcaklığını tek grafikte karşılaştırın — yıllar boyunca ve Ocak–Aralık mevsim ekseninde.">
+    <meta property="og:url" content="https://more.masoko.net/tr/compare-locations.html">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:locale:alternate" content="bg_BG">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="ro_RO">
+    <meta name="twitter:card" content="summary">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css?v=0da817b0">
+    <script src="/i18n.tr.js?v=ca31c7c9"></script>
+    <script src="/locations.js?v=18d9d241"></script>
+    <script>window.LOCATION_ID = 'burgas'; window.LANG = 'tr'; window.LANG_PREFIX = '/tr';</script>
+    <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="/tr/" data-i18n="nav_brand">🌊 Karadeniz</a>
+        <ul class="nav-links">
+            <li><a href="/tr/burgas/index.html" data-i18n="nav_dashboard">Genel Bakış</a></li>
+            <li><a href="/tr/burgas/compare.html" data-i18n="nav_compare">Yılları Karşılaştır</a></li>
+            <li><a href="/tr/burgas/heatmap.html" data-i18n="nav_heatmap">Isı Haritası</a></li>
+            <li><a href="/tr/burgas/stats.html" data-i18n="nav_stats">İstatistikler</a></li>
+            <li><a href="/tr/burgas/gallery.html" data-i18n="nav_gallery">Fotoğraflar</a></li>
+            <li><a href="/tr/burgas/weather.html" data-i18n="nav_weather">Hava Durumu</a></li>
+            <li><a href="/tr/compare-locations.html" class="active" data-i18n="nav_comparelocations">Konumları Karşılaştır</a></li>
+        </ul>
+        <div class="lang-switch"></div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 data-i18n="cl_h1">Konumları Karşılaştır</h1>
+    <p class="subtitle" data-i18n="cl_subtitle">Karadeniz kıyısındaki farklı yerlerin su sıcaklığını üst üste karşılaştırın</p>
+
+    <div class="controls">
+        <label style="margin-left:auto"><input type="checkbox" id="chk-smooth" checked> <span data-i18n="cl_smooth">Yumuşat (7 günlük ort.)</span></label>
+    </div>
+
+    <div id="location-checkboxes" class="year-checkboxes"></div>
+
+    <h2 data-i18n="cl_timeline_h2">Yıllar boyunca</h2>
+    <p class="tip" data-i18n="cl_timeline_tip">Her çizgi, tüm kayıt dönemi boyunca bir konumu gösterir. Yukarıdan yerleri seçin.</p>
+    <div id="timeline-chart" class="chart"></div>
+
+    <h2 data-i18n="cl_seasonal_h2">Mevsimsel (tek yıl)</h2>
+    <div class="controls">
+        <label><span data-i18n="cl_year">Yıl</span> <select id="sel-year"></select></label>
+    </div>
+    <p class="tip" data-i18n="cl_seasonal_tip">Mevsimleri karşılaştırmak için yalnızca seçilen yıl, Ocak–Aralık ekseninde.</p>
+    <div id="seasonal-chart" class="chart"></div>
+</div>
+
+<footer class="footer">
+    <span data-i18n="footer_title">Karadeniz Deniz Suyu Sıcaklığı</span>
+    <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
+</footer>
+<script src="/data.js?v=d5ec2cf0"></script>
+<script>
+const DEFAULT_LOCATIONS = ['burgas', 'varna', 'kamen-bryag'];
+const recordsById = {};   // id -> records, filled as locations are loaded
+let smoothEnabled = true;
+
+function movingAvg(arr, window) {
+    return arr.map((_, i) => {
+        const half = Math.floor(window / 2);
+        const slice = arr.slice(Math.max(0, i - half), Math.min(arr.length, i + half + 1));
+        return slice.reduce((a, b) => a + b, 0) / slice.length;
+    });
+}
+
+function checkedLocations() {
+    return Array.from(document.querySelectorAll('.loc-cb:checked')).map(cb => cb.value);
+}
+
+function locLabel(id) {
+    const loc = window.LOCATIONS[id];
+    return loc.flag + ' ' + t(loc.nameKey).split(',')[0];
+}
+
+// Ensure every checked location's data is loaded, then run cb().
+function withCheckedData(cb) {
+    const ids = checkedLocations();
+    Promise.all(ids.map(id => recordsById[id]
+        ? Promise.resolve(recordsById[id])
+        : window.loadLocationData(id).then(recs => (recordsById[id] = recs))
+    )).then(() => cb(ids));
+}
+
+function drawTimeline() {
+    withCheckedData(ids => {
+        const theme = plotlyTheme();
+        const traces = ids.map(id => {
+            const recs = recordsById[id];
+            return {
+                x: recs.map(r => r.dateStr),
+                y: smoothEnabled ? movingAvg(recs.map(r => r.temp), 7) : recs.map(r => r.temp),
+                name: locLabel(id),
+                type: 'scatter', mode: 'lines',
+                line: { width: 1.5 },
+                hovertemplate: '<b>%{data.name}</b> %{x|%Y-%m-%d}: %{y:.1f}°C<extra></extra>'
+            };
+        });
+        Plotly.react('timeline-chart', traces, {
+            ...theme,
+            xaxis: { ...theme.xaxis, title: '' },
+            yaxis: { ...theme.yaxis, title: '°C' },
+            hovermode: 'x unified',
+            legend: { orientation: 'h', y: -0.15 }
+        }, { responsive: true });
+    });
+}
+
+function drawSeasonal() {
+    const year = parseInt(document.getElementById('sel-year').value);
+    withCheckedData(ids => {
+        const theme = plotlyTheme();
+        const traces = ids.map(id => {
+            const data = recordsById[id].filter(r => r.year === year);
+            const xs = data.map(r => `2024-${String(r.month).padStart(2,'0')}-${String(r.day).padStart(2,'0')}`);
+            const ys = smoothEnabled ? movingAvg(data.map(r => r.temp), 7) : data.map(r => r.temp);
+            return {
+                x: xs, y: ys,
+                name: locLabel(id),
+                type: 'scatter', mode: 'lines',
+                line: { width: 1.5 },
+                hovertemplate: '<b>%{data.name}</b> (%{x|%b %d}): %{y:.1f}°C<extra></extra>'
+            };
+        });
+        Plotly.react('seasonal-chart', traces, {
+            ...theme,
+            xaxis: { ...theme.xaxis, title: '', tickformat: '%b' },
+            yaxis: { ...theme.yaxis, title: '°C' },
+            hovermode: 'x unified',
+            legend: { orientation: 'h', y: -0.15 }
+        }, { responsive: true });
+    });
+}
+
+function redraw() { drawTimeline(); drawSeasonal(); }
+
+// Build location checkboxes from the shared LOCATIONS dict, grouped by country.
+const cbContainer = document.getElementById('location-checkboxes');
+window.eachCountryGroup((country, ids) => {
+    let html = `<div class="loc-group-title">${t('country_' + country)}</div>`;
+    ids.forEach(id => {
+        const checked = DEFAULT_LOCATIONS.includes(id) ? 'checked' : '';
+        html += `<label class="year-check-label">
+            <input type="checkbox" class="loc-cb" value="${id}" ${checked}> ${locLabel(id)}
+        </label>`;
+    });
+    cbContainer.innerHTML += `<div class="loc-group">${html}</div>`;
+});
+document.querySelectorAll('.loc-cb').forEach(cb => cb.addEventListener('change', redraw));
+
+document.getElementById('chk-smooth').addEventListener('change', e => {
+    smoothEnabled = e.target.checked;
+    redraw();
+});
+
+// Populate the year selector from the default locations, then draw.
+Promise.all(DEFAULT_LOCATIONS.map(id =>
+    window.loadLocationData(id).then(recs => (recordsById[id] = recs))
+)).then(() => {
+    let minYear = Infinity, maxYear = -Infinity;
+    DEFAULT_LOCATIONS.forEach(id => {
+        recordsById[id].forEach(r => {
+            if (r.year < minYear) minYear = r.year;
+            if (r.year > maxYear) maxYear = r.year;
+        });
+    });
+    const selYear = document.getElementById('sel-year');
+    for (let y = maxYear; y >= minYear; y--) {
+        selYear.innerHTML += `<option value="${y}" ${y === maxYear ? 'selected' : ''}>${y}</option>`;
+    }
+    selYear.addEventListener('change', drawSeasonal);
+    redraw();
+});
+</script>
+</body>
+</html>

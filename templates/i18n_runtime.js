@@ -1,40 +1,50 @@
-// Runtime i18n helpers appended to the generated docs/i18n.js by build_site.py.
+// Runtime i18n helpers appended to the generated docs/i18n.<lang>.js by
+// build_site.py, after `const I18N` (this page's language only) and
+// `const LANG_INFO` / `const DEFAULT_LANG` (from build_site.LANG_INFO).
 // Static text is baked into the HTML per language at build time; this code only
 // serves dynamic content (charts, dropdowns, map popups) and the nav widgets.
 
+function isLang(code) {
+    return LANG_INFO.some(l => l.code === code);
+}
+
 // The page's language is fixed at build time: window.LANG is injected in <head>,
-// with the URL prefix as a fallback (English lives under /en/).
+// with the URL prefix as a fallback (the default language lives at the root,
+// the others under /<code>/).
 function getLang() {
-    if (window.LANG === 'en' || window.LANG === 'bg') return window.LANG;
-    const p = location.pathname;
-    return (p === '/en' || p.startsWith('/en/')) ? 'en' : 'bg';
+    if (isLang(window.LANG)) return window.LANG;
+    const m = location.pathname.match(/^\/([a-z]{2})(\/|$)/);
+    return m && isLang(m[1]) ? m[1] : DEFAULT_LANG;
+}
+
+// BCP 47 locale for toLocaleString() date/number formatting.
+function getLocale() {
+    const info = LANG_INFO.find(l => l.code === getLang());
+    return info ? info.locale : 'en-US';
 }
 
 function t(key) {
-    const lang = getLang();
-    const val = (I18N[lang] && I18N[lang][key]);
-    return val !== undefined ? val : (I18N.en[key] !== undefined ? I18N.en[key] : key);
+    const val = I18N[getLang()] && I18N[getLang()][key];
+    return val !== undefined ? val : key;
 }
 
-// Path of the current page in the given language (Bulgarian at the root,
-// English under /en/).
+// Path of the current page in the given language.
 function siblingPath(lang) {
     let path = location.pathname;
-    if (path === '/en') path = '/en/';
-    const bgPath = path.startsWith('/en/') ? path.slice(3) : path;
-    return lang === 'en' ? '/en' + bgPath : bgPath;
+    const cur = getLang();
+    if (cur !== DEFAULT_LANG) {
+        const prefix = '/' + cur;
+        path = path === prefix ? '/' : path.slice(prefix.length);
+    }
+    return lang === DEFAULT_LANG ? path : '/' + lang + path;
 }
 
 function renderSwitcher() {
     const container = document.querySelector('.lang-switch');
     if (!container) return;
     const lang = getLang();
-    const flags = [
-        { code: 'bg', flag: '🇧🇬', label: 'Български' },
-        { code: 'en', flag: '🇬🇧', label: 'English' },
-    ];
     container.innerHTML = '';
-    flags.forEach(f => {
+    LANG_INFO.forEach(f => {
         const a = document.createElement('a');
         a.className = 'lang-btn' + (f.code === lang ? ' active' : '');
         a.href = siblingPath(f.code);
@@ -46,7 +56,6 @@ function renderSwitcher() {
         container.appendChild(a);
     });
 }
-
 function renderNavToggle() {
     const inner = document.querySelector('.nav-inner');
     if (!inner || inner.querySelector('.nav-toggle')) return;

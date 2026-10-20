@@ -884,3 +884,58 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
     .wx-day-uv { grid-column: 2 / 4; justify-self: center; }
     .wx-day-wind { grid-column: 4 / 6; justify-self: end; }
 }
+
+/* Breadcrumb (location pages) */
+.breadcrumb {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0 0 0.6rem 0;
+}
+.breadcrumb a { color: var(--accent); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.crumb-sep { margin: 0 0.25rem; opacity: 0.7; }
+
+/* Static fallback inside the hero card, replaced by renderWaterHero() */
+.water-hero-static { margin: 0; font-size: 1rem; line-height: 1.5; }
+
+/* Monthly climatology table (dashboard) */
+.table-scroll { overflow-x: auto; }
+.month-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+}
+.month-table th, .month-table td {
+    padding: 0.4rem 0.6rem;
+    text-align: right;
+    border-bottom: 1px solid var(--nav-border);
+}
+.month-table th:first-child { text-align: left; }
+.month-table thead th { color: var(--text-muted); font-weight: 600; }
+.month-table tbody th { font-weight: 500; }
+
+/* FAQ (dashboard) */
+.faq-item { margin-bottom: 1rem; }
+.faq-item h3 { color: var(--text); margin-bottom: 0.25rem; }
+.faq-item p { margin: 0; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+/* Nearby locations (every location page) */
+.nearby-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.nearby-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: var(--card-bg);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.nearby-link:hover { background: var(--accent-light); color: var(--accent); }
+.nearby-km { color: var(--text-muted); font-size: 0.8rem; }
+
+/* 404 */
+.notfound { margin-bottom: 1.25rem; }
+.notfound a { color: var(--accent); }

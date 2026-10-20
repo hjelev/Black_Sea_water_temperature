@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aylık Isı Haritası — Batum Deniz Suyu Sıcaklığı</title>
+    <meta name="description" content="Batum (Gürcistan) için aylık Karadeniz su sıcaklığı ısı haritası — kayıtlı her yıl için aylık ortalama deniz yüzeyi sıcaklığı.">
+    <link rel="canonical" href="https://more.masoko.net/tr/batumi/heatmap.html">
+    <link rel="alternate" hreflang="bg" href="https://more.masoko.net/batumi/heatmap.html">
+    <link rel="alternate" hreflang="en" href="https://more.masoko.net/en/batumi/heatmap.html">
+    <link rel="alternate" hreflang="ru" href="https://more.masoko.net/ru/batumi/heatmap.html">
+    <link rel="alternate" hreflang="tr" href="https://more.masoko.net/tr/batumi/heatmap.html">
+    <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/batumi/heatmap.html">
+    <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/batumi/heatmap.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Aylık Isı Haritası — Batum Deniz Suyu Sıcaklığı">
+    <meta property="og:description" content="Batum (Gürcistan) için aylık Karadeniz su sıcaklığı ısı haritası — kayıtlı her yıl için aylık ortalama deniz yüzeyi sıcaklığı.">
+    <meta property="og:url" content="https://more.masoko.net/tr/batumi/heatmap.html">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:locale:alternate" content="bg_BG">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="ro_RO">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Karadeniz","item":"https://more.masoko.net/tr/"},{"@type":"ListItem","position":2,"name":"Batum","item":"https://more.masoko.net/tr/batumi/"},{"@type":"ListItem","position":3,"name":"Isı Haritası","item":"https://more.masoko.net/tr/batumi/heatmap.html"}]}</script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css?v=0da817b0">
+    <script src="/i18n.tr.js?v=ca31c7c9"></script>
+    <script src="/locations.js?v=18d9d241"></script>
+    <script>window.LOCATION_ID = 'batumi'; window.LANG = 'tr'; window.LANG_PREFIX = '/tr';</script>
+    <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="/tr/" data-i18n="nav_brand">🌊 Karadeniz</a>
+        <ul class="nav-links">
+            <li><a href="./" data-i18n="nav_dashboard">Genel Bakış</a></li>
+            <li><a href="compare.html" data-i18n="nav_compare">Yılları Karşılaştır</a></li>
+            <li><a href="heatmap.html" class="active" data-i18n="nav_heatmap">Isı Haritası</a></li>
+            <li><a href="stats.html" data-i18n="nav_stats">İstatistikler</a></li>
+            <li><a href="gallery.html" data-i18n="nav_gallery">Fotoğraflar</a></li>
+            <li><a href="weather.html" data-i18n="nav_weather">Hava Durumu</a></li>
+            <li><a href="/tr/compare-locations.html" data-i18n="nav_comparelocations">Konumları Karşılaştır</a></li>
+        </ul>
+        <div class="loc-switch"></div>
+        <div class="lang-switch"></div>
+    </div>
+</nav>
+
+<div class="container">
+    <nav class="breadcrumb" aria-label="İçerik yolu"><a href="/tr/">Karadeniz</a> <span class="crumb-sep">›</span> <a href="/tr/batumi/">Batum</a> <span class="crumb-sep">›</span> <span aria-current="page">Isı Haritası</span></nav>
+
+    <h1 data-i18n="hm_h1">Aylık Su Sıcaklığı — Batum, Gürcistan</h1>
+    <p class="subtitle" data-i18n="hm_subtitle">Tüm yıllar boyunca aylık ortalama su sıcaklığı (2023–bugün)</p>
+
+    <div id="heatmap-chart" class="chart-tall"></div>
+
+    <h2 data-i18n="hm_monthly">Yıllara göre aylık ortalamalar</h2>
+    <p class="tip" data-i18n="hm_tip">Her hücre o ay ve yılın ortalama sıcaklığını gösterir. Tam değer için üzerine gelin.</p>
+    <div id="monthly-avg-chart" class="chart"></div>
+
+    <section class="nearby">
+    <h2>Yakındaki plajlar ve kasabalar</h2>
+    <div class="nearby-links">
+        <a class="nearby-link" href="/tr/green-cape/heatmap.html">🪴 Yeşil Burun <span class="nearby-km">7 km</span></a>
+        <a class="nearby-link" href="/tr/kvariati/heatmap.html">🤿 Kvariati <span class="nearby-km">13 km</span></a>
+        <a class="nearby-link" href="/tr/kobuleti/heatmap.html">🐚 Kobuleti <span class="nearby-km">21 km</span></a>
+        <a class="nearby-link" href="/tr/shekvetili/heatmap.html">🧲 Şekvetili <span class="nearby-km">35 km</span></a>
+        <a class="nearby-link" href="/tr/rize/heatmap.html">🍵 Rize <span class="nearby-km">109 km</span></a>
+        <a class="nearby-link" href="/tr/trabzon/heatmap.html">⛪ Trabzon <span class="nearby-km">169 km</span></a>
+    </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <span data-i18n="footer_title">Karadeniz Deniz Suyu Sıcaklığı</span>
+    <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
+</footer>
+<script src="/data.js?v=d5ec2cf0"></script>
+<script>
+const MONTHS = t('months');
+
+loadData().then(records => {
+    const minYear = records[0].year;
+    const maxYear = records[records.length - 1].year;
+    const years = [];
+    for (let y = minYear; y <= maxYear; y++) years.push(y);
+
+    // Build month×year average matrix
+    const matrix = years.map(y =>
+        MONTHS.map((_, mi) => {
+            const m = mi + 1;
+            const recs = records.filter(r => r.year === y && r.month === m);
+            if (recs.length === 0) return null;
+            return parseFloat((recs.reduce((s, r) => s + r.temp, 0) / recs.length).toFixed(1));
+        })
+    );
+
+    const theme = plotlyTheme();
+
+    // Heatmap: years on Y axis (latest on top), months on X
+    Plotly.newPlot('heatmap-chart', [{
+        z: [...matrix].reverse(),
+        x: MONTHS,
+        y: [...years].reverse().map(String),
+        type: 'heatmap',
+        colorscale: 'RdBu',
+        reversescale: false,
+        zmin: 5, zmax: 28,
+        colorbar: { title: '°C', thickness: 14 },
+        hovertemplate: '<b>%{y} %{x}</b>: %{z:.1f}°C<extra></extra>'
+    }], {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '', dtick: 5 },
+        margin: { l: 55, r: 80, t: 30, b: 40 }
+    }, { responsive: true });
+
+    // Second chart: line per month showing avg over years
+    const monthTraces = MONTHS.map((name, mi) => {
+        const m = mi + 1;
+        return {
+            x: years.map(String),
+            y: years.map(y => {
+                const recs = records.filter(r => r.year === y && r.month === m);
+                return recs.length ? parseFloat((recs.reduce((s,r) => s + r.temp, 0) / recs.length).toFixed(1)) : null;
+            }),
+            name,
+            type: 'scatter', mode: 'lines',
+            connectgaps: true,
+            hovertemplate: `<b>${name}</b> %{x}: %{y:.1f}°C<extra></extra>`
+        };
+    });
+
+    Plotly.newPlot('monthly-avg-chart', monthTraces, {
+        ...theme,
+        xaxis: { ...theme.xaxis, title: '' },
+        yaxis: { ...theme.yaxis, title: '°C' },
+        hovermode: 'x unified',
+        legend: { orientation: 'h', y: -0.2 }
+    }, { responsive: true });
+});
+</script>
+</body>
+</html>

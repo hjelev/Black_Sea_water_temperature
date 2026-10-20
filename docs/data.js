@@ -70,9 +70,10 @@ window.renderLocationSwitcher = function() {
     const container = document.querySelector('.loc-switch');
     if (!container) return;
     const current = window.getLocation();
-    // Preserve the current view (index/compare/heatmap/stats) when switching town.
-    const file = (location.pathname.split('/').pop()) || 'index.html';
-    const page = file.endsWith('.html') ? file : 'index.html';
+    // Preserve the current view (compare/heatmap/stats/...) when switching town;
+    // the dashboard is linked as the folder URL, its canonical form.
+    const file = location.pathname.split('/').pop();
+    const page = file.endsWith('.html') && file !== 'index.html' ? file : '';
     container.innerHTML = '';
     const select = document.createElement('select');
     select.className = 'loc-select';
@@ -223,7 +224,7 @@ window.renderHourlyChart = function(containerId, hourly, opts) {
         return;
     }
     const theme = window.plotlyTheme();
-    const locale = window.LANG === 'bg' ? 'bg-BG' : 'en-US';
+    const locale = getLocale();
     // Real date axis (not categories) so Plotly thins the ticks to fit any width.
     const times = hourly.map(h => new Date(h.time + 'Z'));
     const labels = times.map(d =>
@@ -328,7 +329,7 @@ window.renderWaterHero = function(container, records) {
         anomalyHtml = `<span class="wh-chip ${a > 0 ? 'up' : a < 0 ? 'down' : 'flat'}">${
             t(key).replace('{n}', Math.abs(a).toFixed(1)).replace('{years}', avg.years)}</span>`;
     }
-    const locale = window.LANG === 'bg' ? 'bg-BG' : 'en-US';
+    const locale = getLocale();
     const measured = new Date(lastTime).toLocaleString(locale,
         { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
     container.style.setProperty('--wh-color', window.tempColor(last.temp));
