@@ -14,6 +14,22 @@
         return 'hsl(' + Math.round(hue) + ', 75%, 47%)';
     }
 
+    // Cluster bubble: average of the member temperatures, with a member count.
+    function clusterIcon(cluster) {
+        const temps = cluster.getAllChildMarkers()
+            .map(m => m.options.temp)
+            .filter(v => v != null);
+        const avg = temps.length ? temps.reduce((a, b) => a + b, 0) / temps.length : null;
+        const label = avg != null ? avg.toFixed(1) + '°' : '–';
+        return L.divIcon({
+            className: 'map-temp-pin',
+            html: '<span class="map-temp-pin-inner map-cluster" style="background:'
+                + tempColor(avg) + '">' + label
+                + '<span class="map-cluster-count">' + cluster.getChildCount() + '</span></span>',
+            iconSize: null
+        });
+    }
+
     function initMap() {
         const el = document.getElementById('map');
         if (!el || !window.L || !window.LOCATIONS) return;
@@ -26,6 +42,18 @@
         }).addTo(map);
 
         const bounds = [];
+        // Group nearby pins into one bubble (average temperature + count) so the
+        // 50+ locations don't pile up at basin zoom; they split apart on zoom-in.
+        const group = window.L.markerClusterGroup
+            ? L.markerClusterGroup({
+                maxClusterRadius: 45,
+                showCoverageOnHover: false,
+                spiderfyOnMaxZoom: true,
+                disableClusteringAtZoom: 11,
+                iconCreateFunction: clusterIcon
+            })
+            : L.layerGroup();
+        map.addLayer(group);
 
         fetch('/latest_temps.json')
             .then(r => (r.ok ? r.json() : {}))
@@ -51,8 +79,8 @@
 
                     const dateLine = rec
                         ? '<div class="map-popup-date">' + rec.date + '</div>' : '';
-                    L.marker([loc.lat, loc.lon], { icon, title: name })
-                        .addTo(map)
+                    L.marker([loc.lat, loc.lon], { icon, title: name, temp: hasTemp ? temp : null })
+                        .addTo(group)
                         .bindPopup(
                             '<div class="map-popup">'
                             + '<div class="map-popup-name">' + loc.flag + ' ' + name + '</div>'

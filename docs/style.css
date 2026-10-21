@@ -168,6 +168,29 @@ body {
     white-space: nowrap;
     box-shadow: 0 1px 4px rgba(0,0,0,0.35);
 }
+/* Cluster bubble: bigger pin with a member-count badge */
+.map-cluster {
+    position: relative;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+    border-width: 3px;
+    cursor: pointer;
+}
+.map-cluster-count {
+    position: absolute;
+    top: -0.55rem;
+    right: -0.6rem;
+    min-width: 1.15rem;
+    padding: 0.1rem 0.25rem;
+    border-radius: 999px;
+    background: #1f2937;
+    color: #fff;
+    font-size: 0.65rem;
+    line-height: 1;
+    text-align: center;
+    border: 1.5px solid #fff;
+    box-sizing: border-box;
+}
 .map-popup-name { font-weight: 700; margin-bottom: 0.2rem; }
 .map-popup-temp { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
 .map-popup-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
