@@ -37,7 +37,7 @@
 #   sunny-beach  = sveti-vlas            tyulenovo = shabla     albena = kranevo
 #   irakli = byala = obzor               primorsko = dyuni = kiten
 #   lozenets = tsarevo                   sinemorets = ahtopol
-# Own cells: durankulak, krapets, shkorpilovtsi, ravda, rezovo.
+# Own cells: durankulak, krapets, shkorpilovtsi, ravda, silistar, rezovo.
 #
 # International locations (Turkey/Romania/Georgia/Russia) are nudged toward the
 # open sea away from their coastlines (north for the Turkish south coast, east
@@ -143,6 +143,9 @@ LOCATIONS = [
      "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
     {"slug": "ahtopol", "csv_file": "ahtopol_water_temp.csv", "lat": 42.208, "lon": 28.125,
      "name_en": "Ahtopol", "name_bg": "Ахтопол", "flag": "🌊", "start_date": "2023-01-01",
+     "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
+    {"slug": "silistar", "csv_file": "silistar_water_temp.csv", "lat": 42.042, "lon": 28.208,
+     "name_en": "Silistar", "name_bg": "Силистар", "flag": "🏝️", "start_date": "2023-01-01",
      "country": "bulgaria", "country_en": "Bulgaria", "country_bg": "България"},
     {"slug": "rezovo", "csv_file": "rezovo_water_temp.csv", "lat": 41.958, "lon": 28.208,
      "name_en": "Rezovo", "name_bg": "Резово", "flag": "🛂", "start_date": "2023-01-01",

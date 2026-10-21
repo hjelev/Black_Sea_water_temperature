@@ -180,6 +180,7 @@ EXTRA_QUERIES = {
     "ravda": ["Ravda Bulgaria"],
     "chernomorets": ["Chernomorets Bulgaria"],
     "tsarevo": ["Tsarevo Bulgaria"],
+    "silistar": ["Silistar beach", "Silistar Bulgaria", "Силистар"],
     "shabla": ["Shabla lighthouse", "Cape Shabla"],
     "krapets": ["Krapets Bulgaria"],
     "durankulak": ["Durankulak lake"],

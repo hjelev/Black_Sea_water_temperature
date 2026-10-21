@@ -44,6 +44,7 @@ const I18N = {
     "loc_kiten": "Kiten, Bulgaristan",
     "loc_tsarevo": "Tsarevo, Bulgaristan",
     "loc_ahtopol": "Ahtopol, Bulgaristan",
+    "loc_silistar": "Silistar Plajı, Bulgaristan",
     "loc_rezovo": "Rezovo, Bulgaristan",
     "loc_trabzon": "Trabzon, Türkiye",
     "loc_sinop": "Sinop, Türkiye",

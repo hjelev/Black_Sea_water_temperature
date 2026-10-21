@@ -32,6 +32,7 @@ window.LOCATIONS = {
     "kiten": { csv: "kiten_water_temp.csv", nameKey: "loc_kiten", flag: "⛺", lat: 42.375, lon: 27.875, country: "bulgaria" },
     "tsarevo": { csv: "tsarevo_water_temp.csv", nameKey: "loc_tsarevo", flag: "👑", lat: 42.292, lon: 27.958, country: "bulgaria" },
     "ahtopol": { csv: "ahtopol_water_temp.csv", nameKey: "loc_ahtopol", flag: "🌊", lat: 42.208, lon: 28.125, country: "bulgaria" },
+    "silistar": { csv: "silistar_water_temp.csv", nameKey: "loc_silistar", flag: "🏝️", lat: 42.042, lon: 28.208, country: "bulgaria" },
     "rezovo": { csv: "rezovo_water_temp.csv", nameKey: "loc_rezovo", flag: "🛂", lat: 41.958, lon: 28.208, country: "bulgaria" },
     "trabzon": { csv: "trabzon_water_temp.csv", nameKey: "loc_trabzon", flag: "⛪", lat: 41.05, lon: 39.72, country: "turkey" },
     "sinop": { csv: "sinop_water_temp.csv", nameKey: "loc_sinop", flag: "🏰", lat: 42.1, lon: 35.15, country: "turkey" },
