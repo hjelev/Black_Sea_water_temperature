@@ -152,6 +152,11 @@ MIN_WIDTH = 1000
 # At most this many photos from one author per location, so one prolific
 # uploader's series can't fill a whole gallery.
 PER_ARTIST = 2
+# Community-reviewed photos (Quality / Featured / Valued images). These are
+# hidden categories, so they never show up in a page's category list; tag them
+# with a separate incategory: search instead and rank them higher.
+QUALITY_CATS = ("incategory:Quality_images|Featured_pictures_on_Wikimedia_Commons|"
+                "Valued_images_sorted_by_promotion_date")
 
 # Extra Commons search queries for locations whose display name is ambiguous or
 # rarely used on Commons. Each location is also searched as "<name_en>",
@@ -327,6 +332,21 @@ def search_by_name(query, name_en):
     return parse_pages(api_get(params), name_en)
 
 
+def search_quality(loc):
+    """Reviewed photos named after or geotagged near the location."""
+    qs = ['"{}" {}'.format(q, QUALITY_CATS) for q in queries_for(loc)]
+    qs.append("nearcoord:{}km,{},{} {}".format(MAX_KM, loc["lat"], loc["lon"],
+                                                QUALITY_CATS))
+    found = []
+    for q in qs:
+        try:
+            found += search_by_name(q, loc["name_en"])
+        except Exception as exc:
+            print("  quality search {!r} failed: {}".format(q, exc))
+        time.sleep(0.3)
+    return found
+
+
 def search_by_geo(lat, lon, name=""):
     params = dict(IIPROPS)
     params.update({
@@ -392,6 +412,10 @@ def candidates(loc):
         images += search_by_geo(loc["lat"], loc["lon"], loc["name_en"])
     except Exception as exc:
         print("  geo search failed: {}".format(exc))
+    base_urls = {im["full"] for im in images}
+    quality = search_quality(loc)
+    quality_urls = {im["full"] for im in quality}
+    images += quality
 
     aliases = name_aliases(loc)
     others = [a for o in LOCATIONS if o["slug"] != loc["slug"]
@@ -410,11 +434,16 @@ def candidates(loc):
             dist = km_between(here, im["_coord"])
             if dist > MAX_KM:
                 continue
-        elif not named:
-            continue  # no geotag and not named after the place: can't trust it
+        elif not named or im["full"] not in base_urls:
+            # No geotag and not named after the place, or found only by the
+            # quality search (which matches loosely: "Burgas" fountain in Spain).
+            continue
         else:
             dist = MAX_KM
-        im["_score"] = (4 * named + 3 * im["_coast"] + im["_nature"] +
+        # Reviewed photos are well shot but often off-topic (cacti, manhole
+        # covers), so the bonus only lifts ones that already look like seaside.
+        quality = im["full"] in quality_urls and im["_coast"]
+        im["_score"] = (3 * quality + 4 * named + 3 * im["_coast"] + im["_nature"] +
                         im["_wide"] + (1 if dist < 6 else 0))
         out.append(im)
     out.sort(key=lambda im: -im["_score"])

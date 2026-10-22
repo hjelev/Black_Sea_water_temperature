@@ -750,17 +750,22 @@ def gallery_markup(images, town):
         title = escape(photo_alt(im.get("title") or "", town))
         w, h = im.get("w"), im.get("h")
         dims = ' width="{}" height="{}"'.format(w, h) if w and h else ""
+        # Commons serves fixed thumbnail widths; offer the 960px one to
+        # high-density screens (originals are >= 1000px, see fetch_galleries).
+        hires = re.sub(r"/\d+px-", "/960px-", im["thumb"], count=1)
+        srcset = (' srcset="{} 1x, {} 2x"'.format(thumb, escape(hires))
+                  if hires != im["thumb"] else "")
         lic = ('<a href="{url}" target="_blank" rel="noopener nofollow">{name}</a>'
                .format(url=license_url, name=license_name)) if license_name else ""
         items.append(
             '<figure class="gallery-item">'
             '<a class="gallery-link" href="{full}" data-full="{full}" '
             'data-page="{page}" data-artist="{artist}">'
-            '<img src="{thumb}" alt="{title}" loading="lazy"{dims}></a>'
+            '<img src="{thumb}"{srcset} alt="{title}" loading="lazy"{dims}></a>'
             '<figcaption class="gallery-caption">© {artist}{sep}{lic}</figcaption>'
             '</figure>'.format(
-                full=full, page=page, artist=artist, thumb=thumb, title=title,
-                dims=dims, sep=" · " if lic else "", lic=lic))
+                full=full, page=page, artist=artist, thumb=thumb, srcset=srcset,
+                title=title, dims=dims, sep=" · " if lic else "", lic=lic))
     return "\n".join(items)
 
 
