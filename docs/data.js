@@ -391,8 +391,9 @@ window.renderAstro = function(el, days, id) {
     const [phaseKey, emoji] = MOON_PHASES[Math.round(ill.phase * 8) % 8];
     const mt = moonCalc.times(midnight, loc.lat, loc.lon);
     const full = moonCalc.nextPhase(now, 0.5), newMoon = moonCalc.nextPhase(now, 0);
-    const moonTile = `<div class="wx-tile wx-astro-tile">
-        <span class="wx-tile-label">🌙 ${t('weather_moon')}</span>
+    // The whole moon tile links to the moon phases page.
+    const moonTile = `<a class="wx-tile wx-astro-tile wx-tile-link" href="${window.LANG_PREFIX || ''}/moon-phases/" title="${t('nav_moon')}">
+        <span class="wx-tile-label">🌙 ${t('weather_moon')} <span class="wx-tile-more" aria-hidden="true">›</span></span>
         <div class="wx-astro-body">
             <span class="wx-moon-icon" title="${t(phaseKey)}">${emoji}</span>
             <div>
@@ -407,7 +408,7 @@ window.renderAstro = function(el, days, id) {
         <span class="wx-sub">${[[full, 'moon_full', '🌕'], [newMoon, 'moon_new', '🌑']]
             .sort((a, b) => a[0] - b[0])
             .map(([d, key, icon]) => `${icon} ${t(key)}: ${dayLabel(d)}`).join(' · ')}</span>
-    </div>`;
+    </a>`;
 
     el.innerHTML = sunTile + moonTile;
 };

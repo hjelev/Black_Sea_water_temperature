@@ -792,6 +792,9 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .wx-sun-arc { width: 110px; height: 57px; flex-shrink: 0; }
 .wx-moon-icon { font-size: 3rem; line-height: 1; }
 .wx-astro-tile > .wx-sub:last-child { margin-top: auto; }
+a.wx-tile-link { color: inherit; text-decoration: none; transition: box-shadow 0.15s; }
+a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
+.wx-tile-more { color: var(--accent); font-weight: 700; }
 .wx-big-icon { font-size: 4rem; line-height: 1; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25)); }
 .wx-big-temp { display: block; font-size: 3.2rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
 .wx-cond { display: block; font-size: 1.05rem; font-weight: 600; margin: 0.2rem 0; }
