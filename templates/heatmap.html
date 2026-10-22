@@ -83,7 +83,7 @@ loadData().then(records => {
     }], {
         ...theme,
         xaxis: { ...theme.xaxis, title: '' },
-        yaxis: { ...theme.yaxis, title: '', dtick: 5 },
+        yaxis: { ...theme.yaxis, title: '', type: 'category', autorange: 'reversed' },
         margin: { l: 55, r: 80, t: 30, b: 40 }
     }, { responsive: true });
 
@@ -105,7 +105,7 @@ loadData().then(records => {
 
     Plotly.newPlot('monthly-avg-chart', monthTraces, {
         ...theme,
-        xaxis: { ...theme.xaxis, title: '' },
+        xaxis: { ...theme.xaxis, title: '', type: 'category' },
         yaxis: { ...theme.yaxis, title: '°C' },
         hovermode: 'x unified',
         legend: { orientation: 'h', y: -0.2 }

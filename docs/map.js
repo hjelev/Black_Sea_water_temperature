@@ -34,14 +34,28 @@
         const el = document.getElementById('map');
         if (!el || !window.L || !window.LOCATIONS) return;
 
-        // Centre on the Black Sea basin; fitBounds below tightens to the markers.
-        const map = L.map('map', { scrollWheelZoom: false }).setView([43.4, 34.0], 6);
+        // Fit the view to the locations straight away (their coordinates are in
+        // locations.js), rather than loading a fixed view first and jumping.
+        // zoomSnap 0.25 lets the fit land between whole zoom levels instead of
+        // rounding down to one that shows half of Europe around the sea; the
+        // +/- buttons still step a whole level. The side padding keeps the
+        // edge pins' temperature labels inside the frame.
+        const coords = Object.values(window.LOCATIONS)
+            .filter(loc => typeof loc.lat === 'number' && typeof loc.lon === 'number')
+            .map(loc => [loc.lat, loc.lon]);
+        const map = L.map('map', { scrollWheelZoom: false, zoomSnap: 0.25, zoomDelta: 1 });
+        // Re-measure first: the layout can still shift after the map is created.
+        const fitToLocations = () => {
+            map.invalidateSize();
+            if (coords.length) map.fitBounds(coords, { padding: [36, 24] });
+            else map.setView([43.4, 34.0], 6);
+        };
+        fitToLocations();
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        const bounds = [];
         // Group nearby pins into one bubble (average temperature + count) so the
         // 50+ locations don't pile up at basin zoom; they split apart on zoom-in.
         const group = window.L.markerClusterGroup
@@ -91,7 +105,6 @@
                             + '</div>'
                         );
 
-                    bounds.push([loc.lat, loc.lon]);
                 });
 
                 // Label each home-screen location card with the same current
@@ -108,7 +121,7 @@
                     }
                 });
 
-                if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
+                fitToLocations();
                 renderSummary(latest);
                 initHubTools(latest);
             });
