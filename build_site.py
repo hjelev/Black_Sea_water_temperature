@@ -40,6 +40,7 @@ import os
 import re
 import sys
 
+import moon
 from locations import LOCATIONS, COUNTRY_ORDER, COUNTRY_TZ
 
 BASE_URL = "https://more.masoko.net"
@@ -450,6 +451,50 @@ MONTH_META = {
         "ru": "Температура воды в Черном море {month_in}",
         "tr": "{month} Ayında Karadeniz Deniz Suyu Sıcaklığı",
         "ro": "Temperatura apei Mării Negre {month_in}",
+    },
+}
+
+
+# Moon phase pages: /moon-phases/ for the current year, /moon-phases/<year>/
+# for the others. {year} = the page's year.
+MOON_META = {
+    "title": {
+        "en": "Moon Phase Today & Lunar Calendar {year} — Full Moon, New Moon Dates",
+        "bg": "Фаза на луната днес и лунен календар {year} — пълнолуние, новолуние",
+        "ru": "Фаза Луны сегодня и лунный календарь {year} — полнолуние, новолуние",
+        "tr": "Bugün Ay Evresi ve {year} Ay Takvimi — Dolunay, Yeni Ay Tarihleri",
+        "ro": "Faza Lunii azi și calendarul lunar {year} — lună plină, lună nouă",
+    },
+    "title_year": {
+        "en": "Lunar Calendar {year} — Moon Phases, Full Moon and New Moon Dates",
+        "bg": "Лунен календар {year} — фази на луната, пълнолуние и новолуние",
+        "ru": "Лунный календарь {year} — фазы Луны, даты полнолуний и новолуний",
+        "tr": "{year} Ay Takvimi — Ay Evreleri, Dolunay ve Yeni Ay Tarihleri",
+        "ro": "Calendarul lunar {year} — fazele Lunii, date de lună plină și lună nouă",
+    },
+    "desc": {
+        "en": ("Moon phases in {year}: today's phase, illumination and zodiac sign, a "
+               "day-by-day moon calendar and the exact date and time of every new moon, "
+               "first quarter, full moon and last quarter."),
+        "bg": ("Фазите на луната през {year} г.: фазата днес, осветеност и зодиакален "
+               "знак, лунен календар по дни и точната дата и час на всяко новолуние, "
+               "първа четвърт, пълнолуние и последна четвърт."),
+        "ru": ("Фазы Луны в {year} году: фаза сегодня, освещённость и знак зодиака, "
+               "лунный календарь по дням и точные дата и время каждого новолуния, первой "
+               "четверти, полнолуния и последней четверти."),
+        "tr": ("{year} yılında Ay evreleri: bugünkü evre, aydınlanma ve burç, günlük Ay "
+               "takvimi ve her yeni ay, ilk dördün, dolunay ve son dördünün kesin tarih "
+               "ve saati."),
+        "ro": ("Fazele Lunii în {year}: faza de azi, iluminarea și zodia, calendarul "
+               "lunar pe zile și data și ora exactă a fiecărei luni noi, primului pătrar, "
+               "lunii pline și ultimului pătrar."),
+    },
+    "h1": {
+        "en": "Moon Phases {year}",
+        "bg": "Фази на луната {year}",
+        "ru": "Фазы Луны {year}",
+        "tr": "{year} Ay Evreleri",
+        "ro": "Fazele Lunii {year}",
     },
 }
 
@@ -1574,6 +1619,7 @@ SITE_NAV = """<nav class="nav">
             <li><a href="/burgas/stats.html" data-i18n="nav_stats">Statistics</a></li>
             <li><a href="/burgas/gallery.html" data-i18n="nav_gallery">Photos</a></li>
             <li><a href="/compare-locations.html" data-i18n="nav_comparelocations">Compare Locations</a></li>
+            <li><a href="/moon-phases/" data-i18n="nav_moon">Moon Phases</a></li>
         </ul>
         <div class="lang-switch"></div>
     </div>
@@ -1757,6 +1803,179 @@ def write_month_pages(stats):
         print("wrote month page {} x {} languages".format(MONTH_SLUGS[i], len(LANGS)))
 
 
+# Years with a /moon-phases/ page around the build year; moon-data.js carries
+# one more year on each side so the cycle around 1 January is complete.
+MOON_YEARS_BEFORE, MOON_YEARS_AFTER = 2, 5
+# Time zone of the baked year table per page language (the browser re-renders
+# it in the viewer's zone): (name, UTC offset, EU summer time).
+MOON_TZ = {"bg": ("Europe/Sofia", 2, True), "en": ("Europe/Sofia", 2, True),
+           "ro": ("Europe/Bucharest", 2, True), "ru": ("Europe/Moscow", 3, False),
+           "tr": ("Europe/Istanbul", 3, False)}
+ZODIAC_SIGNS = "♈♉♊♋♌♍♎♏♐♑♒♓"
+
+
+def moon_years():
+    year = datetime.date.today().year
+    return year, range(year - MOON_YEARS_BEFORE, year + MOON_YEARS_AFTER + 1)
+
+
+def moon_path(year):
+    return "moon-phases/" if year == datetime.date.today().year \
+        else "moon-phases/{}/".format(year)
+
+
+def moon_svg(pos, size):
+    """The Moon at cycle position pos (0 new, 0.5 full). Twin of moonSvg() in
+    docs/moon.js."""
+    k = (1 - math.cos(2 * math.pi * pos)) / 2
+    rx = abs(1 - 2 * k) * 10
+    waxing = pos < 0.5
+    term = 0 if waxing == (k < 0.5) else 1
+    if k < 0.005:
+        lit = ""
+    elif k > 0.995:
+        lit = '<circle class="moon-lit" cx="12" cy="12" r="10"/>'
+    else:
+        lit = ('<path class="moon-lit" d="M12 2A10 10 0 0 {} 12 22A{:.2f} 10 0 0 {} 12 2Z"/>'
+               .format(1 if waxing else 0, rx, term))
+    return ('<svg class="moon-svg" width="{0}" height="{0}" viewBox="0 0 24 24" aria-hidden="true">'
+            '<circle class="moon-dark" cx="12" cy="12" r="10"/>{1}</svg>'.format(size, lit))
+
+
+def moon_local(unix, lang):
+    """datetime of unix in the page language's MOON_TZ zone."""
+    _name, offset, eu = MOON_TZ[lang]
+    if eu:
+        offset = moon.eu_offset_hours(unix, offset)
+    return datetime.datetime.fromtimestamp(unix + offset * 3600, datetime.timezone.utc)
+
+
+def moon_day_time(unix, lang):
+    """('26 October', '06:11') in the page language and zone."""
+    dt = moon_local(unix, lang)
+    return day_month(dt.strftime("%m-%d"), lang), dt.strftime("%H:%M")
+
+
+def write_moon_data(phases, page_years):
+    """docs/moon-data.js: the principal phase instants for docs/moon.js."""
+    path = os.path.join(DOCS_DIR, "moon-data.js")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write("// Generated by build_site.py (moon.py) — do not edit by hand.\n"
+                 "window.MOON_YEARS = [{}, {}];\nwindow.MOON_PHASES = {};\n".format(
+                     page_years[0], page_years[-1],
+                     json.dumps([list(p) for p in phases], separators=(",", ":"))))
+    print("wrote docs/moon-data.js ({} phases)".format(len(phases)))
+
+
+def moon_year_rows(phases, year, lang):
+    """Baked rows of the yearly table: one per lunation, from its new moon."""
+    rows, row, last = [], None, -1
+    for unix, q in phases:
+        if moon_local(unix, lang).year != year:
+            continue
+        if row is None or q <= last:
+            row = ["", "", "", ""]
+            rows.append(row)
+        day, time = moon_day_time(unix, lang)
+        z = moon.zodiac_index(unix, q)
+        row[q] = ('<span class="moon-year-date">{} {}</span> {}<span class="moon-zodiac">'
+                  '<span class="moon-zodiac-sign">{}︎</span> {}</span>').format(
+                      moon_svg(q / 4, 16), escape(day), time, ZODIAC_SIGNS[z],
+                      escape(TR[lang]["zodiac"][z]))
+        last = q
+    return "\n".join("            <tr>{}</tr>".format(
+        "".join("<td>{}</td>".format(c) for c in r)) for r in rows)
+
+
+def moon_now_text(phases, lang):
+    """'The Moon is now: Waxing gibbous. Next: Full moon on 26 October.' at
+    build time, for the current year's page (moon.js replaces it)."""
+    now = datetime.datetime.now(datetime.timezone.utc).timestamp()
+    past = [p for p in phases if p[0] <= now]
+    upcoming = [p for p in phases if p[0] > now]
+    if not past or not upcoming:
+        return ""
+    names = TR[lang]["moon_phases"]
+    day, _time = moon_day_time(upcoming[0][0], lang)
+    return tr_fmt(lang, "seo_moon_now", phase=names[past[-1][1] * 2 + 1],
+                  next=names[upcoming[0][1] * 2], date=day)
+
+
+def write_moon_pages():
+    current, years = moon_years()
+    phases = moon.phases(years[0] - 1, years[-1] + 1)
+    write_moon_data(phases, years)
+    for year in years:
+        path = moon_path(year)
+        for lang in LANGS:
+            fields = dict(year=year)
+            title = MOON_META["title" if year == current else "title_year"][lang].format(**fields)
+            desc = MOON_META["desc"][lang].format(**fields)
+            names = TR[lang]["moon_phases"]
+            now_text = moon_now_text(phases, lang) if year == current else ""
+            year_links = "\n".join(
+                '        <a class="nearby-link" href="/{}"{}>{}</a>'.format(
+                    moon_path(y), ' aria-current="page"' if y == year else "", y)
+                for y in years)
+            inner = """    <h1>{h1}</h1>
+    <p class="subtitle">{intro}</p>
+    <div id="moon-app" class="moon-top" data-year="{year}">
+        <section class="moon-panel">
+            <h2 id="moon-now-h2" class="moon-panel-h2">{now_h2}</h2>
+            <div id="moon-now" class="moon-now"><p>{now_text}</p></div>
+        </section>
+        <section class="moon-panel">
+            <h2 class="moon-panel-h2" data-i18n="moon_cal_h2">Moon calendar by day</h2>
+            <div id="moon-cal"></div>
+            <p class="tip" data-i18n="moon_cal_tip">Tap a day to see the Moon at noon that day.</p>
+        </section>
+    </div>
+    <h2 data-i18n="moon_cycle_h2">Phases of the current lunar cycle</h2>
+    <div id="moon-cycle" class="moon-cards"></div>
+    <h2 data-i18n="moon_days_h2">The next 5 days</h2>
+    <div id="moon-days" class="moon-cards"></div>
+    <section id="moon-year">
+    <h2>{year_h2}</h2>
+    <div class="nearby-links moon-year-links">
+{year_links}
+    </div>
+    <p class="tip" id="moon-year-note">{tz_note}</p>
+    <div class="table-scroll">
+    <table class="month-table moon-table">
+        <thead><tr>{head}</tr></thead>
+        <tbody>
+{rows}
+        </tbody>
+    </table>
+    </div>
+    </section>
+    <section class="moon-about">
+    <h2>{about_h2}</h2>
+    <p class="location-description">{about}</p>
+    </section>
+{browse}
+    <script src="/moon-data.js"></script>
+    <script src="/moon.js"></script>""".format(
+                h1=escape(MOON_META["h1"][lang].format(**fields)),
+                intro=escape(tr_fmt(lang, "seo_moon_intro", year=year)),
+                year=year, now_h2=escape(TR[lang]["moon_now"]), now_text=escape(now_text),
+                year_h2=escape(tr_fmt(lang, "moon_year_h2", year=year)),
+                year_links=year_links,
+                tz_note=escape(tr_fmt(lang, "moon_tz_note", tz=MOON_TZ[lang][0])),
+                head="".join("<th>{} {}</th>".format(moon_svg(q / 4, 16), escape(names[q * 2]))
+                             for q in range(4)),
+                rows=moon_year_rows(phases, year, lang),
+                about_h2=escape(TR[lang]["seo_moon_about_h2"]),
+                about=escape(TR[lang]["seo_moon_about"]),
+                browse=browse_links_html(lang))
+            crumbs = [(TR[lang]["crumb_home"], url_for("", lang)),
+                      (TR[lang]["nav_moon"], url_for(moon_path(current), lang))]
+            if year != current:
+                crumbs.append((str(year), url_for(path, lang)))
+            write_simple_page(lang, path, title, desc, crumbs, inner)
+        print("wrote moon phase page {} x {} languages".format(year, len(LANGS)))
+
+
 def write_hub(stats):
     for lang in LANGS:
         sections = []
@@ -1890,6 +2109,9 @@ def write_sitemap(stats):
     # Country pages carry today's readings; month pages change with the data.
     paths.extend((country + "/", latest) for country, _ in locations_by_country())
     paths.extend((month_path(i), latest) for i in range(12))
+    # The current year's moon page shows today's phase; other years are fixed.
+    current, years = moon_years()
+    paths.extend((moon_path(y), latest if y == current else None) for y in years)
 
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
@@ -2050,6 +2272,7 @@ def main():
     write_compare_locations()
     write_country_pages(stats)
     write_month_pages(stats)
+    write_moon_pages()
     write_sitemap(stats)
     write_robots()
     write_404()
