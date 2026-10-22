@@ -27,9 +27,9 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the water temperature in Vadu & Corbu, Romania today?","acceptedAnswer":{"@type":"Answer","text":"The sea water temperature in Vadu & Corbu, Romania is 16.5°C (measured Oct 22, 2026). That matches the 3-year average for this date."}},{"@type":"Question","name":"When is the sea warmest in Vadu & Corbu, Romania?","acceptedAnswer":{"@type":"Answer","text":"The warmest month is August, with an average water temperature of 25.3°C. The highest reading on record is 28.8°C (Jul 22, 2024)."}},{"@type":"Question","name":"When is the swimming season in Vadu & Corbu, Romania?","acceptedAnswer":{"@type":"Answer","text":"The sea averages 20°C or more from June to September, which is the main swimming season. August is the warmest month at 25.3°C."}},{"@type":"Question","name":"How cold does the sea get in Vadu & Corbu, Romania?","acceptedAnswer":{"@type":"Answer","text":"The coldest month is February, averaging 5.0°C. The lowest reading on record is 3.1°C (Feb 24, 2025)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=e9c8bb13">
-    <script src="/i18n.en.js?v=95a26ee2"></script>
-    <script src="/locations.js?v=b431a90b"></script>
+    <link rel="stylesheet" href="/style.css?v=daabbb9a">
+    <script src="/i18n.en.js?v=f3f07591"></script>
+    <script src="/locations.js?v=93942375"></script>
     <script>window.LOCATION_ID = 'vadu'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
@@ -63,7 +63,10 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">The sea water temperature in Vadu &amp; Corbu, Romania is 16.5°C (measured Oct 22, 2026). That matches the 3-year average for this date.</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Current weather conditions in Vadu &amp; Corbu, Romania</a></h2>
-    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
+    <a class="wx-now-link" href="weather.html">
+        <div id="current-weather" class="wx-now"></div>
+        <div id="wx-astro" class="wx-astro"></div>
+    </a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +145,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=bcf05826"></script>
+<script src="/data.js?v=24e14ef3"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -234,6 +237,7 @@ loadData().then(records => {
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
     renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
+    renderAstro(document.getElementById('wx-astro'), data.days, getLocation());
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

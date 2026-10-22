@@ -37,7 +37,10 @@
     <div id="water-hero" class="water-hero">{today}</div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Current Conditions</a></h2>
-    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
+    <a class="wx-now-link" href="weather.html">
+        <div id="current-weather" class="wx-now"></div>
+        <div id="wx-astro" class="wx-astro"></div>
+    </a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Temperature on this date (loading…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -154,6 +157,7 @@ loadData().then(records => {
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
     renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
+    renderAstro(document.getElementById('wx-astro'), data.days, getLocation());
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

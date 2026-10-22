@@ -27,9 +27,9 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Ce temperatură are apa mării la Burgas, Bulgaria astăzi?","acceptedAnswer":{"@type":"Answer","text":"Temperatura apei mării la Burgas, Bulgaria este de 18.6°C (măsurată pe 22.10.2026). Este cu 0.9°C mai caldă decât media pe 26 ani pentru această dată (17.7°C)."}},{"@type":"Question","name":"Când este marea cea mai caldă la Burgas, Bulgaria?","acceptedAnswer":{"@type":"Answer","text":"Cea mai caldă lună este august, cu o temperatură medie a apei de 26.5°C. Cea mai mare valoare înregistrată este 30.8°C (08.08.2010)."}},{"@type":"Question","name":"Când este sezonul de scăldat la Burgas, Bulgaria?","acceptedAnswer":{"@type":"Answer","text":"Marea are în medie 20°C sau mai mult din iunie până în septembrie — acesta este principalul sezon de scăldat. Cea mai caldă lună este august, cu 26.5°C."}},{"@type":"Question","name":"Cât de rece devine marea la Burgas, Bulgaria?","acceptedAnswer":{"@type":"Answer","text":"Cea mai rece lună este februarie, cu o medie de 5.8°C. Cea mai mică valoare înregistrată este 0.0°C (10.01.2001)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=e9c8bb13">
-    <script src="/i18n.ro.js?v=caa2d56d"></script>
-    <script src="/locations.js?v=b431a90b"></script>
+    <link rel="stylesheet" href="/style.css?v=daabbb9a">
+    <script src="/i18n.ro.js?v=92914ab1"></script>
+    <script src="/locations.js?v=93942375"></script>
     <script>window.LOCATION_ID = 'burgas'; window.LANG = 'ro'; window.LANG_PREFIX = '/ro';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
@@ -63,7 +63,10 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">Temperatura apei mării la Burgas, Bulgaria este de 18.6°C (măsurată pe 22.10.2026). Este cu 0.9°C mai caldă decât media pe 26 ani pentru această dată (17.7°C).</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Condiții meteo actuale la Burgas, Bulgaria</a></h2>
-    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
+    <a class="wx-now-link" href="weather.html">
+        <div id="current-weather" class="wx-now"></div>
+        <div id="wx-astro" class="wx-astro"></div>
+    </a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Temperatura la această dată (se încarcă…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +145,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=bcf05826"></script>
+<script src="/data.js?v=24e14ef3"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -234,6 +237,7 @@ loadData().then(records => {
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
     renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
+    renderAstro(document.getElementById('wx-astro'), data.days, getLocation());
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

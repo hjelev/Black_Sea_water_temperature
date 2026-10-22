@@ -24,7 +24,8 @@ from locations import LOCATIONS
 
 DAILY_VARS = (
     "temperature_2m_max,temperature_2m_min,"
-    "uv_index_max,wind_speed_10m_max,weathercode"
+    "uv_index_max,wind_speed_10m_max,weathercode,"
+    "sunrise,sunset"
 )
 CURRENT_VARS = (
     "temperature_2m,apparent_temperature,"
@@ -70,6 +71,9 @@ def parse_daily(data):
     uv_max = daily.get("uv_index_max", [])
     wind_max = daily.get("wind_speed_10m_max", [])
     code = daily.get("weathercode", [])
+    # ISO times in UTC (timezone=UTC), e.g. "2026-10-22T04:41".
+    sunrise = daily.get("sunrise", [])
+    sunset = daily.get("sunset", [])
 
     days = []
     for i, date in enumerate(dates):
@@ -80,6 +84,8 @@ def parse_daily(data):
             "uv_max": uv_max[i] if i < len(uv_max) else None,
             "wind_max": wind_max[i] if i < len(wind_max) else None,
             "code": code[i] if i < len(code) else None,
+            "sunrise": sunrise[i] if i < len(sunrise) else None,
+            "sunset": sunset[i] if i < len(sunset) else None,
         })
     return days
 

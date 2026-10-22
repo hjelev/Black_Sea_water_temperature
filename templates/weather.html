@@ -35,6 +35,9 @@
     <h2 data-i18n="weather_now">Right now</h2>
     <div id="wx-now" class="wx-now"><p class="loading">…</p></div>
 
+    <h2 data-i18n="weather_sun_moon">Sun &amp; Moon</h2>
+    <div id="wx-astro" class="wx-astro"></div>
+
     <h2 data-i18n="weather_10day">10-day overview</h2>
     <div id="wx-days" class="wx-days"></div>
 
@@ -132,6 +135,7 @@ Promise.all([
 ]).then(([data, records]) => {
     renderWeatherNow(document.getElementById('wx-now'), data.current, data.updated,
         records && records.length ? records[records.length - 1].temp : null);
+    renderAstro(document.getElementById('wx-astro'), data.days, getLocation());
     renderDays(document.getElementById('wx-days'), data.days || []);
     renderAirSea('wx-air-sea', data.days || [], records);
     renderHourlyChart('hourly-chart', data.hourly, { icons: true });

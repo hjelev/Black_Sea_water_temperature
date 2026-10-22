@@ -255,6 +255,163 @@ window.renderWeatherNow = function(el, current, updatedIso, waterTemp) {
         </div>` : ''}`;
 };
 
+// Moon position, illumination and rise/set times - the moon part of
+// SunCalc (c) Vladimir Agafonkin, BSD-2-Clause, github.com/mourner/suncalc.
+// Phase is the same everywhere; rise/set depend on lat/lon.
+const moonCalc = (function() {
+    const rad = Math.PI / 180, dayMs = 864e5, e = rad * 23.4397;
+    const toDays = date => date.valueOf() / dayMs - 0.5 + 2440588 - 2451545;
+    const rightAscension = (l, b) => Math.atan2(Math.sin(l) * Math.cos(e) - Math.tan(b) * Math.sin(e), Math.cos(l));
+    const declination = (l, b) => Math.asin(Math.sin(b) * Math.cos(e) + Math.cos(b) * Math.sin(e) * Math.sin(l));
+    function sunCoords(d) {
+        const M = rad * (357.5291 + 0.98560028 * d);
+        const L = M + rad * (1.9148 * Math.sin(M) + 0.02 * Math.sin(2 * M) + 0.0003 * Math.sin(3 * M))
+            + rad * 102.9372 + Math.PI;
+        return { dec: declination(L, 0), ra: rightAscension(L, 0) };
+    }
+    function moonCoords(d) {
+        const L = rad * (218.316 + 13.176396 * d), M = rad * (134.963 + 13.064993 * d),
+              F = rad * (93.272 + 13.229350 * d);
+        const l = L + rad * 6.289 * Math.sin(M), b = rad * 5.128 * Math.sin(F);
+        return { ra: rightAscension(l, b), dec: declination(l, b), dist: 385001 - 20905 * Math.cos(M) };
+    }
+    function altitude(date, lat, lon) {
+        const d = toDays(date), c = moonCoords(d), phi = rad * lat;
+        const H = rad * (280.16 + 360.9856235 * d) + rad * lon - c.ra;
+        let h = Math.asin(Math.sin(phi) * Math.sin(c.dec) + Math.cos(phi) * Math.cos(c.dec) * Math.cos(H));
+        const hr = Math.max(h, 0);  // atmospheric refraction
+        return h + 0.0002967 / Math.tan(hr + 0.00312536 / (hr + 0.08901179));
+    }
+    // fraction: lit part 0-1; phase: 0 new, 0.25 first quarter, 0.5 full, 0.75 last quarter.
+    function illumination(date) {
+        const d = toDays(date), s = sunCoords(d), m = moonCoords(d), sdist = 149598000;
+        const phi = Math.acos(Math.sin(s.dec) * Math.sin(m.dec) + Math.cos(s.dec) * Math.cos(m.dec) * Math.cos(s.ra - m.ra));
+        const inc = Math.atan2(sdist * Math.sin(phi), m.dist - sdist * Math.cos(phi));
+        const angle = Math.atan2(Math.cos(s.dec) * Math.sin(s.ra - m.ra),
+            Math.sin(s.dec) * Math.cos(m.dec) - Math.cos(s.dec) * Math.sin(m.dec) * Math.cos(s.ra - m.ra));
+        return { fraction: (1 + Math.cos(inc)) / 2, phase: 0.5 + 0.5 * inc * (angle < 0 ? -1 : 1) / Math.PI };
+    }
+    // Rise/set within the 24h after `start`; either may be null (the moon
+    // skips one roughly every month).
+    function times(start, lat, lon) {
+        const hc = 0.133 * rad, at = h => new Date(start.valueOf() + h * 36e5);
+        let h0 = altitude(start, lat, lon) - hc, rise = null, set = null;
+        for (let i = 1; i <= 24; i += 2) {
+            const h1 = altitude(at(i), lat, lon) - hc, h2 = altitude(at(i + 1), lat, lon) - hc;
+            const a = (h0 + h2) / 2 - h1, b = (h2 - h0) / 2, xe = -b / (2 * a), ye = (a * xe + b) * xe + h1;
+            const disc = b * b - 4 * a * h1;
+            let roots = 0, x1 = 0, x2 = 0;
+            if (disc >= 0) {
+                const dx = Math.sqrt(disc) / (Math.abs(a) * 2);
+                x1 = xe - dx; x2 = xe + dx;
+                if (Math.abs(x1) <= 1) roots++;
+                if (Math.abs(x2) <= 1) roots++;
+                if (x1 < -1) x1 = x2;
+            }
+            if (roots === 1) {
+                if (h0 < 0) rise = i + x1; else set = i + x1;
+            } else if (roots === 2) {
+                rise = i + (ye < 0 ? x2 : x1);
+                set = i + (ye < 0 ? x1 : x2);
+            }
+            if (rise != null && set != null) break;
+            h0 = h2;
+        }
+        return { rise: rise != null ? at(rise) : null, set: set != null ? at(set) : null };
+    }
+    // Next moment the phase reaches `target` (0 new, 0.5 full), refined by
+    // a few Newton-style steps along the 29.53-day synodic month.
+    function nextPhase(date, target) {
+        const month = 29.530588 * dayMs;
+        let t = date.valueOf() + ((target - illumination(date).phase + 1) % 1) * month;
+        for (let k = 0; k < 4; k++) {
+            t += (((target - illumination(new Date(t)).phase + 1.5) % 1) - 0.5) * month;
+        }
+        return new Date(t);
+    }
+    return { illumination, times, nextPhase };
+})();
+
+const MOON_PHASES = [
+    ['moon_new', '🌑'], ['moon_waxing_crescent', '🌒'], ['moon_first_quarter', '🌓'], ['moon_waxing_gibbous', '🌔'],
+    ['moon_full', '🌕'], ['moon_waning_gibbous', '🌖'], ['moon_last_quarter', '🌗'], ['moon_waning_crescent', '🌘']
+];
+
+// Minutes east of UTC for an IANA zone at a given instant.
+function tzOffsetMinutes(date, tz) {
+    const p = {};
+    new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric',
+        day: 'numeric', hour: 'numeric', minute: 'numeric' })
+        .formatToParts(date).forEach(x => { p[x.type] = +x.value; });
+    return Math.round((Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute) - date.valueOf()) / 60000);
+}
+
+// Sunrise/sunset (today's row of the Open-Meteo daily window, UTC times)
+// and moon phase + moonrise/moonset for one location, as two tiles shown in
+// the location's own time zone. Each tile hides itself if it has no data.
+window.renderAstro = function(el, days, id) {
+    const loc = window.LOCATIONS[id], tz = loc.tz, locale = getLocale();
+    const now = new Date();
+    const hm = d => d ? d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', timeZone: tz }) : '—';
+    const dayLabel = d => d.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short', timeZone: tz });
+
+    // Local calendar day at the location -> its midnight as a UTC instant.
+    const ymd = now.toLocaleDateString('en-CA', { timeZone: tz });
+    const utcMidnight = new Date(ymd + 'T00:00:00Z');
+    const midnight = new Date(utcMidnight.valueOf() - tzOffsetMinutes(utcMidnight, tz) * 60000);
+
+    let sunTile = '';
+    const today = (days || []).find(d => d.sunrise && d.sunset &&
+        new Date(d.sunrise + 'Z').toLocaleDateString('en-CA', { timeZone: tz }) === ymd);
+    if (today) {
+        const rise = new Date(today.sunrise + 'Z'), set = new Date(today.sunset + 'Z');
+        const mins = Math.round((set - rise) / 60000);
+        // Sun's progress along the daylight arc (clamped before rise / after set).
+        const f = Math.max(0, Math.min(1, (now - rise) / (set - rise)));
+        const up = now >= rise && now <= set;
+        const sx = 50 - 40 * Math.cos(Math.PI * f), sy = 46 - 36 * Math.sin(Math.PI * f);
+        sunTile = `<div class="wx-tile wx-astro-tile">
+            <span class="wx-tile-label">🌅 ${t('weather_sun')}</span>
+            <div class="wx-astro-body">
+                <svg class="wx-sun-arc" viewBox="0 0 100 52" aria-hidden="true">
+                    <path d="M10 46 A40 36 0 0 1 90 46" fill="none" stroke="var(--nav-border)" stroke-width="2" stroke-dasharray="3 3"/>
+                    <line x1="4" y1="46" x2="96" y2="46" stroke="var(--text-muted)" stroke-width="1.5"/>
+                    <circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6" fill="${up ? '#f5b400' : 'var(--text-muted)'}"/>
+                </svg>
+                <div class="wx-astro-times">
+                    <span><small>${t('weather_sunrise')}</small><b>${hm(rise)}</b></span>
+                    <span><small>${t('weather_sunset')}</small><b>${hm(set)}</b></span>
+                </div>
+            </div>
+            <span class="wx-sub">${t('weather_day_length').replace('{h}', Math.floor(mins / 60)).replace('{m}', mins % 60)}</span>
+        </div>`;
+    }
+
+    const ill = moonCalc.illumination(now);
+    const [phaseKey, emoji] = MOON_PHASES[Math.round(ill.phase * 8) % 8];
+    const mt = moonCalc.times(midnight, loc.lat, loc.lon);
+    const full = moonCalc.nextPhase(now, 0.5), newMoon = moonCalc.nextPhase(now, 0);
+    const moonTile = `<div class="wx-tile wx-astro-tile">
+        <span class="wx-tile-label">🌙 ${t('weather_moon')}</span>
+        <div class="wx-astro-body">
+            <span class="wx-moon-icon" title="${t(phaseKey)}">${emoji}</span>
+            <div>
+                <span class="wx-cond">${t(phaseKey)}</span>
+                <span class="wx-sub">${t('weather_illuminated').replace('{n}', Math.round(ill.fraction * 100))}</span>
+            </div>
+        </div>
+        <div class="wx-astro-times">
+            <span><small>${t('weather_moonrise')}</small><b>${hm(mt.rise)}</b></span>
+            <span><small>${t('weather_moonset')}</small><b>${hm(mt.set)}</b></span>
+        </div>
+        <span class="wx-sub">${[[full, 'moon_full', '🌕'], [newMoon, 'moon_new', '🌑']]
+            .sort((a, b) => a[0] - b[0])
+            .map(([d, key, icon]) => `${icon} ${t(key)}: ${dayLabel(d)}`).join(' · ')}</span>
+    </div>`;
+
+    el.innerHTML = sunTile + moonTile;
+};
+
 // Trailing 48h hourly air-temperature line chart. Hides the whole section
 // (heading + chart) if no hourly data is available. opts.icons adds a weather
 // icon above the line every 3 hours (6 on narrow screens).

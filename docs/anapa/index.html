@@ -27,9 +27,9 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Каква е температурата на водата в Анапа, Русия днес?","acceptedAnswer":{"@type":"Answer","text":"Температурата на морската вода в Анапа, Русия е 20.0°C (измерена на 22.10.2026). Това е с 1.4°C над средната за тази дата за последните 3 години (18.6°C)."}},{"@type":"Question","name":"Кога морето е най-топло в Анапа, Русия?","acceptedAnswer":{"@type":"Answer","text":"Най-топлият месец е август със средна температура на водата 25.5°C. Най-високата измерена стойност е 28.4°C (25.07.2024)."}},{"@type":"Question","name":"Кога е сезонът за къпане в Анапа, Русия?","acceptedAnswer":{"@type":"Answer","text":"Средната температура на морето е 20°C или повече от юни до октомври — това е основният сезон за къпане. Най-топъл е август с 25.5°C."}},{"@type":"Question","name":"Колко студено става морето в Анапа, Русия?","acceptedAnswer":{"@type":"Answer","text":"Най-студеният месец е февруари със средно 9.5°C. Най-ниската измерена стойност е 7.9°C (25.02.2025)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=e9c8bb13">
-    <script src="/i18n.bg.js?v=9ad1bc74"></script>
-    <script src="/locations.js?v=b431a90b"></script>
+    <link rel="stylesheet" href="/style.css?v=daabbb9a">
+    <script src="/i18n.bg.js?v=47bba18f"></script>
+    <script src="/locations.js?v=93942375"></script>
     <script>window.LOCATION_ID = 'anapa'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
@@ -63,7 +63,10 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">Температурата на морската вода в Анапа, Русия е 20.0°C (измерена на 22.10.2026). Това е с 1.4°C над средната за тази дата за последните 3 години (18.6°C).</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Текущи метеорологични условия в Анапа, Русия</a></h2>
-    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
+    <a class="wx-now-link" href="weather.html">
+        <div id="current-weather" class="wx-now"></div>
+        <div id="wx-astro" class="wx-astro"></div>
+    </a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Температура на тази дата (зареждане…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +145,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=bcf05826"></script>
+<script src="/data.js?v=24e14ef3"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -234,6 +237,7 @@ loadData().then(records => {
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
     renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
+    renderAstro(document.getElementById('wx-astro'), data.days, getLocation());
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

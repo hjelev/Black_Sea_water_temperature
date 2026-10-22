@@ -27,9 +27,9 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Какая температура воды в Зелёном Мысе, Грузия сегодня?","acceptedAnswer":{"@type":"Answer","text":"Температура морской воды в Зелёном Мысе, Грузия — 21.4°C (измерено 22.10.2026). Это на 0.9°C теплее среднего за 3 лет на эту дату (20.5°C)."}},{"@type":"Question","name":"Когда море самое теплое в Зелёном Мысе, Грузия?","acceptedAnswer":{"@type":"Answer","text":"Самый теплый месяц — август: средняя температура воды 27.8°C. Самая высокая зафиксированная температура — 29.7°C (23.08.2023)."}},{"@type":"Question","name":"Когда купальный сезон в Зелёном Мысе, Грузия?","acceptedAnswer":{"@type":"Answer","text":"Купальный сезон: июнь — октябрь, в эти месяцы средняя температура моря 20°C и выше. Самый теплый месяц — август (27.8°C)."}},{"@type":"Question","name":"Насколько холодным бывает море в Зелёном Мысе, Грузия?","acceptedAnswer":{"@type":"Answer","text":"Самый холодный месяц — март: в среднем 10.6°C. Самая низкая зафиксированная температура — 9.0°C (05.03.2025)."}}]}</script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=e9c8bb13">
-    <script src="/i18n.ru.js?v=0bfcae35"></script>
-    <script src="/locations.js?v=b431a90b"></script>
+    <link rel="stylesheet" href="/style.css?v=daabbb9a">
+    <script src="/i18n.ru.js?v=ca1d13e8"></script>
+    <script src="/locations.js?v=93942375"></script>
     <script>window.LOCATION_ID = 'green-cape'; window.LANG = 'ru'; window.LANG_PREFIX = '/ru';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
@@ -63,7 +63,10 @@
     <div id="water-hero" class="water-hero"><p class="water-hero-static">Температура морской воды в Зелёном Мысе, Грузия — 21.4°C (измерено 22.10.2026). Это на 0.9°C теплее среднего за 3 лет на эту дату (20.5°C).</p></div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Погода сейчас в Зелёном Мысе, Грузия</a></h2>
-    <a id="current-weather" class="wx-now wx-now-link" href="weather.html"></a>
+    <a class="wx-now-link" href="weather.html">
+        <div id="current-weather" class="wx-now"></div>
+        <div id="wx-astro" class="wx-astro"></div>
+    </a>
 
     <h2 id="stats-title" data-i18n="dash_stats_loading">Температура на эту дату (загрузка…)</h2>
     <div id="date-stats" class="stats-grid"></div>
@@ -142,7 +145,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
-<script src="/data.js?v=bcf05826"></script>
+<script src="/data.js?v=24e14ef3"></script>
 <script>
 loadData().then(records => {
     const last = records[records.length - 1];
@@ -234,6 +237,7 @@ loadData().then(records => {
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
     renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
+    renderAstro(document.getElementById('wx-astro'), data.days, getLocation());
     renderHourlyChart('hourly-chart', data.hourly);
 });
 </script>

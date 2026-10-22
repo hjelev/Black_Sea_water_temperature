@@ -32,7 +32,7 @@ import math
 import os
 import re
 
-from locations import LOCATIONS, COUNTRY_ORDER
+from locations import LOCATIONS, COUNTRY_ORDER, COUNTRY_TZ
 
 BASE_URL = "https://more.masoko.net"
 ROOT_DIR = os.path.dirname(__file__)
@@ -944,10 +944,11 @@ def write_locations_js():
     for loc in LOCATIONS:
         lines.append(
             '    "{slug}": {{ csv: "{csv}", nameKey: "{key}", flag: "{flag}", '
-            'lat: {lat}, lon: {lon}, country: "{country}" }},'.format(
+            'lat: {lat}, lon: {lon}, country: "{country}", tz: "{tz}" }},'.format(
                 slug=loc["slug"], csv=loc["csv_file"],
                 key=i18n_key(loc["slug"]), flag=loc["flag"],
-                lat=loc["place_lat"], lon=loc["place_lon"], country=loc["country"]))
+                lat=loc["place_lat"], lon=loc["place_lon"], country=loc["country"],
+                tz=COUNTRY_TZ[loc["country"]]))
     lines.append("};")
     lines.append("window.COUNTRY_ORDER = {};".format(
         "[" + ", ".join('"{}"'.format(c) for c in COUNTRY_ORDER) + "]"))

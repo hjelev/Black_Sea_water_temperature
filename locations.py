@@ -46,6 +46,16 @@
 # Display order for grouping the UI by country (hub grid, dropdown, checkboxes).
 COUNTRY_ORDER = ["bulgaria", "turkey", "romania", "georgia", "russia"]
 
+# IANA time zone per country, so the weather page shows sunrise/sunset and
+# moonrise/moonset in the location's local time.
+COUNTRY_TZ = {
+    "bulgaria": "Europe/Sofia",
+    "turkey": "Europe/Istanbul",
+    "romania": "Europe/Bucharest",
+    "georgia": "Asia/Tbilisi",
+    "russia": "Europe/Moscow",
+}
+
 LOCATIONS = [
     # --- Bulgaria ---
     {"slug": "burgas",      "csv_file": "sea_water_temp.csv",        "lat": 42.47, "lon": 27.55,
