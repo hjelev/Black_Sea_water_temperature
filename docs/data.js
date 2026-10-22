@@ -475,10 +475,182 @@ window.tempColor = function(temp) {
 };
 
 window.comfortKey = function(temp) {
+    if (temp < 14) return 'comfort_wetsuit';
     if (temp < 17) return 'comfort_cold';
     if (temp < 21) return 'comfort_cool';
     if (temp < 24) return 'comfort_pleasant';
-    return 'comfort_warm';
+    if (temp < 27) return 'comfort_warm';
+    return 'comfort_hot';
+};
+
+// Smallest angle between two compass bearings (0-180).
+function bearingDiff(a, b) {
+    const d = Math.abs(((a - b) % 360 + 360) % 360);
+    return d > 180 ? 360 - d : d;
+}
+
+// Douglas-style sea state from significant wave height (m).
+window.seaStateKey = function(m) {
+    if (m < 0.25) return 'sea_calm';
+    if (m < 0.75) return 'sea_slight';
+    if (m < 1.5) return 'sea_moderate';
+    if (m < 2.5) return 'sea_rough';
+    return 'sea_very_rough';
+};
+
+// Indicative swim-safety flag from waves, wind and water temperature.
+// Onshore wind (blowing from the sea, within 60° of the direction the coast
+// faces) piles water on the beach and feeds rip currents, so it lowers the
+// thresholds. Returns { level: 0 green / 1 yellow / 2 red, reasons: [text] }.
+window.swimSafety = function(marine, current, facing, waterTemp) {
+    let level = 0;
+    const reasons = [];
+    const flag = (l, text) => { level = Math.max(level, l); reasons.push(text); };
+    const wave = marine ? marine.wave : null;
+    const wind = current && current.wind != null ? current.wind : 0;
+    const onshore = current && current.wind_dir != null && bearingDiff(current.wind_dir, facing) <= 60;
+    if (wave != null && wave >= 0.8) {
+        flag(wave >= 1.5 ? 2 : 1, t('swim_r_waves').replace('{n}', wave.toFixed(1)));
+    }
+    if (onshore && wind >= 25) {
+        flag(wind >= 30 && wave != null && wave >= 1.0 ? 2 : 1,
+             t('swim_r_onshore').replace('{n}', Math.round(wind)));
+    } else if (wind >= 39) {
+        flag(wind >= 50 ? 2 : 1, t('swim_r_wind').replace('{n}', Math.round(wind)));
+    }
+    if (current && current.code >= 95) flag(2, t('swim_r_storm'));
+    if (waterTemp != null && waterTemp < 16) flag(1, t('swim_r_cold'));
+    return { level, reasons };
+};
+
+// Coastal upwelling: wind pushing the warm surface layer offshore lets cold
+// deep water rise, and the sea can drop 5-8°C within a day or two. Checks,
+// in order: an observed drop in the readings, a drop in the sea-temperature
+// forecast, and (May-October, when the sea is layered) two of the last three
+// days with steady wind from the quarter that drives it - for a coast facing
+// `facing`, from roughly facing+135° (SW on an east-facing coast).
+window.upwellingStatus = function(records, weatherDays, marineDays, facing) {
+    const byDay = {};
+    records.slice(-120).forEach(r => {
+        const k = r.dateStr.substring(0, 10);
+        (byDay[k] = byDay[k] || []).push(r.temp);
+    });
+    const dayMean = k => byDay[k].reduce((a, b) => a + b, 0) / byDay[k].length;
+    const dates = Object.keys(byDay).sort();
+    if (dates.length < 4) return null;
+    const today = dates[dates.length - 1];
+    const now = records[records.length - 1].temp;
+    const drop = Math.max(...dates.slice(-4, -1).map(dayMean)) - now;
+    if (drop >= 3) {
+        return { level: 2, sub: t('upw_drop_sub').replace('{n}', drop.toFixed(1)) };
+    }
+    const ahead = (marineDays || []).filter(d => d.date > today && d.sst != null).slice(0, 3);
+    if (ahead.length) {
+        const low = Math.min(...ahead.map(d => d.sst));
+        if (now - low >= 2) {
+            return { level: 1, sub: t('upw_forecast_sub').replace('{n}', (now - low).toFixed(1)) };
+        }
+    }
+    const month = +today.substring(5, 7);
+    if (month >= 5 && month <= 10) {
+        const recent = (weatherDays || []).filter(d => d.date <= today).slice(-3);
+        const windy = recent.filter(d => d.wind_dir != null && d.wind_max >= 20 &&
+                                         bearingDiff(d.wind_dir, facing + 135) <= 60).length;
+        if (windy >= 2) return { level: 1, sub: t('upw_wind_sub') };
+    }
+    return { level: 0, sub: t('upw_none_sub') };
+};
+
+// European Air Quality Index bands (EEA colours).
+window.aqiLevel = function(aqi) {
+    if (aqi < 20) return { key: 'aq_good', color: '#3ea7a0' };
+    if (aqi < 40) return { key: 'aq_fair', color: '#4caf50' };
+    if (aqi < 60) return { key: 'aq_moderate', color: '#d4b400' };
+    if (aqi < 80) return { key: 'aq_poor', color: '#e53210' };
+    if (aqi < 100) return { key: 'aq_very_poor', color: '#960032' };
+    return { key: 'aq_extreme', color: '#7d2181' };
+};
+
+// Strongest pollen right now as { type, level } (grains/m³), or null.
+function topPollen(pollen) {
+    const top = Object.entries(pollen || {})
+        .filter(([, v]) => v != null && v >= 1)
+        .sort((a, b) => b[1] - a[1])[0];
+    if (!top) return null;
+    return { type: t('pollen_' + top[0]),
+             level: t(top[1] >= 50 ? 'pollen_high' : top[1] >= 20 ? 'pollen_moderate' : 'pollen_low') };
+}
+
+// Dashboard "beach conditions" tiles: swim-safety flag, waves, upwelling and
+// air quality. Returns false (and renders nothing) without marine data.
+window.renderSeaNow = function(el, data, records, id) {
+    const marine = data.marine && data.marine.current;
+    if (!marine || marine.wave == null) return false;
+    const facing = window.LOCATIONS[id].facing;
+    const water = records.length ? records[records.length - 1].temp : null;
+    const safety = window.swimSafety(marine, data.current, facing, water);
+    const flags = [['swim_green', '🟢'], ['swim_yellow', '🟡'], ['swim_red', '🔴']];
+    const [flagKey, flagIcon] = flags[safety.level];
+    const upw = window.upwellingStatus(records, data.days, data.marine.days, facing);
+    const upwKeys = ['upw_none', 'upw_possible', 'upw_active'];
+    const air = data.air;
+    const aq = air && air.aqi != null ? window.aqiLevel(air.aqi) : null;
+    const pollen = air ? topPollen(air.pollen) : null;
+    // Columns after the flag tile: waves, plus upwelling and air quality if shown.
+    el.style.setProperty('--wx-gauges', 1 + (upw != null) + (aq != null));
+    el.innerHTML = `
+        <div class="wx-tile sea-flag sea-flag-${safety.level}">
+            <span class="wx-tile-label">${t('swim_label')}</span>
+            <span class="sea-flag-title">${flagIcon} ${t(flagKey)}</span>
+            <span class="wx-sub">${safety.reasons.length ? safety.reasons.join(' · ') : t('swim_green_sub')}</span>
+        </div>
+        <div class="wx-tile">
+            <span class="wx-tile-label">🌊 ${t('waves_label')}</span>
+            <span class="wx-tile-value">${marine.wave.toFixed(1)} <small>m</small></span>
+            <span class="wx-sub">${t(window.seaStateKey(marine.wave))}${marine.period != null
+                ? ' · ' + t('waves_period').replace('{n}', marine.period.toFixed(0)) : ''}${marine.wave_dir != null
+                ? ' · ' + t('weather_from').replace('{dir}', window.windDirectionLabel(marine.wave_dir)) : ''}</span>
+        </div>
+        ${upw ? `<div class="wx-tile upw-${upw.level}">
+            <span class="wx-tile-label">🧊 ${t('upw_label')}</span>
+            <span class="sea-tile-title">${t(upwKeys[upw.level])}</span>
+            <span class="wx-sub">${upw.sub}</span>
+        </div>` : ''}
+        ${aq ? `<div class="wx-tile">
+            <span class="wx-tile-label">🍃 ${t('aq_label')}</span>
+            <span class="wx-tile-value" style="color:${aq.color}">${Math.round(air.aqi)}</span>
+            <span class="wx-sub">${t(aq.key)}${air.pm2_5 != null ? ' · PM2.5 ' + Math.round(air.pm2_5) : ''}</span>
+            ${pollen ? `<span class="wx-sub">🌼 ${t('pollen_line').replace('{type}', pollen.type).replace('{level}', pollen.level)}</span>` : ''}
+        </div>` : ''}`;
+    return true;
+};
+
+// Next 7 days at the beach: weather icon, water temperature (Marine API
+// forecast), air max/min and max wave height, one card per day.
+window.renderSeaDays = function(el, data) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const air = {};
+    (data.days || []).forEach(d => { air[d.date] = d; });
+    const days = ((data.marine && data.marine.days) || [])
+        .filter(d => d.date >= todayStr && d.sst != null).slice(0, 7);
+    if (!days.length) return false;
+    const locale = getLocale();
+    const round = v => v != null ? Math.round(v) : '–';
+    el.innerHTML = days.map(d => {
+        const a = air[d.date] || {};
+        const label = d.date === todayStr ? t('weather_today') : new Date(d.date + 'T00:00:00Z')
+            .toLocaleDateString(locale, { weekday: 'short', day: 'numeric', timeZone: 'UTC' });
+        return `<div class="sea-day${d.date === todayStr ? ' today' : ''}">
+            <span class="sea-day-name">${label}</span>
+            <span class="sea-day-icon" title="${a.code != null ? t(window.weatherCondKey(a.code)) : ''}">${
+                a.code != null ? window.weatherIcon(a.code) : ''}</span>
+            <span class="sea-day-water" style="--wh-color:${window.tempColor(d.sst)}" title="${t('weather_sea')}">💧 ${d.sst.toFixed(1)}°</span>
+            ${a.temp_max != null ? `<span class="sea-day-air" title="${t('weather_air_range')}">${
+                round(a.temp_max)}° / ${round(a.temp_min)}°</span>` : ''}
+            <span class="sea-day-wave" title="${t('waves_label')}">🌊 ${d.wave_max != null ? d.wave_max.toFixed(1) + ' m' : '–'}</span>
+        </div>`;
+    }).join('');
+    return true;
 };
 
 // Mean temperature per "MM-DD" over every year before `beforeYear`.
@@ -528,6 +700,20 @@ window.renderWaterHero = function(container, records) {
             t(key).replace('{n}', Math.abs(a).toFixed(1)).replace('{years}', avg.years)}</span>`;
     }
     const locale = getLocale();
+    // Warmest / coldest reading for this calendar date across all years.
+    let recordHtml = '';
+    if (avg.years >= 3) {
+        const md = last.dateStr.substring(5, 10);
+        const same = records.filter(r => r.year < last.year && r.dateStr.substring(5, 10) === md)
+            .map(r => r.temp);
+        if (same.length && (last.temp > Math.max(...same) || last.temp < Math.min(...same))) {
+            const warm = last.temp > Math.max(...same);
+            const date = new Date(lastTime).toLocaleDateString(locale, { day: 'numeric', month: 'long' });
+            recordHtml = `<span class="wh-chip ${warm ? 'up' : 'down'}">🏆 ${
+                t(warm ? 'water_record_warm' : 'water_record_cold')
+                    .replace('{date}', date).replace('{years}', avg.years + 1)}</span>`;
+        }
+    }
     const measured = new Date(lastTime).toLocaleString(locale,
         { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
     container.style.setProperty('--wh-color', window.tempColor(last.temp));
@@ -540,6 +726,7 @@ window.renderWaterHero = function(container, records) {
         <div class="wh-side">
             ${deltaHtml}
             ${anomalyHtml}
+            ${recordHtml}
             <span class="wh-measured">${t('water_measured').replace('{date}', measured)}</span>
         </div>`;
 };

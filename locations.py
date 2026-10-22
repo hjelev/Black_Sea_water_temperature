@@ -321,3 +321,30 @@ PLACE_COORDS = {
 
 for _loc in LOCATIONS:
     _loc["place_lat"], _loc["place_lon"] = PLACE_COORDS[_loc["slug"]]
+
+# Compass bearing the shoreline faces (land -> open sea), used client-side to
+# tell onshore from offshore wind (swim-safety flag) and to spot winds that
+# drive coastal upwelling. Country default, with overrides where the coast
+# bends. Rough by design: +-30 deg doesn't change either heuristic.
+COUNTRY_FACING = {
+    "bulgaria": 90, "romania": 100, "ukraine": 120,
+    "turkey": 0, "georgia": 270, "russia": 225,
+}
+COAST_FACING = {
+    "balchik": 150, "albena": 120, "kranevo": 110, "cape-kaliakra": 130,
+    "odesa": 100, "chornomorsk": 120, "zatoka": 135, "serhiivka": 140,
+    "koblevo": 180, "anapa": 270, "sile": 10,
+}
+
+# Dominant beach surface: sand, pebble, mixed (sand and pebbles) or rocky.
+BEACH_TYPE = {
+    "kamen-bryag": "rocky", "tyulenovo": "rocky", "cape-kaliakra": "rocky",
+    "balchik": "mixed", "sinop": "mixed", "amasra": "mixed", "gelendzhik": "mixed",
+    "trabzon": "pebble", "rize": "pebble", "batumi": "pebble", "kvariati": "pebble",
+    "kobuleti": "pebble", "green-cape": "pebble", "sochi": "pebble",
+    "novorossiysk": "pebble", "abrau-durso": "pebble",
+}
+
+for _loc in LOCATIONS:
+    _loc["facing"] = COAST_FACING.get(_loc["slug"], COUNTRY_FACING[_loc["country"]])
+    _loc["beach"] = BEACH_TYPE.get(_loc["slug"], "sand")

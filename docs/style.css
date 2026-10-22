@@ -988,3 +988,108 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 /* 404 */
 .notfound { margin-bottom: 1.25rem; }
 .notfound a { color: var(--accent); }
+
+/* Dashboard: "at a glance" facts under the water hero */
+.glance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 0.75rem;
+    margin: 0 0 1.5rem;
+}
+.glance-item { background: var(--card-bg); border-radius: 14px; padding: 0.8rem 1rem; }
+.glance dt { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.glance dd { margin: 0.25rem 0 0; font-size: 1.05rem; font-weight: 700; color: var(--accent); }
+
+/* Dashboard: beach conditions (swim flag, waves, upwelling, air quality) */
+.sea-section .tip { margin-top: 0.5rem; }
+.sea-flag { color: #fff; }
+.sea-flag-0 { background: linear-gradient(135deg, #2e9d5a, #1b6b3c); }
+.sea-flag-1 { background: linear-gradient(135deg, #d99a00, #a86a00); }
+.sea-flag-2 { background: linear-gradient(135deg, #d8432b, #9c2414); }
+.sea-flag .wx-tile-label, .sea-flag .wx-sub { color: rgba(255,255,255,0.9); }
+.sea-flag-title { font-size: 1.25rem; font-weight: 800; line-height: 1.2; }
+.sea-tile-title { font-size: 1.15rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
+.upw-1 .sea-tile-title { color: #d08a00; }
+.upw-2 .sea-tile-title { color: #2f7fd8; }
+.upw-2 { box-shadow: inset 0 0 0 2px #2f7fd8; }
+
+/* Dashboard: 7-day sea forecast strip */
+.sea-days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(88px, 1fr));
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+.sea-day {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 0.7rem 0.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    text-align: center;
+    font-size: 0.85rem;
+}
+.sea-day.today { box-shadow: inset 0 0 0 2px var(--accent); }
+.sea-day-name { font-weight: 700; text-transform: capitalize; white-space: nowrap; }
+.sea-day-icon { font-size: 1.6rem; line-height: 1.1; min-height: 1.8rem; }
+.sea-day-water {
+    --wh-color: var(--accent);
+    background: var(--wh-color);
+    color: #fff;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 0.15rem 0.55rem;
+    white-space: nowrap;
+}
+.sea-day-air, .sea-day-wave { color: var(--text-muted); white-space: nowrap; }
+
+/* Month table: share of warm days, best-month verdict */
+.best-month { font-weight: 600; margin: 0 0 0.25rem; }
+.share-cell { white-space: nowrap; }
+.share-bar {
+    display: inline-block;
+    vertical-align: middle;
+    width: 4rem;
+    height: 6px;
+    margin-right: 0.5rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #f18b00 var(--p), rgba(128,128,128,0.2) var(--p));
+}
+
+/* EU bathing water quality badges */
+.bw-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    background: #888;
+}
+.bw-excellent { background: #1f78b4; }
+.bw-good { background: #33a02c; }
+.bw-sufficient { background: #d4a000; }
+.bw-poor { background: #e31a1c; }
+.bathing-quality .month-table td:nth-child(n+3) { text-align: center; }
+
+/* Nearby links: neighbour's water temperature and difference */
+.nearby-temp {
+    --wh-color: var(--accent);
+    color: #fff;
+    background: var(--wh-color);
+    border-radius: 999px;
+    padding: 0 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.nearby-diff { font-size: 0.78rem; font-weight: 700; }
+.nearby-diff.up { color: #d0502a; }
+.nearby-diff.down { color: #2f7fd8; }
+.nearby-diff.flat { color: var(--text-muted); }
+@media (max-width: 600px) {
+    /* the flag takes the full row like the weather main tile */
+    .sea-now .sea-flag { grid-column: 1 / -1; }
+}

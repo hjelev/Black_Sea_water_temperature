@@ -127,6 +127,14 @@ OG_DIR = os.path.join(DOCS_DIR, "og")
 with open(os.path.join(ROOT_DIR, "translations.json"), encoding="utf-8") as fh:
     TR = json.load(fh)
 
+# EU bathing water classifications near each BG/RO town, written by
+# fetch_bathing_water.py (run by hand once a year). Optional.
+try:
+    with open(os.path.join(ROOT_DIR, "bathing_water.json"), encoding="utf-8") as fh:
+        BATHING = json.load(fh)
+except (FileNotFoundError, ValueError):
+    BATHING = {"year": None, "locations": {}}
+
 # Per-page SEO metadata, per language. {loc} = town name, {loc_in} = "in
 # <town>" as the language needs it (only Russian declines: "в Бургасе"),
 # {country} = country name, all in the page language; {year} = first data year.
@@ -772,6 +780,57 @@ def load_readings(loc):
     return rows
 
 
+# Daily-mean water temperature that opens the swimming season, and the
+# "properly warm" threshold behind the month table's share-of-days column.
+SWIM_TEMP = 20
+WARM_TEMP = 22
+
+
+def swim_seasons(daily):
+    """[{year, first, last, days, complete}] per year, newest first: the first
+    and last day with a daily mean >= SWIM_TEMP and how many such days there
+    were. A year is complete when its data spans May to mid-October, so a
+    partial first year or the season still under way don't skew the typical
+    dates."""
+    years = {}
+    for date in sorted(daily):
+        y = years.setdefault(date[:4], {"year": date[:4], "first": None, "last": None,
+                                        "days": 0, "start": date, "end": date})
+        y["end"] = date
+        if daily[date] >= SWIM_TEMP:
+            y["first"] = y["first"] or date
+            y["last"] = date
+            y["days"] += 1
+    seasons = []
+    for y in sorted(years.values(), key=lambda y: y["year"], reverse=True):
+        y["complete"] = y["start"][5:] <= "05-01" and y["end"][5:] >= "10-15"
+        del y["start"], y["end"]
+        seasons.append(y)
+    return seasons
+
+
+def typical_season(seasons):
+    """Median first day, last day and length over the complete seasons, as
+    ('MM-DD', 'MM-DD', days, n_years), or None if the water never got there."""
+    done = [s for s in seasons if s["complete"] and s["first"]]
+    if not done:
+        return None
+
+    def median(values):
+        values = sorted(values)
+        return values[len(values) // 2]
+
+    def day_of_year(date):
+        return datetime.date(2001, int(date[5:7]), int(date[8:10])).timetuple().tm_yday
+
+    def from_day_of_year(n):
+        return (datetime.date(2001, 1, 1) + datetime.timedelta(n - 1)).strftime("%m-%d")
+
+    return (from_day_of_year(median(day_of_year(s["first"]) for s in done)),
+            from_day_of_year(median(day_of_year(s["last"]) for s in done)),
+            median(s["days"] for s in done), len(done))
+
+
 def location_stats(loc):
     """Latest reading, anomaly vs previous years and per-month climatology.
 
@@ -804,11 +863,13 @@ def location_stats(loc):
             months.append(None)
             continue
         months.append({"avg": sum(means) / len(means),
-                       "min": min(raw), "max": max(raw)})
+                       "min": min(raw), "max": max(raw),
+                       "warm_share": sum(v >= WARM_TEMP for v in means) / len(means)})
     return {
         "temp": last_temp, "date": last_dt,
         "first": rows[0][0], "norm": norm, "norm_years": len(prior_years),
         "months": months, "rows": rows, "daily": daily,
+        "seasons": swim_seasons(daily),
         "max": max((t, dt) for dt, t in rows),
         "min": min((t, dt) for dt, t in rows),
     }
@@ -832,6 +893,27 @@ def fmt_date(dt, lang):
 
 def month_name(lang, index):
     return TR[lang]["months_full"][index]
+
+
+def day_month(md, lang):
+    """'06-12' → 'June 12' / '12 юни' / '12 июня' ..."""
+    return tr_fmt(lang, "seo_day_month", day=int(md[3:5]),
+                  month=TR[lang]["seo_months_gen"][int(md[:2]) - 1])
+
+
+def bathing_sites(loc):
+    return BATHING["locations"].get(loc["slug"], [])
+
+
+def bathing_summary(loc, lang):
+    """('Excellent', 5, 7): the most common latest class and its count among
+    the town's EU bathing sites, or None outside the EU."""
+    sites = [s for s in bathing_sites(loc) if s["status"] != "none"]
+    if not sites:
+        return None
+    order = ("excellent", "good", "sufficient", "poor")
+    top = max(order, key=lambda k: (sum(s["status"] == k for s in sites), -order.index(k)))
+    return (TR[lang]["seo_bw_" + top], sum(s["status"] == top for s in sites), len(sites))
 
 
 def today_sentences(loc, lang, st):
@@ -883,23 +965,78 @@ def faq_items(loc, lang, st):
     items.append((tr_fmt(lang, "faq_cold_q", **names), tr_fmt(
         lang, "faq_cold_a", month=month_name(lang, cold_i), avg=fmt_temp(cold["avg"]),
         min=fmt_temp(st["min"][0]), date=fmt_date(st["min"][1], lang))))
+    season = typical_season(st["seasons"])
+    if season:
+        items.append((tr_fmt(lang, "faq_season_q", **names), tr_fmt(
+            lang, "faq_season_a", **{"from": day_month(season[0], lang),
+                                     "to": day_month(season[1], lang),
+                                     "days": season[2], "years": season[3]})))
+    items.append((tr_fmt(lang, "faq_beach_q", **names),
+                  tr_fmt(lang, "faq_beach_" + loc["beach"], **names)))
+    quality = bathing_summary(loc, lang)
+    if quality:
+        items.append((tr_fmt(lang, "faq_quality_q", **names), tr_fmt(
+            lang, "faq_quality_a", year=BATHING["year"], status=quality[0],
+            n=quality[1], total=quality[2], **names)))
+    for key in ("upwelling", "jelly", "tides"):
+        items.append((tr_fmt(lang, "faq_{}_q".format(key), **names),
+                      tr_fmt(lang, "faq_{}_a".format(key), **names)))
     return items
 
 
-def seo_content_html(loc, lang, st):
-    """Monthly climatology table + FAQ appended to the dashboard."""
+def glance_html(loc, lang, st):
+    """'At a glance' facts under the water hero: beach type, typical swimming
+    season, best month and EU water quality."""
     if not st:
         return ""
+    facts = [("🏖️", TR[lang]["seo_glance_beach"], TR[lang]["seo_beach_" + loc["beach"]])]
+    season = typical_season(st["seasons"])
+    if season:
+        facts.append(("🏊", TR[lang]["seo_glance_season"], tr_fmt(
+            lang, "seo_glance_season_v", **{"from": day_month(season[0], lang),
+                                           "to": day_month(season[1], lang),
+                                           "days": season[2]})))
+    best_i, best = best_month(st)
+    facts.append(("☀️", TR[lang]["seo_glance_best"], tr_fmt(
+        lang, "seo_glance_best_v", month=capitalize(month_name(lang, best_i)),
+        avg=fmt_temp(best["avg"]))))
+    quality = bathing_summary(loc, lang)
+    if quality:
+        facts.append(("🔬", tr_fmt(lang, "seo_glance_quality", year=BATHING["year"]),
+                      tr_fmt(lang, "seo_glance_quality_v", status=quality[0],
+                             n=quality[1], total=quality[2])))
+    return '    <dl class="glance">\n{}\n    </dl>\n'.format("\n".join(
+        '        <div class="glance-item"><dt>{icon} {label}</dt><dd>{value}</dd></div>'.format(
+            icon=icon, label=escape(label), value=escape(value))
+        for icon, label, value in facts))
+
+
+def best_month(st):
+    """(index, month) with the highest share of days >= WARM_TEMP, ties broken
+    by the warmer average."""
+    return max(((i, m) for i, m in enumerate(st["months"]) if m),
+               key=lambda im: (round(im[1]["warm_share"], 2), im[1]["avg"]))
+
+
+def seo_content_html(loc, lang, st):
+    """Monthly climatology table, swimming seasons, EU bathing water quality
+    and the FAQ appended to the dashboard."""
+    if not st:
+        return ""
+    best_i, best = best_month(st)
     rows = []
     for i, m in enumerate(st["months"]):
         if not m:
             continue
+        share = int(round(m["warm_share"] * 100))
         rows.append(
             '            <tr><th scope="row"><a href="/{path}">{month}</a></th><td>{avg}°C</td>'
-            '<td>{min}°C</td><td>{max}°C</td></tr>'.format(
+            '<td>{min}°C</td><td>{max}°C</td>'
+            '<td class="share-cell"><span class="share-bar" style="--p:{share}%"></span>'
+            '{share}%</td></tr>'.format(
                 path=month_path(i), month=escape(month_name(lang, i)),
                 avg=fmt_temp(m["avg"]), min=fmt_temp(m["min"][0]),
-                max=fmt_temp(m["max"][0])))
+                max=fmt_temp(m["max"][0]), share=share))
     faq = "\n".join(
         '        <div class="faq-item">\n'
         '            <h3>{q}</h3>\n'
@@ -908,17 +1045,18 @@ def seo_content_html(loc, lang, st):
         for q, a in faq_items(loc, lang, st))
     return """    <section class="month-climate">
     <h2>{h2}</h2>
+    <p class="best-month">{best}</p>
     <p class="tip">{note}</p>
     <div class="table-scroll">
     <table class="month-table">
-        <thead><tr><th scope="col">{c_month}</th><th scope="col">{c_avg}</th><th scope="col">{c_min}</th><th scope="col">{c_max}</th></tr></thead>
+        <thead><tr><th scope="col">{c_month}</th><th scope="col">{c_avg}</th><th scope="col">{c_min}</th><th scope="col">{c_max}</th><th scope="col">{c_warm}</th></tr></thead>
         <tbody>
 {rows}
         </tbody>
     </table>
     </div>
     </section>
-
+{season}{bathing}
     <section class="faq">
     <h2>{faq_h2}</h2>
 {faq}
@@ -929,7 +1067,72 @@ def seo_content_html(loc, lang, st):
             "from": fmt_date(st["first"], lang), "to": fmt_date(st["date"], lang)})),
         c_month=escape(TR[lang]["seo_col_month"]), c_avg=escape(TR[lang]["seo_col_avg"]),
         c_min=escape(TR[lang]["seo_col_min"]), c_max=escape(TR[lang]["seo_col_max"]),
-        rows="\n".join(rows), faq_h2=escape(TR[lang]["faq_h2"]), faq=faq)
+        c_warm=escape(tr_fmt(lang, "seo_col_warm", temp=WARM_TEMP)),
+        best=escape(tr_fmt(lang, "seo_best_month", month=capitalize(month_name(lang, best_i)),
+                           avg=fmt_temp(best["avg"]),
+                           share=int(round(best["warm_share"] * 100)), temp=WARM_TEMP)),
+        rows="\n".join(rows), season=season_html(loc, lang, st),
+        bathing=bathing_html(loc, lang),
+        faq_h2=escape(TR[lang]["faq_h2"]), faq=faq)
+
+
+SEASON_ROWS = 12
+
+
+def season_html(loc, lang, st):
+    """Typical swimming season + first/last swimmable day per year."""
+    season = typical_season(st["seasons"])
+    if not season:
+        return ""
+    rows = []
+    for s in st["seasons"][:SEASON_ROWS]:
+        if s["first"]:
+            first, last = day_month(s["first"][5:], lang), day_month(s["last"][5:], lang)
+        else:
+            first = last = "—"
+        rows.append('            <tr><th scope="row">{year}{mark}</th><td>{first}</td>'
+                    '<td>{last}</td><td>{days}</td></tr>'.format(
+                        year=s["year"], mark="" if s["complete"] else "*",
+                        first=escape(first), last=escape(last), days=s["days"]))
+    names = dict(location=loc_full(loc, lang), location_in=loc_in_full(loc, lang))
+    return "\n" + table_section(
+        "swim-season", tr_fmt(lang, "seo_season_h2", **names),
+        tr_fmt(lang, "seo_season_note", temp=SWIM_TEMP, **{
+            "from": day_month(season[0], lang), "to": day_month(season[1], lang),
+            "days": season[2], "years": season[3]}),
+        [escape(TR[lang]["seo_col_year"]), escape(TR[lang]["seo_col_first"]),
+         escape(TR[lang]["seo_col_last"]),
+         escape(tr_fmt(lang, "seo_col_days", temp=SWIM_TEMP))],
+        rows) + "\n"
+
+
+BW_LINK = "https://www.eea.europa.eu/en/topics/in-depth/bathing-water"
+
+
+def bathing_html(loc, lang):
+    """EU Bathing Water Directive classification of the town's bathing sites."""
+    sites = bathing_sites(loc)
+    if not sites:
+        return ""
+    badge = '<span class="bw-badge bw-{0}">{1}</span>'
+    rows = ['            <tr><th scope="row">{name}</th><td>{km} km</td><td>{now}</td>'
+            '<td>{prev}</td></tr>'.format(
+                name=escape(s["name"]), km=s["km"],
+                now=badge.format(s["status"], escape(TR[lang]["seo_bw_" + s["status"]])),
+                prev=badge.format(s["prev"], escape(TR[lang]["seo_bw_" + s["prev"]])))
+            for s in sites]
+    year = BATHING["year"]
+    section = table_section(
+        "bathing-quality",
+        tr_fmt(lang, "seo_bw_h2", location=loc_full(loc, lang),
+               location_in=loc_in_full(loc, lang)),
+        tr_fmt(lang, "seo_bw_note", year=year),
+        [escape(TR[lang]["seo_col_site"]), escape(TR[lang]["seo_col_distance"]),
+         str(year), str(year - 1)],
+        rows)
+    source = '    <p class="tip"><a href="{}" target="_blank" rel="noopener">{}</a></p>\n'.format(
+        BW_LINK, escape(TR[lang]["seo_bw_source"]))
+    return "\n" + section.replace("    </section>", source + "    </section>") + "\n"
 
 
 # --- Static content for the chart pages --------------------------------------
@@ -1078,18 +1281,34 @@ NEARBY_COUNT = 6
 CONTAINER_END_RE = re.compile(r'</div>\s*<footer class="footer">')
 
 
-def nearby_html(loc, lang, page_file):
+def nearby_temp_html(st, other_st):
+    """Neighbour's latest water temperature and how it compares to this town's
+    ('21.3°C · +1.2°'), baked at build time like the hero fallback."""
+    if not other_st:
+        return ""
+    diff = round(other_st["temp"] - st["temp"], 1) if st else 0.0
+    cls = "up" if diff > 0 else "down" if diff < 0 else "flat"
+    sign = "+" if diff > 0 else "−" if diff < 0 else "±"
+    return (' <span class="nearby-temp" style="--wh-color:{color}">{temp}°C</span>'
+            '<span class="nearby-diff {cls}">{sign}{diff}°</span>').format(
+                color=temp_color(other_st["temp"]), temp=fmt_temp(other_st["temp"]),
+                cls=cls, sign=sign, diff=fmt_temp(abs(diff)))
+
+
+def nearby_html(loc, lang, page_file, stats):
     """Static links to the closest towns' page of the same kind, so every town
     page is reachable by crawlers from its neighbours, not only from the hub
-    (the location dropdown is built client-side)."""
+    (the location dropdown is built client-side). Each link shows the
+    neighbour's water temperature and the difference to this town."""
     others = sorted(((distance_km(loc, o), o) for o in LOCATIONS if o is not loc),
                     key=lambda pair: pair[0])
     page = "" if page_file == "index.html" else page_file
+    st = stats.get(loc["slug"])
     links = "\n".join(
         '        <a class="nearby-link" href="/{slug}/{page}">{flag} {name} '
-        '<span class="nearby-km">{km} km</span></a>'.format(
+        '<span class="nearby-km">{km} km</span>{temp}</a>'.format(
             slug=o["slug"], page=page, flag=o["flag"], name=escape(loc_name(o, lang)),
-            km=int(round(km)))
+            km=int(round(km)), temp=nearby_temp_html(st, stats.get(o["slug"])))
         for km, o in others[:NEARBY_COUNT])
     return ('\n    <section class="nearby">\n'
             '    <h2>{}</h2>\n'
@@ -1231,6 +1450,7 @@ def write_location_pages(stats):
                     if faq:
                         structured.append(faq_ld(faq))
                     body = (body.replace("{today}", today_html(loc, lang, st))
+                                .replace("{glance}", glance_html(loc, lang, st))
                                 .replace("{seo_content}", seo_content_html(loc, lang, st)))
                 if page_file == "stats.html":
                     body = (body.replace("{records}", records_html(lang, st))
@@ -1247,7 +1467,7 @@ def write_location_pages(stats):
                                     + breadcrumb_html(crumbs, lang), 1)
                 # Nearby links go at the end of the main container.
                 body = CONTAINER_END_RE.sub(
-                    lambda m: nearby_html(loc, lang, page_file) + m.group(0), body, 1)
+                    lambda m: nearby_html(loc, lang, page_file, stats) + m.group(0), body, 1)
                 body = prefix_links(body, lang)
                 if meta.get("plotly", True):
                     body = with_plotly(body)
@@ -1270,11 +1490,12 @@ def write_locations_js():
     for loc in LOCATIONS:
         lines.append(
             '    "{slug}": {{ csv: "{csv}", nameKey: "{key}", flag: "{flag}", '
-            'lat: {lat}, lon: {lon}, country: "{country}", tz: "{tz}" }},'.format(
+            'lat: {lat}, lon: {lon}, country: "{country}", tz: "{tz}", '
+            'facing: {facing} }},'.format(
                 slug=loc["slug"], csv=loc["csv_file"],
                 key=i18n_key(loc["slug"]), flag=loc["flag"],
                 lat=loc["place_lat"], lon=loc["place_lon"], country=loc["country"],
-                tz=COUNTRY_TZ[loc["country"]]))
+                tz=COUNTRY_TZ[loc["country"]], facing=loc["facing"]))
     lines.append("};")
     lines.append("window.COUNTRY_ORDER = {};".format(
         "[" + ", ".join('"{}"'.format(c) for c in COUNTRY_ORDER) + "]"))

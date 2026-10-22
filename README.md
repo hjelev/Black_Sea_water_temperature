@@ -95,7 +95,9 @@ The active pipeline (`locations.py`, `get_daily_temp.py`, `backfill.py`,
 │   └── CNAME                     #   more.masoko.net
 │
 ├── .github/workflows/
-│   └── update-temp.yml          # runs get_daily_temp.py every 2 hours
+│   ├── update-temp.yml          # runs get_daily_temp.py every 2 hours
+│   └── update-weather.yml       # runs get_weather_data.py hourly (weather,
+│                                #   waves + sea forecast, air quality/pollen)
 │
 └── (legacy) main.py, get_all.py, daily_air_temp.py, get_daily_temp.sh
 ```
@@ -184,6 +186,14 @@ match the cadence of the original historical series.
 4. **Fetch photos** (optional, network): `python3 fetch_galleries.py` refreshes
    `docs/galleries.json` for every location. For ambiguous names add search terms
    to `EXTRA_QUERIES` / `NAME_ALIASES` in that script.
+
+   For a Bulgarian or Romanian location, also run `python3 fetch_bathing_water.py`
+   (it needs network access). It refreshes `bathing_water.json` with the official EU bathing water
+   classification of the coastal sites within 5 km of each town, from the EEA.
+   Run it once a year after the EEA publishes a new season, and bump `EEA_YEAR`
+   when a newer `BathingWater_Dyna_WM_<year>` service appears. Give new locations
+   a `COAST_FACING` override (the bearing the shore faces) and a `BEACH_TYPE` in
+   `locations.py` when the country defaults don't fit.
 
 5. **Regenerate the site:**
 

@@ -35,6 +35,16 @@
     <p class="location-description" data-i18n="desc_{lockey}"></p>
 
     <div id="water-hero" class="water-hero">{today}</div>
+{glance}
+    <div id="sea-section" class="sea-section" hidden>
+        <h2 data-i18n="sea_h2">Beach Conditions</h2>
+        <div id="sea-now" class="wx-now sea-now"></div>
+        <p class="tip" data-i18n="sea_disclaimer">Indicative estimate from waves and wind — always follow the lifeguard flags.</p>
+        <div id="sea-forecast">
+            <h2 data-i18n="sea_forecast_h2">Sea Forecast — Next 7 Days</h2>
+            <div id="sea-days" class="sea-days"></div>
+        </div>
+    </div>
 
     <h2><a class="section-link" href="weather.html" data-i18n="weather_current">Current Conditions</a></h2>
     <a class="wx-now-link" href="weather.html">
@@ -159,6 +169,12 @@ Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records])
     renderWeatherNow(document.getElementById('current-weather'), data.current, data.updated);
     renderAstro(document.getElementById('wx-astro'), data.days, getLocation());
     renderHourlyChart('hourly-chart', data.hourly);
+    if (renderSeaNow(document.getElementById('sea-now'), data, records, getLocation())) {
+        document.getElementById('sea-section').hidden = false;
+        if (!renderSeaDays(document.getElementById('sea-days'), data)) {
+            document.getElementById('sea-forecast').hidden = true;
+        }
+    }
 });
 </script>
 </body>
