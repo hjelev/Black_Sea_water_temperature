@@ -185,12 +185,19 @@ EXTRA_QUERIES = {
     "krapets": ["Krapets Bulgaria"],
     "durankulak": ["Durankulak lake"],
     "shkorpilovtsi": ["Shkorpilovtsi beach", "Kamchia river mouth"],
+    "odesa": ["Odesa beach", "Odessa beach", "Arcadia Odesa", "Lanzheron beach"],
+    "chornomorsk": ["Chornomorsk beach", "Illichivsk beach", "Чорноморськ пляж"],
+    "zatoka": ["Zatoka resort", "Zatoka beach", "Zatoka bridge", "Затока курорт"],
+    "serhiivka": ["Serhiivka resort", "Sergeevka Odessa", "Шаболатський лиман"],
+    "koblevo": ["Koblevo beach", "Koblevo resort", "Коблеве"],
 }
 # Native-script names for non-Bulgarian locations (name_bg covers Bulgaria).
 LOCAL_NAMES = {
     "sochi": "Сочи", "anapa": "Анапа", "gelendzhik": "Геленджик",
     "novorossiysk": "Новороссийск", "abrau-durso": "Абрау-Дюрсо",
     "constanta": "Constanța", "sile": "Şile",
+    "odesa": "Одеса", "chornomorsk": "Чорноморськ", "zatoka": "Затока",
+    "serhiivka": "Сергіївка", "koblevo": "Коблеве",
 }
 # Per-location title blocks for namesakes that the generic filters can't tell
 # apart (FC Chernomorets of Varna/Odesa matches).
@@ -219,6 +226,11 @@ NAME_ALIASES = {
     "nessebar": ["nessebar", "nesebar", "nesebyr", "несебър", "несебр"],
     "shkorpilovtsi": ["shkorpilovtsi", "škorpilovci", "шкорпиловци", "kamchia",
                       "камчия"],
+    # "Затока" is also the Ukrainian word for "bay"; trust only the resort.
+    "zatoka": ["zatoka", "затока, біл", "затока (курорт", "bugaz", "бугаз"],
+    # Serhiivka is a common village name across Ukraine.
+    "serhiivka": ["serhiivka, bil", "sergeevka, odes", "serhiivka resort",
+                  "сергіївка, біл", "шаболат", "shabolat"],
 }
 
 

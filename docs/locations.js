@@ -44,6 +44,11 @@ window.LOCATIONS = {
     "vama-veche": { csv: "vama_veche_water_temp.csv", nameKey: "loc_vamaveche", flag: "🎸", lat: 43.7525, lon: 28.5722, country: "romania", tz: "Europe/Bucharest" },
     "olimp": { csv: "olimp_water_temp.csv", nameKey: "loc_olimp", flag: "🌳", lat: 43.8856, lon: 28.6065, country: "romania", tz: "Europe/Bucharest" },
     "vadu": { csv: "vadu_water_temp.csv", nameKey: "loc_vadu", flag: "🦩", lat: 44.4515, lon: 28.7352, country: "romania", tz: "Europe/Bucharest" },
+    "odesa": { csv: "odesa_water_temp.csv", nameKey: "loc_odesa", flag: "🎭", lat: 46.4843, lon: 30.7323, country: "ukraine", tz: "Europe/Kyiv" },
+    "chornomorsk": { csv: "chornomorsk_water_temp.csv", nameKey: "loc_chornomorsk", flag: "🏗️", lat: 46.3013, lon: 30.6549, country: "ukraine", tz: "Europe/Kyiv" },
+    "zatoka": { csv: "zatoka_water_temp.csv", nameKey: "loc_zatoka", flag: "🌉", lat: 46.064, lon: 30.4503, country: "ukraine", tz: "Europe/Kyiv" },
+    "serhiivka": { csv: "serhiivka_water_temp.csv", nameKey: "loc_serhiivka", flag: "💆", lat: 46.0276, lon: 30.3727, country: "ukraine", tz: "Europe/Kyiv" },
+    "koblevo": { csv: "koblevo_water_temp.csv", nameKey: "loc_koblevo", flag: "🎡", lat: 46.6668, lon: 31.204, country: "ukraine", tz: "Europe/Kyiv" },
     "batumi": { csv: "batumi_water_temp.csv", nameKey: "loc_batumi", flag: "🌆", lat: 41.651, lon: 41.636, country: "georgia", tz: "Asia/Tbilisi" },
     "kvariati": { csv: "kvariati_water_temp.csv", nameKey: "loc_kvariati", flag: "🤿", lat: 41.5476, lon: 41.5638, country: "georgia", tz: "Asia/Tbilisi" },
     "shekvetili": { csv: "shekvetili_water_temp.csv", nameKey: "loc_shekvetili", flag: "🧲", lat: 41.9289, lon: 41.7693, country: "georgia", tz: "Asia/Tbilisi" },
@@ -55,4 +60,4 @@ window.LOCATIONS = {
     "novorossiysk": { csv: "novorossiysk_water_temp.csv", nameKey: "loc_novorossiysk", flag: "🚢", lat: 44.724, lon: 37.7691, country: "russia", tz: "Europe/Moscow" },
     "abrau-durso": { csv: "abrau_durso_water_temp.csv", nameKey: "loc_abraudurso", flag: "🍾", lat: 44.7018, lon: 37.6019, country: "russia", tz: "Europe/Moscow" },
 };
-window.COUNTRY_ORDER = ["bulgaria", "turkey", "romania", "georgia", "russia"];
+window.COUNTRY_ORDER = ["bulgaria", "turkey", "romania", "ukraine", "georgia", "russia"];

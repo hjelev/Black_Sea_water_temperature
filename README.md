@@ -1,8 +1,8 @@
 # Black Sea Water Temperature
 
 Live and historical **sea surface temperature** for the Black Sea coast,
-tracking **54 locations** across 5 countries (Bulgaria, Turkey, Romania, Georgia
-and Russia). Data comes from the free, key-less
+tracking **59 locations** across 6 countries (Bulgaria, Turkey, Romania, Ukraine,
+Georgia and Russia). Data comes from the free, key-less
 [Open-Meteo Marine API](https://open-meteo.com/en/docs/marine-weather-api) and is
 updated automatically every 2 hours by GitHub Actions.
 

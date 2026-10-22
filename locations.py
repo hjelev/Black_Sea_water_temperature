@@ -38,13 +38,16 @@
 #   irakli = byala = obzor               primorsko = dyuni = kiten
 #   lozenets = tsarevo                   sinemorets = ahtopol
 # Own cells: durankulak, krapets, shkorpilovtsi, ravda, silistar, rezovo.
+# Ukraine (all own cells): odesa 46.458N 30.875E, chornomorsk 46.292N 30.792E,
+# zatoka 46.042N 30.542E, serhiivka 45.958N 30.458E, koblevo 46.625N 31.208E.
 #
 # International locations (Turkey/Romania/Georgia/Russia) are nudged toward the
 # open sea away from their coastlines (north for the Turkish south coast, east
-# for Romania, west for Georgia, south for the NE Russian coast).
+# for Romania, west for Georgia, south for the NE Russian coast). Ukrainian
+# locations request their own marine cell centre, like the later Bulgarian ones.
 
 # Display order for grouping the UI by country (hub grid, dropdown, checkboxes).
-COUNTRY_ORDER = ["bulgaria", "turkey", "romania", "georgia", "russia"]
+COUNTRY_ORDER = ["bulgaria", "turkey", "romania", "ukraine", "georgia", "russia"]
 
 # IANA time zone per country, so the weather page shows sunrise/sunset and
 # moonrise/moonset in the location's local time.
@@ -52,6 +55,7 @@ COUNTRY_TZ = {
     "bulgaria": "Europe/Sofia",
     "turkey": "Europe/Istanbul",
     "romania": "Europe/Bucharest",
+    "ukraine": "Europe/Kyiv",
     "georgia": "Asia/Tbilisi",
     "russia": "Europe/Moscow",
 }
@@ -195,6 +199,23 @@ LOCATIONS = [
      "name_en": "Vadu & Corbu", "name_bg": "Ваду и Корбу", "flag": "🦩", "start_date": "2023-01-01",
      "country": "romania", "country_en": "Romania", "country_bg": "Румъния"},
 
+    # --- Ukraine (Odesa coast; each requests its own marine cell centre) ---
+    {"slug": "odesa", "csv_file": "odesa_water_temp.csv", "lat": 46.458, "lon": 30.875,
+     "name_en": "Odesa", "name_bg": "Одеса", "flag": "🎭", "start_date": "2023-01-01",
+     "country": "ukraine", "country_en": "Ukraine", "country_bg": "Украйна"},
+    {"slug": "chornomorsk", "csv_file": "chornomorsk_water_temp.csv", "lat": 46.292, "lon": 30.792,
+     "name_en": "Chornomorsk", "name_bg": "Чорноморск", "flag": "🏗️", "start_date": "2023-01-01",
+     "country": "ukraine", "country_en": "Ukraine", "country_bg": "Украйна"},
+    {"slug": "zatoka", "csv_file": "zatoka_water_temp.csv", "lat": 46.042, "lon": 30.542,
+     "name_en": "Zatoka", "name_bg": "Затока", "flag": "🌉", "start_date": "2023-01-01",
+     "country": "ukraine", "country_en": "Ukraine", "country_bg": "Украйна"},
+    {"slug": "serhiivka", "csv_file": "serhiivka_water_temp.csv", "lat": 45.958, "lon": 30.458,
+     "name_en": "Serhiivka", "name_bg": "Сергиевка", "flag": "💆", "start_date": "2023-01-01",
+     "country": "ukraine", "country_en": "Ukraine", "country_bg": "Украйна"},
+    {"slug": "koblevo", "csv_file": "koblevo_water_temp.csv", "lat": 46.625, "lon": 31.208,
+     "name_en": "Koblevo", "name_bg": "Коблево", "flag": "🎡", "start_date": "2023-01-01",
+     "country": "ukraine", "country_en": "Ukraine", "country_bg": "Украйна"},
+
     # --- Georgia (sea lies west of the coast → nudge longitude west) ---
     {"slug": "batumi",      "csv_file": "batumi_water_temp.csv",      "lat": 41.65, "lon": 41.58,
      "name_en": "Batumi",      "name_bg": "Батуми",     "flag": "🌆", "start_date": "2023-01-01",
@@ -281,6 +302,11 @@ PLACE_COORDS = {
     "vama-veche":       (43.7525, 28.5722),
     "olimp":            (43.8856, 28.6065),
     "vadu":             (44.4515, 28.7352),
+    "odesa":            (46.4843, 30.7323),
+    "chornomorsk":      (46.3013, 30.6549),
+    "zatoka":           (46.064, 30.4503),
+    "serhiivka":        (46.0276, 30.3727),
+    "koblevo":          (46.6668, 31.204),
     "batumi":           (41.651, 41.636),
     "kvariati":         (41.5476, 41.5638),
     "shekvetili":       (41.9289, 41.7693),

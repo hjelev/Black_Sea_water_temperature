@@ -82,6 +82,8 @@ RU_LOCATIVE = {
     "green-cape": "в Зелёном Мысе", "sochi": "в Сочи", "anapa": "в Анапе",
     "gelendzhik": "в Геленджике", "novorossiysk": "в Новороссийске",
     "abrau-durso": "в Абрау-Дюрсо",
+    "odesa": "в Одессе", "chornomorsk": "в Черноморске", "zatoka": "в Затоке",
+    "serhiivka": "в Сергеевке", "koblevo": "в Коблево",
 }
 
 with open(os.path.join(ROOT_DIR, "translations.json"), encoding="utf-8") as fh:
@@ -276,27 +278,27 @@ PAGES = {
 
 HUB_META = {
     "title": {
-        "en": "Black Sea Water Temperature — Bulgaria, Turkey, Romania, Georgia, Russia",
-        "bg": "Температура на водата в Черно море — България, Турция, Румъния, Грузия, Русия",
-        "ru": "Температура воды в Черном море — Болгария, Турция, Румыния, Грузия, Россия",
-        "tr": "Karadeniz Deniz Suyu Sıcaklığı — Bulgaristan, Türkiye, Romanya, Gürcistan, Rusya",
-        "ro": "Temperatura apei Mării Negre — Bulgaria, Turcia, România, Georgia, Rusia",
+        "en": "Black Sea Water Temperature — Bulgaria, Turkey, Romania, Ukraine, Georgia, Russia",
+        "bg": "Температура на водата в Черно море — България, Турция, Румъния, Украйна, Грузия, Русия",
+        "ru": "Температура воды в Черном море — Болгария, Турция, Румыния, Украина, Грузия, Россия",
+        "tr": "Karadeniz Deniz Suyu Sıcaklığı — Bulgaristan, Türkiye, Romanya, Ukrayna, Gürcistan, Rusya",
+        "ro": "Temperatura apei Mării Negre — Bulgaria, Turcia, România, Ucraina, Georgia, Rusia",
     },
     "desc": {
         "en": ("Live and historical Black Sea water temperature for coastal towns across "
-               "Bulgaria, Turkey, Romania, Georgia and Russia. Daily sea surface "
+               "Bulgaria, Turkey, Romania, Ukraine, Georgia and Russia. Daily sea surface "
                "temperature, yearly comparisons, heatmaps and records."),
         "bg": ("Актуална и историческа температура на морската вода в Черно море за "
-               "крайбрежни градове в България, Турция, Румъния, Грузия и Русия. Дневна "
+               "крайбрежни градове в България, Турция, Румъния, Украйна, Грузия и Русия. Дневна "
                "температура, годишни сравнения, топлинни карти и рекорди."),
         "ru": ("Текущая и историческая температура воды в Черном море для прибрежных "
-               "городов Болгарии, Турции, Румынии, Грузии и России. Ежедневная "
+               "городов Болгарии, Турции, Румынии, Украины, Грузии и России. Ежедневная "
                "температура моря, сравнение по годам, тепловые карты и рекорды."),
-        "tr": ("Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya'daki kıyı kasabaları "
+        "tr": ("Bulgaristan, Türkiye, Romanya, Ukrayna, Gürcistan ve Rusya'daki kıyı kasabaları "
                "için güncel ve geçmiş Karadeniz deniz suyu sıcaklığı. Günlük deniz "
                "sıcaklığı, yıllık karşılaştırmalar, ısı haritaları ve rekorlar."),
         "ro": ("Temperatura actuală și istorică a apei Mării Negre pentru localitățile "
-               "de pe coastă din Bulgaria, Turcia, România, Georgia și Rusia. "
+               "de pe coastă din Bulgaria, Turcia, România, Ucraina, Georgia și Rusia. "
                "Temperatura zilnică, comparații anuale, hărți termice și recorduri."),
     },
 }
@@ -311,19 +313,19 @@ COMPARE_LOCATIONS_META = {
     },
     "desc": {
         "en": ("Compare Black Sea water temperature across coastal towns in Bulgaria, "
-               "Turkey, Romania, Georgia and Russia on a single chart — overlay any "
+               "Turkey, Romania, Ukraine, Georgia and Russia on a single chart — overlay any "
                "locations across the years and on a Jan–Dec seasonal axis."),
         "bg": ("Сравнете температурата на морската вода в Черно море между крайбрежни "
-               "градове в България, Турция, Румъния, Грузия и Русия на една графика — "
+               "градове в България, Турция, Румъния, Украйна, Грузия и Русия на една графика — "
                "наложете локации през годините и на сезонна ос януари–декември."),
         "ru": ("Сравните температуру воды в Черном море в прибрежных городах Болгарии, "
-               "Турции, Румынии, Грузии и России на одном графике — за все годы и на "
+               "Турции, Румынии, Украины, Грузии и России на одном графике — за все годы и на "
                "сезонной оси январь–декабрь."),
-        "tr": ("Bulgaristan, Türkiye, Romanya, Gürcistan ve Rusya'daki kıyı "
+        "tr": ("Bulgaristan, Türkiye, Romanya, Ukrayna, Gürcistan ve Rusya'daki kıyı "
                "kasabalarının Karadeniz su sıcaklığını tek grafikte karşılaştırın — "
                "yıllar boyunca ve Ocak–Aralık mevsim ekseninde."),
         "ro": ("Comparați temperatura apei Mării Negre în localitățile de pe coastă din "
-               "Bulgaria, Turcia, România, Georgia și Rusia pe un singur grafic — de-a "
+               "Bulgaria, Turcia, România, Ucraina, Georgia și Rusia pe un singur grafic — de-a "
                "lungul anilor și pe o axă sezonieră ianuarie–decembrie."),
     },
 }
