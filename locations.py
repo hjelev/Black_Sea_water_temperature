@@ -219,3 +219,69 @@ LOCATIONS = [
      "name_en": "Abrau-Durso", "name_bg": "Абрау-Дюрсо", "flag": "🍾", "start_date": "2023-01-01",
      "country": "russia", "country_en": "Russia", "country_bg": "Русия"},
 ]
+
+
+# Real on-land position of each place (town centre / named beach, from
+# OpenStreetMap), used wherever the location is *shown*: map pins, JSON-LD geo
+# and "nearby" distances. The lat/lon above are the offshore Open-Meteo sea
+# cells the data is fetched from, which can sit several km out to sea and are
+# shared by neighbours, so they're unsuitable for plotting.
+PLACE_COORDS = {
+    "burgas":           (42.4937, 27.4721),
+    "sinemorets":       (42.0611, 27.9762),
+    "varna":            (43.2074, 27.9167),
+    "kamen-bryag":      (43.4549, 28.5508),
+    "tyulenovo":        (43.4941, 28.5793),
+    "nessebar":         (42.6608, 27.7167),
+    "sozopol":          (42.4182, 27.6943),
+    "sunny-beach":      (42.6876, 27.7126),
+    "golden-sands":     (43.2855, 28.044),
+    "balchik":          (43.4049, 28.1681),
+    "cape-kaliakra":    (43.3604, 28.4652),
+    "albena":           (43.3678, 28.0772),
+    "sveti-konstantin": (43.2297, 28.0064),
+    "irakli":           (42.739, 27.8921),
+    "pomorie":          (42.5684, 27.6168),
+    "primorsko":        (42.2699, 27.7506),
+    "lozenets":         (42.2089, 27.8068),
+    "sveti-vlas":       (42.7138, 27.7588),
+    "durankulak":       (43.693, 28.5267),
+    "krapets":          (43.625, 28.5664),
+    "shabla":           (43.5402, 28.607),
+    "kranevo":          (43.344, 28.0612),
+    "shkorpilovtsi":    (42.9638, 27.8771),
+    "byala":            (42.8766, 27.8845),
+    "obzor":            (42.8206, 27.8794),
+    "ravda":            (42.6445, 27.6784),
+    "sarafovo":         (42.5675, 27.4927),
+    "chernomorets":     (42.4439, 27.6382),
+    "dyuni":            (42.3729, 27.7094),
+    "kiten":            (42.2358, 27.7742),
+    "tsarevo":          (42.1703, 27.8483),
+    "ahtopol":          (42.0996, 27.9434),
+    "silistar":         (42.0225, 28.0096),
+    "rezovo":           (41.9856, 28.0296),
+    "trabzon":          (41.0055, 39.7301),
+    "sinop":            (42.0266, 35.1512),
+    "amasra":           (41.7489, 32.3867),
+    "rize":             (41.0248, 40.5199),
+    "sile":             (41.1744, 29.6125),
+    "constanta":        (44.1767, 28.6508),
+    "mamaia":           (44.2338, 28.6256),
+    "vama-veche":       (43.7525, 28.5722),
+    "olimp":            (43.8856, 28.6065),
+    "vadu":             (44.4515, 28.7352),
+    "batumi":           (41.651, 41.636),
+    "kvariati":         (41.5476, 41.5638),
+    "shekvetili":       (41.9289, 41.7693),
+    "kobuleti":         (41.8114, 41.7793),
+    "green-cape":       (41.6932, 41.7058),
+    "sochi":            (43.5855, 39.7231),
+    "anapa":            (44.8943, 37.3169),
+    "gelendzhik":       (44.5609, 38.0767),
+    "novorossiysk":     (44.724, 37.7691),
+    "abrau-durso":      (44.7018, 37.6019),
+}
+
+for _loc in LOCATIONS:
+    _loc["place_lat"], _loc["place_lon"] = PLACE_COORDS[_loc["slug"]]

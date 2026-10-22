@@ -760,7 +760,8 @@ def seo_content_html(loc, lang, st):
 
 def distance_km(a, b):
     """Great-circle distance between two locations (haversine)."""
-    lat1, lon1, lat2, lon2 = map(math.radians, (a["lat"], a["lon"], b["lat"], b["lon"]))
+    lat1, lon1, lat2, lon2 = map(math.radians, (a["place_lat"], a["place_lon"],
+                                                 b["place_lat"], b["place_lon"]))
     h = (math.sin((lat2 - lat1) / 2) ** 2
          + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2)
     return 6371 * 2 * math.asin(math.sqrt(h))
@@ -841,8 +842,8 @@ def dataset_ld(loc, lang, st, name, description, url):
         "keywords": [TR[lang]["hub_h1"], loc_name(loc, lang), country_name(loc, lang)],
         "spatialCoverage": {
             "@type": "Place", "name": loc_full(loc, lang),
-            "geo": {"@type": "GeoCoordinates", "latitude": loc["lat"],
-                    "longitude": loc["lon"]}},
+            "geo": {"@type": "GeoCoordinates", "latitude": loc["place_lat"],
+                    "longitude": loc["place_lon"]}},
         "variableMeasured": {"@type": "PropertyValue",
                              "name": "Sea surface temperature", "unitText": "°C"},
         "distribution": [{"@type": "DataDownload", "encodingFormat": "text/csv",
@@ -946,7 +947,7 @@ def write_locations_js():
             'lat: {lat}, lon: {lon}, country: "{country}" }},'.format(
                 slug=loc["slug"], csv=loc["csv_file"],
                 key=i18n_key(loc["slug"]), flag=loc["flag"],
-                lat=loc["lat"], lon=loc["lon"], country=loc["country"]))
+                lat=loc["place_lat"], lon=loc["place_lon"], country=loc["country"]))
     lines.append("};")
     lines.append("window.COUNTRY_ORDER = {};".format(
         "[" + ", ".join('"{}"'.format(c) for c in COUNTRY_ORDER) + "]"))
