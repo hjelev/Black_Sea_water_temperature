@@ -1467,6 +1467,8 @@ def write_location_pages(stats):
                 if page_file == "gallery.html":
                     body = body.replace("{gallery}", gallery_markup(
                         galleries.get(slug, []), loc_full(loc, lang)))
+                    body = (body.replace("{lat}", str(loc["lat"]))
+                                .replace("{lon}", str(loc["lon"])))
                 body = body.replace('<div class="container">',
                                     '<div class="container">\n'
                                     + breadcrumb_html(crumbs, lang), 1)

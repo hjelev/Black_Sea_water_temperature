@@ -128,6 +128,7 @@ const I18N = {
     "gal_intro": "Photos from Wikimedia Commons — click an image to enlarge.",
     "gal_none": "No photos found for this location yet.",
     "gal_commons": "View on Wikimedia Commons",
+    "gal_map": "{location} on the map",
     "weather_h1": "Weather in {location}",
     "weather_subtitle": "Air temperature, UV index and wind — {location}",
     "weather_today": "Today",

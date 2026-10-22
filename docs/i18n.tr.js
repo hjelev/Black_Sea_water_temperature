@@ -128,6 +128,7 @@ const I18N = {
     "gal_intro": "Wikimedia Commons'tan fotoğraflar — büyütmek için bir görsele tıklayın.",
     "gal_none": "Bu konum için henüz fotoğraf bulunamadı.",
     "gal_commons": "Wikimedia Commons'ta görüntüle",
+    "gal_map": "Haritada {location}",
     "weather_h1": "Hava Durumu — {location}",
     "weather_subtitle": "Hava sıcaklığı, UV indeksi ve rüzgâr — {location}",
     "weather_today": "Bugün",

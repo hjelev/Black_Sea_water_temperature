@@ -47,3 +47,23 @@
         });
     });
 })();
+
+// Location map under the photos: a single pin at the location's coordinates
+// (baked into data-lat/data-lon by build_site.py).
+(function () {
+    document.addEventListener('DOMContentLoaded', function () {
+        const el = document.getElementById('loc-map');
+        if (!el || !window.L) return;
+        const lat = parseFloat(el.getAttribute('data-lat'));
+        const lon = parseFloat(el.getAttribute('data-lon'));
+        if (isNaN(lat) || isNaN(lon)) return;
+        const map = L.map(el, { scrollWheelZoom: false }).setView([lat, lon], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        L.circleMarker([lat, lon], {
+            radius: 9, color: '#fff', weight: 2, fillColor: '#00729a', fillOpacity: 0.9
+        }).addTo(map);
+    });
+})();

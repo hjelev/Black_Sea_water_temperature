@@ -128,6 +128,7 @@ const I18N = {
     "gal_intro": "Fotografii de pe Wikimedia Commons — faceți clic pe o imagine pentru a o mări.",
     "gal_none": "Nu există încă fotografii pentru această localitate.",
     "gal_commons": "Vezi pe Wikimedia Commons",
+    "gal_map": "{location} pe hartă",
     "weather_h1": "Vremea la {location}",
     "weather_subtitle": "Temperatura aerului, indicele UV și vântul — {location}",
     "weather_today": "Azi",

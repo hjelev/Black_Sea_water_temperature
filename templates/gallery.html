@@ -31,6 +31,9 @@
     <h1 data-i18n="gal_h1">Photos</h1>
     <p class="subtitle" data-i18n="gal_intro">Photos from Wikimedia Commons — click an image to enlarge.</p>
     <div class="gallery-grid">{gallery}</div>
+
+    <h2 data-i18n="gal_map">Location on the map</h2>
+    <div id="loc-map" class="loc-map" data-lat="{lat}" data-lon="{lon}"></div>
 </div>
 
 <footer class="footer">
@@ -38,6 +41,10 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="data.js"></script>
 <script src="/gallery.js"></script>
 </body>

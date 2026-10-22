@@ -128,6 +128,7 @@ const I18N = {
     "gal_intro": "Фотографии с Wikimedia Commons — нажмите на снимок, чтобы увеличить.",
     "gal_none": "Для этого места пока нет фотографий.",
     "gal_commons": "Открыть на Wikimedia Commons",
+    "gal_map": "{location} на карте",
     "weather_h1": "Погода — {location}",
     "weather_subtitle": "Температура воздуха, УФ-индекс и ветер — {location}",
     "weather_today": "Сегодня",
