@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/chornomorsk/heatmap.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/chornomorsk/heatmap.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Температура воды в Черном море">
     <meta property="og:title" content="Тепловая карта по месяцам — температура воды в Черноморске">
     <meta property="og:description" content="Тепловая карта температуры воды в Черном море в Черноморске (Украина) — средняя температура поверхности моря по месяцам за каждый год наблюдений.">
     <meta property="og:url" content="https://more.masoko.net/ru/chornomorsk/heatmap.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черное море","item":"https://more.masoko.net/ru/"},{"@type":"ListItem","position":2,"name":"Черноморск","item":"https://more.masoko.net/ru/chornomorsk/"},{"@type":"ListItem","position":3,"name":"Тепловая карта","item":"https://more.masoko.net/ru/chornomorsk/heatmap.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/chornomorsk.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черное море","item":"https://more.masoko.net/ru/"},{"@type":"ListItem","position":2,"name":"Украина","item":"https://more.masoko.net/ru/ukraine/"},{"@type":"ListItem","position":3,"name":"Черноморск","item":"https://more.masoko.net/ru/chornomorsk/"},{"@type":"ListItem","position":4,"name":"Тепловая карта","item":"https://more.masoko.net/ru/chornomorsk/heatmap.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.ru.js?v=77ce73f0"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.ru.js?v=f1c2fa56"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'chornomorsk'; window.LANG = 'ru'; window.LANG_PREFIX = '/ru';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,7 +55,7 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Навигационная цепочка"><a href="/ru/">Черное море</a> <span class="crumb-sep">›</span> <a href="/ru/chornomorsk/">Черноморск</a> <span class="crumb-sep">›</span> <span aria-current="page">Тепловая карта</span></nav>
+    <nav class="breadcrumb" aria-label="Навигационная цепочка"><a href="/ru/">Черное море</a> <span class="crumb-sep">›</span> <a href="/ru/ukraine/">Украина</a> <span class="crumb-sep">›</span> <a href="/ru/chornomorsk/">Черноморск</a> <span class="crumb-sep">›</span> <span aria-current="page">Тепловая карта</span></nav>
 
     <h1 data-i18n="hm_h1">Температура воды по месяцам — Черноморск, Украина</h1>
     <p class="subtitle" data-i18n="hm_subtitle">Средняя температура воды по месяцам за все годы (2023 — сегодня)</p>
@@ -62,6 +65,22 @@
     <h2 data-i18n="hm_monthly">Средние значения по месяцам и годам</h2>
     <p class="tip" data-i18n="hm_tip">Каждая ячейка — средняя температура за месяц и год. Наведите курсор, чтобы увидеть точное значение.</p>
     <div id="monthly-avg-chart" class="chart"></div>
+
+    <section class="heat-table">
+    <h2>Средняя температура воды по месяцам и годам в Черноморске, Украина</h2>
+    <p class="tip">Среднее всех измерений за месяц; пустые ячейки — нет данных.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Год</th><th scope="col">янв</th><th scope="col">фев</th><th scope="col">мар</th><th scope="col">апр</th><th scope="col">май</th><th scope="col">июн</th><th scope="col">июл</th><th scope="col">авг</th><th scope="col">сен</th><th scope="col">окт</th><th scope="col">ноя</th><th scope="col">дек</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td style="background:hsl(210, 75%, 47%)">5.1</td><td style="background:hsl(220, 75%, 47%)">2.4</td><td style="background:hsl(207, 75%, 47%)">5.4</td><td style="background:hsl(164, 75%, 47%)">10.1</td><td style="background:hsl(116, 75%, 47%)">15.3</td><td style="background:hsl(65, 75%, 47%)">20.9</td><td style="background:hsl(39, 75%, 47%)">23.7</td><td style="background:hsl(30, 75%, 47%)">24.8</td><td style="background:hsl(52, 75%, 47%)">22.3</td><td style="background:hsl(91, 75%, 47%)">18.1</td><td></td><td></td></tr>
+            <tr><th scope="row">2025</th><td style="background:hsl(200, 75%, 47%)">6.1</td><td style="background:hsl(219, 75%, 47%)">4.1</td><td style="background:hsl(209, 75%, 47%)">5.2</td><td style="background:hsl(167, 75%, 47%)">9.8</td><td style="background:hsl(124, 75%, 47%)">14.5</td><td style="background:hsl(72, 75%, 47%)">20.2</td><td style="background:hsl(43, 75%, 47%)">23.3</td><td style="background:hsl(35, 75%, 47%)">24.2</td><td style="background:hsl(56, 75%, 47%)">21.9</td><td style="background:hsl(105, 75%, 47%)">16.5</td><td style="background:hsl(136, 75%, 47%)">13.2</td><td style="background:hsl(167, 75%, 47%)">9.8</td></tr>
+            <tr><th scope="row">2024</th><td style="background:hsl(198, 75%, 47%)">6.4</td><td style="background:hsl(209, 75%, 47%)">5.2</td><td style="background:hsl(201, 75%, 47%)">6.1</td><td style="background:hsl(151, 75%, 47%)">11.6</td><td style="background:hsl(114, 75%, 47%)">15.6</td><td style="background:hsl(52, 75%, 47%)">22.4</td><td style="background:hsl(10, 75%, 47%)">26.9</td><td style="background:hsl(22, 75%, 47%)">25.6</td><td style="background:hsl(46, 75%, 47%)">23.0</td><td style="background:hsl(79, 75%, 47%)">19.4</td><td style="background:hsl(135, 75%, 47%)">13.3</td><td style="background:hsl(185, 75%, 47%)">7.8</td></tr>
+            <tr><th scope="row">2023</th><td style="background:hsl(203, 75%, 47%)">5.9</td><td style="background:hsl(214, 75%, 47%)">4.6</td><td style="background:hsl(199, 75%, 47%)">6.2</td><td style="background:hsl(171, 75%, 47%)">9.3</td><td style="background:hsl(113, 75%, 47%)">15.7</td><td style="background:hsl(60, 75%, 47%)">21.4</td><td style="background:hsl(40, 75%, 47%)">23.6</td><td style="background:hsl(28, 75%, 47%)">25.0</td><td style="background:hsl(42, 75%, 47%)">23.4</td><td style="background:hsl(83, 75%, 47%)">18.9</td><td style="background:hsl(118, 75%, 47%)">15.1</td><td style="background:hsl(181, 75%, 47%)">8.2</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Пляжи и города поблизости</h2>
@@ -81,6 +100,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 const MONTHS = t('months');

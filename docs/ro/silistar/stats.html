@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/silistar/stats.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/silistar/stats.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Temperatura apei Mării Negre">
     <meta property="og:title" content="Statistici și recorduri — temperatura apei la Plaja Silistar">
     <meta property="og:description" content="Recorduri absolute și statistici anuale pentru temperatura apei Mării Negre la Plaja Silistar, Bulgaria — cele mai mari și mai mici valori, min./medie/max. anuale și tendința pe termen lung.">
     <meta property="og:url" content="https://more.masoko.net/ro/silistar/stats.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Marea Neagră","item":"https://more.masoko.net/ro/"},{"@type":"ListItem","position":2,"name":"Plaja Silistar","item":"https://more.masoko.net/ro/silistar/"},{"@type":"ListItem","position":3,"name":"Statistici","item":"https://more.masoko.net/ro/silistar/stats.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/silistar.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Marea Neagră","item":"https://more.masoko.net/ro/"},{"@type":"ListItem","position":2,"name":"Bulgaria","item":"https://more.masoko.net/ro/bulgaria/"},{"@type":"ListItem","position":3,"name":"Plaja Silistar","item":"https://more.masoko.net/ro/silistar/"},{"@type":"ListItem","position":4,"name":"Statistici","item":"https://more.masoko.net/ro/silistar/stats.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.ro.js?v=3f8b9808"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.ro.js?v=3df7dd63"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'silistar'; window.LANG = 'ro'; window.LANG_PREFIX = '/ro';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,13 +55,13 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Navigare"><a href="/ro/">Marea Neagră</a> <span class="crumb-sep">›</span> <a href="/ro/silistar/">Plaja Silistar</a> <span class="crumb-sep">›</span> <span aria-current="page">Statistici</span></nav>
+    <nav class="breadcrumb" aria-label="Navigare"><a href="/ro/">Marea Neagră</a> <span class="crumb-sep">›</span> <a href="/ro/bulgaria/">Bulgaria</a> <span class="crumb-sep">›</span> <a href="/ro/silistar/">Plaja Silistar</a> <span class="crumb-sep">›</span> <span aria-current="page">Statistici</span></nav>
 
     <h1 data-i18n="st_h1">Recorduri și statistici ale temperaturii apei — Plaja Silistar, Bulgaria</h1>
     <p class="subtitle" data-i18n="st_subtitle">Recorduri absolute și statistici anuale din 2023</p>
 
     <h2 data-i18n="st_records">Recorduri absolute</h2>
-    <div id="records-grid" class="records-grid"></div>
+    <div id="records-grid" class="records-grid"><div class="record-card hot"><span class="label">Cea mai mare valoare</span><span class="record-value">28.5°C</span><span class="record-date">iul. 22, 2024</span></div><div class="record-card cold"><span class="label">Cea mai mică valoare</span><span class="record-value">5.8°C</span><span class="record-date">mar. 4, 2026</span></div><div class="record-card hot"><span class="label">Cel mai cald an (medie)</span><span class="record-value">17.2°C</span><span class="record-date">2025</span></div><div class="record-card cold"><span class="label">Cel mai rece an (medie)</span><span class="record-value">16.5°C</span><span class="record-date">2023</span></div></div>
 
     <h2 data-i18n="st_annual">Min. / medie / max. anuale</h2>
     <div id="annual-chart" class="chart"></div>
@@ -66,6 +69,22 @@
     <h2 data-i18n="st_trend">Tendința pe termen lung</h2>
     <p class="tip" data-i18n="st_trend_tip">Media anuală cu o linie de tendință (medie mobilă pe 5 ani).</p>
     <div id="trend-chart" class="chart"></div>
+
+    <section class="year-table">
+    <h2>Temperatura anuală a apei mării la Plaja Silistar, Bulgaria</h2>
+    <p class="tip">Minimul, media și maximul tuturor măsurătorilor din fiecare an. Anul curent nu s-a încheiat încă.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Anul</th><th scope="col">Minimă</th><th scope="col">Medie</th><th scope="col">Maximă</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>5.8°C</td><td>17.0°C</td><td>27.4°C</td></tr>
+            <tr><th scope="row">2025</th><td>6.8°C</td><td>17.2°C</td><td>27.4°C</td></tr>
+            <tr><th scope="row">2024</th><td>8.0°C</td><td>17.1°C</td><td>28.5°C</td></tr>
+            <tr><th scope="row">2023</th><td>7.7°C</td><td>16.5°C</td><td>27.4°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Plaje și localități din apropiere</h2>
@@ -85,6 +104,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 function movingAvg(arr, n) {

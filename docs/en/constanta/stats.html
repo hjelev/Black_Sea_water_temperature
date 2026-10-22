@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/constanta/stats.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/constanta/stats.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Black Sea Water Temperature">
     <meta property="og:title" content="Statistics &amp; Records — Constanța Black Sea Water Temperature">
     <meta property="og:description" content="All-time records and annual statistics for Black Sea water temperature at Constanța, Romania — hottest and coldest readings, yearly min/avg/max and the long-term trend.">
     <meta property="og:url" content="https://more.masoko.net/en/constanta/stats.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Constanța","item":"https://more.masoko.net/en/constanta/"},{"@type":"ListItem","position":3,"name":"Statistics","item":"https://more.masoko.net/en/constanta/stats.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/constanta.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Romania","item":"https://more.masoko.net/en/romania/"},{"@type":"ListItem","position":3,"name":"Constanța","item":"https://more.masoko.net/en/constanta/"},{"@type":"ListItem","position":4,"name":"Statistics","item":"https://more.masoko.net/en/constanta/stats.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.en.js?v=c3af804a"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.en.js?v=c3ffd62e"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'constanta'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,13 +55,13 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/constanta/">Constanța</a> <span class="crumb-sep">›</span> <span aria-current="page">Statistics</span></nav>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/romania/">Romania</a> <span class="crumb-sep">›</span> <a href="/en/constanta/">Constanța</a> <span class="crumb-sep">›</span> <span aria-current="page">Statistics</span></nav>
 
     <h1 data-i18n="st_h1">Water Temperature Records &amp; Statistics — Constanța, Romania</h1>
     <p class="subtitle" data-i18n="st_subtitle">All-time records and annual statistics since 2023</p>
 
     <h2 data-i18n="st_records">All-time Records</h2>
-    <div id="records-grid" class="records-grid"></div>
+    <div id="records-grid" class="records-grid"><div class="record-card hot"><span class="label">Hottest reading</span><span class="record-value">28.5°C</span><span class="record-date">Jul 21, 2024</span></div><div class="record-card cold"><span class="label">Coldest reading</span><span class="record-value">3.8°C</span><span class="record-date">Feb 25, 2026</span></div><div class="record-card hot"><span class="label">Warmest year (avg)</span><span class="record-value">16.1°C</span><span class="record-date">2024</span></div><div class="record-card cold"><span class="label">Coldest year (avg)</span><span class="record-value">15.4°C</span><span class="record-date">2023</span></div></div>
 
     <h2 data-i18n="st_annual">Annual Min / Avg / Max</h2>
     <div id="annual-chart" class="chart"></div>
@@ -66,6 +69,22 @@
     <h2 data-i18n="st_trend">Long-term Trend</h2>
     <p class="tip" data-i18n="st_trend_tip">Yearly average with a 5-year moving average trend line.</p>
     <div id="trend-chart" class="chart"></div>
+
+    <section class="year-table">
+    <h2>Yearly sea water temperature in Constanța, Romania</h2>
+    <p class="tip">Minimum, average and maximum of all readings in each year. The current year is still in progress.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Year</th><th scope="col">Lowest</th><th scope="col">Average</th><th scope="col">Highest</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>3.8°C</td><td>15.8°C</td><td>26.5°C</td></tr>
+            <tr><th scope="row">2025</th><td>4.1°C</td><td>15.8°C</td><td>26.6°C</td></tr>
+            <tr><th scope="row">2024</th><td>5.7°C</td><td>16.1°C</td><td>28.5°C</td></tr>
+            <tr><th scope="row">2023</th><td>4.9°C</td><td>15.4°C</td><td>27.1°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Nearby beaches and towns</h2>
@@ -85,6 +104,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 function movingAvg(arr, n) {

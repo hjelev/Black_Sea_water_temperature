@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/sochi/compare.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/sochi/compare.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Temperatura apei Mării Negre">
     <meta property="og:title" content="Comparație pe ani — temperatura apei la Soci">
     <meta property="og:description" content="Comparați temperatura apei Mării Negre la Soci, Rusia de la an la an, pe o axă ianuarie–decembrie, pentru a observa tiparele sezoniere și tendințele de încălzire.">
     <meta property="og:url" content="https://more.masoko.net/ro/sochi/compare.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Marea Neagră","item":"https://more.masoko.net/ro/"},{"@type":"ListItem","position":2,"name":"Soci","item":"https://more.masoko.net/ro/sochi/"},{"@type":"ListItem","position":3,"name":"Comparație pe ani","item":"https://more.masoko.net/ro/sochi/compare.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/sochi.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Marea Neagră","item":"https://more.masoko.net/ro/"},{"@type":"ListItem","position":2,"name":"Rusia","item":"https://more.masoko.net/ro/russia/"},{"@type":"ListItem","position":3,"name":"Soci","item":"https://more.masoko.net/ro/sochi/"},{"@type":"ListItem","position":4,"name":"Comparație pe ani","item":"https://more.masoko.net/ro/sochi/compare.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.ro.js?v=3f8b9808"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.ro.js?v=3df7dd63"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'sochi'; window.LANG = 'ro'; window.LANG_PREFIX = '/ro';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,7 +55,7 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Navigare"><a href="/ro/">Marea Neagră</a> <span class="crumb-sep">›</span> <a href="/ro/sochi/">Soci</a> <span class="crumb-sep">›</span> <span aria-current="page">Comparație pe ani</span></nav>
+    <nav class="breadcrumb" aria-label="Navigare"><a href="/ro/">Marea Neagră</a> <span class="crumb-sep">›</span> <a href="/ro/russia/">Rusia</a> <span class="crumb-sep">›</span> <a href="/ro/sochi/">Soci</a> <span class="crumb-sep">›</span> <span aria-current="page">Comparație pe ani</span></nav>
 
     <h1 data-i18n="cmp_h1">Temperatura apei pe ani — Soci, Rusia</h1>
     <p class="subtitle" data-i18n="cmp_subtitle">Suprapuneți anii selectați pe o axă ian.–dec. pentru a observa tiparele sezoniere</p>
@@ -70,6 +73,22 @@
     <h2 data-i18n="cmp_timeline">Selector de interval</h2>
     <p class="tip" data-i18n="cmp_tip">Trageți pentru a selecta un interval — casetele anilor de mai sus se actualizează.</p>
     <div id="main-chart" class="chart"></div>
+
+    <section class="cmp-table">
+    <h2>Temperatura apei mării pe 22.10 în anii anteriori la Soci, Rusia</h2>
+    <p class="tip">Temperatura medie zilnică a apei pe 22.10 în fiecare an și media celor 30 de zile până la acea dată.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Anul</th><th scope="col">22.10</th><th scope="col">Media pe 30 de zile</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>20.8°C</td><td>22.0°C</td></tr>
+            <tr><th scope="row">2025</th><td>18.6°C</td><td>20.7°C</td></tr>
+            <tr><th scope="row">2024</th><td>21.9°C</td><td>23.6°C</td></tr>
+            <tr><th scope="row">2023</th><td>19.0°C</td><td>22.3°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Plaje și localități din apropiere</h2>
@@ -89,6 +108,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 let allRecords = [];

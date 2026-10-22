@@ -28,6 +28,13 @@ function t(key) {
     return val !== undefined ? val : key;
 }
 
+// Bulgarian "в" becomes "във" before a word starting with в/ф ("във Варна"),
+// for strings filled with a town name at runtime. Twin of build_site.BG_V_RE.
+function bgPrepositions(text) {
+    if (getLang() !== 'bg') return text;
+    return text.replace(/(^|[^\p{L}])([вВ]) (?=[вВфФ])/gu, '$1$2ъв ');
+}
+
 // Path of the current page in the given language.
 function siblingPath(lang) {
     let path = location.pathname;

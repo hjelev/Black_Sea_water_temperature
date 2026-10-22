@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/kvariati/compare.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/kvariati/compare.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Температура на водата в Черно море">
     <meta property="og:title" content="Сравнение по години — температура на водата в Кварияти">
     <meta property="og:description" content="Сравнете температурата на морската вода в Черно море при Кварияти, Грузия по години върху ос януари–декември, за да откриете сезонни модели и тенденции на затопляне.">
     <meta property="og:url" content="https://more.masoko.net/kvariati/compare.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черно море","item":"https://more.masoko.net/"},{"@type":"ListItem","position":2,"name":"Кварияти","item":"https://more.masoko.net/kvariati/"},{"@type":"ListItem","position":3,"name":"Сравнение по години","item":"https://more.masoko.net/kvariati/compare.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/kvariati.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черно море","item":"https://more.masoko.net/"},{"@type":"ListItem","position":2,"name":"Грузия","item":"https://more.masoko.net/georgia/"},{"@type":"ListItem","position":3,"name":"Кварияти","item":"https://more.masoko.net/kvariati/"},{"@type":"ListItem","position":4,"name":"Сравнение по години","item":"https://more.masoko.net/kvariati/compare.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.bg.js?v=ff2b7e66"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.bg.js?v=ce7a2198"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'kvariati'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,7 +55,7 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Навигационна пътека"><a href="/">Черно море</a> <span class="crumb-sep">›</span> <a href="/kvariati/">Кварияти</a> <span class="crumb-sep">›</span> <span aria-current="page">Сравнение по години</span></nav>
+    <nav class="breadcrumb" aria-label="Навигационна пътека"><a href="/">Черно море</a> <span class="crumb-sep">›</span> <a href="/georgia/">Грузия</a> <span class="crumb-sep">›</span> <a href="/kvariati/">Кварияти</a> <span class="crumb-sep">›</span> <span aria-current="page">Сравнение по години</span></nav>
 
     <h1 data-i18n="cmp_h1">Температура на водата по години — Кварияти, Грузия</h1>
     <p class="subtitle" data-i18n="cmp_subtitle">Наложете избрани години по ос ян.–дек., за да откриете сезонни модели</p>
@@ -70,6 +73,22 @@
     <h2 data-i18n="cmp_timeline">Избор по времева линия</h2>
     <p class="tip" data-i18n="cmp_tip">Плъзнете, за да изберете период — обновява отметките за години горе.</p>
     <div id="main-chart" class="chart"></div>
+
+    <section class="cmp-table">
+    <h2>Температура на морската вода на 22.10 през годините в Кварияти, Грузия</h2>
+    <p class="tip">Средна дневна температура на водата на 22.10 всяка година и средната за 30-те дни до тази дата.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Година</th><th scope="col">22.10</th><th scope="col">Средна за 30 дни</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>21.6°C</td><td>22.7°C</td></tr>
+            <tr><th scope="row">2025</th><td>19.2°C</td><td>21.2°C</td></tr>
+            <tr><th scope="row">2024</th><td>21.7°C</td><td>24.8°C</td></tr>
+            <tr><th scope="row">2023</th><td>20.5°C</td><td>22.9°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Близки плажове и градове</h2>
@@ -89,6 +108,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 let allRecords = [];

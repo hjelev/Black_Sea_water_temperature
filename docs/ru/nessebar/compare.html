@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/nessebar/compare.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/nessebar/compare.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Температура воды в Черном море">
     <meta property="og:title" content="Сравнение по годам — температура воды в Несебре">
     <meta property="og:description" content="Сравните температуру воды в Черном море в Несебре (Болгария) по годам на оси январь–декабрь, чтобы увидеть сезонные закономерности и тенденции потепления.">
     <meta property="og:url" content="https://more.masoko.net/ru/nessebar/compare.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черное море","item":"https://more.masoko.net/ru/"},{"@type":"ListItem","position":2,"name":"Несебр","item":"https://more.masoko.net/ru/nessebar/"},{"@type":"ListItem","position":3,"name":"По годам","item":"https://more.masoko.net/ru/nessebar/compare.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/nessebar.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черное море","item":"https://more.masoko.net/ru/"},{"@type":"ListItem","position":2,"name":"Болгария","item":"https://more.masoko.net/ru/bulgaria/"},{"@type":"ListItem","position":3,"name":"Несебр","item":"https://more.masoko.net/ru/nessebar/"},{"@type":"ListItem","position":4,"name":"По годам","item":"https://more.masoko.net/ru/nessebar/compare.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.ru.js?v=77ce73f0"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.ru.js?v=f1c2fa56"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'nessebar'; window.LANG = 'ru'; window.LANG_PREFIX = '/ru';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,7 +55,7 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Навигационная цепочка"><a href="/ru/">Черное море</a> <span class="crumb-sep">›</span> <a href="/ru/nessebar/">Несебр</a> <span class="crumb-sep">›</span> <span aria-current="page">По годам</span></nav>
+    <nav class="breadcrumb" aria-label="Навигационная цепочка"><a href="/ru/">Черное море</a> <span class="crumb-sep">›</span> <a href="/ru/bulgaria/">Болгария</a> <span class="crumb-sep">›</span> <a href="/ru/nessebar/">Несебр</a> <span class="crumb-sep">›</span> <span aria-current="page">По годам</span></nav>
 
     <h1 data-i18n="cmp_h1">Температура воды по годам — Несебр, Болгария</h1>
     <p class="subtitle" data-i18n="cmp_subtitle">Наложите выбранные годы на ось январь–декабрь, чтобы увидеть сезонные закономерности</p>
@@ -70,6 +73,22 @@
     <h2 data-i18n="cmp_timeline">Выбор периода</h2>
     <p class="tip" data-i18n="cmp_tip">Перетащите, чтобы выбрать период — галочки годов выше обновятся.</p>
     <div id="main-chart" class="chart"></div>
+
+    <section class="cmp-table">
+    <h2>Температура воды на 22.10 по годам в Несебре, Болгария</h2>
+    <p class="tip">Среднесуточная температура воды на 22.10 каждого года и среднее за 30 дней до этой даты.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Год</th><th scope="col">22.10</th><th scope="col">Среднее за 30 дней</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>19.0°C</td><td>20.8°C</td></tr>
+            <tr><th scope="row">2025</th><td>18.7°C</td><td>20.8°C</td></tr>
+            <tr><th scope="row">2024</th><td>18.6°C</td><td>21.5°C</td></tr>
+            <tr><th scope="row">2023</th><td>22.1°C</td><td>22.7°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Пляжи и города поблизости</h2>
@@ -89,6 +108,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 let allRecords = [];

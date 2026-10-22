@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/sveti-vlas/stats.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/sveti-vlas/stats.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Температура на водата в Черно море">
     <meta property="og:title" content="Статистика и рекорди — температура на водата в Свети Влас">
     <meta property="og:description" content="Рекорди и годишна статистика за температурата на морската вода в Черно море при Свети Влас, България — най-високи и най-ниски стойности, годишни мин/ср/макс и дългосрочната тенденция.">
     <meta property="og:url" content="https://more.masoko.net/sveti-vlas/stats.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черно море","item":"https://more.masoko.net/"},{"@type":"ListItem","position":2,"name":"Свети Влас","item":"https://more.masoko.net/sveti-vlas/"},{"@type":"ListItem","position":3,"name":"Статистика","item":"https://more.masoko.net/sveti-vlas/stats.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/sveti-vlas.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черно море","item":"https://more.masoko.net/"},{"@type":"ListItem","position":2,"name":"България","item":"https://more.masoko.net/bulgaria/"},{"@type":"ListItem","position":3,"name":"Свети Влас","item":"https://more.masoko.net/sveti-vlas/"},{"@type":"ListItem","position":4,"name":"Статистика","item":"https://more.masoko.net/sveti-vlas/stats.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.bg.js?v=ff2b7e66"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.bg.js?v=ce7a2198"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'sveti-vlas'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,13 +55,13 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Навигационна пътека"><a href="/">Черно море</a> <span class="crumb-sep">›</span> <a href="/sveti-vlas/">Свети Влас</a> <span class="crumb-sep">›</span> <span aria-current="page">Статистика</span></nav>
+    <nav class="breadcrumb" aria-label="Навигационна пътека"><a href="/">Черно море</a> <span class="crumb-sep">›</span> <a href="/bulgaria/">България</a> <span class="crumb-sep">›</span> <a href="/sveti-vlas/">Свети Влас</a> <span class="crumb-sep">›</span> <span aria-current="page">Статистика</span></nav>
 
     <h1 data-i18n="st_h1">Рекорди и статистика за температурата на водата — Свети Влас, България</h1>
     <p class="subtitle" data-i18n="st_subtitle">Рекорди за всички времена и годишна статистика от 2023 г.</p>
 
     <h2 data-i18n="st_records">Рекорди за всички времена</h2>
-    <div id="records-grid" class="records-grid"></div>
+    <div id="records-grid" class="records-grid"><div class="record-card hot"><span class="label">Най-висока отчетена</span><span class="record-value">29.1°C</span><span class="record-date">Юли 23, 2024</span></div><div class="record-card cold"><span class="label">Най-ниска отчетена</span><span class="record-value">5.2°C</span><span class="record-date">Мар 4, 2026</span></div><div class="record-card hot"><span class="label">Най-топла година (ср.)</span><span class="record-value">17.2°C</span><span class="record-date">2024</span></div><div class="record-card cold"><span class="label">Най-студена година (ср.)</span><span class="record-value">16.5°C</span><span class="record-date">2023</span></div></div>
 
     <h2 data-i18n="st_annual">Годишни мин / ср / макс</h2>
     <div id="annual-chart" class="chart"></div>
@@ -66,6 +69,22 @@
     <h2 data-i18n="st_trend">Дългосрочна тенденция</h2>
     <p class="tip" data-i18n="st_trend_tip">Годишна средна стойност с линия на 5-годишна плъзгаща средна.</p>
     <div id="trend-chart" class="chart"></div>
+
+    <section class="year-table">
+    <h2>Годишна температура на морската вода в Свети Влас, България</h2>
+    <p class="tip">Минимална, средна и максимална стойност от всички измервания за всяка година. Текущата година още не е приключила.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Година</th><th scope="col">Най-ниска</th><th scope="col">Средна</th><th scope="col">Най-висока</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>5.2°C</td><td>17.1°C</td><td>27.9°C</td></tr>
+            <tr><th scope="row">2025</th><td>5.3°C</td><td>17.1°C</td><td>28.1°C</td></tr>
+            <tr><th scope="row">2024</th><td>7.0°C</td><td>17.2°C</td><td>29.1°C</td></tr>
+            <tr><th scope="row">2023</th><td>6.0°C</td><td>16.5°C</td><td>27.7°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Близки плажове и градове</h2>
@@ -85,6 +104,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 function movingAvg(arr, n) {

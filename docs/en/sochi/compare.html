@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/sochi/compare.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/sochi/compare.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Black Sea Water Temperature">
     <meta property="og:title" content="Compare Years — Sochi Black Sea Water Temperature">
     <meta property="og:description" content="Compare Black Sea water temperature at Sochi, Russia across years on a Jan–Dec axis to spot seasonal patterns and warming trends.">
     <meta property="og:url" content="https://more.masoko.net/en/sochi/compare.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Sochi","item":"https://more.masoko.net/en/sochi/"},{"@type":"ListItem","position":3,"name":"Compare Years","item":"https://more.masoko.net/en/sochi/compare.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/sochi.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Russia","item":"https://more.masoko.net/en/russia/"},{"@type":"ListItem","position":3,"name":"Sochi","item":"https://more.masoko.net/en/sochi/"},{"@type":"ListItem","position":4,"name":"Compare Years","item":"https://more.masoko.net/en/sochi/compare.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.en.js?v=c3af804a"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.en.js?v=c3ffd62e"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'sochi'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,7 +55,7 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/sochi/">Sochi</a> <span class="crumb-sep">›</span> <span aria-current="page">Compare Years</span></nav>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/russia/">Russia</a> <span class="crumb-sep">›</span> <a href="/en/sochi/">Sochi</a> <span class="crumb-sep">›</span> <span aria-current="page">Compare Years</span></nav>
 
     <h1 data-i18n="cmp_h1">Water Temperature by Year — Sochi, Russia</h1>
     <p class="subtitle" data-i18n="cmp_subtitle">Overlay selected years on a Jan–Dec axis to spot seasonal patterns</p>
@@ -70,6 +73,22 @@
     <h2 data-i18n="cmp_timeline">Timeline selector</h2>
     <p class="tip" data-i18n="cmp_tip">Drag to select a date range — updates the year checkboxes above.</p>
     <div id="main-chart" class="chart"></div>
+
+    <section class="cmp-table">
+    <h2>Sea water temperature on Oct 22 in previous years — Sochi, Russia</h2>
+    <p class="tip">Daily mean water temperature on Oct 22 each year and the average over the 30 days up to it.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Year</th><th scope="col">Oct 22</th><th scope="col">30-day average</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>20.8°C</td><td>22.0°C</td></tr>
+            <tr><th scope="row">2025</th><td>18.6°C</td><td>20.7°C</td></tr>
+            <tr><th scope="row">2024</th><td>21.9°C</td><td>23.6°C</td></tr>
+            <tr><th scope="row">2023</th><td>19.0°C</td><td>22.3°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Nearby beaches and towns</h2>
@@ -89,6 +108,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 let allRecords = [];

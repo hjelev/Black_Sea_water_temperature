@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/green-cape/heatmap.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/green-cape/heatmap.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Black Sea Water Temperature">
     <meta property="og:title" content="Monthly Heatmap — Green Cape Black Sea Water Temperature">
     <meta property="og:description" content="Monthly Black Sea water temperature heatmap for Green Cape, Georgia — average sea surface temperature per month across every recorded year.">
     <meta property="og:url" content="https://more.masoko.net/en/green-cape/heatmap.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Green Cape","item":"https://more.masoko.net/en/green-cape/"},{"@type":"ListItem","position":3,"name":"Heatmap","item":"https://more.masoko.net/en/green-cape/heatmap.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/green-cape.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Georgia","item":"https://more.masoko.net/en/georgia/"},{"@type":"ListItem","position":3,"name":"Green Cape","item":"https://more.masoko.net/en/green-cape/"},{"@type":"ListItem","position":4,"name":"Heatmap","item":"https://more.masoko.net/en/green-cape/heatmap.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.en.js?v=c3af804a"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.en.js?v=c3ffd62e"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'green-cape'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,7 +55,7 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/green-cape/">Green Cape</a> <span class="crumb-sep">›</span> <span aria-current="page">Heatmap</span></nav>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/georgia/">Georgia</a> <span class="crumb-sep">›</span> <a href="/en/green-cape/">Green Cape</a> <span class="crumb-sep">›</span> <span aria-current="page">Heatmap</span></nav>
 
     <h1 data-i18n="hm_h1">Monthly Water Temperature — Green Cape, Georgia</h1>
     <p class="subtitle" data-i18n="hm_subtitle">Average water temperature per month across all years (2023–present)</p>
@@ -62,6 +65,22 @@
     <h2 data-i18n="hm_monthly">Monthly Averages by Year</h2>
     <p class="tip" data-i18n="hm_tip">Each cell shows the mean temperature for that month/year. Hover for exact values.</p>
     <div id="monthly-avg-chart" class="chart"></div>
+
+    <section class="heat-table">
+    <h2>Average sea water temperature by month and year in Green Cape, Georgia</h2>
+    <p class="tip">Average of all readings in each month; empty cells have no data.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Year</th><th scope="col">Jan</th><th scope="col">Feb</th><th scope="col">Mar</th><th scope="col">Apr</th><th scope="col">May</th><th scope="col">Jun</th><th scope="col">Jul</th><th scope="col">Aug</th><th scope="col">Sep</th><th scope="col">Oct</th><th scope="col">Nov</th><th scope="col">Dec</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td style="background:hsl(152, 75%, 47%)">11.5</td><td style="background:hsl(161, 75%, 47%)">10.4</td><td style="background:hsl(162, 75%, 47%)">10.3</td><td style="background:hsl(143, 75%, 47%)">12.4</td><td style="background:hsl(103, 75%, 47%)">16.7</td><td style="background:hsl(44, 75%, 47%)">23.2</td><td style="background:hsl(16, 75%, 47%)">26.2</td><td style="background:hsl(6, 75%, 47%)">27.3</td><td style="background:hsl(22, 75%, 47%)">25.6</td><td style="background:hsl(55, 75%, 47%)">22.0</td><td></td><td></td></tr>
+            <tr><th scope="row">2025</th><td style="background:hsl(155, 75%, 47%)">11.1</td><td style="background:hsl(167, 75%, 47%)">9.7</td><td style="background:hsl(161, 75%, 47%)">10.5</td><td style="background:hsl(140, 75%, 47%)">12.8</td><td style="background:hsl(102, 75%, 47%)">16.9</td><td style="background:hsl(48, 75%, 47%)">22.8</td><td style="background:hsl(15, 75%, 47%)">26.3</td><td style="background:hsl(4, 75%, 47%)">27.6</td><td style="background:hsl(30, 75%, 47%)">24.7</td><td style="background:hsl(72, 75%, 47%)">20.2</td><td style="background:hsl(100, 75%, 47%)">17.1</td><td style="background:hsl(126, 75%, 47%)">14.3</td></tr>
+            <tr><th scope="row">2024</th><td style="background:hsl(144, 75%, 47%)">12.3</td><td style="background:hsl(148, 75%, 47%)">11.8</td><td style="background:hsl(153, 75%, 47%)">11.3</td><td style="background:hsl(123, 75%, 47%)">14.6</td><td style="background:hsl(93, 75%, 47%)">17.8</td><td style="background:hsl(34, 75%, 47%)">24.3</td><td style="background:hsl(8, 75%, 47%)">27.1</td><td style="background:hsl(1, 75%, 47%)">27.9</td><td style="background:hsl(7, 75%, 47%)">27.3</td><td style="background:hsl(48, 75%, 47%)">22.8</td><td style="background:hsl(97, 75%, 47%)">17.4</td><td style="background:hsl(135, 75%, 47%)">13.3</td></tr>
+            <tr><th scope="row">2023</th><td style="background:hsl(153, 75%, 47%)">11.3</td><td style="background:hsl(163, 75%, 47%)">10.2</td><td style="background:hsl(163, 75%, 47%)">10.2</td><td style="background:hsl(147, 75%, 47%)">12.0</td><td style="background:hsl(106, 75%, 47%)">16.5</td><td style="background:hsl(48, 75%, 47%)">22.8</td><td style="background:hsl(21, 75%, 47%)">25.7</td><td style="background:hsl(0, 75%, 47%)">28.6</td><td style="background:hsl(17, 75%, 47%)">26.1</td><td style="background:hsl(59, 75%, 47%)">21.5</td><td style="background:hsl(102, 75%, 47%)">16.9</td><td style="background:hsl(126, 75%, 47%)">14.2</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Nearby beaches and towns</h2>
@@ -81,6 +100,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 const MONTHS = t('months');

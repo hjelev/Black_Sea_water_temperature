@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/novorossiysk/stats.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/novorossiysk/stats.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Karadeniz Deniz Suyu Sıcaklığı">
     <meta property="og:title" content="İstatistikler ve Rekorlar — Novorossiysk Deniz Suyu Sıcaklığı">
     <meta property="og:description" content="Novorossiysk (Rusya) Karadeniz su sıcaklığı için tüm zamanların rekorları ve yıllık istatistikler — en sıcak ve en soğuk ölçümler, yıllık min./ort./maks. ve uzun vadeli eğilim.">
     <meta property="og:url" content="https://more.masoko.net/tr/novorossiysk/stats.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Karadeniz","item":"https://more.masoko.net/tr/"},{"@type":"ListItem","position":2,"name":"Novorossiysk","item":"https://more.masoko.net/tr/novorossiysk/"},{"@type":"ListItem","position":3,"name":"İstatistikler","item":"https://more.masoko.net/tr/novorossiysk/stats.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/novorossiysk.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Karadeniz","item":"https://more.masoko.net/tr/"},{"@type":"ListItem","position":2,"name":"Rusya","item":"https://more.masoko.net/tr/russia/"},{"@type":"ListItem","position":3,"name":"Novorossiysk","item":"https://more.masoko.net/tr/novorossiysk/"},{"@type":"ListItem","position":4,"name":"İstatistikler","item":"https://more.masoko.net/tr/novorossiysk/stats.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.tr.js?v=c038da7e"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.tr.js?v=96cff6c8"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'novorossiysk'; window.LANG = 'tr'; window.LANG_PREFIX = '/tr';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,13 +55,13 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="İçerik yolu"><a href="/tr/">Karadeniz</a> <span class="crumb-sep">›</span> <a href="/tr/novorossiysk/">Novorossiysk</a> <span class="crumb-sep">›</span> <span aria-current="page">İstatistikler</span></nav>
+    <nav class="breadcrumb" aria-label="İçerik yolu"><a href="/tr/">Karadeniz</a> <span class="crumb-sep">›</span> <a href="/tr/russia/">Rusya</a> <span class="crumb-sep">›</span> <a href="/tr/novorossiysk/">Novorossiysk</a> <span class="crumb-sep">›</span> <span aria-current="page">İstatistikler</span></nav>
 
     <h1 data-i18n="st_h1">Su Sıcaklığı Rekorları ve İstatistikleri — Novorossiysk, Rusya</h1>
     <p class="subtitle" data-i18n="st_subtitle">2023 yılından bu yana tüm zamanların rekorları ve yıllık istatistikler</p>
 
     <h2 data-i18n="st_records">Tüm zamanların rekorları</h2>
-    <div id="records-grid" class="records-grid"></div>
+    <div id="records-grid" class="records-grid"><div class="record-card hot"><span class="label">En yüksek ölçüm</span><span class="record-value">28.9°C</span><span class="record-date">Tem 25, 2024</span></div><div class="record-card cold"><span class="label">En düşük ölçüm</span><span class="record-value">8.2°C</span><span class="record-date">Şub 22, 2025</span></div><div class="record-card hot"><span class="label">En sıcak yıl (ort.)</span><span class="record-value">18.1°C</span><span class="record-date">2024</span></div><div class="record-card cold"><span class="label">En soğuk yıl (ort.)</span><span class="record-value">16.8°C</span><span class="record-date">2025</span></div></div>
 
     <h2 data-i18n="st_annual">Yıllık min. / ort. / maks.</h2>
     <div id="annual-chart" class="chart"></div>
@@ -66,6 +69,22 @@
     <h2 data-i18n="st_trend">Uzun vadeli eğilim</h2>
     <p class="tip" data-i18n="st_trend_tip">Yıllık ortalama ve 5 yıllık hareketli ortalama eğilim çizgisi.</p>
     <div id="trend-chart" class="chart"></div>
+
+    <section class="year-table">
+    <h2>Novorossiysk, Rusya yıllık deniz suyu sıcaklığı</h2>
+    <p class="tip">Her yıl için tüm ölçümlerin en düşük, ortalama ve en yüksek değerleri. İçinde bulunulan yıl henüz tamamlanmadı.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Yıl</th><th scope="col">En düşük</th><th scope="col">Ortalama</th><th scope="col">En yüksek</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td>8.9°C</td><td>17.5°C</td><td>27.9°C</td></tr>
+            <tr><th scope="row">2025</th><td>8.2°C</td><td>16.8°C</td><td>27.4°C</td></tr>
+            <tr><th scope="row">2024</th><td>9.8°C</td><td>18.1°C</td><td>28.9°C</td></tr>
+            <tr><th scope="row">2023</th><td>8.4°C</td><td>16.9°C</td><td>27.8°C</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Yakındaki plajlar ve kasabalar</h2>
@@ -85,6 +104,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 function movingAvg(arr, n) {

@@ -964,6 +964,27 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .nearby-link:hover { background: var(--accent-light); color: var(--accent); }
 .nearby-km { color: var(--text-muted); font-size: 0.8rem; }
 
+/* Links inside the baked tables (month names, towns, countries) */
+.month-table a { color: var(--accent); text-decoration: none; }
+.month-table a:hover { text-decoration: underline; }
+
+/* Static year x month heatmap table: cells tinted by temperature */
+.heat-table .month-table td[style] { color: #fff; text-align: center; }
+.heat-table .month-table th, .heat-table .month-table td { padding: 0.35rem 0.4rem; }
+.month-rank .month-table td[style] { color: #fff; }
+.month-rank .month-table th,
+.month-rank .month-table td:nth-child(-n+3) { text-align: left; }
+.month-rank .month-table thead th:nth-child(n+4) { text-align: right; }
+.country-table .hub-temp { display: inline-block; }
+
+/* Country / month link lists (hub, country and month pages) */
+.browse h2 { margin-top: 1.75rem; }
+.nearby-link[aria-current="page"] { background: var(--accent); color: #fff; }
+
+/* Hub country headings link to the country pages */
+.hub-country a { color: inherit; text-decoration: none; }
+.hub-country a:hover { color: var(--accent); }
+
 /* 404 */
 .notfound { margin-bottom: 1.25rem; }
 .notfound a { color: var(--accent); }

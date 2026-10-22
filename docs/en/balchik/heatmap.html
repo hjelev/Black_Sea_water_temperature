@@ -13,6 +13,7 @@
     <link rel="alternate" hreflang="ro" href="https://more.masoko.net/ro/balchik/heatmap.html">
     <link rel="alternate" hreflang="x-default" href="https://more.masoko.net/balchik/heatmap.html">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Black Sea Water Temperature">
     <meta property="og:title" content="Monthly Heatmap — Balchik Black Sea Water Temperature">
     <meta property="og:description" content="Monthly Black Sea water temperature heatmap for Balchik, Bulgaria — average sea surface temperature per month across every recorded year.">
     <meta property="og:url" content="https://more.masoko.net/en/balchik/heatmap.html">
@@ -21,12 +22,14 @@
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tr_TR">
     <meta property="og:locale:alternate" content="ro_RO">
-    <meta name="twitter:card" content="summary">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Balchik","item":"https://more.masoko.net/en/balchik/"},{"@type":"ListItem","position":3,"name":"Heatmap","item":"https://more.masoko.net/en/balchik/heatmap.html"}]}</script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <meta property="og:image" content="https://more.masoko.net/og/balchik.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Bulgaria","item":"https://more.masoko.net/en/bulgaria/"},{"@type":"ListItem","position":3,"name":"Balchik","item":"https://more.masoko.net/en/balchik/"},{"@type":"ListItem","position":4,"name":"Heatmap","item":"https://more.masoko.net/en/balchik/heatmap.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=13db931d">
-    <script src="/i18n.en.js?v=c3af804a"></script>
+    <link rel="stylesheet" href="/style.css?v=4db6f683">
+    <script src="/i18n.en.js?v=c3ffd62e"></script>
     <script src="/locations.js?v=953f1534"></script>
     <script>window.LOCATION_ID = 'balchik'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -52,7 +55,7 @@
 </nav>
 
 <div class="container">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/balchik/">Balchik</a> <span class="crumb-sep">›</span> <span aria-current="page">Heatmap</span></nav>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/en/">Black Sea</a> <span class="crumb-sep">›</span> <a href="/en/bulgaria/">Bulgaria</a> <span class="crumb-sep">›</span> <a href="/en/balchik/">Balchik</a> <span class="crumb-sep">›</span> <span aria-current="page">Heatmap</span></nav>
 
     <h1 data-i18n="hm_h1">Monthly Water Temperature — Balchik, Bulgaria</h1>
     <p class="subtitle" data-i18n="hm_subtitle">Average water temperature per month across all years (2023–present)</p>
@@ -62,6 +65,22 @@
     <h2 data-i18n="hm_monthly">Monthly Averages by Year</h2>
     <p class="tip" data-i18n="hm_tip">Each cell shows the mean temperature for that month/year. Hover for exact values.</p>
     <div id="monthly-avg-chart" class="chart"></div>
+
+    <section class="heat-table">
+    <h2>Average sea water temperature by month and year in Balchik, Bulgaria</h2>
+    <p class="tip">Average of all readings in each month; empty cells have no data.</p>
+    <div class="table-scroll">
+    <table class="month-table">
+        <thead><tr><th scope="col">Year</th><th scope="col">Jan</th><th scope="col">Feb</th><th scope="col">Mar</th><th scope="col">Apr</th><th scope="col">May</th><th scope="col">Jun</th><th scope="col">Jul</th><th scope="col">Aug</th><th scope="col">Sep</th><th scope="col">Oct</th><th scope="col">Nov</th><th scope="col">Dec</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">2026</th><td style="background:hsl(184, 75%, 47%)">8.0</td><td style="background:hsl(203, 75%, 47%)">5.9</td><td style="background:hsl(196, 75%, 47%)">6.6</td><td style="background:hsl(154, 75%, 47%)">11.2</td><td style="background:hsl(115, 75%, 47%)">15.4</td><td style="background:hsl(50, 75%, 47%)">22.6</td><td style="background:hsl(26, 75%, 47%)">25.1</td><td style="background:hsl(24, 75%, 47%)">25.4</td><td style="background:hsl(36, 75%, 47%)">24.1</td><td style="background:hsl(77, 75%, 47%)">19.6</td><td></td><td></td></tr>
+            <tr><th scope="row">2025</th><td style="background:hsl(179, 75%, 47%)">8.5</td><td style="background:hsl(203, 75%, 47%)">5.9</td><td style="background:hsl(187, 75%, 47%)">7.6</td><td style="background:hsl(158, 75%, 47%)">10.7</td><td style="background:hsl(110, 75%, 47%)">16.0</td><td style="background:hsl(52, 75%, 47%)">22.3</td><td style="background:hsl(23, 75%, 47%)">25.5</td><td style="background:hsl(19, 75%, 47%)">25.9</td><td style="background:hsl(37, 75%, 47%)">24.0</td><td style="background:hsl(86, 75%, 47%)">18.6</td><td style="background:hsl(108, 75%, 47%)">16.2</td><td style="background:hsl(144, 75%, 47%)">12.2</td></tr>
+            <tr><th scope="row">2024</th><td style="background:hsl(187, 75%, 47%)">7.6</td><td style="background:hsl(189, 75%, 47%)">7.4</td><td style="background:hsl(174, 75%, 47%)">9.0</td><td style="background:hsl(135, 75%, 47%)">13.2</td><td style="background:hsl(107, 75%, 47%)">16.3</td><td style="background:hsl(42, 75%, 47%)">23.4</td><td style="background:hsl(10, 75%, 47%)">26.9</td><td style="background:hsl(8, 75%, 47%)">27.1</td><td style="background:hsl(35, 75%, 47%)">24.1</td><td style="background:hsl(77, 75%, 47%)">19.6</td><td style="background:hsl(126, 75%, 47%)">14.3</td><td style="background:hsl(158, 75%, 47%)">10.8</td></tr>
+            <tr><th scope="row">2023</th><td style="background:hsl(171, 75%, 47%)">9.3</td><td style="background:hsl(195, 75%, 47%)">6.7</td><td style="background:hsl(186, 75%, 47%)">7.7</td><td style="background:hsl(162, 75%, 47%)">10.4</td><td style="background:hsl(116, 75%, 47%)">15.4</td><td style="background:hsl(53, 75%, 47%)">22.2</td><td style="background:hsl(32, 75%, 47%)">24.6</td><td style="background:hsl(31, 75%, 47%)">24.6</td><td style="background:hsl(34, 75%, 47%)">24.3</td><td style="background:hsl(67, 75%, 47%)">20.7</td><td style="background:hsl(135, 75%, 47%)">13.3</td><td style="background:hsl(171, 75%, 47%)">9.4</td></tr>
+        </tbody>
+    </table>
+    </div>
+    </section>
 
     <section class="nearby">
     <h2>Nearby beaches and towns</h2>
@@ -81,6 +100,7 @@
     <a href="https://github.com/hjelev/Black_Sea_water_temperature" target="_blank" rel="noopener">GitHub</a>
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
+<script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
 <script src="/data.js?v=24e14ef3"></script>
 <script>
 const MONTHS = t('months');
