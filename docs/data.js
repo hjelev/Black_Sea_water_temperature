@@ -395,7 +395,7 @@ window.renderAstro = function(el, days, id) {
     const moonTile = `<a class="wx-tile wx-astro-tile wx-tile-link" href="${window.LANG_PREFIX || ''}/moon-phases/" title="${t('nav_moon')}">
         <span class="wx-tile-label">🌙 ${t('weather_moon')} <span class="wx-tile-more" aria-hidden="true">›</span></span>
         <div class="wx-astro-body">
-            <span class="wx-moon-icon" title="${t(phaseKey)}">${emoji}</span>
+            <span class="wx-moon-icon" title="${t(phaseKey)}">${window.moonSvg ? window.moonSvg(ill.phase, 60) : emoji}</span>
             <div>
                 <span class="wx-cond">${t(phaseKey)}</span>
                 <span class="wx-sub">${t('weather_illuminated').replace('{n}', Math.round(ill.fraction * 100))}</span>

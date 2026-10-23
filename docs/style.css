@@ -790,7 +790,7 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .wx-astro-times small { font-size: 0.75rem; color: var(--text-muted); }
 .wx-astro-times b { font-size: 1.35rem; font-weight: 800; color: var(--accent); line-height: 1.15; }
 .wx-sun-arc { width: 110px; height: 57px; flex-shrink: 0; }
-.wx-moon-icon { font-size: 3rem; line-height: 1; }
+.wx-moon-icon { font-size: 3rem; line-height: 1; display: flex; }
 .wx-astro-tile > .wx-sub:last-child { margin-top: auto; }
 a.wx-tile-link { color: inherit; text-decoration: none; transition: box-shadow 0.15s; }
 a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
@@ -1106,13 +1106,14 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
 }
 
 /* Moon phases (/moon-phases/) */
-:root { --moon-lit: #f3eed6; --moon-dark: #33444c; --moon-rim: rgba(26, 60, 74, 0.35); }
+:root { --moon-shadow: #121e26; --moon-rim: rgba(26, 60, 74, 0.35); }
 @media (prefers-color-scheme: dark) {
-    :root { --moon-lit: #f3eed6; --moon-dark: #071219; --moon-rim: rgba(214, 230, 236, 0.25); }
+    :root { --moon-shadow: #050c11; --moon-rim: rgba(214, 230, 236, 0.22); }
 }
 .moon-svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
-.moon-svg .moon-dark { fill: var(--moon-dark); stroke: var(--moon-rim); stroke-width: 0.6; }
-.moon-svg .moon-lit { fill: var(--moon-lit); }
+.moon-svg .moon-base { fill: #e5dfcb; }
+.moon-svg .moon-shadow { fill: var(--moon-shadow); fill-opacity: 0.86; }
+.moon-svg .moon-rim { fill: none; stroke: var(--moon-rim); stroke-width: 0.4; }
 .moon-top {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));

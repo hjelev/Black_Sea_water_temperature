@@ -1825,21 +1825,24 @@ def moon_path(year):
 
 
 def moon_svg(pos, size):
-    """The Moon at cycle position pos (0 new, 0.5 full). Twin of moonSvg() in
-    docs/moon.js."""
+    """The Moon at cycle position pos (0 new, 0.5 full): the lunar face under
+    a soft shadow, drawn from the defs docs/moon-icon.js injects. Twin of
+    moonSvg() there."""
     k = (1 - math.cos(2 * math.pi * pos)) / 2
-    rx = abs(1 - 2 * k) * 10
-    waxing = pos < 0.5
-    term = 0 if waxing == (k < 0.5) else 1
-    if k < 0.005:
-        lit = ""
-    elif k > 0.995:
-        lit = '<circle class="moon-lit" cx="12" cy="12" r="10"/>'
+    if k > 0.995:
+        d = ""
+    elif k < 0.005:
+        d = "M1 12a11 11 0 1 0 22 0a11 11 0 1 0-22 0Z"
     else:
-        lit = ('<path class="moon-lit" d="M12 2A10 10 0 0 {} 12 22A{:.2f} 10 0 0 {} 12 2Z"/>'
-               .format(1 if waxing else 0, rx, term))
+        waxing = pos < 0.5
+        d = "M12 2L12 -2L{x} -2L{x} 26L12 26L12 22A{rx:.2f} 10 0 0 {term} 12 2Z".format(
+            x=-2 if waxing else 26, rx=abs(1 - 2 * k) * 10,
+            term=0 if waxing == (k < 0.5) else 1)
+    shadow = ('<path class="moon-shadow" d="{}" clip-path="url(#moon-clip)" '
+              'filter="url(#moon-soft)"/>'.format(d) if d else "")
     return ('<svg class="moon-svg" width="{0}" height="{0}" viewBox="0 0 24 24" aria-hidden="true">'
-            '<circle class="moon-dark" cx="12" cy="12" r="10"/>{1}</svg>'.format(size, lit))
+            '<circle class="moon-base" cx="12" cy="12" r="10"/><use href="#moon-face"/>{1}'
+            '<circle class="moon-rim" cx="12" cy="12" r="10"/></svg>'.format(size, shadow))
 
 
 def moon_local(unix, lang):
@@ -1954,6 +1957,7 @@ def write_moon_pages():
     <p class="location-description">{about}</p>
     </section>
 {browse}
+    <script src="/moon-icon.js"></script>
     <script src="/moon-data.js"></script>
     <script src="/moon.js"></script>""".format(
                 h1=escape(MOON_META["h1"][lang].format(**fields)),

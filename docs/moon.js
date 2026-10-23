@@ -84,22 +84,7 @@
         };
     }
 
-    // The Moon as seen from the northern hemisphere: lit on the right while
-    // waxing. The lit area is the limb half-circle plus the terminator, a
-    // half-ellipse whose width follows the illuminated fraction. Twin of
-    // build_site.moon_svg().
-    function moonSvg(pos, size) {
-        const k = (1 - Math.cos(2 * Math.PI * pos)) / 2;
-        const rx = Math.abs(1 - 2 * k) * 10;
-        const waxing = pos < 0.5;
-        const limb = waxing ? 1 : 0;
-        const term = waxing === (k < 0.5) ? 0 : 1;
-        const lit = k < 0.005 ? '' : k > 0.995
-            ? '<circle class="moon-lit" cx="12" cy="12" r="10"/>'
-            : `<path class="moon-lit" d="M12 2A10 10 0 0 ${limb} 12 22A${rx.toFixed(2)} 10 0 0 ${term} 12 2Z"/>`;
-        return `<svg class="moon-svg" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true">`
-            + `<circle class="moon-dark" cx="12" cy="12" r="10"/>${lit}</svg>`;
-    }
+    const moonSvg = window.moonSvg;   // moon-icon.js
 
     const phaseNames = t('moon_phases');
     const zodiac = t('zodiac');
