@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-23T20:16:47Z",
+"updated": "2026-10-23T21:14:40Z",
 "days": [
 {
 "date": "2026-10-18",
@@ -62,7 +62,7 @@
 "temp_min": 10.7,
 "uv_max": 1.75,
 "wind_max": 17.7,
-"wind_dir": 308,
+"wind_dir": 309,
 "code": 80,
 "sunrise": "2026-10-23T04:29",
 "sunset": "2026-10-23T15:09"
@@ -72,8 +72,8 @@
 "temp_max": 17.8,
 "temp_min": 9.9,
 "uv_max": 3.6,
-"wind_max": 13.0,
-"wind_dir": 264,
+"wind_max": 14.3,
+"wind_dir": 310,
 "code": 2,
 "sunrise": "2026-10-24T04:30",
 "sunset": "2026-10-24T15:08"
@@ -83,8 +83,8 @@
 "temp_max": 16.4,
 "temp_min": 11.3,
 "uv_max": 3.55,
-"wind_max": 10.8,
-"wind_dir": 116,
+"wind_max": 7.7,
+"wind_dir": 30,
 "code": 80,
 "sunrise": "2026-10-25T04:31",
 "sunset": "2026-10-25T15:06"
@@ -94,8 +94,8 @@
 "temp_max": 17.8,
 "temp_min": 11.5,
 "uv_max": 2.9,
-"wind_max": 17.6,
-"wind_dir": 309,
+"wind_max": 13.0,
+"wind_dir": 274,
 "code": 45,
 "sunrise": "2026-10-26T04:33",
 "sunset": "2026-10-26T15:05"
@@ -105,28 +105,23 @@
 "temp_max": 14.6,
 "temp_min": 8.4,
 "uv_max": 3.35,
-"wind_max": 25.6,
-"wind_dir": 341,
+"wind_max": 25.4,
+"wind_dir": 340,
 "code": 3,
 "sunrise": "2026-10-27T04:34",
 "sunset": "2026-10-27T15:03"
 }
 ],
 "current": {
-"temp": 12.1,
-"feels_like": 10.1,
+"temp": 11.7,
+"feels_like": 9.6,
 "humidity": 90,
-"wind": 14.5,
-"wind_dir": 312,
+"wind": 15.0,
+"wind_dir": 314,
 "uv": 0.0,
 "code": 2
 },
 "hourly": [
-{
-"time": "2026-10-21T20:00",
-"temp": 16.3,
-"code": 2
-},
 {
 "time": "2026-10-21T21:00",
 "temp": 16.2,
@@ -363,17 +358,22 @@
 "code": 2
 },
 {
-"time": "2026-10-23T20:16",
-"temp": 12.1,
+"time": "2026-10-23T20:00",
+"temp": 12.2,
+"code": 2
+},
+{
+"time": "2026-10-23T21:14",
+"temp": 11.7,
 "code": 2
 }
 ],
 "marine": {
 "current": {
 "wave": 0.62,
-"wave_dir": 9,
+"wave_dir": 8,
 "period": 3.7,
-"sst": 18.0
+"sst": 17.9
 },
 "days": [
 {
@@ -471,11 +471,11 @@
 "air": {
 "aqi": 18,
 "pm2_5": 4.5,
-"pm10": 5.5,
+"pm10": 5.4,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.2,
+"grass": 0.1,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
