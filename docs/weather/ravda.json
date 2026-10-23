@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-23T14:21:27Z",
+"updated": "2026-10-23T15:19:08Z",
 "days": [
 {
 "date": "2026-10-18",
@@ -59,9 +59,9 @@
 {
 "date": "2026-10-23",
 "temp_max": 17.0,
-"temp_min": 9.7,
+"temp_min": 9.3,
 "uv_max": 1.55,
-"wind_max": 15.3,
+"wind_max": 15.7,
 "wind_dir": 322,
 "code": 80,
 "sunrise": "2026-10-23T04:31",
@@ -69,64 +69,59 @@
 },
 {
 "date": "2026-10-24",
-"temp_max": 16.7,
-"temp_min": 7.5,
+"temp_max": 17.1,
+"temp_min": 7.6,
 "uv_max": 3.7,
-"wind_max": 9.2,
-"wind_dir": 48,
+"wind_max": 9.7,
+"wind_dir": 127,
 "code": 45,
 "sunrise": "2026-10-24T04:32",
 "sunset": "2026-10-24T15:13"
 },
 {
 "date": "2026-10-25",
-"temp_max": 17.4,
-"temp_min": 10.3,
+"temp_max": 17.1,
+"temp_min": 11.8,
 "uv_max": 3.65,
-"wind_max": 9.6,
-"wind_dir": 47,
+"wind_max": 10.5,
+"wind_dir": 73,
 "code": 45,
 "sunrise": "2026-10-25T04:34",
 "sunset": "2026-10-25T15:11"
 },
 {
 "date": "2026-10-26",
-"temp_max": 18.9,
-"temp_min": 12.7,
+"temp_max": 18.6,
+"temp_min": 11.7,
 "uv_max": 3.1,
-"wind_max": 15.0,
-"wind_dir": 333,
-"code": 3,
+"wind_max": 16.6,
+"wind_dir": 330,
+"code": 45,
 "sunrise": "2026-10-26T04:35",
 "sunset": "2026-10-26T15:10"
 },
 {
 "date": "2026-10-27",
-"temp_max": 15.8,
-"temp_min": 8.6,
+"temp_max": 16.0,
+"temp_min": 9.2,
 "uv_max": 3.4,
-"wind_max": 20.2,
-"wind_dir": 350,
+"wind_max": 19.5,
+"wind_dir": 353,
 "code": 3,
 "sunrise": "2026-10-27T04:36",
 "sunset": "2026-10-27T15:08"
 }
 ],
 "current": {
-"temp": 16.4,
-"feels_like": 14.6,
-"humidity": 67,
-"wind": 12.5,
-"wind_dir": 316,
-"uv": 0.5,
-"code": 0
+"temp": 15.2,
+"feels_like": 14.0,
+"humidity": 73,
+"wind": 8.9,
+"wind_dir": 310,
+"uv": 0.05,
+"code": 1
 },
 "hourly": [
-{
-"time": "2026-10-21T14:00",
-"temp": 18.3,
-"code": 2
-},
 {
 "time": "2026-10-21T15:00",
 "temp": 18.0,
@@ -354,18 +349,23 @@
 },
 {
 "time": "2026-10-23T12:00",
-"temp": 15.4,
+"temp": 15.5,
 "code": 61
 },
 {
 "time": "2026-10-23T13:00",
-"temp": 17.0,
+"temp": 16.9,
+"code": 1
+},
+{
+"time": "2026-10-23T14:00",
+"temp": 16.5,
 "code": 2
 },
 {
-"time": "2026-10-23T14:21",
-"temp": 16.4,
-"code": 0
+"time": "2026-10-23T15:19",
+"temp": 15.2,
+"code": 1
 }
 ],
 "marine": {
