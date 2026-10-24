@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-24T05:18:18Z",
+"updated": "2026-10-24T06:29:22Z",
 "days": [
 {
 "date": "2026-10-19",
@@ -59,10 +59,10 @@
 {
 "date": "2026-10-24",
 "temp_max": 18.4,
-"temp_min": 13.3,
-"uv_max": 3.4,
+"temp_min": 13.4,
+"uv_max": 3.0,
 "wind_max": 8.1,
-"wind_dir": 158,
+"wind_dir": 177,
 "code": 95,
 "sunrise": "2026-10-24T04:13",
 "sunset": "2026-10-24T14:56"
@@ -70,10 +70,10 @@
 {
 "date": "2026-10-25",
 "temp_max": 19.0,
-"temp_min": 12.5,
+"temp_min": 12.6,
 "uv_max": 3.8,
 "wind_max": 8.4,
-"wind_dir": 125,
+"wind_dir": 123,
 "code": 45,
 "sunrise": "2026-10-25T04:14",
 "sunset": "2026-10-25T14:54"
@@ -82,7 +82,7 @@
 "date": "2026-10-26",
 "temp_max": 19.1,
 "temp_min": 14.5,
-"uv_max": 3.55,
+"uv_max": 3.65,
 "wind_max": 7.6,
 "wind_dir": 205,
 "code": 45,
@@ -93,7 +93,7 @@
 "date": "2026-10-27",
 "temp_max": 18.1,
 "temp_min": 15.0,
-"uv_max": 2.4,
+"uv_max": 3.0,
 "wind_max": 19.1,
 "wind_dir": 31,
 "code": 61,
@@ -104,7 +104,7 @@
 "date": "2026-10-28",
 "temp_max": 15.0,
 "temp_min": 12.6,
-"uv_max": 0.35,
+"uv_max": 3.1,
 "wind_max": 15.2,
 "wind_dir": 352,
 "code": 61,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 16.1,
-"feels_like": 16.9,
-"humidity": 92,
-"wind": 6.2,
-"wind_dir": 173,
-"uv": 0.4,
+"temp": 16.7,
+"feels_like": 17.8,
+"humidity": 90,
+"wind": 4.7,
+"wind_dir": 184,
+"uv": 1.1,
 "code": 2
 },
 "hourly": [
-{
-"time": "2026-10-22T05:00",
-"temp": 14.6,
-"code": 0
-},
 {
 "time": "2026-10-22T06:00",
 "temp": 16.8,
@@ -359,20 +354,25 @@
 },
 {
 "time": "2026-10-24T04:00",
-"temp": 15.9,
+"temp": 16.0,
 "code": 80
 },
 {
-"time": "2026-10-24T05:18",
+"time": "2026-10-24T05:00",
 "temp": 16.1,
+"code": 3
+},
+{
+"time": "2026-10-24T06:29",
+"temp": 16.7,
 "code": 2
 }
 ],
 "marine": {
 "current": {
 "wave": 0.54,
-"wave_dir": 323,
-"period": 4.25,
+"wave_dir": 322,
+"period": 4.3,
 "sst": 18.8
 },
 "days": [
@@ -470,8 +470,8 @@
 },
 "air": {
 "aqi": 43,
-"pm2_5": 20.7,
-"pm10": 23.6,
+"pm2_5": 21.1,
+"pm10": 24.5,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
