@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-24T17:12:44Z",
+"updated": "2026-10-24T18:17:38Z",
 "days": [
 {
 "date": "2026-10-19",
@@ -62,17 +62,17 @@
 "temp_min": 9.5,
 "uv_max": 3.6,
 "wind_max": 12.6,
-"wind_dir": 262,
+"wind_dir": 263,
 "code": 2,
 "sunrise": "2026-10-24T04:30",
 "sunset": "2026-10-24T15:08"
 },
 {
 "date": "2026-10-25",
-"temp_max": 16.8,
+"temp_max": 16.9,
 "temp_min": 12.4,
-"uv_max": 3.5,
-"wind_max": 9.0,
+"uv_max": 3.3,
+"wind_max": 10.1,
 "wind_dir": 77,
 "code": 3,
 "sunrise": "2026-10-25T04:32",
@@ -82,7 +82,7 @@
 "date": "2026-10-26",
 "temp_max": 18.0,
 "temp_min": 11.2,
-"uv_max": 3.0,
+"uv_max": 2.95,
 "wind_max": 15.9,
 "wind_dir": 312,
 "code": 45,
@@ -93,7 +93,7 @@
 "date": "2026-10-27",
 "temp_max": 12.9,
 "temp_min": 8.6,
-"uv_max": 0.6,
+"uv_max": 0.5,
 "wind_max": 24.7,
 "wind_dir": 345,
 "code": 3,
@@ -104,7 +104,7 @@
 "date": "2026-10-28",
 "temp_max": 13.4,
 "temp_min": 8.1,
-"uv_max": 2.4,
+"uv_max": 1.85,
 "wind_max": 23.0,
 "wind_dir": 337,
 "code": 3,
@@ -115,18 +115,13 @@
 "current": {
 "temp": 13.8,
 "feels_like": 13.9,
-"humidity": 87,
-"wind": 3.1,
-"wind_dir": 144,
+"humidity": 86,
+"wind": 3.2,
+"wind_dir": 117,
 "uv": 0.0,
-"code": 1
+"code": 2
 },
 "hourly": [
-{
-"time": "2026-10-22T17:00",
-"temp": 17.8,
-"code": 3
-},
 {
 "time": "2026-10-22T18:00",
 "temp": 17.6,
@@ -354,25 +349,30 @@
 },
 {
 "time": "2026-10-24T15:00",
-"temp": 14.7,
+"temp": 15.0,
 "code": 1
 },
 {
 "time": "2026-10-24T16:00",
-"temp": 14.0,
+"temp": 14.3,
 "code": 1
 },
 {
-"time": "2026-10-24T17:12",
-"temp": 13.8,
+"time": "2026-10-24T17:00",
+"temp": 14.2,
 "code": 1
+},
+{
+"time": "2026-10-24T18:17",
+"temp": 13.8,
+"code": 2
 }
 ],
 "marine": {
 "current": {
 "wave": 0.38,
-"wave_dir": 89,
-"period": 5.05,
+"wave_dir": 90,
+"period": 5.0,
 "sst": 17.9
 },
 "days": [
@@ -470,12 +470,12 @@
 },
 "air": {
 "aqi": 27,
-"pm2_5": 4.4,
-"pm10": 5.8,
+"pm2_5": 4.1,
+"pm10": 5.5,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.1,
+"grass": 0.0,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
