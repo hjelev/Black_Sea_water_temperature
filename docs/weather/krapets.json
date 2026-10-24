@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-24T00:43:24Z",
+"updated": "2026-10-24T01:27:53Z",
 "days": [
 {
 "date": "2026-10-19",
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 12.3,
-"feels_like": 8.5,
+"temp": 12.2,
+"feels_like": 8.9,
 "humidity": 87,
-"wind": 26.3,
-"wind_dir": 319,
+"wind": 23.2,
+"wind_dir": 314,
 "uv": 0.0,
 "code": 1
 },
 "hourly": [
-{
-"time": "2026-10-22T00:00",
-"temp": 17.0,
-"code": 2
-},
 {
 "time": "2026-10-22T01:00",
 "temp": 16.9,
@@ -363,16 +358,21 @@
 "code": 2
 },
 {
-"time": "2026-10-24T00:43",
-"temp": 12.3,
+"time": "2026-10-24T00:00",
+"temp": 12.4,
+"code": 2
+},
+{
+"time": "2026-10-24T01:27",
+"temp": 12.2,
 "code": 1
 }
 ],
 "marine": {
 "current": {
-"wave": 0.58,
-"wave_dir": 36,
-"period": 4.25,
+"wave": 0.56,
+"wave_dir": 41,
+"period": 4.35,
 "sst": 18.0
 },
 "days": [
@@ -470,12 +470,12 @@
 },
 "air": {
 "aqi": 20,
-"pm2_5": 5.1,
-"pm10": 5.4,
+"pm2_5": 5.2,
+"pm10": 5.9,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.0,
+"grass": 0.1,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
