@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-26T16:24:56Z",
+"updated": "2026-10-26T17:19:26Z",
 "days": [
 {
 "date": "2026-10-21",
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 18.1,
-"feels_like": 19.6,
-"humidity": 90,
-"wind": 4.8,
-"wind_dir": 153,
+"temp": 16.0,
+"feels_like": 16.9,
+"humidity": 97,
+"wind": 6.9,
+"wind_dir": 152,
 "uv": 0.0,
-"code": 45
+"code": 1
 },
 "hourly": [
-{
-"time": "2026-10-24T16:00",
-"temp": 17.4,
-"code": 2
-},
 {
 "time": "2026-10-24T17:00",
 "temp": 17.5,
@@ -363,17 +358,22 @@
 "code": 0
 },
 {
-"time": "2026-10-26T16:24",
-"temp": 18.1,
-"code": 45
+"time": "2026-10-26T16:00",
+"temp": 18.5,
+"code": 0
+},
+{
+"time": "2026-10-26T17:19",
+"temp": 16.0,
+"code": 1
 }
 ],
 "marine": {
 "current": {
-"wave": 0.16,
-"wave_dir": 20,
-"period": 4.15,
-"sst": 20.6
+"wave": 0.18,
+"wave_dir": 23,
+"period": 4.1,
+"sst": 20.5
 },
 "days": [
 {
@@ -470,8 +470,8 @@
 },
 "air": {
 "aqi": 40,
-"pm2_5": 14.9,
-"pm10": 20.2,
+"pm2_5": 15.6,
+"pm10": 21.6,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
