@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-26T11:17:59Z",
+"updated": "2026-10-26T13:50:31Z",
 "days": [
 {
 "date": "2026-10-21",
@@ -58,11 +58,11 @@
 },
 {
 "date": "2026-10-26",
-"temp_max": 16.5,
-"temp_min": 13.6,
-"uv_max": 3.2,
-"wind_max": 29.3,
-"wind_dir": 343,
+"temp_max": 16.4,
+"temp_min": 13.5,
+"uv_max": 3.25,
+"wind_max": 28.9,
+"wind_dir": 342,
 "code": 80,
 "sunrise": "2026-10-26T04:34",
 "sunset": "2026-10-26T15:07"
@@ -70,11 +70,11 @@
 {
 "date": "2026-10-27",
 "temp_max": 15.8,
-"temp_min": 12.0,
-"uv_max": 0.25,
+"temp_min": 11.9,
+"uv_max": 0.3,
 "wind_max": 38.7,
-"wind_dir": 321,
-"code": 63,
+"wind_dir": 322,
+"code": 61,
 "sunrise": "2026-10-27T04:35",
 "sunset": "2026-10-27T15:05"
 },
@@ -82,7 +82,7 @@
 "date": "2026-10-28",
 "temp_max": 16.2,
 "temp_min": 14.0,
-"uv_max": 2.05,
+"uv_max": 1.1,
 "wind_max": 32.6,
 "wind_dir": 355,
 "code": 80,
@@ -93,7 +93,7 @@
 "date": "2026-10-29",
 "temp_max": 14.9,
 "temp_min": 13.9,
-"uv_max": 2.3,
+"uv_max": 2.8,
 "wind_max": 38.0,
 "wind_dir": 357,
 "code": 80,
@@ -104,7 +104,7 @@
 "date": "2026-10-30",
 "temp_max": 14.0,
 "temp_min": 13.0,
-"uv_max": 3.2,
+"uv_max": 3.05,
 "wind_max": 35.4,
 "wind_dir": 350,
 "code": 61,
@@ -113,25 +113,15 @@
 }
 ],
 "current": {
-"temp": 16.2,
-"feels_like": 16.4,
+"temp": 16.3,
+"feels_like": 17.3,
 "humidity": 84,
-"wind": 5.9,
-"wind_dir": 104,
-"uv": 2.25,
+"wind": 0.8,
+"wind_dir": 27,
+"uv": 0.45,
 "code": 3
 },
 "hourly": [
-{
-"time": "2026-10-24T11:00",
-"temp": 14.8,
-"code": 0
-},
-{
-"time": "2026-10-24T12:00",
-"temp": 15.4,
-"code": 0
-},
 {
 "time": "2026-10-24T13:00",
 "temp": 15.6,
@@ -354,26 +344,36 @@
 },
 {
 "time": "2026-10-26T09:00",
-"temp": 15.7,
+"temp": 15.6,
 "code": 3
 },
 {
 "time": "2026-10-26T10:00",
+"temp": 15.7,
+"code": 3
+},
+{
+"time": "2026-10-26T11:00",
 "temp": 15.8,
 "code": 3
 },
 {
-"time": "2026-10-26T11:17",
-"temp": 16.2,
+"time": "2026-10-26T12:00",
+"temp": 16.1,
+"code": 3
+},
+{
+"time": "2026-10-26T13:50",
+"temp": 16.3,
 "code": 3
 }
 ],
 "marine": {
 "current": {
-"wave": 0.42,
-"wave_dir": 105,
+"wave": 0.4,
+"wave_dir": 104,
 "period": 4.85,
-"sst": 17.7
+"sst": 17.8
 },
 "days": [
 {
@@ -401,81 +401,81 @@
 "period_max": 5.0,
 "sst": 17.4,
 "sst_min": 17.3,
-"sst_max": 17.6
+"sst_max": 17.5
 },
 {
 "date": "2026-10-26",
 "wave_max": 0.48,
-"wave_dir": 102,
-"period_max": 5.05,
-"sst": 17.5,
+"wave_dir": 103,
+"period_max": 4.9,
+"sst": 17.6,
 "sst_min": 17.4,
-"sst_max": 17.7
+"sst_max": 17.8
 },
 {
 "date": "2026-10-27",
-"wave_max": 0.64,
-"wave_dir": 6,
-"period_max": 4.15,
-"sst": 17.2,
-"sst_min": 17.0,
+"wave_max": 0.58,
+"wave_dir": 343,
+"period_max": 3.9,
+"sst": 17.3,
+"sst_min": 17.2,
 "sst_max": 17.4
 },
 {
 "date": "2026-10-28",
-"wave_max": 0.66,
-"wave_dir": 65,
-"period_max": 4.85,
-"sst": 17.0,
-"sst_min": 17.0,
-"sst_max": 17.1
+"wave_max": 0.64,
+"wave_dir": 49,
+"period_max": 5.25,
+"sst": 17.3,
+"sst_min": 17.2,
+"sst_max": 17.4
 },
 {
 "date": "2026-10-29",
-"wave_max": 0.72,
+"wave_max": 0.9,
+"wave_dir": 46,
+"period_max": 4.95,
+"sst": 17.4,
+"sst_min": 17.3,
+"sst_max": 17.4
+},
+{
+"date": "2026-10-30",
+"wave_max": 0.86,
 "wave_dir": 51,
+"period_max": 5.4,
+"sst": 17.3,
+"sst_min": 17.2,
+"sst_max": 17.3
+},
+{
+"date": "2026-10-31",
+"wave_max": 0.48,
+"wave_dir": 61,
 "period_max": 4.85,
 "sst": 17.1,
 "sst_min": 17.0,
 "sst_max": 17.2
 },
 {
-"date": "2026-10-30",
-"wave_max": 0.72,
-"wave_dir": 57,
-"period_max": 5.15,
-"sst": 17.1,
-"sst_min": 17.1,
-"sst_max": 17.2
-},
-{
-"date": "2026-10-31",
-"wave_max": 0.66,
-"wave_dir": 58,
-"period_max": 4.55,
-"sst": 17.0,
-"sst_min": 16.9,
-"sst_max": 17.1
-},
-{
 "date": "2026-11-01",
-"wave_max": 1.08,
-"wave_dir": 54,
-"period_max": 4.75,
-"sst": 16.8,
-"sst_min": 16.7,
-"sst_max": 16.9
+"wave_max": 1.02,
+"wave_dir": 67,
+"period_max": 4.45,
+"sst": 16.9,
+"sst_min": 16.8,
+"sst_max": 17.0
 }
 ]
 },
 "air": {
-"aqi": 26,
-"pm2_5": 5.6,
-"pm10": 8.1,
+"aqi": 27,
+"pm2_5": 7.3,
+"pm10": 10.1,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.0,
+"grass": 0.1,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
