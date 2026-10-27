@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-27T17:16:12Z",
+"updated": "2026-10-27T18:20:43Z",
 "days": [
 {
 "date": "2026-10-22",
@@ -58,21 +58,21 @@
 },
 {
 "date": "2026-10-27",
-"temp_max": 14.6,
+"temp_max": 14.9,
 "temp_min": 10.3,
 "uv_max": 0.3,
 "wind_max": 17.1,
-"wind_dir": 309,
+"wind_dir": 310,
 "code": 63,
 "sunrise": "2026-10-27T04:35",
 "sunset": "2026-10-27T15:02"
 },
 {
 "date": "2026-10-28",
-"temp_max": 17.1,
-"temp_min": 13.6,
-"uv_max": 2.55,
-"wind_max": 20.9,
+"temp_max": 16.7,
+"temp_min": 14.6,
+"uv_max": 2.45,
+"wind_max": 19.8,
 "wind_dir": 23,
 "code": 80,
 "sunrise": "2026-10-28T04:36",
@@ -82,7 +82,7 @@
 "date": "2026-10-29",
 "temp_max": 14.6,
 "temp_min": 11.5,
-"uv_max": 2.0,
+"uv_max": 2.65,
 "wind_max": 19.9,
 "wind_dir": 358,
 "code": 80,
@@ -93,7 +93,7 @@
 "date": "2026-10-30",
 "temp_max": 14.5,
 "temp_min": 10.5,
-"uv_max": 3.1,
+"uv_max": 3.2,
 "wind_max": 16.4,
 "wind_dir": 330,
 "code": 61,
@@ -104,7 +104,7 @@
 "date": "2026-10-31",
 "temp_max": 13.5,
 "temp_min": 9.9,
-"uv_max": 1.7,
+"uv_max": 2.9,
 "wind_max": 10.2,
 "wind_dir": 322,
 "code": 3,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 13.6,
-"feels_like": 13.6,
-"humidity": 98,
-"wind": 7.2,
-"wind_dir": 323,
+"temp": 14.0,
+"feels_like": 13.7,
+"humidity": 97,
+"wind": 9.7,
+"wind_dir": 318,
 "uv": 0.0,
-"code": 61
-},
-"hourly": [
-{
-"time": "2026-10-25T17:00",
-"temp": 14.2,
 "code": 3
 },
+"hourly": [
 {
 "time": "2026-10-25T18:00",
 "temp": 14.0,
@@ -359,20 +354,25 @@
 },
 {
 "time": "2026-10-27T16:00",
-"temp": 12.2,
+"temp": 12.3,
 "code": 63
 },
 {
-"time": "2026-10-27T17:16",
-"temp": 13.6,
-"code": 61
+"time": "2026-10-27T17:00",
+"temp": 13.3,
+"code": 63
+},
+{
+"time": "2026-10-27T18:20",
+"temp": 14.0,
+"code": 3
 }
 ],
 "marine": {
 "current": {
-"wave": 1.04,
-"wave_dir": 51,
-"period": 4.4,
+"wave": 1.08,
+"wave_dir": 63,
+"period": 4.6,
 "sst": 17.4
 },
 "days": [
@@ -469,9 +469,9 @@
 ]
 },
 "air": {
-"aqi": 21,
-"pm2_5": 5.6,
-"pm10": 6.5,
+"aqi": 23,
+"pm2_5": 6.4,
+"pm10": 7.5,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
