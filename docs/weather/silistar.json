@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-27T05:19:30Z",
+"updated": "2026-10-27T06:32:43Z",
 "days": [
 {
 "date": "2026-10-22",
@@ -60,8 +60,8 @@
 "date": "2026-10-27",
 "temp_max": 14.3,
 "temp_min": 12.2,
-"uv_max": 0.35,
-"wind_max": 47.1,
+"uv_max": 0.45,
+"wind_max": 45.2,
 "wind_dir": 323,
 "code": 63,
 "sunrise": "2026-10-27T04:33",
@@ -70,10 +70,10 @@
 {
 "date": "2026-10-28",
 "temp_max": 17.4,
-"temp_min": 13.9,
-"uv_max": 3.4,
+"temp_min": 13.8,
+"uv_max": 2.4,
 "wind_max": 43.9,
-"wind_dir": 357,
+"wind_dir": 359,
 "code": 80,
 "sunrise": "2026-10-28T04:34",
 "sunset": "2026-10-28T15:06"
@@ -82,7 +82,7 @@
 "date": "2026-10-29",
 "temp_max": 16.9,
 "temp_min": 15.0,
-"uv_max": 0.85,
+"uv_max": 0.4,
 "wind_max": 51.1,
 "wind_dir": 1,
 "code": 80,
@@ -93,7 +93,7 @@
 "date": "2026-10-30",
 "temp_max": 15.1,
 "temp_min": 14.4,
-"uv_max": 1.6,
+"uv_max": 3.35,
 "wind_max": 38.9,
 "wind_dir": 348,
 "code": 3,
@@ -104,7 +104,7 @@
 "date": "2026-10-31",
 "temp_max": 14.9,
 "temp_min": 14.0,
-"uv_max": 2.1,
+"uv_max": 3.4,
 "wind_max": 23.9,
 "wind_dir": 356,
 "code": 3,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 13.0,
-"feels_like": 6.6,
-"humidity": 82,
-"wind": 44.0,
-"wind_dir": 335,
-"uv": 0.0,
-"code": 63
+"temp": 12.6,
+"feels_like": 6.7,
+"humidity": 84,
+"wind": 40.6,
+"wind_dir": 336,
+"uv": 0.15,
+"code": 61
 },
 "hourly": [
-{
-"time": "2026-10-25T05:00",
-"temp": 15.9,
-"code": 3
-},
 {
 "time": "2026-10-25T06:00",
 "temp": 15.9,
@@ -354,25 +349,30 @@
 },
 {
 "time": "2026-10-27T03:00",
-"temp": 13.6,
+"temp": 13.4,
 "code": 61
 },
 {
 "time": "2026-10-27T04:00",
-"temp": 13.3,
+"temp": 13.2,
 "code": 61
 },
 {
-"time": "2026-10-27T05:19",
-"temp": 13.0,
-"code": 63
+"time": "2026-10-27T05:00",
+"temp": 12.9,
+"code": 61
+},
+{
+"time": "2026-10-27T06:32",
+"temp": 12.6,
+"code": 61
 }
 ],
 "marine": {
 "current": {
-"wave": 1.26,
-"wave_dir": 354,
-"period": 4.4,
+"wave": 1.28,
+"wave_dir": 352,
+"period": 4.5,
 "sst": 18.9
 },
 "days": [
@@ -470,8 +470,8 @@
 },
 "air": {
 "aqi": 22,
-"pm2_5": 3.7,
-"pm10": 5.1,
+"pm2_5": 3.5,
+"pm10": 5.5,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
