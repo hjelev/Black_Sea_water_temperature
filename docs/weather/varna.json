@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-28T17:10:51Z",
+"updated": "2026-10-28T18:15:15Z",
 "days": [
 {
 "date": "2026-10-23",
@@ -61,19 +61,19 @@
 "temp_max": 16.7,
 "temp_min": 12.0,
 "uv_max": 2.3,
-"wind_max": 17.3,
-"wind_dir": 344,
-"code": 80,
+"wind_max": 18.1,
+"wind_dir": 343,
+"code": 51,
 "sunrise": "2026-10-28T04:37",
 "sunset": "2026-10-28T15:05"
 },
 {
 "date": "2026-10-29",
-"temp_max": 13.8,
+"temp_max": 14.5,
 "temp_min": 11.8,
-"uv_max": 0.55,
-"wind_max": 25.3,
-"wind_dir": 347,
+"uv_max": 1.0,
+"wind_max": 26.5,
+"wind_dir": 348,
 "code": 80,
 "sunrise": "2026-10-29T04:38",
 "sunset": "2026-10-29T15:04"
@@ -82,7 +82,7 @@
 "date": "2026-10-30",
 "temp_max": 13.9,
 "temp_min": 10.8,
-"uv_max": 3.25,
+"uv_max": 3.2,
 "wind_max": 18.4,
 "wind_dir": 347,
 "code": 61,
@@ -93,7 +93,7 @@
 "date": "2026-10-31",
 "temp_max": 12.7,
 "temp_min": 10.2,
-"uv_max": 0.7,
+"uv_max": 0.5,
 "wind_max": 12.0,
 "wind_dir": 345,
 "code": 61,
@@ -104,7 +104,7 @@
 "date": "2026-11-01",
 "temp_max": 14.9,
 "temp_min": 10.2,
-"uv_max": 1.95,
+"uv_max": 2.0,
 "wind_max": 26.0,
 "wind_dir": 61,
 "code": 61,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 14.8,
-"feels_like": 14.2,
-"humidity": 91,
-"wind": 11.7,
-"wind_dir": 351,
+"temp": 14.4,
+"feels_like": 13.5,
+"humidity": 93,
+"wind": 14.0,
+"wind_dir": 348,
 "uv": 0.0,
 "code": 3
 },
 "hourly": [
-{
-"time": "2026-10-26T17:00",
-"temp": 14.3,
-"code": 3
-},
 {
 "time": "2026-10-26T18:00",
 "temp": 13.7,
@@ -354,17 +349,22 @@
 },
 {
 "time": "2026-10-28T15:00",
-"temp": 15.5,
+"temp": 15.7,
 "code": 3
 },
 {
 "time": "2026-10-28T16:00",
-"temp": 15.4,
-"code": 80
+"temp": 15.3,
+"code": 3
 },
 {
-"time": "2026-10-28T17:10",
+"time": "2026-10-28T17:00",
 "temp": 14.8,
+"code": 3
+},
+{
+"time": "2026-10-28T18:15",
+"temp": 14.4,
 "code": 3
 }
 ],
@@ -372,7 +372,7 @@
 "current": {
 "wave": 0.4,
 "wave_dir": 76,
-"period": 5.2,
+"period": 4.95,
 "sst": 17.2
 },
 "days": [
@@ -475,7 +475,7 @@
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.1,
+"grass": 0.0,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
