@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-28T14:14:41Z",
+"updated": "2026-10-28T15:15:43Z",
 "days": [
 {
 "date": "2026-10-23",
@@ -61,8 +61,8 @@
 "temp_max": 15.4,
 "temp_min": 13.0,
 "uv_max": 2.0,
-"wind_max": 23.7,
-"wind_dir": 332,
+"wind_max": 21.7,
+"wind_dir": 330,
 "code": 3,
 "sunrise": "2026-10-28T04:37",
 "sunset": "2026-10-28T15:07"
@@ -72,8 +72,8 @@
 "temp_max": 14.8,
 "temp_min": 13.6,
 "uv_max": 0.55,
-"wind_max": 33.2,
-"wind_dir": 344,
+"wind_max": 33.4,
+"wind_dir": 342,
 "code": 80,
 "sunrise": "2026-10-29T04:38",
 "sunset": "2026-10-29T15:06"
@@ -83,8 +83,8 @@
 "temp_max": 14.8,
 "temp_min": 13.1,
 "uv_max": 2.85,
-"wind_max": 19.7,
-"wind_dir": 350,
+"wind_max": 20.0,
+"wind_dir": 342,
 "code": 3,
 "sunrise": "2026-10-30T04:39",
 "sunset": "2026-10-30T15:04"
@@ -94,8 +94,8 @@
 "temp_max": 14.7,
 "temp_min": 13.1,
 "uv_max": 2.05,
-"wind_max": 16.0,
-"wind_dir": 50,
+"wind_max": 13.3,
+"wind_dir": 11,
 "code": 3,
 "sunrise": "2026-10-31T04:41",
 "sunset": "2026-10-31T15:03"
@@ -105,28 +105,23 @@
 "temp_max": 16.8,
 "temp_min": 14.7,
 "uv_max": 2.05,
-"wind_max": 37.6,
-"wind_dir": 83,
+"wind_max": 39.4,
+"wind_dir": 81,
 "code": 80,
 "sunrise": "2026-11-01T04:42",
 "sunset": "2026-11-01T15:02"
 }
 ],
 "current": {
-"temp": 15.2,
-"feels_like": 13.7,
-"humidity": 84,
-"wind": 15.4,
-"wind_dir": 339,
-"uv": 0.15,
+"temp": 15.3,
+"feels_like": 13.3,
+"humidity": 85,
+"wind": 19.2,
+"wind_dir": 343,
+"uv": 0.0,
 "code": 3
 },
 "hourly": [
-{
-"time": "2026-10-26T14:00",
-"temp": 16.8,
-"code": 3
-},
 {
 "time": "2026-10-26T15:00",
 "temp": 16.7,
@@ -363,8 +358,13 @@
 "code": 3
 },
 {
-"time": "2026-10-28T14:14",
+"time": "2026-10-28T14:00",
 "temp": 15.2,
+"code": 3
+},
+{
+"time": "2026-10-28T15:15",
+"temp": 15.3,
 "code": 3
 }
 ],
@@ -372,7 +372,7 @@
 "current": {
 "wave": 0.42,
 "wave_dir": 63,
-"period": 5.6,
+"period": 5.5,
 "sst": 18.0
 },
 "days": [
@@ -469,13 +469,13 @@
 ]
 },
 "air": {
-"aqi": 24,
-"pm2_5": 7.0,
-"pm10": 7.9,
+"aqi": 26,
+"pm2_5": 7.8,
+"pm10": 8.5,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.1,
+"grass": 0.0,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
