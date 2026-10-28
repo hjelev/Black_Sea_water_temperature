@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-28T11:19:28Z",
+"updated": "2026-10-28T12:23:34Z",
 "days": [
 {
 "date": "2026-10-23",
@@ -58,22 +58,22 @@
 },
 {
 "date": "2026-10-28",
-"temp_max": 25.0,
-"temp_min": 16.2,
-"uv_max": 3.6,
-"wind_max": 13.0,
-"wind_dir": 142,
+"temp_max": 25.1,
+"temp_min": 15.9,
+"uv_max": 3.45,
+"wind_max": 11.9,
+"wind_dir": 152,
 "code": 61,
 "sunrise": "2026-10-28T03:40",
 "sunset": "2026-10-28T14:13"
 },
 {
 "date": "2026-10-29",
-"temp_max": 22.2,
-"temp_min": 16.3,
-"uv_max": 3.85,
-"wind_max": 5.7,
-"wind_dir": 125,
+"temp_max": 21.1,
+"temp_min": 15.9,
+"uv_max": 3.5,
+"wind_max": 5.4,
+"wind_dir": 172,
 "code": 45,
 "sunrise": "2026-10-29T03:41",
 "sunset": "2026-10-29T14:12"
@@ -82,7 +82,7 @@
 "date": "2026-10-30",
 "temp_max": 19.5,
 "temp_min": 17.5,
-"uv_max": 2.75,
+"uv_max": 3.2,
 "wind_max": 13.4,
 "wind_dir": 225,
 "code": 95,
@@ -93,7 +93,7 @@
 "date": "2026-10-31",
 "temp_max": 18.3,
 "temp_min": 15.5,
-"uv_max": 3.15,
+"uv_max": 2.85,
 "wind_max": 15.8,
 "wind_dir": 220,
 "code": 80,
@@ -104,7 +104,7 @@
 "date": "2026-11-01",
 "temp_max": 19.5,
 "temp_min": 13.9,
-"uv_max": 3.55,
+"uv_max": 3.2,
 "wind_max": 7.1,
 "wind_dir": 128,
 "code": 3,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 20.8,
-"feels_like": 21.7,
-"humidity": 83,
-"wind": 12.6,
-"wind_dir": 243,
-"uv": 2.3,
-"code": 3
+"temp": 21.0,
+"feels_like": 22.6,
+"humidity": 78,
+"wind": 6.4,
+"wind_dir": 218,
+"uv": 1.15,
+"code": 61
 },
 "hourly": [
-{
-"time": "2026-10-26T11:00",
-"temp": 24.1,
-"code": 0
-},
 {
 "time": "2026-10-26T12:00",
 "temp": 23.4,
@@ -354,26 +349,31 @@
 },
 {
 "time": "2026-10-28T09:00",
-"temp": 24.3,
+"temp": 22.6,
 "code": 3
 },
 {
 "time": "2026-10-28T10:00",
-"temp": 22.7,
+"temp": 22.2,
 "code": 3
 },
 {
-"time": "2026-10-28T11:19",
-"temp": 20.8,
+"time": "2026-10-28T11:00",
+"temp": 20.3,
 "code": 3
+},
+{
+"time": "2026-10-28T12:23",
+"temp": 21.0,
+"code": 61
 }
 ],
 "marine": {
 "current": {
-"wave": 0.36,
+"wave": 0.26,
 "wave_dir": 32,
-"period": 3.75,
-"sst": 21.3
+"period": 3.6,
+"sst": 21.4
 },
 "days": [
 {
@@ -396,82 +396,82 @@
 },
 {
 "date": "2026-10-27",
-"wave_max": 0.38,
-"wave_dir": 31,
-"period_max": 3.85,
+"wave_max": 0.36,
+"wave_dir": 32,
+"period_max": 3.7,
 "sst": 21.3,
 "sst_min": 21.1,
-"sst_max": 21.6
+"sst_max": 21.5
 },
 {
 "date": "2026-10-28",
-"wave_max": 0.42,
-"wave_dir": 19,
-"period_max": 4.1,
+"wave_max": 0.38,
+"wave_dir": 39,
+"period_max": 3.85,
 "sst": 21.2,
+"sst_min": 21.1,
+"sst_max": 21.4
+},
+{
+"date": "2026-10-29",
+"wave_max": 0.36,
+"wave_dir": 22,
+"period_max": 4.4,
+"sst": 21.1,
 "sst_min": 21.0,
 "sst_max": 21.3
 },
 {
-"date": "2026-10-29",
-"wave_max": 0.34,
-"wave_dir": 24,
-"period_max": 3.95,
-"sst": 21.1,
-"sst_min": 20.9,
-"sst_max": 21.2
-},
-{
 "date": "2026-10-30",
-"wave_max": 0.34,
-"wave_dir": 307,
-"period_max": 3.9,
+"wave_max": 0.36,
+"wave_dir": 313,
+"period_max": 4.25,
 "sst": 20.9,
-"sst_min": 20.7,
+"sst_min": 20.8,
 "sst_max": 21.0
 },
 {
 "date": "2026-10-31",
-"wave_max": 0.76,
-"wave_dir": 261,
-"period_max": 4.9,
+"wave_max": 0.62,
+"wave_dir": 266,
+"period_max": 4.8,
+"sst": 20.7,
+"sst_min": 20.6,
+"sst_max": 20.8
+},
+{
+"date": "2026-11-01",
+"wave_max": 0.44,
+"wave_dir": 284,
+"period_max": 5.1,
+"sst": 20.7,
+"sst_min": 20.6,
+"sst_max": 20.8
+},
+{
+"date": "2026-11-02",
+"wave_max": 0.26,
+"wave_dir": 292,
+"period_max": 4.95,
 "sst": 20.6,
 "sst_min": 20.5,
 "sst_max": 20.7
 },
 {
-"date": "2026-11-01",
-"wave_max": 0.48,
-"wave_dir": 287,
-"period_max": 5.45,
-"sst": 20.4,
-"sst_min": 20.3,
-"sst_max": 20.5
-},
-{
-"date": "2026-11-02",
-"wave_max": 0.28,
-"wave_dir": 293,
-"period_max": 4.9,
-"sst": 20.2,
-"sst_min": 20.1,
-"sst_max": 20.3
-},
-{
 "date": "2026-11-03",
-"wave_max": 0.1,
-"wave_dir": 307,
-"period_max": 3.95,
-"sst": 20.1,
-"sst_min": 20.0,
-"sst_max": 20.2
+"wave_max": 0.12,
+"wave_dir": 304,
+"period_max": 4.05,
+"sst": 20.6,
+"sst_min": 20.5,
+"sst_max": 20.7
 }
 ]
 },
 "air": {
-"aqi": 48,
-"pm2_5": 28.3,
-"pm10": 51.8,
+"aqi": 42,
+"pm2_5": 19.1,
+"pm10": 36.3,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
