@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-28T05:14:18Z",
+"updated": "2026-10-28T06:22:03Z",
 "days": [
 {
 "date": "2026-10-23",
@@ -58,11 +58,11 @@
 },
 {
 "date": "2026-10-28",
-"temp_max": 14.8,
+"temp_max": 14.6,
 "temp_min": 10.6,
-"uv_max": 1.75,
-"wind_max": 16.2,
-"wind_dir": 340,
+"uv_max": 2.3,
+"wind_max": 15.3,
+"wind_dir": 341,
 "code": 3,
 "sunrise": "2026-10-28T04:38",
 "sunset": "2026-10-28T15:08"
@@ -71,7 +71,7 @@
 "date": "2026-10-29",
 "temp_max": 14.4,
 "temp_min": 11.4,
-"uv_max": 1.75,
+"uv_max": 2.2,
 "wind_max": 20.4,
 "wind_dir": 352,
 "code": 80,
@@ -82,7 +82,7 @@
 "date": "2026-10-30",
 "temp_max": 14.8,
 "temp_min": 10.3,
-"uv_max": 2.65,
+"uv_max": 3.35,
 "wind_max": 13.0,
 "wind_dir": 349,
 "code": 3,
@@ -93,7 +93,7 @@
 "date": "2026-10-31",
 "temp_max": 14.6,
 "temp_min": 11.4,
-"uv_max": 2.3,
+"uv_max": 3.3,
 "wind_max": 7.6,
 "wind_dir": 61,
 "code": 3,
@@ -104,7 +104,7 @@
 "date": "2026-11-01",
 "temp_max": 15.8,
 "temp_min": 13.2,
-"uv_max": 0.25,
+"uv_max": 1.8,
 "wind_max": 21.3,
 "wind_dir": 84,
 "code": 61,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 11.4,
-"feels_like": 10.5,
+"temp": 12.1,
+"feels_like": 11.5,
 "humidity": 91,
-"wind": 6.0,
-"wind_dir": 295,
-"uv": 0.0,
+"wind": 5.9,
+"wind_dir": 308,
+"uv": 0.15,
 "code": 3
 },
 "hourly": [
-{
-"time": "2026-10-26T05:00",
-"temp": 12.5,
-"code": 3
-},
 {
 "time": "2026-10-26T06:00",
 "temp": 13.3,
@@ -354,25 +349,30 @@
 },
 {
 "time": "2026-10-28T03:00",
-"temp": 11.2,
+"temp": 10.7,
 "code": 3
 },
 {
 "time": "2026-10-28T04:00",
-"temp": 11.1,
+"temp": 10.8,
 "code": 3
 },
 {
-"time": "2026-10-28T05:14",
-"temp": 11.4,
+"time": "2026-10-28T05:00",
+"temp": 11.0,
+"code": 3
+},
+{
+"time": "2026-10-28T06:22",
+"temp": 12.1,
 "code": 3
 }
 ],
 "marine": {
 "current": {
 "wave": 0.28,
-"wave_dir": 59,
-"period": 4.75,
+"wave_dir": 61,
+"period": 4.85,
 "sst": 18.0
 },
 "days": [
@@ -470,8 +470,8 @@
 },
 "air": {
 "aqi": 16,
-"pm2_5": 3.9,
-"pm10": 4.1,
+"pm2_5": 4.0,
+"pm10": 4.2,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
