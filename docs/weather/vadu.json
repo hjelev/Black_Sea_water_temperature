@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-29T20:17:11Z",
+"updated": "2026-10-29T21:15:37Z",
 "days": [
 {
 "date": "2026-10-24",
@@ -59,53 +59,53 @@
 {
 "date": "2026-10-29",
 "temp_max": 14.2,
-"temp_min": 11.6,
+"temp_min": 11.7,
 "uv_max": 0.45,
 "wind_max": 28.1,
-"wind_dir": 360,
+"wind_dir": 359,
 "code": 80,
 "sunrise": "2026-10-29T04:37",
 "sunset": "2026-10-29T14:58"
 },
 {
 "date": "2026-10-30",
-"temp_max": 13.7,
-"temp_min": 9.2,
+"temp_max": 13.4,
+"temp_min": 10.4,
 "uv_max": 1.85,
-"wind_max": 26.0,
-"wind_dir": 331,
+"wind_max": 26.7,
+"wind_dir": 333,
 "code": 3,
 "sunrise": "2026-10-30T04:39",
 "sunset": "2026-10-30T14:57"
 },
 {
 "date": "2026-10-31",
-"temp_max": 13.0,
-"temp_min": 8.5,
+"temp_max": 13.5,
+"temp_min": 9.1,
 "uv_max": 2.55,
-"wind_max": 15.5,
-"wind_dir": 344,
+"wind_max": 15.0,
+"wind_dir": 340,
 "code": 3,
 "sunrise": "2026-10-31T04:40",
 "sunset": "2026-10-31T14:55"
 },
 {
 "date": "2026-11-01",
-"temp_max": 14.2,
-"temp_min": 11.0,
+"temp_max": 14.0,
+"temp_min": 11.1,
 "uv_max": 2.8,
-"wind_max": 26.1,
-"wind_dir": 29,
-"code": 61,
+"wind_max": 26.5,
+"wind_dir": 36,
+"code": 3,
 "sunrise": "2026-11-01T04:41",
 "sunset": "2026-11-01T14:54"
 },
 {
 "date": "2026-11-02",
-"temp_max": 11.8,
+"temp_max": 12.0,
 "temp_min": 10.0,
 "uv_max": 2.05,
-"wind_max": 29.3,
+"wind_max": 29.5,
 "wind_dir": 24,
 "code": 61,
 "sunrise": "2026-11-02T04:43",
@@ -115,18 +115,13 @@
 "current": {
 "temp": 12.3,
 "feels_like": 9.6,
-"humidity": 89,
-"wind": 20.3,
-"wind_dir": 354,
+"humidity": 88,
+"wind": 19.8,
+"wind_dir": 350,
 "uv": 0.0,
 "code": 3
 },
 "hourly": [
-{
-"time": "2026-10-27T20:00",
-"temp": 15.3,
-"code": 80
-},
 {
 "time": "2026-10-27T21:00",
 "temp": 15.2,
@@ -354,23 +349,28 @@
 },
 {
 "time": "2026-10-29T18:00",
-"temp": 12.8,
+"temp": 12.9,
 "code": 3
 },
 {
 "time": "2026-10-29T19:00",
+"temp": 12.6,
+"code": 3
+},
+{
+"time": "2026-10-29T20:00",
 "temp": 12.5,
 "code": 3
 },
 {
-"time": "2026-10-29T20:17",
+"time": "2026-10-29T21:15",
 "temp": 12.3,
 "code": 3
 }
 ],
 "marine": {
 "current": {
-"wave": 1.02,
+"wave": 1.0,
 "wave_dir": 54,
 "period": 4.7,
 "sst": 16.1
@@ -471,7 +471,7 @@
 "air": {
 "aqi": 35,
 "pm2_5": 12.6,
-"pm10": 16.1,
+"pm10": 15.3,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
