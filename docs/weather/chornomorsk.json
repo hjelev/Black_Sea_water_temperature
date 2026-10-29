@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-29T11:15:17Z",
+"updated": "2026-10-29T12:24:52Z",
 "days": [
 {
 "date": "2026-10-24",
@@ -58,10 +58,10 @@
 },
 {
 "date": "2026-10-29",
-"temp_max": 12.4,
-"temp_min": 10.1,
-"uv_max": 1.0,
-"wind_max": 14.2,
+"temp_max": 12.5,
+"temp_min": 10.0,
+"uv_max": 1.45,
+"wind_max": 14.7,
 "wind_dir": 12,
 "code": 61,
 "sunrise": "2026-10-29T04:33",
@@ -69,12 +69,12 @@
 },
 {
 "date": "2026-10-30",
-"temp_max": 10.2,
+"temp_max": 10.0,
 "temp_min": 8.8,
-"uv_max": 0.45,
-"wind_max": 14.5,
-"wind_dir": 346,
-"code": 63,
+"uv_max": 0.5,
+"wind_max": 14.4,
+"wind_dir": 343,
+"code": 61,
 "sunrise": "2026-10-30T04:35",
 "sunset": "2026-10-30T14:45"
 },
@@ -82,7 +82,7 @@
 "date": "2026-10-31",
 "temp_max": 11.5,
 "temp_min": 7.3,
-"uv_max": 0.35,
+"uv_max": 1.85,
 "wind_max": 12.2,
 "wind_dir": 311,
 "code": 61,
@@ -93,7 +93,7 @@
 "date": "2026-11-01",
 "temp_max": 12.9,
 "temp_min": 6.7,
-"uv_max": 2.9,
+"uv_max": 2.85,
 "wind_max": 8.8,
 "wind_dir": 8,
 "code": 3,
@@ -104,7 +104,7 @@
 "date": "2026-11-02",
 "temp_max": 11.1,
 "temp_min": 7.5,
-"uv_max": 2.75,
+"uv_max": 2.8,
 "wind_max": 13.7,
 "wind_dir": 27,
 "code": 3,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 11.7,
-"feels_like": 9.6,
-"humidity": 86,
-"wind": 13.1,
-"wind_dir": 21,
-"uv": 0.6,
-"code": 61
-},
-"hourly": [
-{
-"time": "2026-10-27T11:00",
-"temp": 14.1,
+"temp": 11.6,
+"feels_like": 9.3,
+"humidity": 84,
+"wind": 13.6,
+"wind_dir": 17,
+"uv": 1.05,
 "code": 3
 },
+"hourly": [
 {
 "time": "2026-10-27T12:00",
 "temp": 14.2,
@@ -354,26 +349,31 @@
 },
 {
 "time": "2026-10-29T09:00",
-"temp": 12.1,
+"temp": 12.5,
 "code": 61
 },
 {
 "time": "2026-10-29T10:00",
-"temp": 12.1,
+"temp": 12.2,
 "code": 61
 },
 {
-"time": "2026-10-29T11:15",
-"temp": 11.7,
+"time": "2026-10-29T11:00",
+"temp": 12.0,
 "code": 61
+},
+{
+"time": "2026-10-29T12:24",
+"temp": 11.6,
+"code": 3
 }
 ],
 "marine": {
 "current": {
-"wave": 0.76,
-"wave_dir": 72,
-"period": 3.85,
-"sst": 16.5
+"wave": 0.72,
+"wave_dir": 70,
+"period": 3.8,
+"sst": 16.2
 },
 "days": [
 {
@@ -397,85 +397,85 @@
 {
 "date": "2026-10-28",
 "wave_max": 0.94,
-"wave_dir": 95,
+"wave_dir": 94,
 "period_max": 4.3,
-"sst": 16.5,
-"sst_min": 16.5,
-"sst_max": 16.6
+"sst": 16.3,
+"sst_min": 16.2,
+"sst_max": 16.5
 },
 {
 "date": "2026-10-29",
 "wave_max": 0.82,
-"wave_dir": 73,
+"wave_dir": 68,
 "period_max": 4.0,
-"sst": 16.4,
-"sst_min": 16.3,
-"sst_max": 16.5
-},
-{
-"date": "2026-10-30",
-"wave_max": 0.58,
-"wave_dir": 51,
-"period_max": 3.5,
-"sst": 16.3,
-"sst_min": 16.2,
-"sst_max": 16.3
-},
-{
-"date": "2026-10-31",
-"wave_max": 0.26,
-"wave_dir": 53,
-"period_max": 2.75,
 "sst": 16.2,
 "sst_min": 16.1,
 "sst_max": 16.2
 },
 {
-"date": "2026-11-01",
-"wave_max": 0.42,
-"wave_dir": 65,
-"period_max": 3.1,
-"sst": 16.1,
-"sst_min": 16.0,
+"date": "2026-10-30",
+"wave_max": 0.68,
+"wave_dir": 38,
+"period_max": 3.65,
+"sst": 16.0,
+"sst_min": 15.9,
 "sst_max": 16.1
 },
 {
-"date": "2026-11-02",
-"wave_max": 0.96,
-"wave_dir": 61,
-"period_max": 4.1,
+"date": "2026-10-31",
+"wave_max": 0.42,
+"wave_dir": 8,
+"period_max": 2.95,
 "sst": 15.9,
 "sst_min": 15.8,
-"sst_max": 16.0
+"sst_max": 15.9
+},
+{
+"date": "2026-11-01",
+"wave_max": 0.4,
+"wave_dir": 57,
+"period_max": 2.85,
+"sst": 15.8,
+"sst_min": 15.7,
+"sst_max": 15.9
+},
+{
+"date": "2026-11-02",
+"wave_max": 0.86,
+"wave_dir": 73,
+"period_max": 4.0,
+"sst": 15.7,
+"sst_min": 15.6,
+"sst_max": 15.7
 },
 {
 "date": "2026-11-03",
-"wave_max": 1.08,
-"wave_dir": 62,
-"period_max": 4.3,
-"sst": 15.7,
-"sst_min": 15.6,
-"sst_max": 15.8
+"wave_max": 0.98,
+"wave_dir": 52,
+"period_max": 4.05,
+"sst": 15.6,
+"sst_min": 15.5,
+"sst_max": 15.6
 },
 {
 "date": "2026-11-04",
-"wave_max": 1.06,
-"wave_dir": 24,
-"period_max": 4.25,
-"sst": 15.4,
-"sst_min": 15.3,
-"sst_max": 15.6
+"wave_max": 0.9,
+"wave_dir": 9,
+"period_max": 3.95,
+"sst": 15.3,
+"sst_min": 15.2,
+"sst_max": 15.5
 }
 ]
 },
 "air": {
-"aqi": 43,
-"pm2_5": 20.6,
-"pm10": 24.4,
+"aqi": 41,
+"pm2_5": 17.3,
+"pm10": 20.9,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.1,
+"grass": 0.2,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
