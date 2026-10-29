@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-29T15:13:35Z",
+"updated": "2026-10-29T16:16:20Z",
 "days": [
 {
 "date": "2026-10-24",
@@ -62,7 +62,7 @@
 "temp_min": 13.2,
 "uv_max": 0.2,
 "wind_max": 16.9,
-"wind_dir": 323,
+"wind_dir": 321,
 "code": 80,
 "sunrise": "2026-10-29T04:37",
 "sunset": "2026-10-29T15:06"
@@ -70,63 +70,58 @@
 {
 "date": "2026-10-30",
 "temp_max": 14.4,
-"temp_min": 12.3,
+"temp_min": 12.8,
 "uv_max": 2.85,
-"wind_max": 14.1,
+"wind_max": 12.0,
 "wind_dir": 309,
-"code": 61,
+"code": 3,
 "sunrise": "2026-10-30T04:39",
 "sunset": "2026-10-30T15:05"
 },
 {
 "date": "2026-10-31",
 "temp_max": 14.9,
-"temp_min": 12.0,
+"temp_min": 12.5,
 "uv_max": 2.8,
-"wind_max": 7.2,
-"wind_dir": 76,
+"wind_max": 9.0,
+"wind_dir": 79,
 "code": 3,
 "sunrise": "2026-10-31T04:40",
 "sunset": "2026-10-31T15:04"
 },
 {
 "date": "2026-11-01",
-"temp_max": 16.3,
+"temp_max": 15.8,
 "temp_min": 14.5,
 "uv_max": 2.75,
-"wind_max": 21.7,
-"wind_dir": 69,
-"code": 3,
+"wind_max": 22.7,
+"wind_dir": 66,
+"code": 61,
 "sunrise": "2026-11-01T04:41",
 "sunset": "2026-11-01T15:02"
 },
 {
 "date": "2026-11-02",
-"temp_max": 16.4,
-"temp_min": 16.1,
+"temp_max": 16.6,
+"temp_min": 15.8,
 "uv_max": 1.85,
-"wind_max": 26.7,
-"wind_dir": 74,
-"code": 80,
+"wind_max": 19.1,
+"wind_dir": 89,
+"code": 95,
 "sunrise": "2026-11-02T04:42",
 "sunset": "2026-11-02T15:01"
 }
 ],
 "current": {
 "temp": 13.6,
-"feels_like": 12.0,
-"humidity": 88,
-"wind": 14.5,
-"wind_dir": 312,
+"feels_like": 12.3,
+"humidity": 89,
+"wind": 13.0,
+"wind_dir": 321,
 "uv": 0.0,
-"code": 3
+"code": 80
 },
 "hourly": [
-{
-"time": "2026-10-27T15:00",
-"temp": 11.1,
-"code": 3
-},
 {
 "time": "2026-10-27T16:00",
 "temp": 10.8,
@@ -354,8 +349,8 @@
 },
 {
 "time": "2026-10-29T13:00",
-"temp": 13.8,
-"code": 3
+"temp": 13.9,
+"code": 80
 },
 {
 "time": "2026-10-29T14:00",
@@ -363,9 +358,14 @@
 "code": 3
 },
 {
-"time": "2026-10-29T15:13",
+"time": "2026-10-29T15:00",
 "temp": 13.6,
 "code": 3
+},
+{
+"time": "2026-10-29T16:16",
+"temp": 13.6,
+"code": 80
 }
 ],
 "marine": {
@@ -373,7 +373,7 @@
 "wave": 1.46,
 "wave_dir": 32,
 "period": 5.4,
-"sst": 18.2
+"sst": 18.1
 },
 "days": [
 {
