@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-30T17:11:44Z",
+"updated": "2026-10-30T18:14:14Z",
 "days": [
 {
 "date": "2026-10-25",
@@ -59,7 +59,7 @@
 {
 "date": "2026-10-30",
 "temp_max": 14.1,
-"temp_min": 9.5,
+"temp_min": 9.7,
 "uv_max": 3.1,
 "wind_max": 20.4,
 "wind_dir": 329,
@@ -69,11 +69,11 @@
 },
 {
 "date": "2026-10-31",
-"temp_max": 12.8,
-"temp_min": 9.4,
-"uv_max": 0.95,
-"wind_max": 11.5,
-"wind_dir": 331,
+"temp_max": 13.4,
+"temp_min": 9.5,
+"uv_max": 1.55,
+"wind_max": 10.5,
+"wind_dir": 326,
 "code": 3,
 "sunrise": "2026-10-31T04:39",
 "sunset": "2026-10-31T14:58"
@@ -82,7 +82,7 @@
 "date": "2026-11-01",
 "temp_max": 15.6,
 "temp_min": 12.8,
-"uv_max": 2.65,
+"uv_max": 2.7,
 "wind_max": 24.9,
 "wind_dir": 73,
 "code": 61,
@@ -93,7 +93,7 @@
 "date": "2026-11-02",
 "temp_max": 15.9,
 "temp_min": 14.8,
-"uv_max": 1.35,
+"uv_max": 0.55,
 "wind_max": 28.2,
 "wind_dir": 83,
 "code": 95,
@@ -104,7 +104,7 @@
 "date": "2026-11-03",
 "temp_max": 15.9,
 "temp_min": 14.0,
-"uv_max": 1.0,
+"uv_max": 3.0,
 "wind_max": 24.5,
 "wind_dir": 80,
 "code": 95,
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 12.1,
-"feels_like": 9.8,
-"humidity": 83,
-"wind": 14.3,
-"wind_dir": 326,
+"temp": 12.0,
+"feels_like": 9.9,
+"humidity": 84,
+"wind": 13.4,
+"wind_dir": 324,
 "uv": 0.0,
 "code": 3
 },
 "hourly": [
-{
-"time": "2026-10-28T17:00",
-"temp": 15.6,
-"code": 3
-},
 {
 "time": "2026-10-28T18:00",
 "temp": 15.6,
@@ -354,24 +349,29 @@
 },
 {
 "time": "2026-10-30T15:00",
-"temp": 12.8,
+"temp": 13.0,
 "code": 3
 },
 {
 "time": "2026-10-30T16:00",
-"temp": 12.4,
+"temp": 12.6,
 "code": 3
 },
 {
-"time": "2026-10-30T17:11",
-"temp": 12.1,
+"time": "2026-10-30T17:00",
+"temp": 12.3,
+"code": 3
+},
+{
+"time": "2026-10-30T18:14",
+"temp": 12.0,
 "code": 3
 }
 ],
 "marine": {
 "current": {
-"wave": 1.1,
-"wave_dir": 25,
+"wave": 1.06,
+"wave_dir": 26,
 "period": 5.15,
 "sst": 17.1
 },
@@ -469,9 +469,9 @@
 ]
 },
 "air": {
-"aqi": 34,
-"pm2_5": 12.2,
-"pm10": 16.9,
+"aqi": 36,
+"pm2_5": 12.9,
+"pm10": 17.1,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
