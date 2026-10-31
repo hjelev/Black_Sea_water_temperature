@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-31T16:09:44Z",
+"updated": "2026-10-31T17:08:01Z",
 "days": [
 {
 "date": "2026-10-26",
@@ -113,20 +113,15 @@
 }
 ],
 "current": {
-"temp": 13.0,
-"feels_like": 12.1,
-"humidity": 79,
-"wind": 4.8,
-"wind_dir": 117,
+"temp": 12.4,
+"feels_like": 11.7,
+"humidity": 84,
+"wind": 4.7,
+"wind_dir": 122,
 "uv": 0.0,
-"code": 2
+"code": 3
 },
 "hourly": [
-{
-"time": "2026-10-29T16:00",
-"temp": 13.6,
-"code": 80
-},
 {
 "time": "2026-10-29T17:00",
 "temp": 13.6,
@@ -363,17 +358,22 @@
 "code": 2
 },
 {
-"time": "2026-10-31T16:09",
+"time": "2026-10-31T16:00",
 "temp": 13.0,
 "code": 2
+},
+{
+"time": "2026-10-31T17:08",
+"temp": 12.4,
+"code": 3
 }
 ],
 "marine": {
 "current": {
-"wave": 0.36,
-"wave_dir": 50,
+"wave": 0.34,
+"wave_dir": 51,
 "period": 5.4,
-"sst": 17.1
+"sst": 17.0
 },
 "days": [
 {
@@ -475,7 +475,7 @@
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.1,
+"grass": 0.0,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
