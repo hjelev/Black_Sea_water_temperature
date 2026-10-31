@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-31T17:08:01Z",
+"updated": "2026-10-31T18:11:24Z",
 "days": [
 {
 "date": "2026-10-26",
@@ -61,19 +61,19 @@
 "temp_max": 14.5,
 "temp_min": 11.8,
 "uv_max": 2.7,
-"wind_max": 10.7,
-"wind_dir": 51,
+"wind_max": 9.3,
+"wind_dir": 52,
 "code": 3,
 "sunrise": "2026-10-31T04:41",
 "sunset": "2026-10-31T15:04"
 },
 {
 "date": "2026-11-01",
-"temp_max": 16.1,
-"temp_min": 13.5,
-"uv_max": 2.35,
-"wind_max": 20.4,
-"wind_dir": 81,
+"temp_max": 15.9,
+"temp_min": 13.7,
+"uv_max": 2.6,
+"wind_max": 20.9,
+"wind_dir": 80,
 "code": 61,
 "sunrise": "2026-11-01T04:43",
 "sunset": "2026-11-01T15:03"
@@ -82,7 +82,7 @@
 "date": "2026-11-02",
 "temp_max": 17.5,
 "temp_min": 14.8,
-"uv_max": 0.7,
+"uv_max": 0.8,
 "wind_max": 18.4,
 "wind_dir": 92,
 "code": 95,
@@ -93,7 +93,7 @@
 "date": "2026-11-03",
 "temp_max": 16.1,
 "temp_min": 12.8,
-"uv_max": 2.8,
+"uv_max": 2.95,
 "wind_max": 15.1,
 "wind_dir": 77,
 "code": 95,
@@ -104,7 +104,7 @@
 "date": "2026-11-04",
 "temp_max": 12.8,
 "temp_min": 7.9,
-"uv_max": 1.5,
+"uv_max": 1.05,
 "wind_max": 17.2,
 "wind_dir": 348,
 "code": 95,
@@ -115,18 +115,13 @@
 "current": {
 "temp": 12.4,
 "feels_like": 11.7,
-"humidity": 84,
-"wind": 4.7,
-"wind_dir": 122,
+"humidity": 86,
+"wind": 5.0,
+"wind_dir": 120,
 "uv": 0.0,
 "code": 3
 },
 "hourly": [
-{
-"time": "2026-10-29T17:00",
-"temp": 13.6,
-"code": 61
-},
 {
 "time": "2026-10-29T18:00",
 "temp": 13.8,
@@ -354,16 +349,21 @@
 },
 {
 "time": "2026-10-31T15:00",
-"temp": 13.5,
+"temp": 13.8,
 "code": 2
 },
 {
 "time": "2026-10-31T16:00",
-"temp": 13.0,
-"code": 2
+"temp": 13.2,
+"code": 3
 },
 {
-"time": "2026-10-31T17:08",
+"time": "2026-10-31T17:00",
+"temp": 12.8,
+"code": 3
+},
+{
+"time": "2026-10-31T18:11",
 "temp": 12.4,
 "code": 3
 }
@@ -372,7 +372,7 @@
 "current": {
 "wave": 0.34,
 "wave_dir": 51,
-"period": 5.4,
+"period": 5.3,
 "sst": 17.0
 },
 "days": [
@@ -469,9 +469,9 @@
 ]
 },
 "air": {
-"aqi": 38,
-"pm2_5": 13.9,
-"pm10": 17.6,
+"aqi": 37,
+"pm2_5": 13.5,
+"pm10": 17.4,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
