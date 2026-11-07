@@ -1,5 +1,5 @@
 {
-"updated": "2026-11-07T09:50:43Z",
+"updated": "2026-11-07T16:15:09Z",
 "days": [
 {
 "date": "2026-11-02",
@@ -59,104 +59,69 @@
 {
 "date": "2026-11-07",
 "temp_max": 11.5,
-"temp_min": 8.4,
-"uv_max": 3.0,
-"wind_max": 39.7,
-"wind_dir": 358,
+"temp_min": 8.2,
+"uv_max": 3.05,
+"wind_max": 36.8,
+"wind_dir": 357,
 "code": 3,
 "sunrise": "2026-11-07T04:48",
 "sunset": "2026-11-07T14:54"
 },
 {
 "date": "2026-11-08",
-"temp_max": 9.8,
-"temp_min": 7.1,
+"temp_max": 10.1,
+"temp_min": 7.8,
 "uv_max": 3.05,
-"wind_max": 34.9,
-"wind_dir": 334,
+"wind_max": 28.6,
+"wind_dir": 337,
 "code": 2,
 "sunrise": "2026-11-08T04:49",
 "sunset": "2026-11-08T14:53"
 },
 {
 "date": "2026-11-09",
-"temp_max": 12.8,
-"temp_min": 9.4,
-"uv_max": 2.9,
-"wind_max": 20.5,
-"wind_dir": 205,
-"code": 3,
+"temp_max": 12.9,
+"temp_min": 9.5,
+"uv_max": 2.45,
+"wind_max": 21.6,
+"wind_dir": 201,
+"code": 61,
 "sunrise": "2026-11-09T04:51",
 "sunset": "2026-11-09T14:52"
 },
 {
 "date": "2026-11-10",
-"temp_max": 12.5,
-"temp_min": 9.8,
-"uv_max": 2.9,
-"wind_max": 16.2,
-"wind_dir": 221,
-"code": 61,
+"temp_max": 12.9,
+"temp_min": 10.4,
+"uv_max": 2.3,
+"wind_max": 16.4,
+"wind_dir": 240,
+"code": 3,
 "sunrise": "2026-11-10T04:52",
 "sunset": "2026-11-10T14:51"
 },
 {
 "date": "2026-11-11",
 "temp_max": 15.8,
-"temp_min": 12.2,
-"uv_max": 2.4,
-"wind_max": 13.0,
-"wind_dir": 218,
+"temp_min": 12.5,
+"uv_max": 2.75,
+"wind_max": 14.4,
+"wind_dir": 202,
 "code": 3,
 "sunrise": "2026-11-11T04:53",
 "sunset": "2026-11-11T14:50"
 }
 ],
 "current": {
-"temp": 9.2,
-"feels_like": 2.4,
-"humidity": 65,
-"wind": 35.3,
+"temp": 10.3,
+"feels_like": 3.5,
+"humidity": 55,
+"wind": 33.8,
 "wind_dir": 359,
-"uv": 3.05,
+"uv": 0.0,
 "code": 2
 },
 "hourly": [
-{
-"time": "2026-11-05T09:00",
-"temp": 10.0,
-"code": 2
-},
-{
-"time": "2026-11-05T10:00",
-"temp": 10.4,
-"code": 3
-},
-{
-"time": "2026-11-05T11:00",
-"temp": 10.6,
-"code": 2
-},
-{
-"time": "2026-11-05T12:00",
-"temp": 10.9,
-"code": 2
-},
-{
-"time": "2026-11-05T13:00",
-"temp": 10.9,
-"code": 2
-},
-{
-"time": "2026-11-05T14:00",
-"temp": 10.9,
-"code": 2
-},
-{
-"time": "2026-11-05T15:00",
-"temp": 11.2,
-"code": 2
-},
 {
 "time": "2026-11-05T16:00",
 "temp": 11.1,
@@ -349,7 +314,7 @@
 },
 {
 "time": "2026-11-07T06:00",
-"temp": 9.6,
+"temp": 9.7,
 "code": 0
 },
 {
@@ -359,20 +324,55 @@
 },
 {
 "time": "2026-11-07T08:00",
-"temp": 9.4,
+"temp": 9.5,
+"code": 0
+},
+{
+"time": "2026-11-07T09:00",
+"temp": 9.7,
 "code": 1
 },
 {
-"time": "2026-11-07T09:50",
-"temp": 9.2,
+"time": "2026-11-07T10:00",
+"temp": 9.5,
+"code": 2
+},
+{
+"time": "2026-11-07T11:00",
+"temp": 9.7,
+"code": 2
+},
+{
+"time": "2026-11-07T12:00",
+"temp": 10.2,
+"code": 2
+},
+{
+"time": "2026-11-07T13:00",
+"temp": 10.3,
+"code": 2
+},
+{
+"time": "2026-11-07T14:00",
+"temp": 10.4,
+"code": 2
+},
+{
+"time": "2026-11-07T15:00",
+"temp": 10.5,
+"code": 2
+},
+{
+"time": "2026-11-07T16:15",
+"temp": 10.3,
 "code": 2
 }
 ],
 "marine": {
 "current": {
-"wave": 1.5,
+"wave": 1.42,
 "wave_dir": 34,
-"period": 5.85,
+"period": 5.7,
 "sst": 16.2
 },
 "days": [
@@ -397,85 +397,85 @@
 {
 "date": "2026-11-06",
 "wave_max": 1.14,
-"wave_dir": 56,
+"wave_dir": 57,
 "period_max": 6.35,
 "sst": 16.3,
 "sst_min": 16.2,
-"sst_max": 16.4
-},
-{
-"date": "2026-11-07",
-"wave_max": 1.52,
-"wave_dir": 33,
-"period_max": 6.05,
-"sst": 16.2,
-"sst_min": 16.0,
 "sst_max": 16.3
 },
 {
+"date": "2026-11-07",
+"wave_max": 1.56,
+"wave_dir": 32,
+"period_max": 6.15,
+"sst": 16.2,
+"sst_min": 16.0,
+"sst_max": 16.2
+},
+{
 "date": "2026-11-08",
-"wave_max": 1.46,
-"wave_dir": 42,
-"period_max": 6.3,
-"sst": 15.9,
+"wave_max": 1.54,
+"wave_dir": 41,
+"period_max": 6.4,
+"sst": 16.0,
 "sst_min": 15.9,
 "sst_max": 16.0
 },
 {
 "date": "2026-11-09",
 "wave_max": 0.58,
-"wave_dir": 68,
+"wave_dir": 69,
 "period_max": 5.55,
-"sst": 15.9,
-"sst_min": 15.9,
-"sst_max": 16.0
-},
-{
-"date": "2026-11-10",
-"wave_max": 0.34,
-"wave_dir": 87,
-"period_max": 4.1,
-"sst": 15.9,
-"sst_min": 15.9,
-"sst_max": 16.0
-},
-{
-"date": "2026-11-11",
-"wave_max": 0.34,
-"wave_dir": 133,
-"period_max": 3.55,
 "sst": 15.9,
 "sst_min": 15.9,
 "sst_max": 15.9
 },
 {
-"date": "2026-11-12",
-"wave_max": 0.26,
-"wave_dir": 40,
-"period_max": 3.8,
+"date": "2026-11-10",
+"wave_max": 0.34,
+"wave_dir": 89,
+"period_max": 4.2,
 "sst": 15.9,
 "sst_min": 15.9,
-"sst_max": 16.0
+"sst_max": 16.1
+},
+{
+"date": "2026-11-11",
+"wave_max": 0.22,
+"wave_dir": 118,
+"period_max": 4.05,
+"sst": 16.0,
+"sst_min": 15.9,
+"sst_max": 16.1
+},
+{
+"date": "2026-11-12",
+"wave_max": 0.32,
+"wave_dir": 159,
+"period_max": 3.25,
+"sst": 16.0,
+"sst_min": 16.0,
+"sst_max": 16.1
 },
 {
 "date": "2026-11-13",
-"wave_max": 0.36,
-"wave_dir": 97,
-"period_max": 3.85,
-"sst": 15.9,
-"sst_min": 15.9,
-"sst_max": 16.0
+"wave_max": 0.96,
+"wave_dir": 180,
+"period_max": 4.0,
+"sst": 16.1,
+"sst_min": 16.0,
+"sst_max": 16.1
 }
 ]
 },
 "air": {
-"aqi": 19,
-"pm2_5": 3.0,
-"pm10": 5.3,
+"aqi": 28,
+"pm2_5": 2.9,
+"pm10": 4.1,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
-"grass": 0.0,
+"grass": 0.1,
 "mugwort": 0.0,
 "olive": 0.0,
 "ragweed": 0.0
