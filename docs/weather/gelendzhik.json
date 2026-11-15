@@ -1,5 +1,5 @@
 {
-"updated": "2026-11-15T16:25:29Z",
+"updated": "2026-11-15T21:36:30Z",
 "days": [
 {
 "date": "2026-11-10",
@@ -69,11 +69,11 @@
 },
 {
 "date": "2026-11-16",
-"temp_max": 10.8,
-"temp_min": 4.9,
+"temp_max": 11.1,
+"temp_min": 5.3,
 "uv_max": 2.5,
 "wind_max": 16.5,
-"wind_dir": 38,
+"wind_dir": 39,
 "code": 2,
 "sunrise": "2026-11-16T04:25",
 "sunset": "2026-11-16T13:59"
@@ -82,7 +82,7 @@
 "date": "2026-11-17",
 "temp_max": 14.3,
 "temp_min": 6.9,
-"uv_max": 1.85,
+"uv_max": 1.8,
 "wind_max": 30.6,
 "wind_dir": 159,
 "code": 80,
@@ -93,7 +93,7 @@
 "date": "2026-11-18",
 "temp_max": 15.0,
 "temp_min": 13.1,
-"uv_max": 1.05,
+"uv_max": 1.8,
 "wind_max": 31.4,
 "wind_dir": 187,
 "code": 80,
@@ -104,7 +104,7 @@
 "date": "2026-11-19",
 "temp_max": 15.3,
 "temp_min": 13.6,
-"uv_max": 0.4,
+"uv_max": 0.2,
 "wind_max": 35.0,
 "wind_dir": 187,
 "code": 95,
@@ -113,40 +113,15 @@
 }
 ],
 "current": {
-"temp": 6.2,
-"feels_like": 1.7,
-"humidity": 64,
-"wind": 16.8,
-"wind_dir": 35,
+"temp": 5.7,
+"feels_like": 1.1,
+"humidity": 58,
+"wind": 15.6,
+"wind_dir": 40,
 "uv": 0.0,
-"code": 0
+"code": 1
 },
 "hourly": [
-{
-"time": "2026-11-13T16:00",
-"temp": 17.1,
-"code": 3
-},
-{
-"time": "2026-11-13T17:00",
-"temp": 17.2,
-"code": 61
-},
-{
-"time": "2026-11-13T18:00",
-"temp": 17.3,
-"code": 61
-},
-{
-"time": "2026-11-13T19:00",
-"temp": 17.4,
-"code": 3
-},
-{
-"time": "2026-11-13T20:00",
-"temp": 17.6,
-"code": 3
-},
 {
 "time": "2026-11-13T21:00",
 "temp": 17.6,
@@ -363,17 +338,42 @@
 "code": 1
 },
 {
-"time": "2026-11-15T16:25",
+"time": "2026-11-15T16:00",
 "temp": 6.2,
 "code": 0
+},
+{
+"time": "2026-11-15T17:00",
+"temp": 6.1,
+"code": 0
+},
+{
+"time": "2026-11-15T18:00",
+"temp": 6.0,
+"code": 0
+},
+{
+"time": "2026-11-15T19:00",
+"temp": 5.8,
+"code": 0
+},
+{
+"time": "2026-11-15T20:00",
+"temp": 5.7,
+"code": 0
+},
+{
+"time": "2026-11-15T21:36",
+"temp": 5.7,
+"code": 1
 }
 ],
 "marine": {
 "current": {
-"wave": 0.64,
-"wave_dir": 275,
-"period": 5.5,
-"sst": 16.3
+"wave": 0.46,
+"wave_dir": 283,
+"period": 5.0,
+"sst": 16.2
 },
 "days": [
 {
@@ -469,9 +469,9 @@
 ]
 },
 "air": {
-"aqi": 20,
-"pm2_5": 5.1,
-"pm10": 7.2,
+"aqi": 23,
+"pm2_5": 6.4,
+"pm10": 7.7,
 "pollen": {
 "alder": 0.0,
 "birch": 0.0,
