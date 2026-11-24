@@ -29,8 +29,9 @@
     <meta name="twitter:card" content="summary_large_image">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Black Sea","item":"https://more.masoko.net/en/"},{"@type":"ListItem","position":2,"name":"Bulgaria","item":"https://more.masoko.net/en/bulgaria/"},{"@type":"ListItem","position":3,"name":"Ahtopol","item":"https://more.masoko.net/en/ahtopol/"},{"@type":"ListItem","position":4,"name":"Photos","item":"https://more.masoko.net/en/ahtopol/gallery.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=05f25fd8">
-    <script src="/i18n.en.js?v=8d3c658b"></script>
+    <link rel="preload" href="/fonts/sofia-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/style.css?v=ab933732">
+    <script src="/i18n.en.js?v=d4964519"></script>
     <script src="/locations.js?v=b33e44dd"></script>
     <script>window.LOCATION_ID = 'ahtopol'; window.LANG = 'en'; window.LANG_PREFIX = '/en';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -40,7 +41,7 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/en/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/en/" data-i18n="nav_brand">Black Sea Temp</a>
         <ul class="nav-links">
             <li><a href="./" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
@@ -75,12 +76,12 @@
     <section class="nearby">
     <h2>Nearby beaches and towns</h2>
     <div class="nearby-links">
-        <a class="nearby-link" href="/en/sinemorets/gallery.html">⛵ Sinemorets <span class="nearby-km">5 km</span> <span class="nearby-temp" style="--wh-color:hsl(114, 75%, 47%)">15.6°C</span><span class="nearby-diff down">−0.2°</span></a>
-        <a class="nearby-link" href="/en/silistar/gallery.html">🏝️ Silistar Beach <span class="nearby-km">10 km</span> <span class="nearby-temp" style="--wh-color:hsl(112, 75%, 47%)">15.8°C</span><span class="nearby-diff flat">±0.0°</span></a>
-        <a class="nearby-link" href="/en/tsarevo/gallery.html">👑 Tsarevo <span class="nearby-km">11 km</span> <span class="nearby-temp" style="--wh-color:hsl(115, 75%, 47%)">15.5°C</span><span class="nearby-diff down">−0.3°</span></a>
-        <a class="nearby-link" href="/en/rezovo/gallery.html">🛂 Rezovo <span class="nearby-km">15 km</span> <span class="nearby-temp" style="--wh-color:hsl(113, 75%, 47%)">15.7°C</span><span class="nearby-diff down">−0.1°</span></a>
-        <a class="nearby-link" href="/en/lozenets/gallery.html">🍇 Lozenets <span class="nearby-km">17 km</span> <span class="nearby-temp" style="--wh-color:hsl(115, 75%, 47%)">15.5°C</span><span class="nearby-diff down">−0.3°</span></a>
-        <a class="nearby-link" href="/en/kiten/gallery.html">⛺ Kiten <span class="nearby-km">21 km</span> <span class="nearby-temp" style="--wh-color:hsl(116, 75%, 47%)">15.3°C</span><span class="nearby-diff down">−0.5°</span></a>
+        <a class="nearby-link" href="/en/sinemorets/gallery.html">⛵ Sinemorets <span class="nearby-km">5 km</span> <span class="nearby-temp" style="--wh-color:#a5c6db">15.6°C</span><span class="nearby-diff down">−0.2°</span></a>
+        <a class="nearby-link" href="/en/silistar/gallery.html">🏝️ Silistar Beach <span class="nearby-km">10 km</span> <span class="nearby-temp" style="--wh-color:#a8c7da">15.8°C</span><span class="nearby-diff flat">±0.0°</span></a>
+        <a class="nearby-link" href="/en/tsarevo/gallery.html">👑 Tsarevo <span class="nearby-km">11 km</span> <span class="nearby-temp" style="--wh-color:#a3c5db">15.5°C</span><span class="nearby-diff down">−0.3°</span></a>
+        <a class="nearby-link" href="/en/rezovo/gallery.html">🛂 Rezovo <span class="nearby-km">15 km</span> <span class="nearby-temp" style="--wh-color:#a7c6db">15.7°C</span><span class="nearby-diff down">−0.1°</span></a>
+        <a class="nearby-link" href="/en/lozenets/gallery.html">🍇 Lozenets <span class="nearby-km">17 km</span> <span class="nearby-temp" style="--wh-color:#a3c5db">15.5°C</span><span class="nearby-diff down">−0.3°</span></a>
+        <a class="nearby-link" href="/en/kiten/gallery.html">⛺ Kiten <span class="nearby-km">21 km</span> <span class="nearby-temp" style="--wh-color:#9fc3dc">15.3°C</span><span class="nearby-diff down">−0.5°</span></a>
     </div>
     </section>
 </div>
@@ -94,7 +95,7 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/data.js?v=4366275e"></script>
-<script src="/gallery.js?v=6b499f50"></script>
+<script src="/data.js?v=46a9b7a9"></script>
+<script src="/gallery.js?v=63febbeb"></script>
 </body>
 </html>

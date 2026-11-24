@@ -1,72 +1,123 @@
+/* Sofia Sans (Lettersoup, OFL), self-hosted: Latin + Cyrillic incl. Bulgarian forms */
+@font-face {
+    font-family: 'Sofia Sans'; font-weight: 300 900; font-display: swap;
+    src: url(/fonts/sofia-sans-cyrillic.woff2) format('woff2');
+    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+    font-family: 'Sofia Sans'; font-weight: 300 900; font-display: swap;
+    src: url(/fonts/sofia-sans-latin-ext.woff2) format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+20A0-20AB, U+20AD-20C4;
+}
+@font-face {
+    font-family: 'Sofia Sans'; font-weight: 300 900; font-display: swap;
+    src: url(/fonts/sofia-sans-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
-    /* Light "sea" mode: page background matches the OSM sea color (#aad3df) */
-    --bg: #aad3df;
-    --container-bg: #eaf4f8;
-    --text: #1a3c4a;
-    --text-muted: #4a6a76;
-    --accent: #00729a;
-    --accent-light: rgba(0, 114, 154, 0.12);
-    --nav-bg: #d6eaf1;
-    --nav-border: #9cc3d2;
-    --card-bg: rgba(0, 114, 154, 0.10);
-    --record-hot: rgba(255, 80, 50, 0.14);
-    --record-cold: rgba(0, 150, 255, 0.14);
+    color-scheme: light dark;
+    --bg: #f2f6f9;
+    --panel: #fff;
+    --container-bg: var(--panel);
+    --text: #0b2233;
+    --text-muted: #516878;
+    --accent: #0f62b0;
+    --accent-light: rgba(15, 98, 176, 0.09);
+    --on-accent: #fff;
+    --line: #dbe5eb;
+    --nav-border: var(--line);
+    --nav-bg: rgba(242, 246, 249, 0.86);
+    --card-bg: var(--panel);
+    --sunken: #e8eff4;
+    --hot: #c8452b;
+    --cold: #1f66b8;
+    --deep: #0b2233;          /* the hero: the Black Sea itself */
+    /* Chart series, light surface */
+    --c-blue: #2a78d6; --c-orange: #eb6834; --c-aqua: #1baf7a; --c-yellow: #eda100;
+    --c-magenta: #e87ba4; --c-green: #008300; --c-violet: #6250d6; --c-red: #e34948;
+    --c-muted: #7d93a1;
+    --pin-ring: rgba(11, 34, 51, 0.12);
+    --radius: 20px;
+    --radius-s: 12px;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        /* Deep-sea navy mode */
-        --bg: #0a1a24;
-        --container-bg: #12303d;
-        --text: #d6e6ec;
-        --text-muted: #8aa6b0;
-        --accent: #4db8d9;
-        --accent-light: rgba(77, 184, 217, 0.14);
-        --nav-bg: #0d2531;
-        --nav-border: #1e4252;
-        --card-bg: rgba(77, 184, 217, 0.10);
-        --record-hot: rgba(255, 100, 70, 0.15);
-        --record-cold: rgba(77, 184, 217, 0.15);
+        --bg: #06141f;
+        --panel: #0c202f;
+        --text: #e6eff5;
+        --text-muted: #94abba;
+        --accent: #6cb6f2;
+        --accent-light: rgba(108, 182, 242, 0.13);
+        --on-accent: #06141f;
+        --line: #1c3547;
+        --nav-bg: rgba(6, 20, 31, 0.86);
+        --sunken: #15303f;
+        --hot: #f08a6a;
+        --cold: #6cb6f2;
+        --deep: #0c2538;
+        --pin-ring: #3a5a70;
+        --c-blue: #3987e5; --c-orange: #d95926; --c-aqua: #199e70; --c-yellow: #c98500;
+        --c-magenta: #d55181; --c-green: #0ca30c; --c-violet: #9085e9; --c-red: #e66767;
+        --c-muted: #8199a8;
     }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Sofia Sans', system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.5;
     background: var(--bg);
     color: var(--text);
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
 }
+button, input, select { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Navigation */
 .nav {
     background: var(--nav-bg);
-    border-bottom: 1px solid var(--nav-border);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    border-bottom: 1px solid var(--line);
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
 .nav-inner {
-    max-width: 1000px;
+    max-width: 1160px;
     margin: auto;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 0;
-    padding: 0 1rem;
+    padding: 0 1.25rem;
 }
 
 .nav-brand {
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--accent);
-    padding: 0.85rem 1rem 0.85rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 750;
+    font-size: 1.1rem;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    padding: 0.7rem 1rem 0.7rem 0;
     text-decoration: none;
     white-space: nowrap;
     margin-right: 0.5rem;
+}
+.nav-brand::before {
+    content: "";
+    width: 1.75rem;
+    height: 1.75rem;
+    background: url(/favicon.svg) center / contain no-repeat;
 }
 
 .nav-links {
@@ -81,19 +132,21 @@ body {
 
 .nav-links a {
     display: block;
-    padding: 0.85rem 0.85rem;
+    padding: 0.55rem 0.75rem 0.65rem;
     text-decoration: none;
     color: var(--text-muted);
-    font-size: 0.9rem;
-    border-bottom: 3px solid transparent;
-    transition: color 0.15s, border-color 0.15s;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: inset 0 -2px transparent;
+    transition: color 0.15s, box-shadow 0.15s;
     white-space: nowrap;
 }
 
 .nav-links a:hover { color: var(--text); }
 .nav-links a.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
+    color: var(--text);
+    font-weight: 650;
+    box-shadow: inset 0 -2px var(--accent);
 }
 
 /* Hamburger toggle — hidden unless JS collapses the nav (mobile only) */
@@ -101,16 +154,16 @@ body {
     display: none;
     order: 4;
     background: none;
-    border: 1px solid var(--nav-border);
-    border-radius: 8px;
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    line-height: 1;
-    padding: 0.25rem 0.55rem;
-    margin-left: 0.5rem;
+    border: 0;
+    border-radius: 10px;
+    color: var(--text);
+    line-height: 0;
+    padding: 0.6rem;
+    margin: 0 -0.6rem 0 0.25rem;
     cursor: pointer;
 }
-.nav-toggle:hover { color: var(--text); border-color: var(--text-muted); }
+.nav-toggle svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.nav-toggle:hover { background: var(--accent-light); }
 
 /* Location switcher — dropdown menu on its own row, right, under the flags */
 .loc-switch {
@@ -126,75 +179,100 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: none;
-    border: 1px solid var(--nav-border);
-    border-radius: 999px;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    line-height: 1;
-    padding: 0.3rem 1.5rem 0.3rem 0.6rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0.4rem 2rem 0.4rem 0.75rem;
     cursor: pointer;
-    max-width: 11rem;
+    max-width: 13rem;
+    text-overflow: ellipsis;
     /* caret */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 0.5rem center;
-    transition: color 0.15s, border-color 0.15s;
+    background-position: right 0.7rem center;
+    transition: border-color 0.15s;
 }
-.loc-select:hover { color: var(--text); border-color: var(--text-muted); }
-.loc-select:focus { outline: none; border-color: var(--accent); }
-.loc-select option { color: var(--text); background: var(--container-bg); }
+.loc-select:hover { border-color: var(--text-muted); }
+.loc-select option, .loc-select optgroup { color: var(--text); background: var(--panel); }
 
 /* Hub (root) map */
 #map {
     width: 100%;
-    height: clamp(300px, 50vh, 480px);
-    border: 1px solid var(--nav-border);
-    border-radius: 12px;
-    margin-top: 0.5rem;
+    height: clamp(340px, 60vh, 600px);
+    border-radius: var(--radius);
     z-index: 1; /* keep tiles/controls below the sticky nav (z-index 100) */
+    background: var(--sunken);
 }
 /* Temperature pins (Leaflet divIcon) */
 .map-temp-pin-inner {
-    display: inline-block;
+    --wh-color: #888;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     transform: translate(-50%, -50%);
-    padding: 0.15rem 0.4rem;
+    padding: 0.3rem 0.55rem 0.3rem 0.4rem;
     border-radius: 999px;
-    border: 2px solid #fff;
-    color: #fff;
-    font-size: 0.78rem;
+    background: var(--panel);
+    color: var(--text);
+    font-family: 'Sofia Sans', sans-serif;
+    font-size: 0.9rem;
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
     line-height: 1;
     white-space: nowrap;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    box-shadow: 0 0 0 1px var(--pin-ring), 0 3px 10px rgba(11, 34, 51, 0.22);
+}
+.map-temp-pin-inner::before {
+    content: "";
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--wh-color);
 }
 /* Cluster bubble: bigger pin with a member-count badge */
 .map-cluster {
     position: relative;
-    padding: 0.35rem 0.6rem;
-    font-size: 0.85rem;
-    border-width: 3px;
+    padding: 0.45rem 0.7rem 0.45rem 0.5rem;
+    font-size: 1.05rem;
     cursor: pointer;
 }
 .map-cluster-count {
-    position: absolute;
-    top: -0.55rem;
-    right: -0.6rem;
-    min-width: 1.15rem;
-    padding: 0.1rem 0.25rem;
-    border-radius: 999px;
-    background: #1f2937;
-    color: #fff;
-    font-size: 0.65rem;
+    padding-left: 0.4rem;
+    border-left: 1px solid var(--line);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
     line-height: 1;
-    text-align: center;
-    border: 1.5px solid #fff;
-    box-sizing: border-box;
+}
+/* Calmer OSM tiles so the readings stand out; inverted at night */
+.leaflet-tile-pane { filter: saturate(0.55) brightness(1.04) contrast(0.94); }
+body .leaflet-container { font-family: 'Sofia Sans', sans-serif; }
+body .leaflet-container .leaflet-popup-content-wrapper, body .leaflet-container .leaflet-popup-tip {
+    background: var(--panel); color: var(--text); box-shadow: 0 8px 28px rgba(11, 34, 51, 0.25);
+}
+body .leaflet-container .leaflet-popup-content-wrapper { border-radius: 16px; }
+body .leaflet-container .leaflet-popup-content { margin: 0.9rem 1.1rem; font-size: 0.95rem; line-height: 1.35; }
+.leaflet-touch .leaflet-bar, body .leaflet-container .leaflet-bar { border: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(11, 34, 51, 0.2); }
+body .leaflet-container .leaflet-bar a, body .leaflet-container .leaflet-bar a:hover { background: var(--panel); color: var(--text); border-bottom-color: var(--line); }
+body .leaflet-container .leaflet-bar a.leaflet-disabled { background: var(--panel); color: var(--text-muted); }
+body .leaflet-container .leaflet-control-attribution { background: color-mix(in srgb, var(--panel) 80%, transparent); color: var(--text-muted); }
+body .leaflet-container .leaflet-control-attribution a { color: var(--text-muted); }
+@media (prefers-color-scheme: dark) {
+    .leaflet-tile-pane { filter: invert(1) hue-rotate(185deg) saturate(0.5) brightness(0.8) contrast(0.95); }
 }
 .map-popup-name { font-weight: 700; margin-bottom: 0.2rem; }
-.map-popup-temp { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+.map-popup-temp {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
 .map-popup-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
-.map-popup-link {
+body .leaflet-container .map-popup-link {
     display: inline-block;
     margin-top: 0.4rem;
     font-size: 0.85rem;
@@ -207,46 +285,58 @@ body {
 /* Hub (root) location cards */
 .hub-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 0.75rem;
-    margin-top: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1px;
+    margin-top: 0.75rem;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 .hub-card {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--nav-border);
-    border-radius: 12px;
-    background: var(--container-bg);
+    gap: 0.7rem;
+    padding: 0.8rem 1.1rem;
+    min-height: 3.6rem;
+    box-shadow: 0 0 0 1px var(--line);
     color: var(--text);
     text-decoration: none;
-    font-weight: 600;
-    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    font-weight: 550;
+    line-height: 1.2;
+    transition: background 0.15s;
 }
 .hub-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    background: var(--accent-light);
 }
-.hub-flag { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
-.hub-name { font-size: 1rem; flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.hub-flag { font-size: 1.15rem; width: 1.5rem; text-align: center; line-height: 1; flex-shrink: 0; }
+.hub-name { font-size: 1.05rem; flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .hub-temp {
-    font-size: 1rem;
+    --wh-color: #888;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    padding: 0.2rem 0.5rem;
-    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
     line-height: 1.2;
     white-space: nowrap;
     flex-shrink: 0;
 }
+/* The swatch carries the colour; the number stays in ink. */
+.hub-temp::after, .hub-chip b::before, .nearby-temp::before, .sea-day-water::before {
+    content: "";
+    width: 0.4em;
+    height: 1.15em;
+    border-radius: 999px;
+    background: var(--wh-color);
+    flex-shrink: 0;
+}
 .hub-temp:empty { display: none; }
 .hub-country {
-    margin: 1.6rem 0 0.4rem;
-    font-size: 1.05rem;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--nav-border);
-    padding-bottom: 0.3rem;
+    margin: 2rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
 }
 .hub-country:first-of-type { margin-top: 1rem; }
 
@@ -255,91 +345,86 @@ body {
     order: 2;                 /* stays on the top row */
     display: flex;
     align-items: center;
-    gap: 0.15rem;
+    gap: 0.1rem;
     margin-left: auto;        /* push to the right of the top row */
 }
 .lang-btn {
-    background: none;
-    border: none;
     text-decoration: none;
-    display: inline-block;
-    padding: 0.2rem 0.35rem;
-    font-size: 1.1rem;
+    padding: 0.35rem 0.45rem;
+    font-size: 0.9rem;
+    font-weight: 600;
     line-height: 1;
-    cursor: pointer;
-    border-radius: 4px;
-    opacity: 0.45;
-    filter: grayscale(60%);
-    transition: opacity 0.15s, filter 0.15s, background 0.15s;
+    border-radius: 8px;
+    color: var(--text-muted);
+    transition: color 0.15s, background 0.15s;
 }
-.lang-btn:hover { opacity: 0.85; filter: grayscale(0%); }
+.lang-btn:hover { color: var(--text); background: var(--accent-light); }
 .lang-btn.active {
-    opacity: 1;
-    filter: grayscale(0%);
-    background: var(--nav-border);
+    color: var(--on-accent);
+    background: var(--accent);
 }
 
 /* Main container */
 .container {
-    max-width: 1000px;
+    max-width: 1160px;
     margin: auto;
-    background: var(--container-bg);
-    padding: 1.5rem 1.25rem;
+    padding: 1.75rem 1.25rem 2rem;
     min-height: calc(100vh - 50px);
     overflow-x: clip;     /* never let a wide chart push the page sideways */
 }
-@media (min-width: 1040px) {
-    .container {
-        margin-top: 1rem;
-        border-radius: 16px;
-        box-shadow: 0 4px 24px rgba(0, 40, 60, 0.10);
-        min-height: auto;
-    }
+h1 {
+    font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3.1rem);
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin: 0 0 0.6rem;
+    max-width: 24ch;
+    text-wrap: balance;
 }
-
-h1 { font-size: 1.5rem; margin: 0 0 0.25rem 0; }
-h2 { font-size: 1.2rem; margin: 2rem 0 0.75rem 0; padding-left: 0.6rem; border-left: 4px solid var(--accent); line-height: 1.3; }
-h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-weight: 600; }
+h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin: 3.25rem 0 1rem; text-wrap: balance; }
+h3 { font-size: 1.05rem; margin: 1rem 0 0.5rem; color: var(--text-muted); font-weight: 600; }
 
 .subtitle {
     color: var(--text-muted);
-    font-size: 0.9rem;
-    margin: 0 0 1.5rem 0;
+    font-size: 1.1rem;
+    max-width: 75ch;
+    margin: 0 0 1.5rem;
 }
 
 .location-description {
-    color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     line-height: 1.6;
-    margin: 0 0 1.5rem 0;
+    max-width: 72ch;
+    margin: 2rem 0 0;
 }
 
 /* Stats grid */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 0.6rem;
-    margin-bottom: 1.5rem;
+    gap: 1px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 
 .stat-card {
-    background: var(--card-bg);
-    padding: 0.9rem 0.75rem;
-    border-radius: 8px;
-    text-align: center;
+    padding: 1.1rem 1.25rem;
+    box-shadow: 0 0 0 1px var(--line);
 }
 
 .stat-card .year {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
     display: block;
-    margin-bottom: 0.2rem;
 }
 
 .stat-card .value {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    color: var(--accent);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
     display: block;
 }
 
@@ -347,42 +432,38 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .records-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    gap: 1px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 
 .record-card {
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
+    padding: 1.25rem 1.4rem;
+    box-shadow: 0 0 0 1px var(--line);
 }
 
-.record-card.hot { background: var(--record-hot); }
-.record-card.cold { background: var(--record-cold); }
 
 .record-card .label {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     display: block;
-    margin-bottom: 0.3rem;
 }
 
 .record-card .record-value {
-    font-size: 1.8rem;
+    font-size: 2.6rem;
     font-weight: 700;
+    letter-spacing: -0.035em;
     display: block;
-    line-height: 1;
+    line-height: 1.2;
 }
 
-.record-card.hot .record-value { color: #e05030; }
-.record-card.cold .record-value { color: var(--accent); }
+.record-card.hot .record-value { color: var(--hot); }
+.record-card.cold .record-value { color: var(--cold); }
 
 .record-card .record-date {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
-    margin-top: 0.3rem;
     display: block;
 }
 
@@ -390,58 +471,102 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .section-link:hover { text-decoration: underline; }
 .section-link::after { content: " \203A"; color: var(--accent); }
 
-/* "Sea water now" hero card on the dashboard */
+/* Dashboard hero: the reading above the town's year, drawn as a wave */
 .water-hero {
     --wh-color: var(--accent);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem 2rem;
-    padding: 1.25rem 1.5rem;
-    margin: 0.5rem 0 1rem;
-    border-radius: 16px;
+    position: relative;
+    margin: 1.5rem 0 0;
+    border-radius: 28px;
     color: #fff;
-    background:
-        radial-gradient(120% 140% at 100% 0%, rgba(255,255,255,0.22), transparent 55%),
-        linear-gradient(135deg, var(--wh-color), color-mix(in srgb, var(--wh-color) 55%, #0a2a3a));
-    box-shadow: 0 6px 20px color-mix(in srgb, var(--wh-color) 35%, transparent);
+    background: var(--deep);
+    overflow: hidden;
+    min-height: 420px;
 }
 .water-hero:empty { display: none; }
-.wh-main { display: flex; flex-direction: column; }
-.wh-label { font-size: 0.85rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.06em; }
-.wh-temp { font-size: 3.4rem; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
-.wh-temp small { font-size: 1.4rem; font-weight: 600; margin-left: 0.1rem; }
-.wh-comfort { font-size: 1rem; font-weight: 600; }
-.wh-side { display: flex; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
-.wh-chip {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 999px;
-    padding: 0.25rem 0.7rem;
-    font-size: 0.85rem;
-    font-weight: 600;
+.wh-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.25rem 3rem;
+    padding: 1.75rem 2rem 0;
 }
-.wh-measured { font-size: 0.75rem; opacity: 0.85; }
+.wh-main { display: flex; flex-direction: column; }
+.wh-label { font-size: 1.1rem; color: rgba(255, 255, 255, 0.76); }
+.wh-temp {
+    font-size: clamp(5rem, 3rem + 9vw, 9rem);
+    font-weight: 750;
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: flex-start;
+}
+.wh-temp small { font-size: 0.3em; font-weight: 500; letter-spacing: 0; line-height: 1; margin: 0.2em 0 0 0.25em; color: rgba(255, 255, 255, 0.76); }
+.wh-comfort { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.01em; margin-top: 0.6rem; }
+.wh-side { display: flex; flex-direction: column; gap: 0.45rem; max-width: 19rem; padding-top: 0.2rem; }
+.wh-chip { font-size: 1.05rem; line-height: 1.35; }
+.wh-measured { font-size: 0.9rem; color: rgba(255, 255, 255, 0.66); }
+.wh-wave { position: relative; height: 210px; margin-top: -0.5rem; touch-action: pan-y; cursor: crosshair; }
+.wh-wave svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.wh-year { fill: none; stroke: #fff; stroke-width: 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.wh-dot {
+    position: absolute;
+    width: 18px; height: 18px;
+    margin: -9px 0 0 -9px;
+    border-radius: 50%;
+    background: var(--wh-color);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.22);
+}
+.wh-guide { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255, 255, 255, 0.7); pointer-events: none; }
+.wh-months span {
+    position: absolute;
+    bottom: 0.7rem;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 6px rgba(11, 34, 51, 0.75), 0 0 2px rgba(11, 34, 51, 0.75);
+}
+.wh-legend { display: flex; gap: 1.1rem; position: absolute; right: 2rem; top: -1rem; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); pointer-events: none; }
+.wh-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.wh-legend span::before { content: ""; width: 1.1rem; height: 2px; border-radius: 2px; background: #fff; }
+.wh-legend .wh-key-avg::before { height: 0.7rem; border-radius: 4px; background: linear-gradient(90deg, #3a82d0, #cfdee2, #f0885c); }
+.wh-tip {
+    position: absolute;
+    bottom: 2.6rem;
+    transform: translateX(-50%);
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+    background: #fff;
+    color: #0b2233;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+.wh-tip b, .wh-tip span { display: block; }
+.wh-guide[hidden], .wh-tip[hidden] { display: none; }
 
 /* Hub: warmest / coldest chips, search + sort */
-.hub-summary { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+.hub-summary {
+    display: flex; flex-wrap: wrap; gap: 0.4rem 2rem;
+}
 .hub-summary:empty { display: none; }
+.hub-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; margin: 2rem 0 1rem; }
+.hub-head h2 { margin: 0; }
 .hub-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.3rem 0.4rem 0.3rem 0.75rem;
-    border: 1px solid var(--nav-border);
-    border-radius: 999px;
-    background: var(--card-bg);
+    gap: 0.45rem;
     color: var(--text);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-weight: 600;
 }
-.hub-chip:hover { border-color: var(--accent); }
-.hub-chip-label { color: var(--text-muted); font-size: 0.75rem; }
-.hub-chip b { color: #fff; border-radius: 999px; padding: 0.1rem 0.45rem; }
+.hub-chip:hover { color: var(--accent); }
+.hub-chip-label { color: var(--text-muted); font-weight: 400; }
+.hub-chip b { display: inline-flex; align-items: center; gap: 0.4rem; font-variant-numeric: tabular-nums; }
 .hub-tools {
     display: flex;
     flex-wrap: wrap;
@@ -451,32 +576,35 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 }
 .hub-search {
     flex: 1 1 220px;
-    max-width: 360px;
-    padding: 0.55rem 0.9rem;
-    border: 1px solid var(--nav-border);
-    border-radius: 999px;
-    background: var(--container-bg);
+    max-width: 420px;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
     color: var(--text);
-    font-size: 0.95rem;
 }
-.hub-search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
-.hub-sort { font-size: 0.9rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 0.35rem; }
-.hub-flat { margin-top: 1rem; }
+.hub-search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); }
+.hub-sort { font-size: 1rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 0.35rem; }
+input[type="checkbox"] { accent-color: var(--accent); width: 1.05em; height: 1.05em; }
 .hub-card[hidden], .hub-section[hidden], .hub-flat[hidden] { display: none; }
 
 /* Charts */
 .chart {
     width: 100%;
-    height: clamp(300px, 50vh, 500px);
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+    height: clamp(300px, 46vh, 440px);
+    margin: 0 0 1rem;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 
 .chart-tall {
     width: 100%;
-    height: clamp(400px, 60vh, 600px);
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+    height: clamp(440px, 70vh, 680px);
+    margin: 0 0 1rem;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 
 /* Controls */
@@ -484,29 +612,24 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.75rem 1.25rem;
     margin-bottom: 1rem;
-    padding: 0.75rem;
-    background: var(--card-bg);
-    border-radius: 8px;
 }
 
 .controls label {
-    font-size: 0.85rem;
     color: var(--text-muted);
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.5rem;
     cursor: pointer;
 }
 
 .controls select {
-    background: var(--container-bg);
+    background: var(--panel);
     color: var(--text);
-    border: 1px solid var(--nav-border);
-    border-radius: 4px;
-    padding: 0.3rem 0.5rem;
-    font-size: 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.4rem 0.6rem;
 }
 
 .year-checkboxes {
@@ -525,32 +648,37 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 }
 .loc-group-title {
     flex-basis: 100%;
-    margin-top: 0.5rem;
-    font-size: 0.8rem;
+    margin-top: 0.75rem;
     font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
 }
 
 .year-check-label {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    background: var(--card-bg);
-    border-radius: 4px;
-    padding: 0.3rem 0.55rem;
-    font-size: 0.8rem;
+    gap: 0.4rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.95rem;
     cursor: pointer;
     user-select: none;
+    transition: border-color 0.15s, background 0.15s;
+}
+.year-check-label:hover { border-color: var(--text-muted); }
+.year-check-label:has(:checked) {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    font-weight: 600;
 }
 
 .tip {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--text-muted);
-    font-style: italic;
-    margin: 0.5rem 0;
+    max-width: 75ch;
+    margin: 0.75rem 0 1rem;
 }
+h2 + .tip, .best-month + .tip { margin-top: -0.5rem; }
 
 .loading {
     color: var(--text-muted);
@@ -561,18 +689,18 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 
 /* Footer */
 .footer {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 1rem;
-    font-size: 0.8rem;
+    max-width: 1160px;
+    margin: 4rem auto 0;
+    padding: 1.5rem 1.25rem 2.5rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-    border-top: 1px solid var(--nav-border);
-    margin-top: 2rem;
+    gap: 0.5rem 1.75rem;
+    border-top: 1px solid var(--line);
 }
 
+.footer span { margin-right: auto; }
 .footer a { color: var(--text-muted); text-decoration: none; }
 .footer a:hover { color: var(--accent); }
 
@@ -590,8 +718,8 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .nav-wide .loc-switch + .lang-switch { margin-left: 0.75rem; }   /* hub has no dropdown */
 .nav-wide .nav-links {
     order: 3;
-    flex: 0 1 calc(100% + 0.85rem);   /* always its own row; links wrap if still too wide */
-    margin-left: -0.85rem;   /* align first link's text with the brand */
+    flex: 0 1 calc(100% + 0.75rem);   /* always its own row; links wrap if still too wide */
+    margin-left: -0.75rem;   /* align first link's text with the brand */
 }
 
 /* Collapsed ("sandwich") nav — toggled by JS in i18n_runtime.js on mobile
@@ -619,22 +747,39 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .nav-collapsed .nav-links li { width: 100%; }
 .nav-collapsed .nav-links a {
     width: 100%;
-    padding: 0.85rem 0.5rem;
-    border-bottom: 1px solid var(--nav-border);
-    border-left: 3px solid transparent;   /* keep active marker visible */
+    padding: 0.8rem 0;
+    font-size: 1.1rem;
+    border-top: 1px solid var(--line);
 }
 .nav-collapsed .nav-links a.active {
-    border-bottom-color: var(--nav-border);
-    border-left-color: var(--accent);
+    box-shadow: none;
+    color: var(--accent);
 }
 
-@media (max-width: 480px) {
-    .container { padding: 1rem 0.75rem; }
-    .wh-temp { font-size: 2.8rem; }
-    .water-hero { padding: 1rem 1.1rem; }
-    h1 { font-size: 1.25rem; }
-    .nav-brand { font-size: 0.85rem; }
-    .nav-links a { padding: 0.7rem 0.6rem; font-size: 0.8rem; }
+@media (max-width: 600px) {
+    body { font-size: 1rem; }
+    .nav-inner, .container, .footer { padding-left: 1rem; padding-right: 1rem; }
+    .container { padding-top: 1.25rem; }
+    h2 { font-size: 1.3rem; margin-top: 2.5rem; }
+    .nav-brand { margin-right: 0; padding-right: 0.5rem; }
+    .lang-btn { padding: 0.35rem 0.3rem; font-size: 0.85rem; }
+    .nav-collapsed .loc-switch { justify-content: stretch; }
+    .loc-select { width: 100%; max-width: none; padding-top: 0.6rem; padding-bottom: 0.6rem; }
+    .water-hero { border-radius: 22px; }
+    .wh-top { padding: 1.25rem 1.25rem 0; }
+    .wh-side { max-width: none; }
+    .wh-wave { height: 190px; margin-top: 1.5rem; }
+    .wh-legend { right: auto; left: 1.25rem; }
+    .wh-months span { font-size: 0.75rem; font-weight: 500; }
+    .wh-months span:nth-child(even) { display: none; }
+    .hub-grid { grid-template-columns: 1fr 1fr; }
+    #map { height: min(54vh, 360px); }
+    .hub-card { padding: 0.7rem 0.7rem; gap: 0.35rem; }
+    .hub-card .hub-name { font-size: 0.95rem; letter-spacing: -0.015em; hyphens: auto; }
+    .hub-card .hub-temp { font-size: 1rem; }
+    .hub-flag { display: none; }
+    .hub-temp { gap: 0.4rem; }
+    .chart { height: 320px; }
 }
 
 /* Photo gallery (Wikimedia Commons) */
@@ -646,9 +791,8 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 }
 .gallery-item {
     margin: 0;
-    background: var(--card-bg);
-    border: 1px solid var(--nav-border);
-    border-radius: 8px;
+    background: var(--panel);
+    border-radius: var(--radius-s);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -669,7 +813,7 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .gallery-link:hover img { transform: scale(1.05); }
 .gallery-caption {
     padding: 0.4rem 0.55rem;
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     line-height: 1.3;
     color: var(--text-muted);
     overflow-wrap: anywhere;
@@ -679,8 +823,7 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .loc-map {
     width: 100%;
     height: clamp(260px, 45vh, 420px);
-    border: 1px solid var(--nav-border);
-    border-radius: 12px;
+    border-radius: var(--radius);
     margin-top: 0.5rem;
     z-index: 1; /* keep tiles/controls below the sticky nav (z-index 100) */
 }
@@ -739,38 +882,33 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 .wx-now {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 0.75rem;
+    gap: 1px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 /* Dashboard: the whole tile row links to the weather page */
-.wx-now-link { display: block; color: inherit; text-decoration: none; margin-bottom: 1.5rem; }
-.wx-now-link .wx-tile { transition: box-shadow 0.15s, transform 0.15s; }
-.wx-now-link:hover .wx-tile { box-shadow: 0 2px 10px rgba(0,0,0,0.12); transform: translateY(-1px); }
+.wx-now-link { display: block; color: inherit; text-decoration: none; }
+.wx-now-link:hover .wx-now { box-shadow: 0 0 0 2px var(--accent); }
 .wx-tile {
-    background: var(--card-bg);
-    border-radius: 14px;
-    padding: 1rem 1.1rem;
+    padding: 1.25rem 1.4rem;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.35rem;
     min-width: 0;
+    box-shadow: 0 0 0 1px var(--line);
 }
-.wx-tile-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-.wx-tile-value { font-size: 1.7rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
-.wx-tile-value small { font-size: 0.85rem; font-weight: 600; }
-.wx-sub { display: block; font-size: 0.82rem; color: var(--text-muted); }
+.wx-tile-label { color: var(--text-muted); }
+.wx-tile-value { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.wx-tile-value small { font-size: 1rem; font-weight: 500; letter-spacing: 0; color: var(--text-muted); }
+.wx-sub { display: block; font-size: 0.95rem; line-height: 1.35; color: var(--text-muted); }
 .wx-sub.stale { color: #d0702a; font-weight: 600; }
 .wx-main {
     grid-column: span 2;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
-    color: #fff;
-    background:
-        radial-gradient(120% 140% at 100% 0%, rgba(255,255,255,0.25), transparent 55%),
-        linear-gradient(135deg, #2e8fc4, #155a80);
+    gap: 1.25rem;
 }
-.wx-main .wx-sub { color: rgba(255,255,255,0.85); }
-.wx-main .wx-sub.stale { color: #ffd2a8; }
 @media (min-width: 900px) {
     /* main tile + four gauges on a single row */
     .wx-now { grid-template-columns: 1.9fr repeat(var(--wx-gauges, 4), minmax(0, 1fr)); }
@@ -779,32 +917,35 @@ h3 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-muted); font-we
 /* Sun & moon tiles */
 .wx-astro {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 .wx-now + .wx-astro { margin-top: 0.75rem; }
 .wx-astro:empty { display: none; }
 .wx-astro-body { display: flex; align-items: center; gap: 0.9rem; }
 .wx-astro-times { display: flex; gap: 1.5rem; }
 .wx-astro-times span { display: flex; flex-direction: column; }
-.wx-astro-times small { font-size: 0.75rem; color: var(--text-muted); }
-.wx-astro-times b { font-size: 1.35rem; font-weight: 800; color: var(--accent); line-height: 1.15; }
+.wx-astro-times small { font-size: 0.95rem; color: var(--text-muted); }
+.wx-astro-times b { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
 .wx-sun-arc { width: 110px; height: 57px; flex-shrink: 0; }
 .wx-moon-icon { font-size: 3rem; line-height: 1; display: flex; }
 .wx-astro-tile > .wx-sub:last-child { margin-top: auto; }
 a.wx-tile-link { color: inherit; text-decoration: none; transition: box-shadow 0.15s; }
 a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
 .wx-tile-more { color: var(--accent); font-weight: 700; }
-.wx-big-icon { font-size: 4rem; line-height: 1; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25)); }
-.wx-big-temp { display: block; font-size: 3.2rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.wx-big-icon { font-size: 4rem; line-height: 1; }
+.wx-big-temp { display: block; font-size: 3.6rem; font-weight: 700; line-height: 1; letter-spacing: -0.045em; }
 .wx-cond { display: block; font-size: 1.05rem; font-weight: 600; margin: 0.2rem 0; }
 .wx-sea {
     --wh-color: var(--accent);
-    color: #fff;
-    background: linear-gradient(135deg, var(--wh-color), color-mix(in srgb, var(--wh-color) 55%, #0a2a3a));
+    --wh-ink: #fff;
+    color: var(--wh-ink);
+    background: var(--wh-color);
 }
-.wx-sea .wx-tile-label, .wx-sea .wx-sub { color: rgba(255,255,255,0.88); }
-.wx-sea .wx-tile-value { color: #fff; }
+.wx-sea .wx-tile-label, .wx-sea .wx-sub { color: inherit; }
 .wx-wind { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; }
 .wx-compass { width: 72px; height: 72px; flex-shrink: 0; }
 .wx-compass text { font-size: 11px; font-weight: 700; fill: var(--text-muted); }
@@ -839,23 +980,19 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
     background: var(--container-bg);
     display: grid;
     place-items: center;
-    font-weight: 800;
-    color: var(--accent);
+    font-weight: 700;
 }
 
 /* Weather page — 10-day rows */
 .wx-days {
-    background: var(--card-bg);
-    border-radius: 14px;
-    padding: 0.4rem 0.9rem;
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 0.6rem 1.25rem 0.9rem;
 }
 .wx-days-head {
-    font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.7rem 0 0.3rem;
+    padding: 0.8rem 0.3rem 0.4rem;
 }
 .wx-day {
     display: grid;
@@ -863,8 +1000,8 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
     align-items: center;
     gap: 0.6rem;
     padding: 0.55rem 0.3rem;
-    border-top: 1px solid var(--nav-border);
-    font-size: 0.92rem;
+    border-top: 1px solid var(--line);
+    font-variant-numeric: tabular-nums;
 }
 .wx-days-head + .wx-day { border-top: none; }
 .wx-day.past { opacity: 0.6; }
@@ -887,15 +1024,16 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
 }
 .wx-range span { position: absolute; top: 0; bottom: 0; border-radius: 999px; }
 .wx-day-uv {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: #fff;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
     border-radius: 999px;
-    padding: 0.12rem 0.4rem;
+    padding: 0.1rem 0.5rem;
     text-align: center;
     justify-self: start;
 }
-.wx-day-wind { font-size: 0.82rem; color: var(--text-muted); white-space: nowrap; }
+.wx-day-wind { font-size: 0.95rem; color: var(--text-muted); white-space: nowrap; }
 
 @media (max-width: 600px) {
     .wx-main { grid-column: 1 / -1; }
@@ -926,27 +1064,28 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
 
 /* Breadcrumb (location pages) */
 .breadcrumb {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
-    margin: 0 0 0.6rem 0;
+    margin: 0 0 0.9rem;
 }
-.breadcrumb a { color: var(--accent); text-decoration: none; }
-.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); text-decoration: underline; }
 .crumb-sep { margin: 0 0.25rem; opacity: 0.7; }
 
 /* Static fallback inside the hero card, replaced by renderWaterHero() */
-.water-hero-static { margin: 0; font-size: 1rem; line-height: 1.5; }
+.water-hero-static { margin: 0; padding: 2rem; font-size: 1.35rem; line-height: 1.45; max-width: 60ch; }
 
 /* Monthly climatology table (dashboard) */
-.table-scroll { overflow-x: auto; }
+.table-scroll { overflow-x: auto; background: var(--panel); border-radius: var(--radius); padding: 0.5rem 1rem; }
 .month-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-variant-numeric: tabular-nums;
 }
+.month-table tbody tr:last-child > * { border-bottom: 0; }
 .month-table th, .month-table td {
-    padding: 0.4rem 0.6rem;
+    padding: 0.6rem 0.6rem;
     text-align: right;
     border-bottom: 1px solid var(--nav-border);
 }
@@ -955,42 +1094,44 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
 .month-table tbody th { font-weight: 500; }
 
 /* FAQ (dashboard) */
-.faq-item { margin-bottom: 1rem; }
-.faq-item h3 { color: var(--text); margin-bottom: 0.25rem; }
-.faq-item p { margin: 0; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+.faq-item { padding: 1.1rem 0; border-top: 1px solid var(--line); }
+.faq-item h3 { color: var(--text); font-size: 1.15rem; margin: 0 0 0.3rem; }
+.faq-item p { margin: 0; color: var(--text-muted); line-height: 1.6; max-width: 75ch; }
+@media (min-width: 860px) {
+    .faq-item { display: grid; grid-template-columns: 2fr 3fr; gap: 2.5rem; }
+}
 
 /* Nearby locations (every location page) */
 .nearby-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .nearby-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
-    background: var(--card-bg);
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 12px;
+    background: var(--panel);
+    border: 1px solid var(--line);
     color: var(--text);
     text-decoration: none;
-    font-size: 0.9rem;
+    transition: border-color 0.15s;
 }
-.nearby-link:hover { background: var(--accent-light); color: var(--accent); }
-.nearby-km { color: var(--text-muted); font-size: 0.8rem; }
+.nearby-link:hover { border-color: var(--accent); color: var(--accent); }
+.nearby-km { color: var(--text-muted); font-size: 0.9rem; }
 
 /* Links inside the baked tables (month names, towns, countries) */
 .month-table a { color: var(--accent); text-decoration: none; }
 .month-table a:hover { text-decoration: underline; }
 
 /* Static year x month heatmap table: cells tinted by temperature */
-.heat-table .month-table td[style] { color: #fff; text-align: center; }
+.heat-table .month-table td[style] { text-align: center; border: 2px solid var(--panel); border-radius: 8px; }
 .heat-table .month-table th, .heat-table .month-table td { padding: 0.35rem 0.4rem; }
-.month-rank .month-table td[style] { color: #fff; }
 .month-rank .month-table th,
 .month-rank .month-table td:nth-child(-n+3) { text-align: left; }
 .month-rank .month-table thead th:nth-child(n+4) { text-align: right; }
-.country-table .hub-temp { display: inline-block; }
 
 /* Country / month link lists (hub, country and month pages) */
 .browse h2 { margin-top: 1.75rem; }
-.nearby-link[aria-current="page"] { background: var(--accent); color: #fff; }
+.nearby-link[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
 /* Hub country headings link to the country pages */
 .hub-country a { color: inherit; text-decoration: none; }
@@ -1003,62 +1144,63 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
 /* Dashboard: "at a glance" facts under the water hero */
 .glance {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 0.75rem;
-    margin: 0 0 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1.25rem 2rem;
+    margin: 1.75rem 0 0;
 }
-.glance-item { background: var(--card-bg); border-radius: 14px; padding: 0.8rem 1rem; }
-.glance dt { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-.glance dd { margin: 0.25rem 0 0; font-size: 1.05rem; font-weight: 700; color: var(--accent); }
+.glance dt { color: var(--text-muted); }
+.glance dd { margin: 0; font-size: 1.3rem; font-weight: 650; letter-spacing: -0.015em; line-height: 1.3; }
 
 /* Dashboard: beach conditions (swim flag, waves, upwelling, air quality) */
-.sea-section .tip { margin-top: 0.5rem; }
+.sea-section .tip { margin: 0.75rem 0 0; }
 .sea-flag { color: #fff; }
-.sea-flag-0 { background: linear-gradient(135deg, #2e9d5a, #1b6b3c); }
-.sea-flag-1 { background: linear-gradient(135deg, #d99a00, #a86a00); }
-.sea-flag-2 { background: linear-gradient(135deg, #d8432b, #9c2414); }
-.sea-flag .wx-tile-label, .sea-flag .wx-sub { color: rgba(255,255,255,0.9); }
-.sea-flag-title { font-size: 1.25rem; font-weight: 800; line-height: 1.2; }
-.sea-tile-title { font-size: 1.15rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
-.upw-1 .sea-tile-title { color: #d08a00; }
-.upw-2 .sea-tile-title { color: #2f7fd8; }
-.upw-2 { box-shadow: inset 0 0 0 2px #2f7fd8; }
+/* Lifeguard-flag colours */
+.sea-flag-0 { background: #187a45; }
+.sea-flag-1 { background: #f6c443; color: #0b2233; }
+.sea-flag-2 { background: #c23422; }
+.sea-flag .wx-tile-label, .sea-flag .wx-sub { color: inherit; }
+.sea-flag-title { font-size: 2.1rem; font-weight: 750; letter-spacing: -0.03em; line-height: 1.1; }
+.sea-tile-title { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+.upw-1 .sea-tile-title { color: var(--hot); }
+.upw-2 .sea-tile-title { color: var(--cold); }
+.upw-2 { box-shadow: inset 0 0 0 2px var(--cold); }
 
 /* Dashboard: 7-day sea forecast strip */
 .sea-days {
     display: grid;
-    grid-template-columns: repeat(7, minmax(88px, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(7, minmax(98px, 1fr));
+    gap: 1px;
     overflow-x: auto;
-    padding-bottom: 0.25rem;
+    background: var(--panel);
+    border-radius: var(--radius);
 }
 .sea-day {
-    background: var(--card-bg);
-    border-radius: 14px;
-    padding: 0.7rem 0.4rem;
+    padding: 1.1rem 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.3rem;
     text-align: center;
-    font-size: 0.85rem;
+    box-shadow: 0 0 0 1px var(--line);
 }
-.sea-day.today { box-shadow: inset 0 0 0 2px var(--accent); }
-.sea-day-name { font-weight: 700; text-transform: capitalize; white-space: nowrap; }
+.sea-day.today { background: var(--accent-light); }
+.sea-day-name { font-weight: 600; text-transform: capitalize; white-space: nowrap; }
 .sea-day-icon { font-size: 1.6rem; line-height: 1.1; min-height: 1.8rem; }
 .sea-day-water {
     --wh-color: var(--accent);
-    background: var(--wh-color);
-    color: #fff;
-    font-weight: 800;
-    border-radius: 999px;
-    padding: 0.15rem 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     white-space: nowrap;
 }
+.wave-icon { width: 1.15em; height: 0.7em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 .sea-day-air, .sea-day-wave { color: var(--text-muted); white-space: nowrap; }
 
 /* Month table: share of warm days, best-month verdict */
-.best-month { font-weight: 600; margin: 0 0 0.25rem; }
+.best-month { font-weight: 600; margin: 0 0 1rem; }
 .share-cell { white-space: nowrap; }
 .share-bar {
     display: inline-block;
@@ -1067,7 +1209,7 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
     height: 6px;
     margin-right: 0.5rem;
     border-radius: 999px;
-    background: linear-gradient(90deg, #f18b00 var(--p), rgba(128,128,128,0.2) var(--p));
+    background: linear-gradient(90deg, var(--c-orange) var(--p), rgba(128,128,128,0.2) var(--p));
 }
 
 /* EU bathing water quality badges */
@@ -1075,30 +1217,29 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
     display: inline-block;
     border-radius: 999px;
     padding: 0.1rem 0.55rem;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 650;
     color: #fff;
-    background: #888;
+    background: #6b7f8c;
 }
-.bw-excellent { background: #1f78b4; }
-.bw-good { background: #33a02c; }
-.bw-sufficient { background: #d4a000; }
-.bw-poor { background: #e31a1c; }
+.bw-excellent { background: #0f62b0; }
+.bw-good { background: #187a45; }
+.bw-sufficient { background: #f6c443; color: #0b2233; }
+.bw-poor { background: #c23422; }
 .bathing-quality .month-table td:nth-child(n+3) { text-align: center; }
 
 /* Nearby links: neighbour's water temperature and difference */
 .nearby-temp {
     --wh-color: var(--accent);
-    color: #fff;
-    background: var(--wh-color);
-    border-radius: 999px;
-    padding: 0 0.45rem;
-    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
-.nearby-diff { font-size: 0.78rem; font-weight: 700; }
-.nearby-diff.up { color: #d0502a; }
-.nearby-diff.down { color: #2f7fd8; }
+.nearby-diff { font-size: 0.9rem; font-weight: 600; }
+.nearby-diff.up { color: var(--hot); }
+.nearby-diff.down { color: var(--cold); }
 .nearby-diff.flat { color: var(--text-muted); }
 @media (max-width: 600px) {
     /* the flag takes the full row like the weather main tile */
@@ -1120,23 +1261,22 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
     gap: 1rem;
     align-items: start;
 }
-.moon-panel { background: var(--card-bg); border-radius: 10px; padding: 1rem; min-width: 0; }
+.moon-panel { background: var(--panel); border-radius: var(--radius); padding: 1.4rem; min-width: 0; }
 .moon-panel-h2 {
-    margin: 0 0 0.75rem 0; padding: 0; border: 0;
-    font-size: 1rem; text-align: center;
+    margin: 0 0 0.75rem; font-size: 1.15rem; text-align: center;
 }
 .moon-now p { margin: 0; color: var(--text-muted); }
 .moon-hero { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
 .moon-hero-name { font-size: 1.15rem; font-weight: 700; }
 .moon-btn, .moon-nav-btn {
-    font: inherit; font-size: 0.85rem; cursor: pointer;
+    font: inherit; font-size: 0.95rem; cursor: pointer;
     border: 0; border-radius: 999px; padding: 0.3rem 0.8rem;
     background: var(--accent-light); color: var(--accent);
 }
-.moon-btn:hover, .moon-nav-btn:hover:not(:disabled) { background: var(--accent); color: #fff; }
+.moon-btn:hover, .moon-nav-btn:hover:not(:disabled) { background: var(--accent); color: var(--on-accent); }
 .moon-nav-btn { background: none; font-weight: 600; padding: 0.3rem 0.4rem; }
 .moon-nav-btn:disabled { visibility: hidden; }
-.moon-facts { margin: 0; display: grid; gap: 0.1rem; font-size: 0.9rem; }
+.moon-facts { margin: 0; display: grid; gap: 0.1rem; }
 .moon-facts div {
     display: flex; justify-content: space-between; gap: 1rem;
     padding: 0.35rem 0; border-bottom: 1px solid var(--nav-border);
@@ -1157,18 +1297,19 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
 .moon-cal-day.empty { cursor: default; }
 .moon-cal-day:not(.empty):hover { background: var(--accent-light); }
 .moon-cal-day.today { box-shadow: inset 0 0 0 2px var(--accent); }
-.moon-cal-day.selected { background: var(--accent); color: #fff; }
+.moon-cal-day.selected { background: var(--accent); color: var(--on-accent); }
 .moon-cal-day .moon-svg { position: absolute; top: 3px; right: 3px; }
 .moon-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 0.6rem;
+    gap: 1px;
+    background: var(--panel); border-radius: var(--radius); overflow: hidden;
 }
 .moon-card {
-    background: var(--card-bg); border-radius: 10px; padding: 0.8rem 0.5rem;
+    box-shadow: 0 0 0 1px var(--line); padding: 1.1rem 0.5rem;
     display: flex; flex-direction: column; align-items: center; gap: 0.2rem; text-align: center;
 }
-.moon-card-date { font-weight: 700; color: var(--accent); }
+.moon-card-date { font-weight: 700; }
 .moon-card-time { font-size: 0.85rem; font-variant-numeric: tabular-nums; }
 .moon-card-rel, .moon-card-meta { font-size: 0.8rem; color: var(--text-muted); }
 .moon-card .moon-svg { margin: 0.35rem 0; }
@@ -1180,7 +1321,7 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
 .moon-year-date { font-weight: 600; }
 .moon-zodiac { display: block; font-size: 0.8rem; color: var(--text-muted); }
 @media (max-width: 600px) {
-    .moon-cards { grid-template-columns: 1fr; gap: 0.4rem; }
+    .moon-cards { grid-template-columns: 1fr; }
     .moon-card {
         display: grid; grid-template-columns: auto 1fr auto; align-items: center;
         column-gap: 0.75rem; row-gap: 0; text-align: left; padding: 0.5rem 0.75rem;
@@ -1191,4 +1332,12 @@ a.wx-tile-link:hover, a.wx-tile-link:focus-visible { box-shadow: inset 0 0 0 2px
     .moon-card-meta { grid-column: 2; grid-row: 3; }
     .moon-card-time { grid-column: 3; grid-row: 1; text-align: right; }
     .moon-card-rel { grid-column: 3; grid-row: 2; text-align: right; }
+}
+
+@media (max-width: 600px) {
+    .glance { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .glance dd { font-size: 1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
 }

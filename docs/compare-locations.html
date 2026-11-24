@@ -27,8 +27,9 @@
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=05f25fd8">
-    <script src="/i18n.bg.js?v=653eb48a"></script>
+    <link rel="preload" href="/fonts/sofia-sans-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/style.css?v=ab933732">
+    <script src="/i18n.bg.js?v=0f94cb0c"></script>
     <script src="/locations.js?v=b33e44dd"></script>
     <script>window.LOCATION_ID = 'burgas'; window.LANG = 'bg'; window.LANG_PREFIX = '';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -38,7 +39,7 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Черно море</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">Черно море</a>
         <ul class="nav-links">
             <li><a href="/burgas/index.html" data-i18n="nav_dashboard">Данни</a></li>
             <li><a href="/burgas/compare.html" data-i18n="nav_compare">Сравнение по години</a></li>
@@ -81,9 +82,14 @@
     <a href="https://masoko.net" target="_blank" rel="noopener">masoko.net</a>
 </footer>
 <script src="https://cdn.plot.ly/plotly-cartesian-2.27.0.min.js"></script>
-<script src="/data.js?v=4366275e"></script>
+<script src="/data.js?v=46a9b7a9"></script>
 <script>
 const DEFAULT_LOCATIONS = ['burgas', 'varna', 'kamen-bryag'];
+const lineSlots = {};       // id -> line style, kept while the page is open
+function slotOf(id) {
+    if (!(id in lineSlots)) lineSlots[id] = Object.keys(lineSlots).length;
+    return lineSlots[id];
+}
 const recordsById = {};   // id -> records, filled as locations are loaded
 let smoothEnabled = true;
 
@@ -123,17 +129,17 @@ function drawTimeline() {
                 y: smoothEnabled ? movingAvg(recs.map(r => r.temp), 7) : recs.map(r => r.temp),
                 name: locLabel(id),
                 type: 'scatter', mode: 'lines',
-                line: { width: 1.5 },
+                line: seriesLine(slotOf(id)),
                 hovertemplate: '<b>%{data.name}</b> %{x|%Y-%m-%d}: %{y:.1f}°C<extra></extra>'
             };
         });
         Plotly.react('timeline-chart', traces, {
             ...theme,
             xaxis: { ...theme.xaxis, title: '' },
-            yaxis: { ...theme.yaxis, title: '°C' },
+            yaxis: { ...theme.yaxis, title: '', ticksuffix: '°' },
             hovermode: 'x unified',
             legend: { orientation: 'h', y: -0.15 }
-        }, { responsive: true });
+        }, plotlyConfig());
     });
 }
 
@@ -149,17 +155,17 @@ function drawSeasonal() {
                 x: xs, y: ys,
                 name: locLabel(id),
                 type: 'scatter', mode: 'lines',
-                line: { width: 1.5 },
+                line: seriesLine(slotOf(id)),
                 hovertemplate: '<b>%{data.name}</b> (%{x|%b %d}): %{y:.1f}°C<extra></extra>'
             };
         });
         Plotly.react('seasonal-chart', traces, {
             ...theme,
             xaxis: { ...theme.xaxis, title: '', tickformat: '%b' },
-            yaxis: { ...theme.yaxis, title: '°C' },
+            yaxis: { ...theme.yaxis, title: '', ticksuffix: '°' },
             hovermode: 'x unified',
             legend: { orientation: 'h', y: -0.15 }
-        }, { responsive: true });
+        }, plotlyConfig());
     });
 }
 

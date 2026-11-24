@@ -13,7 +13,7 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">Black Sea Temp</a>
         <ul class="nav-links">
             <li><a href="./" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
@@ -90,7 +90,7 @@ function renderDays(el, days) {
             <span class="wx-day-max">${round(d.temp_max)}°</span>
             <span class="wx-day-uv"${uv ? ` style="background:${uv.color}" title="${t('weather_uv_index')}: ${t(uv.key)}"` : ''}>${
                 d.uv_max != null ? 'UV ' + Math.round(d.uv_max) : ''}</span>
-            <span class="wx-day-wind">🌬️ ${round(d.wind_max)} <small>km/h</small></span>
+            <span class="wx-day-wind">${round(d.wind_max)} <small>km/h</small></span>
         </div>`;
     });
     el.innerHTML = html;
@@ -109,21 +109,21 @@ function renderAirSea(id, days, records) {
     const todayStr = new Date().toISOString().slice(0, 10);
     Plotly.newPlot(id, [
         { x, y: days.map(d => d.temp_min), name: t('weather_air_min'), type: 'scatter', mode: 'lines',
-          line: { color: '#e0a030', width: 0, shape: 'spline' }, showlegend: false,
+          line: { color: chartColor('air'), width: 0, shape: 'spline' }, showlegend: false,
           hovertemplate: '%{y:.0f}°C<extra>' + t('weather_air_min') + '</extra>' },
         { x, y: days.map(d => d.temp_max), name: t('weather_air_range'), type: 'scatter', mode: 'lines+markers',
-          fill: 'tonexty', fillcolor: 'rgba(224,160,48,0.22)',
-          line: { color: '#e0a030', width: 2, shape: 'spline' }, marker: { size: 6 },
+          fill: 'tonexty', fillcolor: 'rgba(235,104,52,0.16)',
+          line: { color: chartColor('air'), width: 2, shape: 'spline' }, marker: { size: 6 },
           hovertemplate: '%{y:.0f}°C<extra>' + t('weather_air_max') + '</extra>' },
         { x, y: sea, name: t('weather_sea'), type: 'scatter', mode: 'lines+markers',
-          line: { color: '#007bff', width: 3, shape: 'spline' }, marker: { size: 7 }, connectgaps: false,
+          line: { color: chartColor('sea'), width: 3, shape: 'spline' }, marker: { size: 7 }, connectgaps: false,
           hovertemplate: '%{y:.1f}°C<extra>' + t('weather_sea') + '</extra>' }
     ], {
         ...theme,
         hovermode: 'x unified',
         legend: { ...theme.legend, orientation: 'h', x: 0, y: 1.12 },
         xaxis: { ...theme.xaxis, title: '', type: 'date', tickformat: '%d.%m', dtick: 86400000 },
-        yaxis: { ...theme.yaxis, title: '°C' },
+        yaxis: { ...theme.yaxis, title: '', ticksuffix: '°' },
         shapes: [{ type: 'line', xref: 'x', yref: 'paper', x0: todayStr, x1: todayStr, y0: 0, y1: 1,
                    line: { color: 'rgba(128,128,128,0.6)', width: 1, dash: 'dot' } }],
         annotations: [{ x: todayStr, y: 1, xref: 'x', yref: 'paper', yanchor: 'bottom', showarrow: false,

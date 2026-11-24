@@ -56,7 +56,7 @@ function renderSwitcher() {
         a.className = 'lang-btn' + (f.code === lang ? ' active' : '');
         a.href = siblingPath(f.code);
         a.hreflang = f.code;
-        a.textContent = f.flag;
+        a.textContent = f.code.toUpperCase();
         a.title = f.label;
         a.setAttribute('aria-label', f.label);
         if (f.code === lang) a.setAttribute('aria-current', 'true');
@@ -70,7 +70,7 @@ function renderNavToggle() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'nav-toggle';
-    btn.textContent = '☰';
+    btn.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14"/></svg>';
     btn.setAttribute('aria-label', t('nav_menu'));
     btn.setAttribute('aria-expanded', 'false');
     const close = () => {

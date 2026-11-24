@@ -14,7 +14,7 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">Black Sea Temp</a>
         <ul class="nav-links">
             <li><a href="./" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
@@ -76,19 +76,24 @@ loadData().then(records => {
         x: MONTHS,
         y: [...years].reverse().map(String),
         type: 'heatmap',
-        colorscale: 'RdBu',
-        reversescale: false,
-        zmin: 5, zmax: 28,
-        colorbar: { title: '°C', thickness: 14 },
+        colorscale: tempColorscale(),
+        xgap: 2, ygap: 2,
+        zmin: 4, zmax: 28,
+        colorbar: { title: '', ticksuffix: '°', outlinewidth: 0, thickness: 14 },
         hovertemplate: '<b>%{y} %{x}</b>: %{z:.1f}°C<extra></extra>'
     }], {
         ...theme,
         xaxis: { ...theme.xaxis, title: '' },
-        yaxis: { ...theme.yaxis, title: '', type: 'category', autorange: 'reversed' },
+        yaxis: { ...theme.yaxis, title: '', type: 'category', autorange: 'reversed', showgrid: false, ticks: '' },
         margin: { l: 55, r: 80, t: 30, b: 40 }
-    }, { responsive: true });
+    }, plotlyConfig());
 
     // Second chart: line per month showing avg over years
+    const monthColor = mi => {
+        const v = matrix.map(r => r[mi]).filter(x => x != null);
+        const c = tempRgb(v.reduce((a, b) => a + b, 0) / v.length);
+        return 'rgb(' + c.map(x => Math.round(x * 0.88)).join(',') + ')';
+    };
     const monthTraces = MONTHS.map((name, mi) => {
         const m = mi + 1;
         return {
@@ -100,6 +105,8 @@ loadData().then(records => {
             name,
             type: 'scatter', mode: 'lines',
             connectgaps: true,
+            // Coloured by the month's mean temperature; the cooling half is dashed.
+            line: { width: 2, dash: mi >= 6 ? 'dash' : 'solid', color: monthColor(mi) },
             hovertemplate: `<b>${name}</b> %{x}: %{y:.1f}°C<extra></extra>`
         };
     });
@@ -107,10 +114,10 @@ loadData().then(records => {
     Plotly.newPlot('monthly-avg-chart', monthTraces, {
         ...theme,
         xaxis: { ...theme.xaxis, title: '', type: 'category' },
-        yaxis: { ...theme.yaxis, title: '°C' },
+        yaxis: { ...theme.yaxis, title: '', ticksuffix: '°' },
         hovermode: 'x unified',
         legend: { orientation: 'h', y: -0.2 }
-    }, { responsive: true });
+    }, plotlyConfig());
 });
 </script>
 </body>

@@ -227,13 +227,13 @@ window.renderWeatherNow = function(el, current, updatedIso, waterTemp) {
                 <span class="wx-sub wx-upd${stale ? ' stale' : ''}">${window.formatUpdatedAgo(updatedIso)}</span>
             </div>
         </div>
-        ${waterTemp != null ? `<div class="wx-tile wx-sea" style="--wh-color:${window.tempColor(waterTemp)}">
-            <span class="wx-tile-label">💧 ${t('weather_sea')}</span>
+        ${waterTemp != null ? `<div class="wx-tile wx-sea" style="--wh-color:${window.tempColor(waterTemp)};--wh-ink:${window.tempInk(waterTemp)}">
+            <span class="wx-tile-label">${t('weather_sea')}</span>
             <span class="wx-tile-value">${waterTemp.toFixed(1)}°C</span>
             <span class="wx-sub">${t(window.comfortKey(waterTemp))}</span>
         </div>` : ''}
         <div class="wx-tile">
-            <span class="wx-tile-label">🌬️ ${t('weather_wind')}</span>
+            <span class="wx-tile-label">${t('weather_wind')}</span>
             <div class="wx-wind">
                 ${compassSvg(c.wind_dir)}
                 <div>
@@ -244,13 +244,13 @@ window.renderWeatherNow = function(el, current, updatedIso, waterTemp) {
             </div>
         </div>
         <div class="wx-tile">
-            <span class="wx-tile-label">☀️ ${t('weather_uv_index')}</span>
+            <span class="wx-tile-label">${t('weather_uv_index')}</span>
             <span class="wx-tile-value" style="color:${uvl.color}">${uv.toFixed(1)}</span>
             <div class="wx-uv-bar"><span style="left:${Math.min(100, uv / 12 * 100)}%"></span></div>
             <span class="wx-sub">${t(uvl.key)}</span>
         </div>
         ${hum != null ? `<div class="wx-tile">
-            <span class="wx-tile-label">💦 ${t('weather_humidity')}</span>
+            <span class="wx-tile-label">${t('weather_humidity')}</span>
             <div class="wx-ring" style="--p:${hum}"><span>${hum}%</span></div>
         </div>` : ''}`;
 };
@@ -371,7 +371,7 @@ window.renderAstro = function(el, days, id) {
         const up = now >= rise && now <= set;
         const sx = 50 - 40 * Math.cos(Math.PI * f), sy = 46 - 36 * Math.sin(Math.PI * f);
         sunTile = `<div class="wx-tile wx-astro-tile">
-            <span class="wx-tile-label">🌅 ${t('weather_sun')}</span>
+            <span class="wx-tile-label">${t('weather_sun')}</span>
             <div class="wx-astro-body">
                 <svg class="wx-sun-arc" viewBox="0 0 100 52" aria-hidden="true">
                     <path d="M10 46 A40 36 0 0 1 90 46" fill="none" stroke="var(--nav-border)" stroke-width="2" stroke-dasharray="3 3"/>
@@ -393,7 +393,7 @@ window.renderAstro = function(el, days, id) {
     const full = moonCalc.nextPhase(now, 0.5), newMoon = moonCalc.nextPhase(now, 0);
     // The whole moon tile links to the moon phases page.
     const moonTile = `<a class="wx-tile wx-astro-tile wx-tile-link" href="${window.LANG_PREFIX || ''}/moon-phases/" title="${t('nav_moon')}">
-        <span class="wx-tile-label">🌙 ${t('weather_moon')} <span class="wx-tile-more" aria-hidden="true">›</span></span>
+        <span class="wx-tile-label">${t('weather_moon')} <span class="wx-tile-more" aria-hidden="true">›</span></span>
         <div class="wx-astro-body">
             <span class="wx-moon-icon" title="${t(phaseKey)}">${window.moonSvg ? window.moonSvg(ill.phase, 60) : emoji}</span>
             <div>
@@ -442,14 +442,14 @@ window.renderHourlyChart = function(containerId, hourly, opts) {
         x: times,
         y: temps,
         type: 'scatter', mode: 'lines',
-        line: { color: '#e0a030', width: 2.5, shape: 'spline' },
-        fill: 'tozeroy', fillcolor: 'rgba(224,160,48,0.12)',
+        line: { color: window.chartColor('air'), width: 2, shape: 'spline' },
+        fill: 'tozeroy', fillcolor: 'rgba(235,104,52,0.10)',
         text: labels,
         hovertemplate: '%{text}: <b>%{y:.1f}°C</b><extra></extra>'
     }], {
         ...theme,
         xaxis: { ...theme.xaxis, title: '', tickformat: '%H:%M\n%d.%m' },
-        yaxis: { ...theme.yaxis, title: '°C', rangemode: 'normal', range },
+        yaxis: { ...theme.yaxis, title: '', ticksuffix: '°', rangemode: 'normal', range },
         annotations
     }, window.plotlyConfig());
 };
@@ -469,10 +469,28 @@ window.plotlyConfig = function() {
 };
 
 // Cold→warm colour across the Black Sea's ~4–28 °C range (same scale as the hub map).
+// Blue (cold) -> pale neutral (17 °C) -> coral (warm). Twin of TEMP_STOPS in
+// build_site.py and docs/map.js.
+const TEMP_STOPS = [[4, [30, 79, 163]], [9, [58, 130, 208]], [13, [118, 178, 228]],
+    [17, [190, 208, 214]], [20, [245, 203, 152]], [24, [240, 136, 92]], [28, [208, 63, 48]]];
+function tempRgb(temp) {
+    temp = Math.max(4, Math.min(28, temp));
+    const i = Math.max(1, TEMP_STOPS.findIndex(s => temp <= s[0]));
+    const [t0, c0] = TEMP_STOPS[i - 1], [t1, c1] = TEMP_STOPS[i];
+    return c0.map((c, j) => Math.round(c + (c1[j] - c) * (temp - t0) / (t1 - t0)));
+}
 window.tempColor = function(temp) {
     if (temp == null || isNaN(temp)) return '#888';
-    const f = Math.max(0, Math.min(1, (temp - 4) / 24));
-    return 'hsl(' + Math.round(220 - f * 220) + ', 75%, 47%)';
+    return 'rgb(' + tempRgb(temp).join(',') + ')';
+};
+// Text colour that reads on tempColor(temp).
+window.tempInk = function(temp) {
+    const [r, g, b] = tempRgb(temp);
+    return 0.299 * r + 0.587 * g + 0.114 * b > 115 ? '#0b2233' : '#fff';
+};
+// The same scale as a Plotly colorscale over 4-28 °C.
+window.tempColorscale = function() {
+    return TEMP_STOPS.map(([t, c]) => [(t - 4) / 24, 'rgb(' + c.join(',') + ')']);
 };
 
 window.comfortKey = function(temp) {
@@ -590,8 +608,7 @@ window.renderSeaNow = function(el, data, records, id) {
     const facing = window.LOCATIONS[id].facing;
     const water = records.length ? records[records.length - 1].temp : null;
     const safety = window.swimSafety(marine, data.current, facing, water);
-    const flags = [['swim_green', '🟢'], ['swim_yellow', '🟡'], ['swim_red', '🔴']];
-    const [flagKey, flagIcon] = flags[safety.level];
+    const flagKey = ['swim_green', 'swim_yellow', 'swim_red'][safety.level];
     const upw = window.upwellingStatus(records, data.days, data.marine.days, facing);
     const upwKeys = ['upw_none', 'upw_possible', 'upw_active'];
     const air = data.air;
@@ -602,23 +619,23 @@ window.renderSeaNow = function(el, data, records, id) {
     el.innerHTML = `
         <div class="wx-tile sea-flag sea-flag-${safety.level}">
             <span class="wx-tile-label">${t('swim_label')}</span>
-            <span class="sea-flag-title">${flagIcon} ${t(flagKey)}</span>
+            <span class="sea-flag-title">${t(flagKey)}</span>
             <span class="wx-sub">${safety.reasons.length ? safety.reasons.join(' · ') : t('swim_green_sub')}</span>
         </div>
         <div class="wx-tile">
-            <span class="wx-tile-label">🌊 ${t('waves_label')}</span>
+            <span class="wx-tile-label">${t('waves_label')}</span>
             <span class="wx-tile-value">${marine.wave.toFixed(1)} <small>m</small></span>
             <span class="wx-sub">${t(window.seaStateKey(marine.wave))}${marine.period != null
                 ? ' · ' + t('waves_period').replace('{n}', marine.period.toFixed(0)) : ''}${marine.wave_dir != null
                 ? ' · ' + t('weather_from').replace('{dir}', window.windDirectionLabel(marine.wave_dir)) : ''}</span>
         </div>
         ${upw ? `<div class="wx-tile upw-${upw.level}">
-            <span class="wx-tile-label">🧊 ${t('upw_label')}</span>
+            <span class="wx-tile-label">${t('upw_label')}</span>
             <span class="sea-tile-title">${t(upwKeys[upw.level])}</span>
             <span class="wx-sub">${upw.sub}</span>
         </div>` : ''}
         ${aq ? `<div class="wx-tile">
-            <span class="wx-tile-label">🍃 ${t('aq_label')}</span>
+            <span class="wx-tile-label">${t('aq_label')}</span>
             <span class="wx-tile-value" style="color:${aq.color}">${Math.round(air.aqi)}</span>
             <span class="wx-sub">${t(aq.key)}${air.pm2_5 != null ? ' · PM2.5 ' + Math.round(air.pm2_5) : ''}</span>
             ${pollen ? `<span class="wx-sub">🌼 ${t('pollen_line').replace('{type}', pollen.type).replace('{level}', pollen.level)}</span>` : ''}
@@ -628,6 +645,7 @@ window.renderSeaNow = function(el, data, records, id) {
 
 // Next 7 days at the beach: weather icon, water temperature (Marine API
 // forecast), air max/min and max wave height, one card per day.
+const WAVE_SVG = '<svg class="wave-icon" viewBox="0 0 20 12" aria-hidden="true"><path d="M1 8c3 0 3-5 6-5s3 5 6 5 3-5 6-5"/></svg>';
 window.renderSeaDays = function(el, data) {
     const todayStr = new Date().toISOString().slice(0, 10);
     const air = {};
@@ -645,10 +663,10 @@ window.renderSeaDays = function(el, data) {
             <span class="sea-day-name">${label}</span>
             <span class="sea-day-icon" title="${a.code != null ? t(window.weatherCondKey(a.code)) : ''}">${
                 a.code != null ? window.weatherIcon(a.code) : ''}</span>
-            <span class="sea-day-water" style="--wh-color:${window.tempColor(d.sst)}" title="${t('weather_sea')}">💧 ${d.sst.toFixed(1)}°</span>
+            <span class="sea-day-water" style="--wh-color:${window.tempColor(d.sst)}" title="${t('weather_sea')}">${d.sst.toFixed(1)}°</span>
             ${a.temp_max != null ? `<span class="sea-day-air" title="${t('weather_air_range')}">${
                 round(a.temp_max)}° / ${round(a.temp_min)}°</span>` : ''}
-            <span class="sea-day-wave" title="${t('waves_label')}">🌊 ${d.wave_max != null ? d.wave_max.toFixed(1) + ' m' : '–'}</span>
+            <span class="sea-day-wave" title="${t('waves_label')}">${WAVE_SVG} ${d.wave_max != null ? d.wave_max.toFixed(1) + ' m' : '–'}</span>
         </div>`;
     }).join('');
     return true;
@@ -686,10 +704,9 @@ window.renderWaterHero = function(container, records) {
     if (prev) {
         const d = Math.round((last.temp - prev.temp) * 10) / 10;
         const cls = d > 0 ? 'up' : d < 0 ? 'down' : 'flat';
-        const arrow = d > 0 ? '▲' : d < 0 ? '▼' : '●';
         const txt = d === 0 ? t('water_delta_flat')
             : t('water_delta_day').replace('{sign}', d > 0 ? '+' : '−').replace('{n}', Math.abs(d).toFixed(1));
-        deltaHtml = `<span class="wh-chip ${cls}">${arrow} ${txt}</span>`;
+        deltaHtml = `<span class="wh-chip ${cls}">${txt}</span>`;
     }
     const avg = window.dayAverages(records, last.year);
     const norm = avg.byDay[last.dateStr.substring(5, 10)];
@@ -710,7 +727,7 @@ window.renderWaterHero = function(container, records) {
         if (same.length && (last.temp > Math.max(...same) || last.temp < Math.min(...same))) {
             const warm = last.temp > Math.max(...same);
             const date = new Date(lastTime).toLocaleDateString(locale, { day: 'numeric', month: 'long' });
-            recordHtml = `<span class="wh-chip ${warm ? 'up' : 'down'}">🏆 ${
+            recordHtml = `<span class="wh-chip ${warm ? 'up' : 'down'}">${
                 t(warm ? 'water_record_warm' : 'water_record_cold')
                     .replace('{date}', date).replace('{years}', avg.years + 1)}</span>`;
         }
@@ -719,17 +736,109 @@ window.renderWaterHero = function(container, records) {
         { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
     container.style.setProperty('--wh-color', window.tempColor(last.temp));
     container.innerHTML = `
-        <div class="wh-main">
-            <span class="wh-label">💧 ${t('water_now')}</span>
-            <span class="wh-temp">${last.temp.toFixed(1)}<small>°C</small></span>
-            <span class="wh-comfort">${t(window.comfortKey(last.temp))}</span>
+        <div class="wh-top">
+            <div class="wh-main">
+                <span class="wh-label">${t('water_now')}</span>
+                <span class="wh-temp">${last.temp.toFixed(1)}<small>°C</small></span>
+                <span class="wh-comfort">${t(window.comfortKey(last.temp))}</span>
+            </div>
+            <div class="wh-side">
+                ${anomalyHtml}
+                ${deltaHtml}
+                ${recordHtml}
+                <span class="wh-measured">${t('water_measured').replace('{date}', measured)}</span>
+            </div>
         </div>
-        <div class="wh-side">
-            ${deltaHtml}
-            ${anomalyHtml}
-            ${recordHtml}
-            <span class="wh-measured">${t('water_measured').replace('{date}', measured)}</span>
-        </div>`;
+        <div class="wh-wave"></div>`;
+    renderYearWave(container.querySelector('.wh-wave'), records, last, avg);
+};
+
+// The hero's wave: the average sea temperature through the year, January to
+// December, coloured by the temperature scale, with this year's daily means as
+// a line up to today's dot. Hovering reads out any day.
+function renderYearWave(el, records, last, avg) {
+    const dayMs = 864e5, year0 = Date.UTC(2023, 0, 1);
+    const md = i => new Date(year0 + i * dayMs).toISOString().substring(5, 10);
+    const raw = [...Array(365).keys()].map(i => avg.byDay[md(i)]);
+    if (avg.years < 2 || raw.some(v => v == null)) { el.remove(); return; }
+    // Two-week smoothing (wrapping over New Year) turns daily noise into a swell.
+    const norm = raw.map((_, i) => {
+        let s = 0;
+        for (let k = -7; k <= 7; k++) s += raw[(i + k + 365) % 365];
+        return s / 15;
+    });
+    const sums = {};
+    records.forEach(r => {
+        if (r.year !== last.year) return;
+        const k = r.dateStr.substring(5, 10);
+        (sums[k] = sums[k] || [0, 0])[0] += r.temp;
+        sums[k][1]++;
+    });
+    const now = norm.map((_, i) => sums[md(i)] ? sums[md(i)][0] / sums[md(i)][1] : null);
+    const all = norm.concat(now.filter(v => v != null), last.temp);
+    const lo = Math.min(...all), hi = Math.max(...all);
+    const W = 1000, H = 200;
+    const x = i => i / 364 * W;
+    const y = v => 12 + (hi - v) / (hi - lo || 1) * (H - 62);
+    const line = pts => pts.map(([px, py], i) => (i ? 'L' : 'M') + px.toFixed(1) + ' ' + py.toFixed(1)).join('');
+    const top = line(norm.map((v, i) => [x(i), y(v)]));
+    const stops = norm.map((v, i) => [v, i]).filter(([, i]) => i % 14 === 0)
+        .map(([v, i]) => `<stop offset="${(i / 364).toFixed(3)}" stop-color="${window.tempColor(v)}"/>`).join('');
+    let todayI = norm.findIndex((_, i) => md(i) === last.dateStr.substring(5, 10));
+    if (todayI < 0) todayI = 58;                // 29 February
+    now[todayI] = last.temp;
+    const thisYear = line(now.map((v, i) => [v, i]).filter(([v, i]) => v != null && i <= todayI)
+        .map(([v, i]) => [x(i), y(v)]));
+    const months = t('months'), starts = [...Array(12).keys()].map(m => (Date.UTC(2023, m, 15) - year0) / dayMs);
+    el.innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+                <linearGradient id="wh-sea">${stops}</linearGradient>
+                <linearGradient id="wh-deep" x2="0" y2="1">
+                    <stop offset="0" stop-color="#fff" stop-opacity="0.95"/><stop offset="1" stop-color="#fff" stop-opacity="0.4"/>
+                </linearGradient>
+                <mask id="wh-fade"><rect width="${W}" height="${H}" fill="url(#wh-deep)"/></mask>
+            </defs>
+            <path d="${top}L${W} ${H}L0 ${H}Z" fill="url(#wh-sea)" mask="url(#wh-fade)"/>
+            <path class="wh-year" d="${thisYear}"/>
+        </svg>
+        <span class="wh-guide" hidden></span>
+        <span class="wh-dot" style="left:${todayI / 3.64}%;top:${y(last.temp) / H * 100}%"></span>
+        <div class="wh-months" aria-hidden="true">${starts.map((s, i) =>
+            `<span style="left:${s / 3.64}%">${months[i]}</span>`).join('')}</div>
+        <div class="wh-legend"><span class="wh-key-avg">${t('dash_avg_label')}</span><span class="wh-key-now">${last.year}</span></div>
+        <div class="wh-tip" hidden></div>`;
+    const tip = el.querySelector('.wh-tip'), guide = el.querySelector('.wh-guide');
+    const locale = getLocale();
+    const show = ev => {
+        const box = el.getBoundingClientRect();
+        const i = Math.max(0, Math.min(364, Math.round((ev.clientX - box.left) / box.width * 364)));
+        const date = new Date(year0 + i * dayMs).toLocaleDateString(locale,
+            { day: 'numeric', month: 'short', timeZone: 'UTC' });
+        tip.innerHTML = `<b>${date}</b><span>${t('dash_avg_label')} ${norm[i].toFixed(1)}°</span>`
+            + (now[i] != null && i <= todayI ? `<span>${last.year} ${now[i].toFixed(1)}°</span>` : '');
+        tip.hidden = guide.hidden = false;
+        guide.style.left = i / 3.64 + '%';
+        const half = tip.offsetWidth / 2 + 8;
+        tip.style.left = Math.max(half, Math.min(box.width - half, i / 364 * box.width)) + 'px';
+    };
+    el.addEventListener('pointermove', show);
+    el.addEventListener('pointerdown', show);
+    el.addEventListener('pointerleave', () => { tip.hidden = guide.hidden = true; });
+}
+
+// A chart colour token (--c-<name> in style.css), per colour scheme.
+window.chartColor = function(name) {
+    const alias = { sea: 'blue', air: 'orange', warm: 'orange', cold: 'blue' };
+    return getComputedStyle(document.documentElement)
+        .getPropertyValue('--c-' + (alias[name] || name)).trim() || '#2a78d6';
+};
+
+// Fixed line style for series slot i: eight hues, then the same hues dashed.
+const SERIES_HUES = ['blue', 'orange', 'aqua', 'yellow', 'magenta', 'green', 'violet', 'red'];
+window.seriesLine = function(i) {
+    return { width: 2, color: window.chartColor(SERIES_HUES[i % 8]),
+             dash: ['solid', 'dash', 'dot', 'dashdot'][Math.floor(i / 8) % 4] };
 };
 
 window.plotlyTheme = function() {
@@ -738,11 +847,13 @@ window.plotlyTheme = function() {
     return {
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor:  'rgba(0,0,0,0)',
-        font: { color: text, size: 12 },
-        xaxis: { gridcolor: 'rgba(128,128,128,0.15)', zerolinecolor: 'rgba(128,128,128,0.2)', color: muted },
+        font: { color: text, size: 13, family: "'Sofia Sans', sans-serif" },
+        colorway: SERIES_HUES.map(window.chartColor),
+        hoverlabel: { font: { family: "'Sofia Sans', sans-serif", size: 13 } },
+        xaxis: { showgrid: false, zerolinecolor: 'rgba(128,128,128,0.2)', color: muted },
         yaxis: { gridcolor: 'rgba(128,128,128,0.15)', zerolinecolor: 'rgba(128,128,128,0.2)', color: muted },
         legend: { font: { color: text } },
-        margin: { l: 50, r: 20, t: 40, b: 50 }
+        margin: { l: 48, r: 20, t: 36, b: 44 }
     };
 };
 

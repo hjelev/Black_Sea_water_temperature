@@ -9,9 +9,14 @@
     // Map a temperature to a cold→warm colour across the Black Sea's ~4–28 °C range.
     function tempColor(temp) {
         if (temp == null || isNaN(temp)) return '#888';
-        const f = Math.max(0, Math.min(1, (temp - 4) / 24));
-        const hue = 220 - f * 220; // 220 = blue (cold) → 0 = red (warm)
-        return 'hsl(' + Math.round(hue) + ', 75%, 47%)';
+        // Twin of TEMP_STOPS in data.js (which the hub doesn't load).
+        const stops = [[4, [30, 79, 163]], [9, [58, 130, 208]], [13, [118, 178, 228]],
+            [17, [190, 208, 214]], [20, [245, 203, 152]], [24, [240, 136, 92]], [28, [208, 63, 48]]];
+        temp = Math.max(4, Math.min(28, temp));
+        const i = Math.max(1, stops.findIndex(s => temp <= s[0]));
+        const [t0, c0] = stops[i - 1], [t1, c1] = stops[i];
+        return 'rgb(' + c0.map((c, j) =>
+            Math.round(c + (c1[j] - c) * (temp - t0) / (t1 - t0))).join(',') + ')';
     }
 
     // Cluster bubble: average of the member temperatures, with a member count.
@@ -23,7 +28,7 @@
         const label = avg != null ? avg.toFixed(1) + '°' : '–';
         return L.divIcon({
             className: 'map-temp-pin',
-            html: '<span class="map-temp-pin-inner map-cluster" style="background:'
+            html: '<span class="map-temp-pin-inner map-cluster" style="--wh-color:'
                 + tempColor(avg) + '">' + label
                 + '<span class="map-cluster-count">' + cluster.getChildCount() + '</span></span>',
             iconSize: null
@@ -60,7 +65,7 @@
         // 50+ locations don't pile up at basin zoom; they split apart on zoom-in.
         const group = window.L.markerClusterGroup
             ? L.markerClusterGroup({
-                maxClusterRadius: 45,
+                maxClusterRadius: 64,
                 showCoverageOnHover: false,
                 spiderfyOnMaxZoom: true,
                 disableClusteringAtZoom: 11,
@@ -86,7 +91,7 @@
 
                     const icon = L.divIcon({
                         className: 'map-temp-pin',
-                        html: '<span class="map-temp-pin-inner" style="background:'
+                        html: '<span class="map-temp-pin-inner" style="--wh-color:'
                             + tempColor(temp) + '">' + pinText + '</span>',
                         iconSize: null
                     });
@@ -101,7 +106,7 @@
                             + '<div class="map-popup-temp">' + popupTemp + '</div>'
                             + dateLine
                             + '<a class="map-popup-link" href="' + (window.LANG_PREFIX || '') + '/' + id + '/">'
-                            + t('map_view') + ' →</a>'
+                            + t('map_view') + '</a>'
                             + '</div>'
                         );
 
@@ -116,8 +121,7 @@
                     const temp = rec ? rec.temp : null;
                     if (temp != null && !isNaN(temp)) {
                         span.textContent = temp.toFixed(1) + '°';
-                        span.style.background = tempColor(temp);
-                        span.style.color = '#fff';
+                        span.style.setProperty('--wh-color', tempColor(temp));
                     }
                 });
 
@@ -140,8 +144,8 @@
             const loc = window.LOCATIONS[row.id];
             return '<a class="hub-chip" href="' + (window.LANG_PREFIX || '') + '/' + row.id + '/">'
                 + '<span class="hub-chip-label">' + t(key) + '</span> '
-                + loc.flag + ' ' + t(loc.nameKey).split(',')[0]
-                + ' <b style="background:' + tempColor(row.temp) + '">' + row.temp.toFixed(1) + '°</b></a>';
+                + t(loc.nameKey).split(',')[0]
+                + ' <b style="--wh-color:' + tempColor(row.temp) + '">' + row.temp.toFixed(1) + '°</b></a>';
         };
         el.innerHTML = chip(rows[0], 'hub_warmest') + chip(rows[rows.length - 1], 'hub_coldest');
     }

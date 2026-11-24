@@ -31,7 +31,6 @@
 # translations.json or the page metadata change, then commit docs/.
 #
 # Python 3.7+ , standard library only.
-import colorsys
 import datetime
 import hashlib
 import json
@@ -662,6 +661,7 @@ def build_head(title, description, path, lang, structured=(), noindex=False,
     <title>{title}</title>
     <meta name="description" content="{desc}">
 {seo}    <link rel="icon" href="/favicon.svg">
+    <link rel="preload" href="/fonts/sofia-sans-{subset}.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/style.css">
     <script src="/i18n.{lang}.js"></script>
     <script src="/locations.js"></script>
@@ -669,7 +669,8 @@ def build_head(title, description, path, lang, structured=(), noindex=False,
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
 </head>
 """.format(lang=lang, title=t, desc=d, seo=seo, slug="{slug}",
-           prefix=lang_prefix(lang))
+           prefix=lang_prefix(lang),
+           subset="cyrillic" if lang in ("bg", "ru") else "latin")
 
 
 def with_plotly(body):
@@ -1039,26 +1040,26 @@ def glance_html(loc, lang, st):
     season, best month and EU water quality."""
     if not st:
         return ""
-    facts = [("🏖️", TR[lang]["seo_glance_beach"], TR[lang]["seo_beach_" + loc["beach"]])]
+    facts = [(TR[lang]["seo_glance_beach"], TR[lang]["seo_beach_" + loc["beach"]])]
     season = typical_season(st["seasons"])
     if season:
-        facts.append(("🏊", TR[lang]["seo_glance_season"], tr_fmt(
+        facts.append((TR[lang]["seo_glance_season"], tr_fmt(
             lang, "seo_glance_season_v", **{"from": day_month(season[0], lang),
                                            "to": day_month(season[1], lang),
                                            "days": season[2]})))
     best_i, best = best_month(st)
-    facts.append(("☀️", TR[lang]["seo_glance_best"], tr_fmt(
+    facts.append((TR[lang]["seo_glance_best"], tr_fmt(
         lang, "seo_glance_best_v", month=capitalize(month_name(lang, best_i)),
         avg=fmt_temp(best["avg"]))))
     quality = bathing_summary(loc, lang)
     if quality:
-        facts.append(("🔬", tr_fmt(lang, "seo_glance_quality", year=BATHING["year"]),
+        facts.append((tr_fmt(lang, "seo_glance_quality", year=BATHING["year"]),
                       tr_fmt(lang, "seo_glance_quality_v", status=quality[0],
                              n=quality[1], total=quality[2])))
     return '    <dl class="glance">\n{}\n    </dl>\n'.format("\n".join(
-        '        <div class="glance-item"><dt>{icon} {label}</dt><dd>{value}</dd></div>'.format(
-            icon=icon, label=escape(label), value=escape(value))
-        for icon, label, value in facts))
+        '        <div class="glance-item"><dt>{label}</dt><dd>{value}</dd></div>'.format(
+            label=escape(label), value=escape(value))
+        for label, value in facts))
 
 
 def best_month(st):
@@ -1274,7 +1275,8 @@ def heatmap_content_html(loc, lang, st):
     rows = []
     for year, months in sorted(year_month_matrix(st).items(), reverse=True):
         cells = "".join(
-            '<td style="background:{}">{}</td>'.format(temp_color(v), fmt_temp(v))
+            '<td style="background:{};color:{}">{}</td>'.format(
+                temp_color(v), temp_ink(v), fmt_temp(v))
             if v is not None else "<td></td>" for v in months)
         rows.append('            <tr><th scope="row">{}</th>{}</tr>'.format(year, cells))
     names = dict(location=loc_full(loc, lang), location_in=loc_in_full(loc, lang))
@@ -1594,10 +1596,31 @@ def write_i18n_js():
         print("wrote docs/i18n.{}.js ({} runtime keys)".format(lang, len(strings)))
 
 
+# Blue (cold) -> pale neutral (17 °C) -> coral (warm). Twin of TEMP_STOPS in
+# docs/data.js and docs/map.js.
+TEMP_STOPS = ((4, (30, 79, 163)), (9, (58, 130, 208)), (13, (118, 178, 228)),
+              (17, (190, 208, 214)), (20, (245, 203, 152)), (24, (240, 136, 92)),
+              (28, (208, 63, 48)))
+
+
+def temp_rgb(temp):
+    temp = max(TEMP_STOPS[0][0], min(TEMP_STOPS[-1][0], temp))
+    for (t0, c0), (t1, c1) in zip(TEMP_STOPS, TEMP_STOPS[1:]):
+        if temp <= t1:
+            k = (temp - t0) / (t1 - t0)
+            return tuple(int(a + (b - a) * k + 0.5) for a, b in zip(c0, c1))
+
+
 def temp_color(temp):
     """Python twin of tempColor() in data.js, for the statically baked badges."""
-    f = max(0.0, min(1.0, (temp - 4) / 24))
-    return "hsl({}, 75%, 47%)".format(int(round(220 - f * 220)))
+    return "#{:02x}{:02x}{:02x}".format(*temp_rgb(temp))
+
+
+def temp_ink(temp):
+    """Python twin of tempInk() in data.js: text colour that reads on
+    temp_color(temp)."""
+    r, g, b = temp_rgb(temp)
+    return "#0b2233" if 0.299 * r + 0.587 * g + 0.114 * b > 115 else "#fff"
 
 
 def hub_temp(st):
@@ -1605,13 +1628,13 @@ def hub_temp(st):
     if not st:
         return {"temp": "", "temp_style": ""}
     return {"temp": fmt_temp(st["temp"]) + "°",
-            "temp_style": ' style="background:{};color:#fff"'.format(temp_color(st["temp"]))}
+            "temp_style": ' style="--wh-color:{}"'.format(temp_color(st["temp"]))}
 
 
 # Nav and footer of the generated (non-template) pages: hub, country, month.
 SITE_NAV = """<nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">Black Sea Temp</a>
         <ul class="nav-links">
             <li><a href="/burgas/" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="/burgas/compare.html" data-i18n="nav_compare">Compare Years</a></li>
@@ -1720,7 +1743,7 @@ def write_country_pages(stats):
                     if st["months"][i] else "<td></td>" for i in COUNTRY_MONTH_COLS)
                 rows.append(
                     '            <tr><th scope="row"><a href="/{slug}/">{flag} {name}</a></th>'
-                    '<td><span class="hub-temp" style="background:{color};color:#fff">'
+                    '<td><span class="hub-temp" style="--wh-color:{color}">'
                     '{temp}°</span></td>{months}<td>{swim}</td></tr>'.format(
                         slug=loc["slug"], flag=loc["flag"], name=escape(loc_name(loc, lang)),
                         color=temp_color(st["temp"]), temp=fmt_temp(st["temp"]),
@@ -1777,7 +1800,7 @@ def write_month_pages(stats):
                                lambda loc: loc_full(loc, lang)))
             rows = ['            <tr><td>{n}</td><th scope="row"><a href="/{slug}/">{flag} {name}</a></th>'
                     '<td><a href="/{country}/">{cname}</a></td>'
-                    '<td style="background:{color};color:#fff">{avg}°C</td>'
+                    '<td><span class="hub-temp" style="--wh-color:{color}">{avg}°C</span></td>'
                     '<td>{min}°C</td><td>{max}°C</td></tr>'.format(
                         n=rank + 1, slug=loc["slug"], flag=loc["flag"],
                         name=escape(loc_name(loc, lang)), country=loc["country"],
@@ -2035,8 +2058,10 @@ def write_hub(stats):
     <h1 data-i18n="hub_h1">Black Sea Water Temperature</h1>
     <p class="subtitle" data-i18n="hub_subtitle">Live and historical sea surface temperature for Bulgaria's Black Sea coast</p>
 
-    <h2 data-i18n="hub_map">Current water temperature</h2>
-    <div id="hub-summary" class="hub-summary"></div>
+    <div class="hub-head">
+        <h2 data-i18n="hub_map">Current water temperature</h2>
+        <div id="hub-summary" class="hub-summary"></div>
+    </div>
     <div id="map"></div>
 
     <h2 data-i18n="hub_pick">Choose a location</h2>
@@ -2211,10 +2236,6 @@ def write_og_images(stats, force=False):
         return
     os.makedirs(OG_DIR, exist_ok=True)
 
-    def rgb(temp):
-        f = max(0.0, min(1.0, (temp - 4) / 24))
-        return tuple(int(c * 255) for c in colorsys.hls_to_rgb((220 - f * 220) / 360, 0.47, 0.75))
-
     def card(name, title, subtitle, monthly):
         path = os.path.join(OG_DIR, name + ".png")
         if os.path.isfile(path) and not force:
@@ -2239,7 +2260,7 @@ def write_og_images(stats, force=False):
             x = x0 + i * (bar_w + gap)
             if value is not None:
                 h = max(4, int(value * scale))
-                draw.rounded_rectangle([x, base - h, x + bar_w, base], radius=8, fill=rgb(value))
+                draw.rounded_rectangle([x, base - h, x + bar_w, base], radius=8, fill=temp_rgb(value))
                 label = "{:.0f}°".format(value)
                 draw.text((x + bar_w / 2, base - h - 8), label, font=font(24),
                           fill=(255, 255, 255), anchor="ms")

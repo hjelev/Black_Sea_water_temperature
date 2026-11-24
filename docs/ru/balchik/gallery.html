@@ -29,8 +29,9 @@
     <meta name="twitter:card" content="summary_large_image">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Черное море","item":"https://more.masoko.net/ru/"},{"@type":"ListItem","position":2,"name":"Болгария","item":"https://more.masoko.net/ru/bulgaria/"},{"@type":"ListItem","position":3,"name":"Балчик","item":"https://more.masoko.net/ru/balchik/"},{"@type":"ListItem","position":4,"name":"Фото","item":"https://more.masoko.net/ru/balchik/gallery.html"}]}</script>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css?v=05f25fd8">
-    <script src="/i18n.ru.js?v=33f65526"></script>
+    <link rel="preload" href="/fonts/sofia-sans-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/style.css?v=ab933732">
+    <script src="/i18n.ru.js?v=026fd262"></script>
     <script src="/locations.js?v=b33e44dd"></script>
     <script>window.LOCATION_ID = 'balchik'; window.LANG = 'ru'; window.LANG_PREFIX = '/ru';</script>
     <script defer src="https://m.masoko.net/core-util" data-website-id="a6c69550-2eed-4ba4-8568-57dc4c66e466"></script>
@@ -40,7 +41,7 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/ru/" data-i18n="nav_brand">🌊 Черное море</a>
+        <a class="nav-brand" href="/ru/" data-i18n="nav_brand">Черное море</a>
         <ul class="nav-links">
             <li><a href="./" data-i18n="nav_dashboard">Сейчас</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">По годам</a></li>
@@ -76,12 +77,12 @@
     <section class="nearby">
     <h2>Пляжи и города поблизости</h2>
     <div class="nearby-links">
-        <a class="nearby-link" href="/ru/albena/gallery.html">🌴 Албена <span class="nearby-km">8 km</span> <span class="nearby-temp" style="--wh-color:hsl(138, 75%, 47%)">12.9°C</span><span class="nearby-diff down">−0.2°</span></a>
-        <a class="nearby-link" href="/ru/kranevo/gallery.html">🌲 Кранево <span class="nearby-km">11 km</span> <span class="nearby-temp" style="--wh-color:hsl(135, 75%, 47%)">13.3°C</span><span class="nearby-diff up">+0.2°</span></a>
-        <a class="nearby-link" href="/ru/golden-sands/gallery.html">🌅 Золотые Пески <span class="nearby-km">17 km</span> <span class="nearby-temp" style="--wh-color:hsl(137, 75%, 47%)">13.1°C</span><span class="nearby-diff flat">±0.0°</span></a>
-        <a class="nearby-link" href="/ru/sveti-konstantin/gallery.html">🧖 Святые Константин и Елена <span class="nearby-km">23 km</span> <span class="nearby-temp" style="--wh-color:hsl(136, 75%, 47%)">13.2°C</span><span class="nearby-diff up">+0.1°</span></a>
-        <a class="nearby-link" href="/ru/cape-kaliakra/gallery.html">🦅 Мыс Калиакра <span class="nearby-km">25 km</span> <span class="nearby-temp" style="--wh-color:hsl(132, 75%, 47%)">13.6°C</span><span class="nearby-diff up">+0.5°</span></a>
-        <a class="nearby-link" href="/ru/varna/gallery.html">🏛️ Варна <span class="nearby-km">30 km</span> <span class="nearby-temp" style="--wh-color:hsl(136, 75%, 47%)">13.2°C</span><span class="nearby-diff up">+0.1°</span></a>
+        <a class="nearby-link" href="/ru/albena/gallery.html">🌴 Албена <span class="nearby-km">8 km</span> <span class="nearby-temp" style="--wh-color:#75b1e4">12.9°C</span><span class="nearby-diff down">−0.2°</span></a>
+        <a class="nearby-link" href="/ru/kranevo/gallery.html">🌲 Кранево <span class="nearby-km">11 km</span> <span class="nearby-temp" style="--wh-color:#7bb4e3">13.3°C</span><span class="nearby-diff up">+0.2°</span></a>
+        <a class="nearby-link" href="/ru/golden-sands/gallery.html">🌅 Золотые Пески <span class="nearby-km">17 km</span> <span class="nearby-temp" style="--wh-color:#78b3e4">13.1°C</span><span class="nearby-diff flat">±0.0°</span></a>
+        <a class="nearby-link" href="/ru/sveti-konstantin/gallery.html">🧖 Святые Константин и Елена <span class="nearby-km">23 km</span> <span class="nearby-temp" style="--wh-color:#7ab4e3">13.2°C</span><span class="nearby-diff up">+0.1°</span></a>
+        <a class="nearby-link" href="/ru/cape-kaliakra/gallery.html">🦅 Мыс Калиакра <span class="nearby-km">25 km</span> <span class="nearby-temp" style="--wh-color:#81b7e2">13.6°C</span><span class="nearby-diff up">+0.5°</span></a>
+        <a class="nearby-link" href="/ru/varna/gallery.html">🏛️ Варна <span class="nearby-km">30 km</span> <span class="nearby-temp" style="--wh-color:#7ab4e3">13.2°C</span><span class="nearby-diff up">+0.1°</span></a>
     </div>
     </section>
 </div>
@@ -95,7 +96,7 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/data.js?v=4366275e"></script>
-<script src="/gallery.js?v=6b499f50"></script>
+<script src="/data.js?v=46a9b7a9"></script>
+<script src="/gallery.js?v=63febbeb"></script>
 </body>
 </html>

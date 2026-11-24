@@ -63,7 +63,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         L.circleMarker([lat, lon], {
-            radius: 9, color: '#fff', weight: 2, fillColor: '#00729a', fillOpacity: 0.9
+            radius: 9, color: '#fff', weight: 2, fillColor: '#0f62b0', fillOpacity: 0.9
         }).addTo(map);
     });
 })();

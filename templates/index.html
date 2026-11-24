@@ -14,7 +14,7 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="/" data-i18n="nav_brand">🌊 Black Sea Temp</a>
+        <a class="nav-brand" href="/" data-i18n="nav_brand">Black Sea Temp</a>
         <ul class="nav-links">
             <li><a href="./" class="active" data-i18n="nav_dashboard">Dashboard</a></li>
             <li><a href="compare.html" data-i18n="nav_compare">Compare Years</a></li>
@@ -32,11 +32,10 @@
 
 <div class="container">
     <h1 data-i18n="dash_h1">Sea Water Temperature</h1>
-    <p class="subtitle" data-i18n="dash_subtitle">Black Sea water temperature</p>
-    <p class="location-description" data-i18n="desc_{lockey}"></p>
 
     <div id="water-hero" class="water-hero">{today}</div>
 {glance}
+    <p class="location-description" data-i18n="desc_{lockey}"></p>
     <div id="sea-section" class="sea-section" hidden>
         <h2 data-i18n="sea_h2">Beach Conditions</h2>
         <div id="sea-now" class="wx-now sea-now"></div>
@@ -119,7 +118,7 @@ loadData().then(records => {
         y: recent.map(r => r.temp),
         name: t('dash_this_year'),
         type: 'scatter', mode: 'lines+markers',
-        line: { color: '#007bff', width: 2 },
+        line: { color: chartColor('sea'), width: 2 },
         marker: { size: 4 },
         hovertemplate: '%{x|%b %d}: <b>%{y:.1f}°C</b><extra></extra>'
     }];
@@ -129,7 +128,7 @@ loadData().then(records => {
             y: avgDays.map(d => avg.byDay[d.substring(5)]),
             name: t('dash_avg_label') + ' (' + avg.years + ')',
             type: 'scatter', mode: 'lines',
-            line: { color: '#8aa6b0', width: 2, dash: 'dash', shape: 'spline' },
+            line: { color: chartColor('muted'), width: 2, dash: 'dash', shape: 'spline' },
             hovertemplate: '%{x|%b %d}: %{y:.1f}°C<extra>' + t('dash_avg_label') + '</extra>'
         });
     }
@@ -138,7 +137,7 @@ loadData().then(records => {
         showlegend: recentTraces.length > 1,
         legend: { ...theme.legend, orientation: 'h', x: 0, y: 1.12 },
         xaxis: { ...theme.xaxis, title: '' },
-        yaxis: { ...theme.yaxis, title: '°C' }
+        yaxis: { ...theme.yaxis, title: '', ticksuffix: '°' }
     }, plotlyConfig());
 
     // Full history chart
@@ -146,14 +145,14 @@ loadData().then(records => {
         x: records.map(r => r.dateStr),
         y: records.map(r => r.temp),
         type: 'scatter', mode: 'lines',
-        line: { color: '#007bff', width: 1 },
+        line: { color: chartColor('sea'), width: 1 },
         hovertemplate: '%{x|%Y-%m-%d}: <b>%{y:.1f}°C</b><extra></extra>'
     }], {
         ...theme,
         xaxis: { ...theme.xaxis, title: '',
             rangeselector: {
                 x: 0, y: 1.08,
-                bgcolor: 'rgba(128,128,128,0.12)', activecolor: 'rgba(0,123,255,0.35)',
+                bgcolor: 'rgba(128,128,128,0.12)', activecolor: 'rgba(57,135,229,0.35)',
                 font: { color: theme.font.color },
                 buttons: [
                     { count: 1, label: t('range_1m'), step: 'month', stepmode: 'backward' },
@@ -164,7 +163,7 @@ loadData().then(records => {
             },
             rangeslider: { visible: true, thickness: 0.08, bgcolor: 'rgba(128,128,128,0.08)' }
         },
-        yaxis: { ...theme.yaxis, title: '°C', fixedrange: false }
+        yaxis: { ...theme.yaxis, title: '', ticksuffix: '°', fixedrange: false }
     }, plotlyConfig());
 });
 Promise.all([loadWeatherData(getLocation()), loadData()]).then(([data, records]) => {
